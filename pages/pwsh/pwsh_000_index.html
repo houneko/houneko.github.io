@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHのトップページです。PowerShellは知れば知るほど楽しいです。 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHに関するトップページです。主にWindows PowerShell、PWSH(PowerShellCore)の事を書いています。自分がPowerShellを使って得た知識などをドキュメント化したものです。PowerShellは奥が深く不思議な面もあり楽しいです">
+<meta name="keywords" content="pwsh,PowerShell,index,トップページ">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellのページ
+      </h1>
+      <p>このページはWindows PowerShell、PowerShell Coreについていろいろな事を書いているページです。Windows
+        PowerShellは開発が終了しているので、PowerShellと書いているものは主にPowerShell Coreを意味します。</p>
+      <div class="toc-header">
+        <span class="toc-label">目次：</span>
+        <button id="details-toggleAll">すべて開く</button>
+      </div>
+      <div class="toc-container">
+        <!-- 基本の章 #100台 -->
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">PowerShellの基本</span>
+            <span class="desc">PowerShellの基本的な話の章。PowerShellをするなら知っとかなという話を各章でまとめています</span>
+          </summary>
+          <!-- ページ100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">PowerShellの基本的な概念</span>
+              <span class="desc">PowerShellとは何か、変数と定数、演算子などの概念を整理した章です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_100_outline.html">PowerShellとは</a>
+                <p class="desc">PowerShellの基本概念や歴史などをまとめているページです</p>
+              </li>
+              <li><a href="pwsh_101_variable.html">PowerShellの変数</a>
+                <p class="desc">PowerShellの変数は3つのタイプがある（自動変数、環境設定変数、ユーザ変数）</p>
+                <ol class="tow-digit">
+                  <li>
+                    <a href="pwsh_101a_autovariable.html">自動変数</a>
+                    <p>自動変数は、PowerShellが自分で作り各情報を設定している変数。自動変数はユーザが変更したりすることをはできない （書き換えた場合動作は保証されない）</p>
+                  </li>
+                  <li>
+                    <a href="pwsh_101b_envvariable.html">環境変数</a>
+                    <p>PowerShellの環境変数は、自動変数の一種ですがプログラマが値を設定することができます</p>
+                  </li>
+                  <li>
+                    <a href="pwsh_101c_uservariable.html">ユーザ変数</a>
+                    <p>ユーザが自由に作成、設定できる変数です（以上）</p>
+                  </li>
+                </ol>
+              </li>
+              <li><a href="pwsh_102_consttant.html">PowerShellの定数</a>
+                <p class="desc">PowerShellの定数はちょっとめんどくさい</p>
+              </li>
+              <li><a href="pwsh_103_operator.html">PowerShellのいろいろな演算子</a>
+                <p class="desc">PowerShellの演算子（算術演算子、論理演算子、比較演算子、範囲演算子、置換演算子、型演算子、包含演算子）について書いています。<span
+                    class="underline">書式演算子を追加しました。</span>書式演算子「-f」を使えば桁数調整や基数変換して表示などが簡単にできます</p>
+              </li>
+              <li><a href="pwsh_104_pipeline.html">パイプ（パイプライン）</a>
+                <p class="desc">PowerShellでは、1つのコマンドレット結果をパイプで次のコマンドレットに渡すことができます。パイプ機能により複雑な処理ができます</p>
+              </li>
+            </ol>
+          </details>
+          <!-- ページ120 -->
+          <details class="toc-card is-child tocall" id="toc120">
+            <summary>
+              <span class="title">Powershellの実行方法</span>
+              <span class="desc">PowerShellの実行方法、引数、複数の値を返す関数などをまとめているページです</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_123_preprun.html">PowerShellの実行前に必要な知識</a><span class="marker ml1">★大事</span>
+                <p class="desc">
+                  Powershellは実行する前にいろいろ理解しておかないといけない事があります。高機能であるがゆえに一定の理解をもった人しか使えない、また簡単に実行できないようにしているのかなと思ったりしています。<br />と言っても特別難しい話ではなく、あぁそういう事ねっていう話です
+                </p>
+              </li>
+              <li><a href="pwsh_124_profile.html">PowerShellの実行前に必要な知識（Profile.ps1）</a><span
+                  class="marker ml1">★大事</span>
+                <p class="desc">Powershellのスクリプトを実行するには「PowerShellの実行前に必要な知識」に書いている通り、実行ポリシーを変える必要があります。<br />
+                  この章は、実行できるようになった後の話で、自作の関数やスクリプトファイルはパスが通った所に置いてもそのままでは呼び出せないです。では、どうやったらバッチファイルのように呼び出せるかを書いています。この時
+                  Pprofileが本領発揮してくれます</p>
+              </li>
+              <li><a href="pwsh_120_run.html">PowerShellの実行方法</a>
+                <p class="desc">Powershellの実行方法。スクリプトを実行する場合、関数を実行する場合</p>
+              </li>
+              <li><a href="pwsh_121_parameter.html">PowerShellの引数（引数とは言え実は奥が深い）</a>
+                <p class="desc">引数の渡し方はいろいろあり、現場で混乱しないように整理したもの</p>
+              </li>
+              <li><a href="pwsh_122_returnValue.html">PowerShellの複数の値を返す関数</a>
+                <p class="desc">Powershell、複数の値を返す関数の作成方法と使い方</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ1a0 -->
+          <details class="toc-card is-child tocall" id="toc1a0">
+            <summary>
+              <span class="title">データ型</span>
+              <span class="desc">よく使うデータの型についてまとめた章です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_1a0_dataarray.html">配列</a>
+                <p class="desc">いろいろな言語でもだいたい存在するデータ型である「配列」についてまとめた章です</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ140 -->
+          <details class="toc-card is-child tocall" id="toc140">
+            <summary>
+              <span class="title">基本構文、制御構文</span>
+              <span class="desc">if文、for文、foreach文、switch文などが書いてある章です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_141_if.html">PowerShellのif文</a>
+                <p class="desc">PowerShellのif文も他の言語のif文と同様ですが、$nullとの比較は少しだけ注意が必要です</p>
+              </li>
+              <li><a href="pwsh_140_switchcase.html">PowerShellのSwitch文</a>
+                <p class="desc">PowerShellにもSwitch文がありますが、例えばCのSwitch～Case文よりも高機能になっています</p>
+              </li>
+            </ol>
+          </details>
+          <!-- ページ160 -->
+          <details class="toc-card is-child tocall" id="toc160">
+            <summary>
+              <span class="title">いろいろなコマンドレット</span>
+              <span class="desc">自分が良く使ういろいろなコマンドレットを書いてある章です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_164_cmdlet.html">Cmdlet（コマンドレット）</a>
+                <p class="desc">Cmdlet（コマンドレット）とは何か？何を返してくるのか？使い方は等の基本的な事項です</p>
+              </li>
+
+              <li>
+                <a href="pwsh_125_mustKnow.html">PowerShellのコマンドレットの必須知識</a><span class="marker ml1">★大事</span>
+                <p class="desc">Powershellのコマンドラインでコマンドレットを使う時の必須知識。絶対覚えていた方がいい</p>
+              </li>
+
+
+              <li><a href="pwsh_165_cmdlet.html">PowerShellでやりたい事を実現させるには</a><span class="marker ml1">★大事</span>
+                <p class="desc">
+                  Powershellで何かを行う場合、Cmdlet（コマンドレット）で操作をすることになりますが、じゃ今自分がしたい事を実現するCmdlet（コマンドレット）は何なのか？どうやって見つけるのか？といった最初の壁を乗り越えないと、一気にやる気がなくなると思います。<br />各自で自分のやり方を確立していけばいいと思うけど、自分はこんな感じで習得していったという話です
+                </p>
+              </li>
+              <li><a href="pwsh_162_gethelp.html">Get-Helpコマンドレット</a>
+                <p class="desc">Get-Helpは、コマンドレットを調べるためのコマンドレット</p>
+              </li>
+              <li>
+                <a href="pwsh_167_getcommand.html">Get-Commandコマンドレット</a>
+                <p class="desc">
+                  Get-Commandは、コマンドレットを表示するコマンドレット。だけど、対象はPowerShell内のコマンドレットだけではなく、自作の関数・スクリプト、外部アプリケーションも対象となっており実はいろいろ使えるコマンドレット
+                </p>
+              </li>
+              <li>
+                <a href="pwsh_169b_getmember.html">Get-Memberコマンドレット</a>
+                <p class="desc">Get-Memberは、他のコマンドレットが返すオブジェクトがどのようなプロパティやメソッドを持つかを調べるためのコマンドレット</p>
+              </li>
+              <li><a href="pwsh_161_alias.html">Get-Alias</a>
+                <p class="desc">コマンドレットは動詞-名詞の形に統一されているから分かりやすいが、過去のコマンド名で使いたい場合などへの対応としてAlias名があります</p>
+              </li>
+              <li>
+                <a href="pwsh_168_outhost.html">Out-Hostコマンドレット</a>
+                <p class="desc">
+                  Out-Hostは、画面表示量をコントロールする時に使うコマンドレット（他の使い方もあるかもしれないけど自分はほぼこの使い方だけ）。Cmd.exeの「-More」と同じような使い方</p>
+              </li>
+              <li><a href="pwsh_166_outnull.html">Out-Null</a>
+                <p class="desc">Out-Nullは通常前段のコマンドレット結果（Obj）をパイプで受け取りそれを捨てる動作を行う。何でこれが必要かをまとめています</p>
+              </li>
+              <li><a href="pwsh_160_writehost.html">Write-Host</a>
+                <p class="desc">Write-Hostは画面表示するコマンドレット。実行中の状況を表示したりする使い方をした時のメモ</p>
+              </li>
+              <li><a href="pwsh_163_getverb.html">Get-Verb</a>
+                <p class="desc">Get-Verbは、Microsoft承認済みの動詞の一覧を表示する。PowerShellでは承認されている動詞があるので<span
+                    class="underline">自作スクリプトを作る場合のスクリプト名はこの承認されている動詞から選ぶ</span>ようにするのがいい（それがPowerShellの文化に則った運用やろ）</p>
+              </li>
+              <li>
+                <a href="pwsh_169_measurecommand.html">Measure-Command</a>
+                <p class="desc">
+                  Measure-Commandは、処理時間を測定するコマンドレットです。コマンドやスクリプトファイル、外部コマンドなどいろいろな処理の時間を計れます<br />また、自分が自作スクリプトでよく書く方法ですが、Get-Dateを使う方法も書いています
+                </p>
+              </li>
+              <li>
+                <a href="pwsh_169a_getcimInstance.html">Get-CimInstance</a>
+                <p class="desc">
+                  Get-CimInstanceは、Get-WmiObjectの後継コマンドレットです。指定したクラスのCIMインスタンスを取得します<br />このコマンドレットは単独で使うのでは無く引数にクラスを指定して使います<br /><span
+                    class="emphasis">Get-WmiObjectは、Windows専用</span>なので、pwshではサポートしていない
+                </p>
+              </li>
+              <li>
+                <a href="pwsh_169c_foreeachobject.html">ForEach-Object</a>
+                <p class="desc">間違いやすいかもしれませんが ForEach-Objectは、<span
+                    class="underline">パイプライン用のコマンドレットです。ForEachループ的な動作はしません</span></p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ180 -->
+          <details class="toc-card is-child tocall" id="toc180">
+            <summary>
+              <span class="title">文字列処理</span>
+              <span class="desc">文字列に関する処理をまとめた章です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_180_docstring.html">ヒアドキュメント</a>
+                <p class="desc">PowerShellでは、改行を含む文字列を扱うことができます。それがヒアドキュメントです。クォーテーションで囲んでさらに@で囲むとヒアドキュメントになります</p>
+              </li>
+            </ol>
+          </details>
+
+
+        </details>
+      </div>
+
+      <!-- 高度の章 #200番台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc200main">
+          <summary>
+            <span class="title">PowerShellの高度な使い方</span>
+            <span class="desc">より高度な使い方は多数あり、調べたりした事をまとめたいとの思いで作った章</span>
+          </summary>
+          <!-- ページ200 -->
+          <details class="toc-card is-child tocall" id="toc200">
+            <summary>
+              <span class="title">[CmdletBinding()]による高度化</span>
+              <span class="desc">[CmdletBinding()]により関数を高度化できる</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_200_CmdletBinding.html">[CmdletBinding()]属性とは</a>
+                <p class="desc">[CmdletBinding()]属性をつけると関数が高度化するって話</p>
+              </li>
+              <li><a href="pwsh_201_CmdletBinding.html">[CmdletBinding()]属性とWrite-Debug問題</a>
+                <p class="desc">[CmdletBinding()]属性をつけると、Windows Powershell環境においてWrite-Debug実行時に確認メッセージが出るという問題</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ220 -->
+          <details class="toc-card is-child tocall" id="toc220">
+            <summary>
+              <span class="title">.NETのスタティックメソッド</span>
+              <span class="desc">.NETのスタティックメソッドを使う</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_220_staticMethod.html">.NETのスタティックメソッド</a>
+                <p class="desc">.NETのスタティックメソッドとは何か、どうやって学ぶか</p>
+              </li>
+              <li><a href="pwsh_221_SystemIOFile.html">System.IO.Fileクラスのスタティックメソッド</a>
+                <p class="desc">System.IO.Fileクラスが提供しているスタティックメソッドいろいろ</p>
+                <ul>
+                  <li>[System.IO.File]::ReadAllBytes()</li>
+                  <li>[System.IO.File]::WriteAllBytes()</li>
+                  <li>[System.IO.File]::OpenRead()</li>
+                </ul>
+              </li>
+              <li><a href="pwsh_222_Environment.html">System.Environmentクラスのスタティックメソッド</a>
+                <p class="desc">System.Environmentクラスが提供しているスタティックメソッドいろいろ</p>
+                <ul>
+                  <li>[System.Environment]::GetEnvironmentVariable()</li>
+                  <li>[System.Environment]::SetEnvironmentVariable()</li>
+                </ul>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ240 -->
+          <details class="toc-card is-child tocall" id="toc240">
+            <summary>
+              <span class="title">自作スクリプト、関数</span>
+              <span class="desc">自作スクリプトや関数についてまとめています</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="pwsh_240_mycmd.html">自作スクリプト、関数の運用</a>
+                <p class="desc">自分が作ったスクリプトや関数をどうやって運用しているかをまとめています</p>
+              </li>
+              <li>
+                <a href="pwsh_241_mycmdHelp.html">Get-Helpで自作スクリプト、関数のヘルプ表示を行う</a>
+                <p class="desc emphasis">Get-Helpで自作スクリプトや自作関数のヘルプ表示を行う方法を書いています</p>
+              </li>
+              <li>
+                <a href="pwsh_242_excel.html">PowerShellでExcelを操作する</a>
+                <p class="desc emphasis">ExcelはCOMモデルなので、PowerShellでCOMオブジェクト（Excel.Application）を生成してExcelを操作できます</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ2a0 -->
+          <details class="toc-card is-child tocall" id="toc2a0">
+            <summary>
+              <span class="title">モジュール化</span>
+              <span class="desc">モジュール化</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="pwsh_2a0_module.html">モジュール化</a>
+                <p class="desc">PowerShellのモジュール化、モジュールファイルの構成について</p>
+              </li>
+              <li>
+                <a href="pwsh_2a1_psm1psd1.html">psm1ファイル、psd1ファイルとは</a>
+                <p class="desc">PowerShellのpsm1ファイル、psd1ファイルについて</p>
+              </li>
+              <li>
+                <a href="pwsh_2a6_export.html">Exportについて</a>
+                <p class="desc">Exportした関数が外部から見えるようになりますが、psm1ファイルとpsd1ファイルでExportに違いがあった場合は？</p>
+              </li>
+              <li>
+                <a href="pwsh_2a7_import.html">Importについて</a>
+                <p class="desc">Exportして公開した関数をどうやって使うかを書いています</p>
+              </li>
+              <li>
+                <a href="pwsh_2a2_versionManagement.html">バージョン管理</a>
+                <p class="desc">PowerShellのモジュールのバージョン管理はpsm1ファイルが対象となっています</p>
+              </li>
+              <li>
+                <a href="pwsh_2a4_newmodule.html">新しいモジュールを作成、開発する手順</a>
+                <p class="desc">「Get-MyProcessorInfo」モジュールを例に作成・開発手順を説明します</p>
+              </li>
+              <li>
+                <a href="pwsh_2a3_debug.html">モジュールのデバッグ</a>
+                <p class="desc">モジュールのデバッグ方法についてまとめた章です</p>
+              </li>
+              <li>
+                <a href="pwsh_2a5_devandrelease.html">モジュールを含むスクリプトの開発と配布</a>
+                <p class="desc">モジュールを置くパスについての検討です。開発と配布をシームレスにするためにはモジュールを置くパスを考えておかないといけない</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ2b0 -->
+          <!-- <details class="toc-card is-child tocall" id="toc2b0">
+            <summary>
+              <span class="title">ドットソース（Dot Sourcing）</span>
+              <span class="desc">ドットソース（Dot Sourcing）</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="pwsh_2b0_dotsourcing.html">ドットソース（Dot Sourcing）</a>
+                <p class="desc">ドットソースを使えば、別のファイルを今のスクリプト内に展開することができます</p>
+              </li>
+            </ol>
+          </details> -->
+
+
+          <!-- ページ260 -->
+          <details class="toc-card is-child tocall" id="toc260">
+            <summary>
+              <span class="title">エラーハンドリング</span>
+              <span class="desc">エラーハンドリングについて整理した章</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="pwsh_262_Terminating.html">PowerShellの終了するエラーと終了しないエラー</a>
+                <p class="desc">PowerShellの例外処理はちょっと複雑。それは終了するエラーと終了しないエラーがあるのが1つの原因</p>
+              </li>
+              <li>
+                <a href="pwsh_260_exception.html">PowerShellの例外</a>
+                <p class="desc">PowerShellの例外とは。.NETの例外型とPowershellの例外型がある</p>
+              </li>
+              <li>
+                <a href="pwsh_261_trycatchfinally.html">PowerShellのtry～catch～finallyによる例外処理</a>
+                <p class="desc">PowerShellのtry～catch～finallyによる例外処理。基本的には他の言語と大体同じ</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ280 -->
+          <details class="toc-card is-child tocall" id="toc280">
+            <summary>
+              <span class="title">高速化手法</span>
+              <span class="desc">高速化するための検討</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="pwsh_280_parallel.html">PowerShellの並列処理</a>
+                <p class="desc">PowerShell7以降のバージョンでは、並列処理が可能となっており高速化できます</p>
+              </li>
+              <li>
+                <a href="pwsh_281_everything.html">PowerShellでEverythingを使う</a>
+                <p class="desc">PowerShellでEverythingを使う場合の方法など</p>
+              </li>
+            </ol>
+          </details>
+
+        </details>
+      </div>
+
+      <!-- 現場で発生した課題の章 #400台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc400main">
+          <summary>
+            <span class="title">現場で発生した課題</span>
+            <span class="desc">現場で発生したいろいろな課題・問題とその対処方法について</span>
+          </summary>
+          <!-- ページ400 -->
+          <details class="toc-card is-child tocall" id="toc400">
+            <summary>
+              <span class="title">コマンドレットの動作に関する問題</span>
+              <span class="desc">自分の理解不足も含めてコマンドレットの動作に関する問題や誤解、その対処方法を整理しています</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_406_colorprobrem.html">コマンドレットオプションの色に関する問題</a>
+                <p class="desc">コマンドラインで、コマンドレットのオプションをつけて指定する時、デフォルトだとオプションの色が背景色に近いため見にくいです</p>
+              </li>
+              <li><a href="pwsh_400_getchilditem.html">Get-ChildItemの「-Exclude」オプション</a>
+                <p class="desc">Get-ChildItem の「-Exclude」オプションは意図した動作にならないことがあります</p>
+              </li>
+              <li><a href="pwsh_401_writedebug.html">Windows PowerShellにおける$DebugPreferenceとWrite-Debug問題</a>
+                <p class="desc">[CmdletBinding()]で高度化した時のWindows Powershell とPowerShell
+                  Coreでは、$DebugPreferenceの値が異なる。このため、Windows
+                  Powershell環境では、Write-Debugの度に「この操作を実行しますか？」という確認メッセージが出たという問題。PowerShell
+                  Coreではこの問題は起きないけど、社内の環境はWindows Powershellなので問題が顕在化</p>
+              </li>
+              <li><a href="pwsh_402_zoneid.html">ZoneID問題</a>
+                <p class="desc">ZoneIDは、WindowsXp
+                  SP2以降に導入された概念で、ファイルにZoneIDというセキュリティ情報をもたせて、インターネットから入手したファイルかどうかを判断できるようにしている仕組みです</p>
+              </li>
+              <li>
+                <a href="pwsh_403_writehost.html">Get-Content結果をWrite-Hostで表示すると意図しない結果になる</a>
+                <p class="desc">Get-Contentでファイルをリードして、その結果をWrite-Hostで表示すると1行になって表示されてしまう。この原因と回避方法を説明しています</p>
+              </li>
+
+              <li>
+                <a href="pwsh_404_withBat.html">PowerShellとバッチファイルの連携時の問題（配列の引数）</a>
+                <p class="desc"><span class="emphasis">バッチファイルからPowerShellへ配列を渡したい</span>時に発生した問題。バッチファイルには配列という概念が無い？
+                </p>
+              </li>
+              <li>
+                <a href="pwsh_405_writedebugarray.html">配列や辞書の要素をWrite-Debugで表示したい</a>
+                <p class="desc">配列や辞書の要素をデバッグ表示する場合、Write-Debug $hoge では表示されません</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- その他いろいろの章 #300台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc300main">
+          <summary>
+            <span class="title">その他いろいろ</span>
+            <span class="desc">その他いろいろを詰め込んだ章(pwsh以外の話も含んでいます）</span>
+          </summary>
+          <!-- ページ300 -->
+          <details class="toc-card is-child tocall" id="toc300">
+            <summary>
+              <span class="title">ArgumentとParameter</span>
+              <span class="desc">Argument と Parameterは細かくは別もの。Argumentは実引数、Parameterは仮引数</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_300_Argument_Parameter.html">ArgumentとParameter</a>
+                <p class="desc">Argument と Parameterは細かくは別もの。Argumentは実引数、Parameterは仮引数</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
