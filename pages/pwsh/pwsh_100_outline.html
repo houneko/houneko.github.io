@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHの基本的な概念 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHの基本的な概念やPowerShellって何？について調べたことを書いています">
+<meta name="keywords" content="pwsh,PowerShell,基本概念,Windows PowerShell,PowerShell Core">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/基本:/pages/pwsh/pwsh_000_index.html#toc100 >">
+</head>
+
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの基本的な概念
+      </h1>
+
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">PowerShellとは…</h2>
+          <h3 id="toc12" class="h3chapter underline">PowerShellって何</h3>
+          <ul>
+            <li>
+              <span class="font-large" id="toc20">PowerShellはCLIツール</span>
+              <p>PowerShellは、WindowsServer2008 R2/ Windows7から標準実装されたCLIツール。2006年にPowerShell
+                1.0がリリースされた（当時WindowsXpには標準ではなくパワーキットで追加でインストール）</p>
+              <p>バージョンの確認方法は、<a
+                  href="pwsh_101_variable.html#toc20">自動変数</a>「$PSVersionTable」に設定されている値を見ればバージョンが分かる。また、Get-Hostコマンドレットでもバージョンを確認することができる
+              </p>
+              <pre><code class="powershell">
+            #// $PSVersionTableでバージョンを確認してみる
+            PS&gt; $PSVersionTable
+            結果の例）
+            Name                           Value
+            ----                           -----
+            PSVersion                      7.5.4
+            PSEdition                      Core
+            GitCommitId                    7.5.4
+            OS                             Microsoft Windows 10.0.26100
+            Platform                       Win32NT
+            PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0…}
+            PSRemotingProtocolVersion      2.3
+            SerializationVersion           1.1.0.1
+            WSManStackVersion              3.0                          
+
+            #// Get-Hostコマンドレットで確認する例
+            PS&gt; Get-Host
+            結果の例）
+            Name             : Visual Studio Code Host
+            Version          : 2025.4.0
+            InstanceId       : 28d72afc-9579-418b-8c6c-bb9f8effe7b2
+            UI               : System.Management.Automation.Internal.Host.InternalHostUserInterface
+            CurrentCulture   : ja-JP
+            CurrentUICulture : ja-JP
+            PrivateData      : Microsoft.PowerShell.ConsoleHost+ConsoleColorProxy
+            DebuggerEnabled  : True
+            IsRunspacePushed : False
+            Runspace         : System.Management.Automation.Runspaces.LocalRunspace            
+            </code></pre>
+            </li>
+            <li>
+              <span class="font-large" id="toc22">PowerShellは動的型付け言語</span>
+              <p>動的型付け言語なので型の宣言はしなくてもいい。変数に値を代入すると型が類推されて設定される。また、明示的に指定することも可能。この場合は角かっこで型指定する。<br /> 例：[String]$hoge =
+                "1020"</p>
+            </li>
+            <li>
+              <span class="font-large" id="toc24">PowerShellでは、大文字小文字を区別しない</span>
+              <p>Cmd.com、Cmd.Exeの流れを考えると、まぁそうかなって感じ。特にない</p>
+            </li>
+            <li>
+              <span class="font-large" id="toc26">コマンドレットで操作</span>
+              <p>コマンドレットはPowerShellにおけるコマンドのこと（日常会話ではコマンドでも通じるけど本当はコマンドレット）。コマンドレットは綺麗な整理ができており、統一感のある設計になっている。</p>
+              <ul>
+                <li>
+                  <span>動詞-名詞 の表現に統一されている</span>
+                  <p>
+                    これにより多数あるコマンドレットを初見でも大体どんなことをするものか想像できるようになっている。例えば「Copy-Item」で考えてみると「Copyする」「Itemを」となるので、何らかのコピー処理を行うコマンドレットであることが推察できる。
+                  </p>
+                </li>
+                <li>
+                  <span>オプションは「-」をつけて指定する</span>
+                  <p>全部ハイフンで始めることに統一されているので「/」とか「--」とかで悩まなくてもいい。例：「-Force」とか</p>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <span class="font-large marker underline" id="toc28">PowerShellはオブジェクト指向で「.NETオブジェクトを返す」</span>
+              <p>
+                これが一番でかい特徴。従来のCmd.exeやUnixのシェルは、コマンド結果としてテキストデータを返してくる（そら、昔はオブジェクト指向の概念がないからしゃーない）。1つのコマンド結果をパイプで次のコマンドに渡す場合、次のコマンド実行のために前段のコマンド処理結果（テキスト）を次のコマンドのために整形する必要がある。<br />しかし、PowerShellのコマンドレットはオブジェクトを返すのでパイプで後続コマンドにもオブジェクトが渡される。なので渡された先で好きなように加工すればいい。<br />つまり、後続のコマンドのためにテキストデータを加工する必要がない（というかオブジェクトが返ってきている）
+              </p>
+              <pre><code class="powershell">
+            # .NETオブジェクトを返す例
+
+            PS&gt; Get-Childitem | Where-Object {$_.Length -ge 1MB}	      
+            #// このスクリプトは、Get-Childitemでディレクトリ内の一覧を取り、その結果をパイプで次のコマンドレットに渡している
+            #// この時、.NETオブジェクトで渡され、$_でオブジェクトを受け取っている。で、.Lengthプロパティでサイズをフィルタしている
+            結果）                                                        #// 
+            Mode                 LastWriteTime         Length Name        
+            ----                 -------------         ------ ----
+            -a---          yyyy/mm/dd    hh:mm        1906254 hoge1.txt
+            -a---          yyyy/mm/dd    hh:mm        2906254 hoge2.txt
+            ...
+            </code></pre>
+            </li>
+            <li>
+              <span class="font-large" id="toc2a">Monad（モナド）</span>
+              <p>元々の英語の意味は、単一体や原子などの意味。PowerShellの開発コード名。2006年にPS1.0がリリース</p>
+            </li>
+            <li>
+              <span class="font-large" id="toc2c">Windows Powershell と PowerShell Core</span>
+              <p>PowerShell Coreは、2018年1月にMicrosoftが発表したPowerShellの新しいエディション。クロスプラットフォーム対応でWindows以外のOSでも使える。
+                <br />また、Windows PowerShell（こっちはWindows用のPowershell）は開発終了しておりもう伸びしろがない。なので、MicrosoftはPowershell
+                Coreを勧めているみたい。例えば、Windows Powershell を起動すると以下のようなメッセージが出る<br />「新しいクロスプラットフォームの PowerShell をお試しください
+                https://aka.ms/pscore6」
+              </p>
+              <p>WindowsPowershellとPowerShell Coreの2つがあり少し混乱する（最初の設計時にマルチプラットフォームで考えていたらこうならんかったのになぁと思う。自分的にはMSの失敗かな）
+              </p>
+              <ul>
+                <li>Windows PowerShellの起動方法： Win+R → PowerShell</li>
+                <li>PowerShell Coreの起動方法： Win+R → pwsh</li>
+              </ul>
+              <p>このページでは「PowerShell」は、マルチプラットフォーム対応の「PowerShell Core」を意味しています</p>
+
+            </li>
+          </ul>
+
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

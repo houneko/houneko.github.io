@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PWSHのモジュール化 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのモジュール化とは何か？モジュール化すると何がうれしくなるのか？作り方と実行方法などをサンプル例をもとに説明しています">
+<meta name="keywords" content="pwsh,PowerShell,モジュール化,psm1,psd1">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/モジュール化:/pages/pwsh/pwsh_000_index.html#toc2a0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellのモジュール化
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellのモジュール化</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">モジュール化とは</h3>
+          <p>
+            モジュール化とは、複数の関数や変数などを再利用できるように部品化することだと言えると思います。モジュール化しない場合、あるスクリプトa.ps1で行った処理を別のb.ps1でも行いたい場合は、その処理や関数をコピーして使うような形でしたが、この処理（関数）をモジュール化しておけば、インポートするだけで関数を呼び出せるようになります
+          </p>
+          <p>
+            最初にPowerShellをやり始めた時に部品化して再利用できたらいいのにな。と思ったことがありましたが、当時はモジュール化を知らなかったのでコピペでやっていました </p>
+          <p>モジュール化する関数は「psm1ファイル」に書きます。「psd1ファイル」は必須ではないですがマニフェストファイルというもので、このファイルにpsm1ファイルの情報を書きます</p>
+          <p>この*.psm1ファイルに複数の関数を記述し、それらの関数を外部公開設定にすることでその関数が再利用できます</p>
+          <p>また、モジュール毎にフォルダを作成し、その中にpsmd1ファイル/psmd1ファイルを格納します。この時<span class="emphasis">モジュール名とフォルダ名は同じにする慣習があります</span>
+            （こうしないと動かないというわけでないですが、わかりやすいです）</p>
+          <pre><code class="pwsh">
+          #例：「my.System.Security」 というモジュールを作成した場合
+          ..\My.System.Security              ← My.System.Securityモジュール用のフォルダ
+              ├ My.System.Security.psm1     ← モジュールファイル（同名になっている）
+              └ My.System.Security.psd1     ← マニフェストファイル
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">モジュール化の仕組み、構成</h3>
+          <p>モジュール化は、モジュールファイル「*.psm1」とマニフェストファイル「*.psd1」それと、モジュールを使うスクリプトファイル「*.ps1」で構成されています。</p>
+          <ul>
+            <li>
+              <span>psm1ファイル</span>
+              <p>このファイルがモジュールファイル。このファイルの中に部品化したい関数を書く。これらの関数のうち公開したいものをエクスポートすれば外部から参照できるようになる</p>
+            </li>
+            <li>
+              <span>psd1ファイル</span>
+              <p>このファイルはマニフェストファイル。このファイルにはpsm1ファイルに関する情報を書く。マニフェストファイルは無くてもいい</p>
+            </li>
+            <li>
+              <span>任意のps1スクリプトファイル</span>
+              <p>公開関数を使う側のファイル。インポートすることでpsm1ファイルの中の関数を部品として使えるようになる</p>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">モジュールの格納フォルダ</h3>
+          <p>モジュール化する関数はpsm1ファイルに書き、その情報はpsd1ファイルに書くということが分かりましたが、この章では、これらのファイルはどのフォルダに格納するかを説明します</p>
+          <p>といっても答えは「どこでもいい。だけど特定のフォルダに格納すれば自動ロードされる」となると思います</p>
+          <p>例えば、自作モジュールをMyModulesというフォルダの下に作るでもいいし、所定のフォルダの下に作るでもいいという事です。どっちがいいかは一概には言えないので、自分の環境にあわせて方針を決めたらいいと思います
+          </p>
+          <ol type="a">
+            <li>
+              <span>所定のフォルダにモジュールファイルを格納</span>
+              <p>所定のフォルダとは何？</p>
+              <p>この所定のフォルダを定義している「PSModulePath」という環境変数があります（<span
+                  class="emphasis">注：$がついてない点に注意。つまりPowerShellの自動変数ではない</span>）。環境変数なので$env:で内容を確認できます</p>
+              <p>自分の場合複数のパスが表示されたのですが「C:\Program Files\PowerShell\Modules」の下でいいです</p>
+              <pre><code class="pwsh">
+              # pwshで確認する場合
+              $env:PSModulePath -split ';'
+              # cmdで確認する場合
+              echo %PSModulePath%
+
+              # 複数のフォルダがモジュールパスとして定義されている
+              C:\Users\xxx\OneDrive\ドキュメント\PowerShell\Modules
+              C:\Program Files\PowerShell\Modules
+              c:\program files\powershell\7\Modules
+              C:\Program Files\WindowsPowerShell\Modules
+              C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules              
+              </code></pre>
+              <p>自動ロードとは？</p>
+              <p>
+                この所定フォルダの下に自作モジュールフォルダを作れば、インポートしなくてもモジュールファイルで公開している関数が呼び出せるという事です。その関数が使われる時にこのPSModulePathを探してロードしてくれます
+              </p>
+              <pre><code class="pwsh">
+              #例：「my.System.Security」 というモジュールをPSModulePathを配下に配置する
+              C:\Program Files\PowerShell\Modules   ← PSModulePath
+                ├ My.System.Security.psm1          ← モジュールファイル（同名になっている）
+                │   function f1 {...}     ← この関数はインポートしなくても自動ロードされる
+                │   function f2 {...}
+                │   ...
+                └ My.System.Security.psd1                  
+              </code></pre>
+            </li>
+            <p>じゃ、PSModulePathに自作のモジュールを置けばいいやとなりかけたのですが、自分の環境で言うとこのパスはつかっていません。なんで？については以下を見てください</p>
+            <li>
+              <span>自分のフォルダにモジュールファイルを格納</span>
+              <p>当初、PSModulePathに追加しようと思っていましたが、自作のモジュールが分かるようにした方がいいかと思い「C:\My\MyCmd\MyModules」というフォルダに置くことを考えました</p>
+              <p>そうすると、以下のようなことが起きます</p>
+              <pre><code class="pwsh">
+              # PSModulePathに無いので個別にフルパス指定しないといけない
+              Import-Module "C:\My\MyCmd\MyModules\NekoModule"
+
+              # 以下のようにすれば、自分のモジュールパスを PSModulePathに追加できるけど
+              # この追加はこのセッションでしか有効ではない。
+              # また、セッションが終了するとパスの追加は無くなってしまう
+              $env:PSModulePath += "C:\My\MyCmd\MyModules\NekoModule"
+              </code></pre>
+              <p>じゃ、どうする？</p>
+              <p>プロファイルに書いておけば、都度追加しなくてもいいしセッションが終わっても設定は残っている</p>
+              <pre><code class="pwsh">
+              # $Profileに以下のように記述しておく
+              $env:PSModulePath += "C:\My\MyCmd\MyModules\Utility"
+              $env:PSModulePath += "C:\My\MyCmd\MyModules\File"
+              $env:PSModulePath += "C:\My\MyCmd\MyModules\System"
+              ・・・
+              </code></pre>
+              <p>これでめでたしめでたしとなりかけたのですが、開発したスクリプトファイルは部内に公開することがあり、問題が出てきました</p>
+              <p><span
+                  class="emphasis">問題点「PSModulePathだとユーザ環境のPSModulePathにもモジュールを追加しないといけない」</span>という問題がおきます。つまり自作パスを作ってもPSModulePathに含めるとユーザ環境をいじらないとインポートできないようになってしまいます
+              </p>
+              <p>自分だけが使う場合や一定のスキルを持っているチームで使う場合は、どの方法でも大丈夫だと思いますが、一般ユーザにスクリプトファイルとモジュールファイルを配布する方法は検討が必要となります</p>
+              <p><span><a href="pwsh_2a5_devandrelease.html">開発と配布のベストプラクティス</a></span></p>
+            </li>
+          </ol>
+
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

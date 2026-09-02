@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>モジュール開発と配布 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="psm1ファイル内で「Export-ModuleMember」コマンドレットにて公開する関数を指定します。指定しない場合は全部の関数が公開扱いになるので注意が必要です。またpsd1ファイルにも公開する関数を指定するキー（配列）FunctionsToExportがあります。">
+<meta name="keywords" content="pwsh,PowerShell,関数の公開,Export,psm1,psd1,Export-ModuleMember,FunctionsToExport,公開関数の確認方法">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/モジュール化:/pages/pwsh/pwsh_000_index.html#toc2a0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Exportについて
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">モジュール内関数の公開</h2>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">モジュール内関数の公開とは</h3>
+          <p>
+            モジュールは、多数の便利な関数を記述したファイルと言えるかと思います。そうすると、中には内部ローカル用の関数も作ったりすることが出てきます。この場合、内部関数は公開したくないという事態になると思いますが、外部に見せる、見せないの制御が関数の公開という事です。
+          </p>
+        </section>
+        <section>
+          <h3 id="toc30" class="h3chapter underline">モジュール内関数の公開方法</h3>
+          <p>
+            モジュール内の関数を公開する方法は2種類あります。psm1モジュールファイルに「Export-ModuleMemberコマンド」で公開する関数を指定する。psd1マニフェストファイルに「FunctionsToExportキー」で公開する関数を指定するという方法です。以下のサンプルがpsm1ファイル、psd1ファイルに公開関数を指定した例です
+          </p>
+          <pre><code class="pwsh">
+          # psm1モジュールファイルに書く
+          function Get-HogeHoge {       #// 公開したい関数
+            ....
+          }
+          function Get-FugaFuga {       #// 公開したい関数
+            .....
+          }
+          ....
+          function MYLocalFunction {    #// ローカル関数（公開しない）
+            ....
+          }
+
+          # //公開する関数リスト
+          $publicFunctions = @(
+            'Get-HogeHoge',
+            'Get-FugaFuga'
+          )
+          # //公開する関数リストを公開する。psm1ファイルの場合Export-ModuleMemberコマンドで公開する
+          Export-ModuleMember -Function $publicFunction 
+          </code></pre>
+          <pre><code class="pwsh">
+          # psd1マニフェストファイルに書く
+          @{
+            ....
+            RootModule        = 'My.Hardware.Memory.psm1'       #// RootModuleでモジュールファイルを示す  
+            FunctionsToExport = @(                              #// 公開する関数はfunctionsToExportキー（配列）で
+              'Get-HogeHoge',                                   #// 指定する
+              'Get-FugaFuga'
+            )
+            ....
+          }
+          </code></pre>
+          <p>そうすると、2つのファイルに同じことを書かないといけないのか？2つのファイルの内容が違っていた公開する関数はどうなるのか？などの疑問が出ると思います。<br /> 答えは以下の通りです</p>
+          <ul>
+            <li>
+              <span>2つのファイルに同じことは書かないといけない？</span>
+              <p>答え：ノー。2つのファイルにそれぞれ公開関数を書く必要はないです（書いてもいいけど冗長だし保守が2倍になる）</p>
+              <p>じゃ、どうするのか？</p>
+              <p>自分の運用は、<span
+                  class="emphasis">psm1ファイルは何も書かない。psd1ファイルで公開を制御する</span>です。つまり、psm1ファイルは関数を列挙するだけのファイルで「Export-ModuleMember」は書かない。そうするとpsm1的には全関数が公開扱いですが、psd1ファイルで「FunctionsToExport」指定した関数だけが公開されます
+              </p>
+            </li>
+            <li>
+              <span>psm1ファイルでの公開内容と、psd1ファイルでの公開内容が違う場合</span>
+              <p>
+                自分の運用は上記の通り、psd1ファイルの「FunctionsToExport」だけで公開をコントロールするので、このような両ファイルで公開の差が発生することはありません。でももし両方に公開関数を書いて、それが違っていたらどうなるか？
+              </p>
+              <p>答え：「両方で一致する関数が公開される」となります。やはり2ファイルに公開関数を定義するのはこういう間違いや意図しない公開になってしまうので、1ファイルで公開を制御する方がいいです</p>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3 id="toc40" class="underline h3chapter">公開した関数の確認方法</h3>
+          <p>モジュールファイル、マニフェストファイル、公開を全て行えば指定した関数が公開されてコマンドラインから実行したり、別のスクリプトにインポートして取り込み再利用できるようになります</p>
+          <p>今、あるモジュールについてどのような関数が公開されているかを調べる方法があります。Get-CommandでModuleを指定してやれば、そのモジュールが公開している関数が一覧表示されます</p>
+          <pre><code class="pwsh">
+          &gt; Get-Command -Module My.Hardware.Memory
+          CommandType     Name                  Version    Source
+          -----------     ----                  -------    ------
+          Function        Get-MyMemoryInfo      1.0.0      MY.Hardware.Memory
+          Function        Get-MyMemoryUsage     1.0.0      MY.Hardware.Memory 
+          </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+      <small>&copy HouNeko</small>
+    </footer>
+  </div>
+</body>
+
+</html>

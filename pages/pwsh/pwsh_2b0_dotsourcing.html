@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHのドットソースとは | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="ドットソースを使えば、そのスクリプト内に別のスクリプトファイルのソースが展開されるのでコードや変数が使い回せます。また再利用以外にも大きなファイルを分割することが可能になります">
+<meta name="keywords" content="pwsh,PowerShell,ドットソース,Dot Sourcing,「.」演算子">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/ドットソース:/pages/pwsh/pwsh_000_index.html#toc2b0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        ドットソース（Dot Sourcing）
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">ドットソース（Dot Sourcing）とは</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">ドットソース（Dot Sourcing）とは</h3>
+          <p>
+            ドットソース（Dot Sourcing）は「.（ドット）演算子」で指定したPowerShellコードファイルをそこで実行する機能です
+          </p>
+          <p>
+            最初にPowerShellをやり始めた時に部品化して再利用できたらいいのにな。と思ったことがありましたが、当時はモジュール化を知らなかったのでコピペでやっていました </p>
+          <p>モジュール化する関数は「psm1ファイル」に書きます。「psd1ファイル」は必須ではないですがマニフェストファイルというもので、このファイルにpsm1ファイルの情報を書きます</p>
+          <p>この*.psm1ファイルに複数の関数を記述し、それらの関数を外部公開設定にすることでその関数が再利用できます</p>
+          <p>また、モジュール毎にフォルダを作成し、その中にpsmd1ファイル/psmd1ファイルを格納します。この時<span class="emphasis">モジュール名とフォルダ名は同じにする慣習があります</span>
+            （こうしないと動かないというわけでないですが、わかりやすいです）</p>
+          <pre><code class="pwsh">
+          #例：「my.System.Security」 というモジュールを作成した場合
+          ..\My.System.Security              ← My.System.Securityモジュール用のフォルダ
+              ├ My.System.Security.psm1     ← モジュールファイル（同名になっている）
+              └ My.System.Security.psd1     ← マニフェストファイル
+          </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

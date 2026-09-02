@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>配列 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="いろいろな言語でもだいたい存在するデータ型の「配列」についてまとめた章です。配列を使えばデータをまとめて扱えて便利です">
+<meta name="keywords" content="pwsh,PowerShell,配列,Array">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/データ型:/pages/pwsh/pwsh_000_index.html#toc1a0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        配列
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">PowerShellの配列</h2>
+          <h3 id="toc12" class="h3chapter underline">配列とは</h3>
+          <p>
+            配列は、複数の値を格納できるデータ構造で、インデックスで各要素にアクセスできるようになっています。言葉にするとこんな感じですが、配列はPowerShellにかかわらず、ほぼどんな言語でも重要な概念で配列が使えないと冗長なコードになって見にくいし書く方も大変となります
+          </p>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">配列の特徴</h3>
+          <ul>
+            <li>
+              <span>配列宣言は不要</span>
+              <p>そもそもPowerShellは動的型付け言語なので、配列に限らず変数の型宣言は不要です</p>
+              <p>配列変数は、@()で配列であることを明示的に指定する方法や、<a
+                  href="pwsh_103_operator.html#tocc0">カンマ演算子</a>でデータを区切って代入すると、その変数は配列になります</p>
+              <pre><code class="pwsh">
+              $hogeArray = @()            #//空の配列を代入。$myArrayは配列変数になる
+              $myArray = 10, "Neko", 20   #//3つの要素を持つ配列。※pwshの配列は型の混在が可能
+              </code></pre>
+            </li>
+            <li>
+              <span>配列のデータは型が混在してもいい</span>
+              <p>Powershellの配列はデータ型が混在してもいいようになっています。Int型のデータやString型データが1つの配列に混在することが可能です</p>
+            </li>
+            <li>
+              <span>インデクスは0オリジン</span>
+              <p>配列のインデックスは[0]から始まります（配列の世界のお約束やな）。最後の要素は[-1]で指定することも可能です</p>
+              <pre><code class="pwsh">
+              &gt; $myArray = @(10, "Neko", 20, 'Usagi')
+              &gt; $myArray[0]        #//indexは0オリジン。最初の要素を指定している
+              10
+              &gt; $myArray[-]        #//最後の要素は、[-1]で指定できる
+              Usagi                   #//古典的な書き方だと、$myArray[$myArray.Count-1] と同じ
+              </code></pre>
+            </li>
+            <li>
+              <span>値の重複は可能</span>
+              <p>配列は、辞書ではないので当たり前</p>
+            </li>
+            <li>
+              <span>PowerShellの配列は動的</span>
+              <p>今日日の配列はだいたい動的なので、空の配列を作っておき処理中に要素を追加、削除できます</p>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">配列への操作</h3>
+        </section>
+
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>モジュールのデバッグ | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのモジュールファイルpsm1は、関数を列挙したファイルです。モジュールは何かのスクリプトにインポートして実行するので、モジュールのデバッグもこの中で行います">
+<meta name="keywords" content="pwsh,PowerShell,モジュールのデバッグ">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/モジュール化:/pages/pwsh/pwsh_000_index.html#toc2a0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        モジュールのデバッグ
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">モジュールのデバッグ</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">モジュールのデバッグ方法</h3>
+          <p>
+            PowerShellのモジュールファイルpsm1は、関数を列挙したファイルです。モジュールは何かのスクリプトにインポートして実行するので、モジュールのデバッグもこの中で行います
+          </p>
+          <p>具体的には、myTest.ps1ファイルにモジュールファイル「My.System.Memory.psd1」をインポートして、公開している関数「Get-MyMemoryInfo関数」を使うケースを例に説明します
+          </p>
+          <img src="/assets/pic/pwsh_2a3_debug_01.webp" alt="モジュールのデバッグ例" />
+        </section>
+
+        <section>
+          <h3 id="toc200" class="h3chapter underline">モジュールのデバッグ手順</h3>
+          <ol>
+            <li>
+              <span>親スクリプト「myTest.ps1」をデバッグオプションをつけて実行する</span>
+              <pre><code class="pwsh">
+              #myTest.ps1はcmdletbindingを行っているのでDebugが使える
+              myTest.ps1 -Debug
+              </code></pre>
+            </li>
+            <li>
+              <span><a
+                  href="../../pages/vscode/vsc_401_shortcutkey.html#toc22">「F11」</a>でモジュール関数「Get-MyMemoryInfo」にステップイン</span>
+              <pre><code class="pwsh">
+              #myTest.ps1 テストプログラム
+              [CmdletBinding()]
+              param()
+              Import-Module .\My.System.Memory.psd1
+              Write-Debug ("Start Test")              #myTest.ps1側のデバッグメッセージが表示される
+              ・・・
+              #// call Get-MyMemoryInfo               ← モジュール関数がコールされる。F11でステップイン
+              Get-MyMemoryInfo -Debug:$PSBoundParameters.ContainsKey('Debug')
+              ・・・
+              #// End
+              </code></pre>
+            </li>
+            <li>
+              <span>モジュール関数「Get-MyMemoryInfo」でステップ実行</span>
+              <p>モジュール関数「Get-MyMemoryInfo」に入るので通常のデバッグと同じようにステップ実行すればいい</p>
+              <pre><code class="pwsh">
+              function Get-MyMemoryInfo {
+                [CmdletBinding()]
+                param()
+                
+                $MYNAME = "Get-MyMemoryInfo"
+                $MYVERSION = "v1.00.00"  
+                Write-Debug ('myname = ' + $MYNAME)         #//Get-MyMemoryInfo関数側のDebugメッセージが表示される
+                Write-Debug ('myversion = ' + $MYVERSION)   #// 〃
+                ・・・
+                ・・・
+              }  
+              </code></pre>
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">モジュールのデバッグ「ちょっとだけ注意」</h3>
+          <p>
+            モジュールのデバッグは上述の通りです。一見普通のスクリプトのデバッグと一緒でわざわざ1つの章にする必要ないんじゃね？と思う人もいたかもしれません。
+          </p>
+          <p>確かに、デバッグオプションを使わない場合は、特に注意は要らないのですがデバッグオプションを使う場合はちょっとした注意が必要です。どういう事かというと「myTest.ps1
+            -Debug」の「-Debug」はそのままだとモジュール関数には伝わらないです。<br />このためモジュール関数コール時に「-Debug」引数をどうやって伝えるかという話です</p>
+          <p>答えは <a href="pwsh_101a_autovariable.html#toc25">「$PSBoundParameters」変数</a>の引数情報を使って渡すです</p>
+          <pre><code class="pwsh">
+          #myTest.ps1 テストプログラム
+          ・・・
+          #// call Get-MyMemoryInfo               ← モジュール関数がコールされる。F11でステップイン
+          #// $PSBoundParameters変数でオプション引数を受け取っており、この引数リスト内に「Debug」があれば
+          #// ContainsKeyメソッドがTrueになり、-Debug がTrueとなる
+          Get-MyMemoryInfo -Debug:$PSBoundParameters.ContainsKey('Debug')
+          ・・・
+          #// End
+          </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+      <small>&copy HouNeko</small>
+    </footer>
+  </div>
+</body>
+
+</html>

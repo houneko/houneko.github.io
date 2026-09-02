@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>新しいモジュール | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellの新モジュールを作成する手順をサンプル「Get-MyProcessorInfo」を例に説明します。自分の環境ベースなのでそのまま使えないかもしれませんが参考になるかと思います">
+<meta name="keywords" content="pwsh,PowerShell,新しいモジュール,新モジュールの作成手順">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/モジュール化:/pages/pwsh/pwsh_000_index.html#toc2a0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        新モジュールの作成手順
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">新モジュールの作成手順</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">新モジュールの作成手順</h3>
+          <p>新しいモジュール関数の作成手順をサンプルモジュール関数「Get-MyProcessorInfo」作成を例にして説明します</p>
+          <ol class="two-digit">
+            <li>
+              <span>myModulesフォルダの下にモジュールフォルダ、psm1ファイル、psd1ファイルを作成</span>
+              <p>「My.System.Processor」モジュールを作成し、psm1ファイルとpsd1ファイルを作成する。psm1ファイル、psd1ファイルは空でいい</p>
+              <p>
+                モジュール名（フォルダ）は、各自のルールで作成したらいいです。自分の場合は、「My」というプリフィクスを付けて、その次に「ジャンルとしてSystem系」、最後に「その系内の項目としてProcessor」という名前にしています
+              </p>
+              <pre><code class="pwsh">
+              …\myModules
+                ├ My.System.Processor フォルダ          … モジュール用フォルダ
+                    ├ My.System.Processor.psm1ファイル  … モジュールファイル
+                    ├ My.System.Processor.psd1ファイル  … モジュールマニフェストファイル
+              </code></pre>
+            </li>
+            <li>
+              <p>モジュール関数「Get-MyProcessorInfo」をpsm1ファイル内にコーディングする</p>
+              <p>以下のコーディングはテンプレート</p>
+              <pre><code class="pwsh">
+              function Get-MyProcessorInfo {
+                &lt;#                                 # ← Get-Help用のコメントブロックを最初に書く
+                  Get-Help用のコメントブロック
+                #&gt;
+
+                [CmdletBinding()]                     # ← 無くても可
+                Param()
+
+                $MYNAME = ...                         # ← 自分用のモジュール名等。無くても可
+                $MYVERSION = ...
+
+                $myProcessor = Get-CimInstance Win_32_Processor   # ← これが本体
+                $myProcessor | ForEach-Object {
+                  [PMCustomObject]@{                              # ← PMCustomObject型にキャストした辞書
+                    自作プロパティ1 = $_.xxx                      # 独自構造体型にメンバを設定するみたいなもん
+                    ...
+                    自作プロパティN = [PMCustomObject]@{          # ← PMCustomObject型の中にPMCustomObject型メンバを
+                      自作プロパティN1 = ...                      # を格納することも可能（構造体メンバみたいなもん）
+                      ...
+                    }
+                  }
+                  ...
+                }
+              }  
+              # 次の関数定義（あれば）
+              function Get-HogeHoge {...}
+              function ...
+
+              #// 関数の公開設定は「psd1」ファイルで一元化し、psm1ファイルでは設定しない
+              </code></pre>
+            </li>
+            <li>
+              <span>psd1ファイルを作成</span>
+              <p>マニフェストファイルとして大事な項目はとりあえず以下。これを辞書として作成する</p>
+              <pre><code class="pwsh">
+              @{
+                ModuleVersion     = '...'                       # ← バージョン
+                GUID              = '...'                       # ← [GUID]::NewGuid()で作成可能
+                RootModule        = 'My.System.Processor.psm1'  # ← psm1モジュールファイル名
+                FunctionsToExport = @(                          # ← 公開する関数名の配列
+                  'Get-MyProcessorInfo'
+                )
+                ...
+              }              
+              </code></pre>
+            </li>
+            <li>
+              <span>インポート用スクリプト myScript\Import-MyModules.ps1（基本的に変更不要）</span>
+              <p>
+                インポート用のスクリプトファイル「Import-MyModules.ps1」は、myScriptフォルダの下に作っており、このps1スクリプトファイルを実行すると指定したモジュールフォルダ（今はmyModulesフォルダ）のパス下にある全部の「psd1」ファイルをImport-Moduleする
+              </p>
+              <p>このため、このファイルは変更しなくてもいい</p>
+              <pre><code class="pwsh">
+              $moduleRoot = "C:\Users\....\myModules"     # ← このパスが変わらなければ変更不要
+              Get-ChildItem $moduleRoot -Directory | ForEach-Object {
+                $psd1 = Join-Path $_.FullName "$($_.Name).psd1"
+                Write-Debug ("import file = $psd1")
+                if (Test-Path $psd1) {
+                  Import-Module $psd1 -Force              # ← $moduleRoot配下のpsd1ファイルを全部Import-Moduleする
+                }                                         # なので、新規に作ったモジュールもインポートされる
+              }                                           # ∴ このファイルは変更不要
+              </code></pre>
+            </li>
+            <li>
+              <span>$Profileファイル（基本的に変更不要）</span>
+              <p><span><a href="pwsh_124_profile.html">$Profile</a></span>は、PowerShellが起動する時に実行される特別なファイルです</p>
+              <p>$Profileは、自分用にカスタマイズしており以下の処理をおこなっています</p>
+              <ul>
+                <li>
+                  <span>myFunctionsフォルダ</span>
+                  <p>myFunctionsフォルダには自作関数があり、$Profile内でこれらの関数を全部ロードしている。これでコマンドラインから関数名でコマンドのように実行できるようになっています</p>
+                </li>
+                <li>
+                  <span>myScriptフォルダ</span>
+                  <p>
+                    myScriptフォルダには自作スクリプトがあり、$Profile内でこれらのスクリプトをスクリプト名で実行できるようにAlias化しています。これでコマンドラインからスクリプト名で実行できるようになっています
+                  </p>
+                </li>
+                <li>
+                  <span>Import-MyModules.ps1</span>
+                  <p>
+                    $Profile内にて、ドットソースでImport-MyModules.ps1を実行しています。Import-MyModules.ps1はmyModulesフォルダ配下のpsd1を全部インポートするしので、新規のモジュールも自動的にインポートされます
+                  </p>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <span>完成</span>
+              <p>この時点で、コマンドラインからモジュール関数をコマンドのように呼び出す事が可能になっています</p>
+              <pre><code class="pwsh">
+              &gt; Get-MyProcessorInfo
+              ProcessorName        : AMD Ryzen 5 7430U with Radeon Graphics
+              Manufacturer         : AuthenticAMD
+              Architecture         : @{typeNo=9; typeName=x64}
+              MaxClockSpeedMHz     : 2301
+              CurrentClockSpeedMHz : 2010
+              Cores                : 6
+              LogicalProcessors    : 12
+              L2CacheKB            : 3072
+              L3CacheKB            : 16384
+              Socket               : FP6
+              Virtualization       : True
+              </code></pre>
+              <p>また、この時点で他のスクリプトにインポートして使う事が可能になっています</p>
+              <pre><code class="pwsh">
+              #// TEST Program
+              [Cmdletbinding()]
+              param()
+              Import-Module .\mymodules\MY.System.Processor\My.System.Processor.psd1  # psd1ファイルのインポート
+
+              #// call 
+              Get-MyProcessorInfo   # モジュール関数のコール
+              </code></pre>
+            </li>
+          </ol>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+      <small>&copy HouNeko</small>
+    </footer>
+  </div>
+</body>
+
+</html>

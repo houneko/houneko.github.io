@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>バージョン管理 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのモジュール化でのバージョン管理について考えた章です。PowerShellのモジュール化の一環として書いたものですが、特定の言語によらず一般的なバージョン管理も同じかと思います">
+<meta name="keywords" content="pwsh,PowerShell,バージョン管理,メジャーバージョン,マイナーバージョン,マイクロバージョン">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/モジュール化:/pages/pwsh/pwsh_000_index.html#toc2a0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        バージョン管理
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">バージョン管理</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">バージョン管理</h3>
+          <p>
+            PowerShellのモジュール化を行う場合、psd1ファイルで「モジュールファイル：psm1」のバージョンを管理します。つまりバージョン管理の単位はモジュールファイル内の個々の関数ではなく、モジュールファイル丸ごとの単位です
+          </p>
+          <p>PowerShellのモジュールにおけるバージョン管理対象は、psm1ファイル。なので、個々の関数のヘルプ情報にも関数毎のバージョンは書かないのが一般的らしいです</p>
+          <p>そうするとモジュールファイル内の公開関数を修正した時にどうバージョンを上げるかの考えが必要になります（一定の設計思想でバージョン管理しないとこの情報が有効に使えないと思います）</p>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">バージョンの構成</h3>
+          <p>
+            絶対的な構成ではないと思いますが、自分がバージョンを付ける時は、「.ドット」で区切った3つの数字で管理する事が多いです。一番左の桁が「メジャーバージョン」、真ん中の桁が「マイナーバージョン」、一番右が「マイクロバージョン」で、大きな変更はメジャーバージョンの数字が上がり、小さな変更はマイクロバージョンだけ上げる。
+          </p>
+          <pre><code class="pwsh">
+            #// バージョンの構成
+            #// 例）v1.02.03
+            #//       メジャーバージョン：1
+            #//       マイナーバージョン：02
+            #//       マイクロバージョン：03
+            </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">バージョンが上がる契機</h3>
+          <p>どういう場合に、メジャーバージョン、マイナーバージョン、マイクロバージョンが上がるかの整理です</p>
+          <ul>
+            <li>
+              <span>マイクロバージョン</span>
+              <p>マイクロバージョンが上がるのは「ユーザから見た時何も変わって見えない」ようなケースが該当します</p>
+              <p>例えば、公開関数のエラーハンドリングを変えて強化した。これはユーザから見たら関数の呼び出し方や引数、戻り値などは変わらないので、マイクロバージョンを上げればいいです。</p>
+              <p>同様に内部関数の変更もマイクロバージョンでいいです（というか、内部関数はそもそもユーザには見えない）</p>
+            </li>
+            <li>
+              <span>マイナーバージョン</span>
+              <p>マイナーバージョンが上がるのは、ユーザから見た公開関数のプロパティが増えた場合など</p>
+              <p>この場合、関数のコール方法は変わらないので、コード修正は不要（新しいプロパティを取得する場合は修正が必要ですが、そうでなければコード修正は不要）。このような変更はマイナーバージョンでいいと思います</p>
+              <p>また、公開関数が増えた場合もマイナーバージョンを上げます。この場合も今までコードは修正不要なので影響としてはプログラム修正は発生しないのでマイナーバージョンを上げるのが適切</p>
+            </li>
+            <li>
+              <span>メジャーバージョン</span>
+              <p>互換性が変わる変更があった場合、メジャーバージョンが上がります</p>
+              <p>
+                例えば、今まで公開していた「Get-MyMemory」という関数があったとして、この公開をやめたら、ユーザの既存コードは動かなくなるので大きな変更となります。また今まで返していた値の型が変わった場合もユーザの既存コードを修正しないといけなくなるので、メジャーバージョンが上がります
+              </p>
+            </li>
+          </ul>
+          <p>このような考え方は、PowerShellのモジュールに限ったものではないけど、一定の考えのもとでバージョンを上げれば今のバージョンがどういうものか、桁の値を見れば想像できるようになります</p>
+        </section>
+
+
+
+      </article>
+    </main>
+    <footer>
+      <small>&copy HouNeko</small>
+    </footer>
+  </div>
+</body>
+
+</html>

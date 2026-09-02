@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHの変数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHの変数。PowerShellの変数には3つのタイプがあります（自動変数、環境設定変数、ユーザ変数）。このページはこれらの変数の概念についてまとめた章です">
+<meta name="keywords" content="pwsh,PowerShell,変数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/基本:/pages/pwsh/pwsh_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの変数
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellの変数</h2>
+        <section>
+          <!-- Powershellの変数 -->
+          <h3 id="toc12" class="h3chapter underline">PowerShellの変数</h3>
+          <p>PowerShellの変数は、3つのタイプがあります。これは自動変数、環境設定変数（これも自動変数の1つ。ユーザ設定変数とも言う）、ユーザ変数です。</p>
+          <p>
+            PowerShellは動的型付け言語なので、変数宣言に型指定しなくてもいいが（内部的には.NETの型があるし、明示的に型指定することも可能）、変数名のルールとして以下がある。後半にあげたものは仕様として可能なだけで一般的には使うメリットは無い（こんな変数があると読みにくなるだけだし、チームでやっていたらドン引きされると思うで）
+          </p>
+          <ul>
+            <li>変数名は「$」で始める。例：$myVersion</li>
+            <li>変数名には、英字とアンダーバーが使用できる</li>
+            <li>数字の変数名も可能（だけど可読性や誤解を考えると使わない方がいい）、例：$12Neko</li>
+            <li>予約語も変数名に使える（だけど紛らわしいので使わない方がいい）、例：$if</li>
+            <li>2バイト文字も使用できる（だけど可読性が下がるので使わない方がいい）、例：$猫</li>
+          </ul>
+          <p>PowerShellの本当の型。PowerShellは.NETオブジェクトを対象としているので本当の型は.NET形式の型となるが、通常はエイリアスが使われている</p>
+          <table class="custom-table">
+            <caption>型エイリアスと本当の型（.NET型）</caption>
+            <tr>
+              <th>型エイリアス</th>
+              <th>.NET型</th>
+              <th>その他</th>
+            </tr>
+            <tr>
+              <td>byte</td>
+              <td>System.Byte</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>int</td>
+              <td>System.Int32</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>long</td>
+              <td>System.Int64</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>single</td>
+              <td>System.Single</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>float</td>
+              <td>System.Single</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>double</td>
+              <td>System.Double</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>char</td>
+              <td>System.Char</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>bool</td>
+              <td>System.Boolean</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>string</td>
+              <td>System.String</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>array</td>
+              <td>System.Array</td>
+              <td></td>
+            </tr>
+          </table>
+          <h3 id="toc14" class="h3chapter underline">型を調べる方法</h3>
+          <ul>
+            <li>
+              <span>変数名をGetType()メソッドで調べる方法</span>
+              <p>PowerShellは全てが.NETオブジェクトなので変数もオブジェクトになっている。このため変数自身の型を調べるメソッドがある。それがGetType()メソッド</p>
+              <pre><code class="powershell">
+            PS&gt; $name = "Neko"     #// $name変数に文字列「Neko」を代入
+            PS&gt; $name.GetType()    #// GetType()メソッドで型を調べる
+            結果）
+            IsPublic IsSerial Name      BaseType
+            -------- -------- ----      --------
+            True     True     String    System.Object
+            </code></pre>
+            </li>
+            <li>
+              <span>[型名]をFullNameプロパティで調べる方法</span>
+              <pre><code class="pwsh">
+            PS&gt; [int].FullName     #// int型のFullNameプロパティを表示
+            System.Int32              #// intの本当の型は、System.Int32 であることが分かる
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

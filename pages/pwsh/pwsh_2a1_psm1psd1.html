@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PWSHのモジュール化 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのモジュール化とは何か？モジュール化すると何がうれしくなるのか？作り方と実行方法などをサンプル例をもとに説明しています">
+<meta name="keywords" content="pwsh,PowerShell,モジュール化,psm1,psd1,モジュールファイル,マニフェストファイル">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/モジュール化:/pages/pwsh/pwsh_000_index.html#toc2a0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        psm1ファイルとpsd1ファイル
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">psm1モジュールファイル</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">psm1</h3>
+          <p>
+            モジュールファイルの拡張子はps1ではなく「psm1」となります。このファイルは関数の集まりで部品集みたいなファイルです。これらの関数は、外部に公開するものとしないものをプログラマが決めることができます。<br />公開する関数は、Export-ModuleMemberコマンドレットで関数名を指定したら外部から参照することが可能になります
+          </p>
+          <p>psm1ファイルの構造</p>
+          <img src="/assets/pic/pwsh_2a1_module_01.webp" alt="psm1ファイル" />
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">モジュール化の仕組み、構成</h3>
+          <p>モジュール化は、モジュールファイル「*.psm1」とマニフェストファイル「*.psd1」それと、モジュールを使うスクリプトファイル「*.ps1」で構成されています。</p>
+        </section>
+
+        <section>
+          <h3 id="toc14" class="h3chapter underline">モジュールフォルダとファイルの構造</h3>
+          <p>
+            モジュールフォルダの下に「psm1ファイル」と「psd1ファイル」を置きます。フォルダ名とファイル名は同じにします。同じでなくても動作的には問題は無いですが、慣習的に同じにしています（名前が同じだとわかりやすいメリットもある）
+          </p>
+          <pre><code class="pwsh">
+          #サンプル例
+          …\myModules
+            ├ My.System.Processor フォルダ          … モジュール用フォルダ
+                ├ My.System.Processor.psm1ファイル  … モジュールファイル
+                ├ My.System.Processor.psd1ファイル  … モジュールマニフェストファイル
+          </code></pre>
+        </section>
+      </article>
+
+      <article>
+        <h2 id="toc40" class="h2chapter-title">psd1マニフェストファイル</h2>
+        <section>
+          <h3 id="toc41" class="h3chapter underline">psd1</h3>
+          <p>
+            psd1ファイルは、マニフェストファイル。psm1モジュールファイルを説明するためのメタファイル。このファイルは無くてもモジュール関数を作成する事が可能です。
+          </p>
+        </section>
+        <section>
+          <h3 id="toc42" class="h3chapter underline">psd1ファイルの自動作成</h3>
+          <p>psd1ファイルは、自動作成するコマンドレットが用意されています。それが「New-ModuleManifest」です</p>
+          <pre><code class="pwsh">
+          &gt; New-ModuleManifest -Path .\MYTESTModule.psd1 -RootModule MYTESTModule.psm1 -Author "HouNeko"
+          </code></pre>
+          <p>
+            ただしこの生成ではフルスペックのマニフェストファイルとなるので、必要ないキーも多々あります。このため自分的にはフォーマット確認などに使う程度かなと思います。最低限必要なキーは「RootModule」と「FunctionsToExport」かなと思います
+          </p>
+          <p>psd1ファイルの構成例</p>
+          <pre><code class="pwsh">
+          #
+          &lt;#############################################################################################################
+          # マニフェストファイル： My.Hardware.Memory.psd1
+          #   ModuleVersion         このモジュールバージョン
+          #   GUID                  [GUID]::NewGuid()
+          #   Author                作成者
+          #   Description           説明
+          #   PowerShellVersion     PowerShellの最低バージョン
+          #   RootModule            ロードするモジュール名
+          #   FunctionsToExport     公開する関数
+          #   CmdletsToExport       公開するコマンド（通常空でいい）
+          #   VariablesToExport     公開する変数
+          #   AliasesToExport       公開するエイリアス名
+          #   RequiredModules       依存モジュール（あれば）
+          #############################################################################################################&gt;
+          @{
+            ModuleVersion     = '1.00.00'
+            GUID              = 'xxxxxx-.....'
+            Author            = 'HouNeko'
+            Description       = 'Hardware系のMemory関係のユーティリティモジュール'
+            RootModule        = 'My.Hardware.Memory.psm1'       #// RootModuleでモジュールファイルを示す  
+            FunctionsToExport = @(                              #// 公開する関数はfunctionsToExportキー（配列）で
+              'Get-MyMemoryInfo',                               #// 指定する
+              'Get-MyMemoryUsage'
+            )
+            CmdletsToExport   = @()
+            VariablesToExport = @()
+            AliasesToExport   = @()
+            RequiredModules   = @()
+          }
+          </code></pre>
+        </section>
+      </article>
+
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

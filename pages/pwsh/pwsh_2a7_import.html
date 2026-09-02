@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>モジュール開発と配布 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="関数を公開したら、コマンドラインからコマンドのように使ったり、別のスクリプトにImport-Moduleして再利用することができます">
+<meta name="keywords" content="pwsh,PowerShell,公開した関数を使う,Import-Module,psm1">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/モジュール化:/pages/pwsh/pwsh_000_index.html#toc2a0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Importについて
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">公開した関数を使う方法</h2>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">公開した関数を使う方法</h3>
+          <p>公開した関数は、コマンドラインからあたかも新しいコマンドのように使ったり、別のスクリプト内にImport-Moduleして取り込んで使うことができます（だからモジュール化すると便利）</p>
+          <p>
+            とりあえず、自分の環境にMy.Hardware.Memoryというモジュールを作り「Get-MyMemoryInfo」という関数を公開設定したとします。「Get-MyMemoryInfo」関数は、今のシステムのメモリ情報を取得して表示する関数です
+          </p>
+          <ol class="two-digit">
+            <li>
+              <span>My.Hardware.Memory.psd1マニフェストファイルで公開する</span>
+              <pre><code class="pwsh">
+              @{
+                .....
+                RootModule        = 'My.Hardware.Memory.psm1'       #// RootModuleでモジュールファイルを示す  
+                FunctionsToExport = @(                              #// 公開する関数はfunctionsToExportキー（配列）で
+                  'Get-MyMemoryInfo',                               #// 指定する
+                  'Get-MyMemoryUsage'
+                )
+              }              
+              </code></pre>
+            </li>
+            <li>
+              <span>Import-MyModules.ps1ファイルを作成（これは自分の環境の場合）</span>
+              <p>
+                自分のモジュールファイルを格納しているフォルダパスを「$moduleRoot」変数に設定して、そのフォルダ配下のディレクトリ一覧をGet-ChildItemで取得する。このディレクト内にある「psd1」ファイルをImport-Moduleする
+              </p>
+              <pre><code class="pwsh">
+              #// 自分の環境のモジュールフォルダを変数に代入しておく
+              $moduleRoot = 'C:\My\MyCmd\myModules'
+              #// そのフォルダ配下の「psd1」ファイルを全部1つずつ「Import-Module」でインポートする
+              Get-ChildItem $moduleRoot -Directory | ForEach-Object {
+                $psd1 = Join-Path $_.FullName "$($_.Name).psd1"
+                Write-Debug ("import file = $psd1")
+                if (Test-Path $psd1) {
+                  Import-Module $psd1 -Force      #// 各psd1ファイルをインポートする
+                }
+              }                
+              </code></pre>
+            </li>
+            <li>
+              <span>$Profileを実行する</span>
+              <p>「Import-MyModules.ps1」ファイルを実行すれば、このスクリプト内で全部のpsd1ファイルをImport-Moduleするので各モジュールの公開関数がインポートされる</p>
+              <p>だけど、もっと汎用的な仕組みを<a href="pwsh_124_profile.html">プロファイル</a> に作っているので、コマンドラインから「.$Profile」を実行すればいい</p>
+              <pre><code class="pwsh">
+              #$Profile
+              #// プロファイル内で Import-MyModules.ps1 を実行しているので各公開関数がインポートされる
+              $loadMyModules = Join-Path $developScriptsFolder "Import-MyModules.ps1"
+              . $loadMyModules
+              </code></pre>
+            </li>
+          </ol>
+        </section>
+        <section>
+          <h3 id="toc30" class="h3chapter underline">コマンドラインから使う方法</h3>
+          <p>上記のような仕組みができているので、新しく公開関数を作成したら「psd1ファイルで公開設定し、$Profileを実行する」だけでいいです</p>
+          <pre><code class="pwsh">
+          &gt; .$Profile            #// プロファイルの実行
+          $gt; Get-MyMemoryInfo     #// コマンドのように呼び出せるようになっている！
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">別のスクリプトに取り込んで使う方法</h3>
+          <p>
+            hoge.ps1というスクリプトからGet-MyMemoryInfo関数を使いたい場合、Import-Moduleでこのスクリプトに公開関数のモジュールをインポートします（これでそのモジュールが公開している関数がコールできるようになる）
+          </p>
+          <p>参考情報</p>
+          <p>インポートのパスは、<a href="pwsh_2a5_devandrelease.html">「配布」</a>を考えてPSModulePathを使わないようにする</p>
+          <p><a href="pwsh_2a3_debug.html">モジュールのデバッグ</a></p>
+          <pre><code class="pwsh">
+          #// hoge.ps1
+          [CmdletBinding()]
+          Param()
+
+          #// [CmdletBinding()]、Param()の後にImport-Moduleで取り込む
+          $thisModuleRoot = Join-Path (Split-Path $PSScriptRoot -Parent) "myModules"
+          Import-Module (Join-Path $thisModuleRoot "MY.Hardware.Memory\My.Hardware.Memory.psd1")
+
+          #// call Get-MyMemoryInfo
+          #// 関数コールの引数に「-Debug」を付けているとコマンドラインからデバッグできるので付けておく
+          Get-MyMemoryInfo -Debug:$PSBoundParameters.ContainsKey('Debug')
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc50" class="h3chapter underline">Import-Module時の注意事項</h3>
+          <ul>
+            <li>
+              <span>モジュール内容が変更されてもリロードされない</span>
+              <p>
+                インポートするモジュール（関数）を修正しても使う側は自動でリロードされないので、もう一度インポートする必要があります。この時、一度インポートしていた場合、Import-Moduleしても取り込まれない場合があるので「-Force」オプションで強制的にインポートしなおすようにします
+              </p>
+            </li>
+            <li>
+              <span>インポートするのは直下のパスだけ</span>
+              <p>モジュールパス直下にフォルダが無く、さらに深いフォルダにモジュールがある場合、見つけられずエラーになる。つまりモジュールパスは再帰的に検索しないという事です</p>
+              <pre><code class="pwsh">
+              # 以下のフォルダ構成は[OK]          # 以下のフォルダ構成はだめ
+              モジュールパス                      モジュールパス
+                ├ モジュールA                       ├ Utilty
+                │   ├ psm1ファイル                 │   ├ モジュールA
+                │   └ psd1ファイル                 │        ├ psm1ファイル
+                ├ モジュールB                       │        └ psd1ファイル
+                │   ├ psm1ファイル
+                │   └ psd1ファイル
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+      <small>&copy HouNeko</small>
+    </footer>
+  </div>
+</body>
+
+</html>
