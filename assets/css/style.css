@@ -1,0 +1,1420 @@
+/* myVersion = "v0.00.02" */
+/* ------------------------------------------------------------------------------------
+  html全体 
+    各タグのフォントをhtmlのフォントを基準にレスポンシブ対応にする
+  ------------------------------------------------------------------------------------ */
+@charset "utf-8";
+
+/* 変数定義 */
+:root {
+  --breadcrumb-height: 24px;
+  --content-max-width: 2400px;
+  --content-padding: 16px;
+}
+
+/* paddingはややこしいのでborder-box;にしておく */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* デバッグ用（すべての要素を枠線付きで表示させる）
+* {
+  outline: 1px solid red;
+}
+*/
+
+/* root sizeは、デフォルトの16pxの62.5%＝10pxにする */
+html {
+  font-size: 16px;
+}
+
+/*p  {font-size: clamp(1rem, 2vw, 1.25rem);}*/
+h1 {
+  font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 2vw, 2.25rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 1.75vw, 2rem);
+}
+
+h4 {
+  font-size: clamp(1.125rem, 1.5vw, 1.5rem);
+}
+
+h5 {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+h6 {
+  font-size: clamp(0.875rem, 1vw, 1rem);
+}
+
+body {
+  font-family: 'BIZ UDPゴシック', 'MyricaM M', 'ＭＳ Ｐゴシック', 'ヒラギノ角ゴ ProN W3', sans-serif;
+  /*margin: 20px;*/
+  margin: 0;
+  padding-top: 1.8em;
+  /* パンくずリストの高さ分、本文を下げる */
+  height: 100%;
+  color: #333;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* デフォルト＝スマホ */
+main {
+  padding-top: var(--breadcrumb-height);
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  main {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+/* PC */
+@media (min-width: 1024px) {
+  main {
+    max-width: var(--content-max-width);
+    /*margin: 0 auto;*/
+  }
+}
+
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.big-text {
+  font-size: 2em;
+}
+
+#breadcrumb {
+  position: fixed;
+  /* 常に画面上部に表示 */
+  top: 0;
+  /* 上端に固定 */
+  left: 0;
+  width: 100%;
+  /* 横幅いっぱい */
+
+  display: flex;
+  align-items: center;
+
+  /*text-align: center;*/
+  /* 中の文字を中央揃え */
+  padding: 0.5em 1em;
+  box-sizing: border-box;
+
+  /* 上下の余白 */
+  /*margin: 0.5em;*/
+  /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 下に軽く影をつけてみる */
+  z-index: 1000;
+  /* 他の要素の上に重ねる */
+  font-size: 0.8em;
+  line-height: 2em;
+  font-size: 0.8em;
+  background-color: rgba(255, 255, 255, 0.92);
+  /*半透明の帯にする*/
+}
+
+.breadcrumb-links {
+  flex: 1;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.breadcrumb-search {
+  margin-left: 1.5em;
+  flex-shrink: 0;
+
+  color: #333;
+  text-decoration: none;
+
+  padding: 0.2em 0.6em;
+  border-radius: 4px;
+}
+
+.breadcrumb-search:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+
+
+
+
+:target {
+  scroll-margin-top: 4em;
+  background-color: yellow;
+}
+
+.font1p5em {
+  font-size: 1.5em;
+}
+
+.font-large {
+  margin-top: 0.5em;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* --- 強調 --- */
+.emphasis {
+  color: red;
+}
+
+.is-bold {
+  font-weight: bold;
+}
+
+.is-underline {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+/* パンくずリストの領域を固定にしてスクロールさせないようにする：上部固定（1.2em） やめ*/
+/* パンくずリストを除く領域をスクロール対象にする やめ*/
+
+/* ------------------------------------------------------------------------------------
+    ul, ol, li にかかっているブラウザ固有の設定があるのでリセットしておく
+  ------------------------------------------------------------------------------------ */
+/*
+ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+*/
+/* ------------------------------------------------------------------------------------
+  ナビゲーションバー全体 
+    navi-bar  +-------------------------------------------------+
+              |   navi-item   navi-item   navi-item   ...       |
+              +-------------------------------------------------+
+                  | navi-sub-menu |
+                  |   li tag      |
+                  |   li tag      |
+                  +---------------+
+  ------------------------------------------------------------------------------------ */
+.navi-bar {
+  list-style-type: none;
+  margin: 0;
+  /*margin-top: 16px;*/
+  padding: 0;
+  background-color: #757373;
+  display: flex;
+  /* flexboxコンテナとして定義 */
+  justify-content: center;
+  /* 中央揃え */
+  align-items: center;
+  /* 垂直方向も中央揃え */
+  /* max-width: 90vw; */
+  margin: 0 auto;
+}
+
+.navi-item {
+  font-size: clamp(1rem, 1vw, 1rem);
+  position: relative;
+  /* サブメニューを絶対配置するため */
+  margin: auto 1em;
+}
+
+/* ナビゲーションリンクのフォントサイズ */
+.navi-item a {
+  font-size: clamp(1rem, 0.8vw, 1rem);
+}
+
+.navi-item>a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 6px 16px;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+/* メニューの猫だけピンク色にしておく */
+.navi-item>a.link-neko {
+  display: block;
+  color: rgb(250, 167, 229);
+  text-align: center;
+  padding: 6px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+
+/* ジャンルA～Cのリンクにホバー時の色変更 */
+.navi-item>a:hover {
+  /*background-color: #111;*/
+  color: rgb(5, 245, 233);
+}
+
+/* サブメニューのスタイル */
+.navi-sub-menu {
+  display: none;
+  /* 初期状態では非表示 */
+  position: absolute;
+  top: 100%;
+  /* 親メニューの下に配置 */
+  left: 0;
+  background-color: #333;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 360px;
+  z-index: 1;
+}
+
+.navi-sub-menu li {
+  text-align: left;
+}
+
+.navi-sub-menu li a {
+  padding: 4px 16px;
+  color: white;
+  display: block;
+  text-decoration: none;
+}
+
+/* サブメニューのリンクにホバー時の色変更 */
+.navi-sub-menu li a:hover {
+  background-color: #444;
+  color: rgb(5, 245, 233);
+}
+
+/* 親メニューにホバーしたときにサブメニューを表示 */
+.navi-item:hover .navi-sub-menu {
+  display: block;
+}
+
+
+/* ------------------------------------------------------------------------------------
+  反射タイトル
+  ------------------------------------------------------------------------------------ */
+h1.reflect-title {
+  position: relative;
+  font-size: clamp(1.75rem, 5vw, 3.5rem);
+  color: #333;
+  margin-top: 40px;
+  text-align: center;
+}
+
+h3.reflect-title {
+  position: relative;
+  font-size: clamp(1.5rem, 1.75vw, 3rem);
+  color: #333;
+  margin-top: 60px;
+  margin-bottom: 120px;
+  text-align: center;
+}
+
+.reflect-title::after {
+  content: attr(data-string);
+  position: absolute;
+  /*top: 0.95em;*/
+  top: calc(100% - 0.625em);
+  left: 0;
+  width: 100%;
+  color: #333;
+  transform: scaleY(-1);
+  opacity: 0.5;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 1));
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+
+.reflect-title+p {
+  margin-top: 200px;
+  text-align: center;
+}
+
+
+
+
+/* ------------------------------------------------------------------------------------
+  hxデザイン
+  ------------------------------------------------------------------------------------ */
+/* h1タグタイトルの設定 (bodyのフォントに対して1.6倍）*/
+.h1chapter {
+  /*font-size: 1.6em;*/
+  /*margin-bottom: 0.5em;*/
+  margin: 1.6em;
+}
+
+.h1chapter-title {
+  /*font-size: 1.6em;*/
+  background-color: #f0f0f0;
+  /* 薄いグレーの背景色 */
+  padding: 2px;
+  /* 章タイトルの内側に余白を追加 */
+  position: relative;
+  /* 疑似要素を利用するために相対位置を指定 */
+  margin-top: 1em;
+}
+
+.h1chapter-title::before {
+  content: "□";
+  /* 先頭に表示するマーク */
+  color: black;
+  /* マークの色 */
+  /*font-size: 1.6em;*/
+  margin-right: 8px;
+  /* 章タイトルとの間隔を調整 */
+}
+
+.h1chapter-title::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  /* 下線の太さ */
+  background-color: rgb(240, 80, 80);
+  /* 下線の色 */
+  position: absolute;
+  bottom: 0;
+  /* h3の下に配置 */
+  left: 0;
+  /* 左端に配置 */
+}
+
+/* h2タグタイトルの設定 (bodyのフォントに対して1.6倍）*/
+.h2chapter {
+  margin-bottom: 0em;
+}
+
+.h2chapter-title {
+  /*font-size: 1.4em;*/
+  /* 文字は親要素1.4倍の大きさ */
+  background-color: #f0f0f0;
+  /* 薄いグレーの背景色 */
+  /*background-color: #000000;*/
+  color: #000000;
+  padding: 8px 4px;
+  /* 章タイトルの内側に余白を追加 */
+  position: relative;
+  /* 疑似要素を利用するために相対位置を指定 */
+  margin-top: 1em;
+}
+
+.h2chapter-title::before {
+  content: "□";
+  /* 先頭に表示するマーク */
+  color: black;
+  /* マークの色 */
+  /*font-size: 1.4em;*/
+  /* マークのサイズ */
+  margin-right: 8px;
+  /* 章タイトルとの間隔を調整 */
+}
+
+.h2chapter-title::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  /* 下線の太さ */
+  background-color: rgb(200, 200, 200);
+  /* 下線の色 */
+  position: absolute;
+  bottom: 0;
+  /* h3の下に配置 */
+  left: 0;
+  /* 左端に配置 */
+}
+
+/* h3タグタイトルの設定 (bodyのフォントに対して1.2倍）*/
+.h3chapter {
+  font-size: 1.2em;
+  margin-bottom: 0em;
+}
+
+/* h3タグタイトルの設定 */
+.h3chapter-title {
+  /*font-size: 1.2em;*/
+  /* 文字は1.2倍の大きさ */
+  background-color: #f0f0f0;
+  /* 薄いグレーの背景色 */
+  padding: 2px;
+  /* 章タイトルの内側に余白を追加 */
+  position: relative;
+  /* 疑似要素を利用するために相対位置を指定 */
+  margin-top: 1em;
+}
+
+.h3chapter-title::before {
+  content: "□";
+  /* 先頭に表示するマーク */
+  color: black;
+  /* マークの色 */
+  /*font-size: 1.2em;*/
+  /* マークのサイズ */
+  margin-right: 8px;
+  /* 章タイトルとの間隔を調整 */
+}
+
+.h3chapter-title::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  /* 下線の太さ */
+  background-color: rgb(240, 80, 80);
+  /* 下線の色 */
+  position: absolute;
+  bottom: 0;
+  /* h3の下に配置 */
+  left: 0;
+  /* 左端に配置 */
+}
+
+.main-title {
+  text-align: center;
+}
+
+section+section {
+  margin-top: 2em;
+}
+
+
+
+
+
+
+
+/* ------------------------------------------------------------------------------------
+  フッタデザイン
+  ------------------------------------------------------------------------------------*/
+footer {
+  text-align: center;
+  padding: 1em 0;
+  font-size: 0.8em;
+  color: #888;
+}
+
+
+.title-icon {
+  height: 1.8em;
+  /* h1の文字の高さに合わせる */
+  vertical-align: middle;
+  margin-left: 1.5em;
+  /* 文字との間隔 */
+}
+
+
+/* ------------------------------------------------------------------------------------
+  マーカー
+  ------------------------------------------------------------------------------------ */
+.marker {
+  background-color: #ff9
+}
+
+.marker-red {
+  background-color: #ffd0d1
+}
+
+.marker-blue {
+  background-color: #a8dafb
+}
+
+.marker-underline {
+  background: linear-gradient(transparent 60%, #ff9 60%)
+}
+
+.marker-underline-red {
+  background: linear-gradient(transparent 60%, #ffd0d1 60%)
+}
+
+.marker-underline-blue {
+  background: linear-gradient(transparent 60%, #a8dafb 60%)
+}
+
+/* ------------------------------------------------------------------------------------
+  アンダーライン（マーカーとは別）  今後、is-underline に変えていく
+  ------------------------------------------------------------------------------------ */
+.underline {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+/* ------------------------------------------------------------------------------------
+  table
+  ------------------------------------------------------------------------------------ */
+table {
+  border-collapse: collapse;
+}
+
+table th {
+  background-color: #d0f7fa;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.shortcutkey {
+  margin: 1em;
+  padding: 8px 16px;
+}
+
+.shortcutkey td {
+  padding: 8px;
+}
+
+.shortcutkey-type {
+  width: 180px;
+}
+
+.shortcutkey-meaning {
+  width: 280px;
+}
+
+
+/* ------------------------------------------------------------------------------------
+  toc（こっちは使わない）
+  ------------------------------------------------------------------------------------ */
+.toc-parent {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 10px 0 10px;
+  /*border: solid;*/
+}
+
+.toc-parent a {
+  text-decoration: none;
+}
+
+.toc-parent ol {
+  background-color: #f0f0f0;
+  padding: 4px 40px;
+}
+
+.toc-child li {
+  padding-left: 4px;
+}
+
+/* 開閉の三角形を少しカスタマイズ */
+.toc-parent summary {
+  display: list-item;
+  width: fit-content;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 8px 0 0 0;
+  margin-bottom: 0;
+  color: darkblue;
+}
+
+.summary-130 {
+  font-size: 1.3em;
+}
+
+.summary-130-chocolate-bold {
+  font-size: 1.3em;
+  color: chocolate;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------------------------
+  新toc
+    .toc-container    目次全体を囲むコンテナ
+    .toc-card         各目次をカード風にするデザイン
+    .desc             各目次の説明文
+  ------------------------------------------------------------------------------------ */
+.toc-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.toc-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  margin: 1em auto;
+}
+
+.toc-card {
+  box-sizing: border-box;
+  width: 95%;
+  max-width: 2400px;
+  padding: 1em 1.5em;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f3f4fa;
+}
+
+/* toc-card内のtoc-card（子）は左右の空白を均等にする */
+.toc-card.is-child {
+  width: 100%;
+  margin: 0;
+}
+
+/* toc-cardの中のtoc-card（ネストした目次）の間隔を空ける */
+.toc-card .toc-card+.toc-card {
+  margin-top: 0.8em;
+}
+
+/* toc-cardの中のtoc-card（ネストした目次）の色を変える */
+.toc-card .toc-card {
+  background-color: #e3e4ea;
+}
+
+/*  toc-cardのsummary 全体のデザイン */
+.toc-card>summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+/* toc-cardのsummary タイトルだけを強調 */
+.toc-card>summary .title {
+  font-weight: bold;
+}
+
+/*  toc-cardのsummary 説明文は通常文字 */
+.toc-card>summary .desc {
+  font-weight: normal;
+}
+
+/* summary のデフォルトマーカーを消す */
+/*
+.toc-card > summary::-webkit-details-marker {
+  display: none;
+}
+*/
+.desc {
+  margin: 0 1em 1em 1.5em;
+  font-size: 0.95em;
+  color: #555;
+}
+
+.toc-card ul {
+  list-style: none;
+  padding-left: 2em;
+  margin: 0;
+}
+
+.toc-card li {
+  margin: 0 0 0.4em 0;
+}
+
+.toc-card a {
+  /* font-size: 1.1em; */
+  text-decoration: none;
+  color: #0055aa;
+}
+
+.toc-card a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------------------------
+  リスト
+  ------------------------------------------------------------------------------------ */
+#centered-list {
+  width: max-content;
+  /* 内容に合わせた横幅に */
+  margin: 0 auto;
+  /* 左右のマージンを自動で中央に配置 */
+}
+
+li {
+  margin-bottom: 0.6em;
+}
+
+li>ol,
+li>ul {
+  margin-top: 0.6em;
+}
+
+.li-shift2em {
+  padding-left: 2em;
+}
+
+ul.no-marker,
+ol.no-marker {
+  list-style: none;
+}
+
+ul.no-padding,
+ol.no-padding {
+  padding-left: 0;
+}
+
+/* ------------------------------------------------------------------------------------
+インデントをつけたリスト BEMベース
+BEM）   記法        意味                        例
+------------------------------------------------------------------------
+Block       独立したUI部品              .list
+__Element   Block内の内部要素           .list__title（アンダーバー2個）
+--Modifier  状態やバリエーションを示す  .list--marker-on(ハイフン2個）
+
+・ul/olには、listクラス、list--marker-offクラス、list--indentクラスの3つがかかる
+・.list は、リスト全体にかかるクラスでmarginとPaddingを0で初期化するだけ
+・.list--marker-offは、list-styleを無にするのと、左paddingを0
+・list--indentは、単独では設定は無いがBEM的にはBlockの状態を示す働きがある
+・liは、list__itemクラスがついている。各要素は下に1emのブランクをつける 
+li内の要素は、list__titleクラスがついたタイトルと、list__descクラスが付いた説明文に分かれる 
+list__titleは、boldでブロック要素 list_descは、上マージンが0.25em
+------------------------------------------------------------------------------------ */
+.list {
+  margin: 0;
+  padding: 0;
+}
+
+.list__item {
+  margin-bottom: 1em;
+}
+
+/* マーカー制御 */
+.list--marker-off {
+  list-style: none;
+  padding-left: 0;
+  list-style-position: inside;
+}
+
+.list--marker-on {
+  list-style-type: decimal;
+  padding-left: revert;
+  list-style-position: inside;
+}
+
+/* コンテンツ構造 */
+.list__title {
+  display: inline;
+  font-weight: bold;
+}
+
+.list__desc {
+  margin-top: 0.25em;
+}
+
+/* インデント制御 */
+/* タイトル +2em、説明文 +3.5em */
+.list--indent .list__title {
+  margin-left: 0.5em;
+}
+
+.list--indent .list__desc {
+  margin-left: 4em;
+}
+
+/* インデント無し */
+.list--no-indent .list__title,
+.list--no-indent .list__desc {
+  margin-left: 0;
+}
+
+/* olタグのリストの連番を2桁表示する */
+.two-digit {
+  list-style-type: decimal-leading-zero;
+}
+
+/* ------------------------------------------------------------------------------------
+pic/img イメージ・画像関係
+------------------------------------------------------------------------------------ */
+img {
+  margin-top: 1em;
+}
+
+.image-float {
+  float: left;
+  margin-top: 0.5rem;
+  margin-right: 2rem;
+  /* 画像とテキストの間に 1em 余白 */
+  margin-bottom: 0.5rem;
+  /* 下にも 1em 余白 */
+  max-width: 80%;
+  /* 大きすぎる画像を縮小 */
+  height: auto;
+  /* アスペクト比を保つ */
+}
+
+/* floatによる崩れ防止（念のため） */
+/*
+.text {
+  overflow: hidden;          
+}
+*/
+.text::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.image-90vw {
+  max-width: 90vw;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ナビバーの下に トップ画像を表示する */
+/* レスポンシブな余白 */
+/* ナビバー（＝画面幅）を超えない */
+.toppageimage {
+  margin-top: clamp(1.5em, 4vw, 2.5em);
+  display: flex;
+  justify-content: center;
+}
+
+.toppageimage img {
+  max-width: 100%;
+  height: auto;
+  opacity: 0.0;
+  animation: fadeInOpacity 12s ease forwards;
+  display: block;
+  border-radius: 8px;
+}
+
+@keyframes fadeInOpacity {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* 親要素の80%でレスポンシブ対応 */
+.responsive-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* ------------------------------------------------------------------------------------
+猫ギャラリー関係
+------------------------------------------------------------------------------------ */
+/* グリッド */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 15px;
+  padding: 15px;
+}
+
+/* カード */
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 画像 */
+.item img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /*height: 80px;*/
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+
+/* タイトル */
+.item img:hover {
+  transform: scale(1.05);
+}
+
+.title {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 1.4;
+
+  /* ここが重要 */
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ===== モーダル背景 ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* ===== 拡大画像 ===== */
+.modal-content {
+  display: block;
+  margin: 5% auto;
+  max-width: 90%;
+  max-height: 80%;
+}
+
+/* ===== 閉じるボタン ===== */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------------------------
+  カード1
+  ------------------------------------------------------------------------------------ */
+/* card セクション全体のレイアウトと背景 */
+.card {
+  width: 80%;
+  /* 親に対して80%幅にする */
+  margin: 24px auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* セクションタイトル */
+.card h2 {
+  font-size: 1.4em;
+  border-bottom: 2px solid #666;
+  /*padding-bottom: 5px;*/
+  margin-bottom: 20px;
+}
+
+/* 概要・詳細・表セクション間の余白 */
+.card .summary,
+.card .details,
+.card .io-table,
+.card .other {
+  margin-bottom: 24px;
+}
+
+/* 各サブセクションのタイトル */
+.card h3 {
+  margin-bottom: 10px;
+  color: #005a9c;
+  font-size: 1.2em;
+}
+
+/* テーブルのスタイル */
+.card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.card th,
+.card td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.card th {
+  background-color: #e8f1f8;
+  font-weight: bold;
+}
+
+/* ------------------------------------------------------------------------------------
+  カード2 : format-card
+    言語仕様や関数仕様の説明時にプロトタイプを書くカード
+  ------------------------------------------------------------------------------------ */
+.format-card {
+  width: 85%;
+  max-width: 1200px;
+  margin-left: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #e8f4fd;
+}
+
+.format-title {
+  font-size: 1.2em;
+}
+
+.format-prototype {
+  font-size: 1.2em;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 800;
+  margin-left: 1em;
+}
+
+/* ------------------------------------------------------------------------------------
+  まんが用、サムネイル画像を横並びに表示させる設定
+  ※旧仕様のため使用なし
+  ------------------------------------------------------------------------------------ */
+/* 画像を左寄せで横並びにして幅が足りなければ折り返す */
+.image-lines {
+  margin-top: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+/* 画像とテキストをまとめるラッパー */
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* 画像は最大50px幅で影付き */
+.image-wrapper img {
+  max-width: 60px;
+  height: auto;
+  display: block;
+  transition: transform 0.2s;
+}
+
+/* ホバーで画像を1.5倍に拡大 */
+.image-wrapper:hover img {
+  transform: scale(1.5);
+}
+
+/* オーバーレイするテキスト（中央表示） マウスオーバするまではopacity：0で非表示にしておく */
+.image-info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(10, 10, 10, 0.8);
+  color: #fff;
+  font-size: 0.8em;
+  padding: 1px 1px;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  text-align: center;
+}
+
+/* ホバー時にテキストを表示 */
+.image-wrapper:hover .image-info {
+  opacity: 1;
+}
+
+.manga-title {
+  margin-top: 3em;
+}
+
+/* ------------------------------------------------------------------------------------
+  まんが用トップページの表示
+    flex-wrap: wrap;        * 入らなくなったら折り返す *
+    gap: 1em;               * 横・縦の間隔 *
+    white-space: nowrap;    * 1リンク内で改行しない *
+  ------------------------------------------------------------------------------------ */
+/* リンク一覧 */
+.manga-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* li は幅を指定しない（中身に合わせる） */
+.manga-links li {
+  white-space: nowrap;
+}
+
+.manga-links a {
+  /*  border: 1px solid #ccc;
+  border-radius: 4px; */
+  padding: 0.3em 0.6em;
+}
+
+.my-rating1 {
+  font-size: clamp(0.75rem, 1.5vw, 0.90rem);
+  text-decoration: none
+}
+
+.my-rating2 {
+  font-size: clamp(0.90rem, 2.0vw, 1.05rem);
+  text-decoration: none
+}
+
+.my-rating3 {
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  text-decoration: none
+}
+
+.my-rating4 {
+  font-size: clamp(1.20rem, 3.0vw, 1.50rem);
+  text-decoration: none
+}
+
+.my-rating5 {
+  font-size: clamp(1.40rem, 3.5vw, 2.00rem);
+  text-decoration: none
+}
+
+
+
+
+
+/* ------------------------------------------------------------------------------------
+  まんが用データテーブル
+  ------------------------------------------------------------------------------------ */
+/* 上下に余白、左右は0で左寄せ */
+.custom-table {
+  margin: 10px 0;
+  margin-bottom: 2em;
+  /*width: 90vw;*/
+  width: 100%;
+  max-width: 1200px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ヘッダとセルのデザイン */
+.custom-table th,
+.custom-table td {
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  line-height: 1.0;
+  text-align: left;
+}
+
+/* ヘッダの背景色・文字色 */
+.custom-table th {
+  background-color: #93ccf1;
+}
+
+/* 偶数行に薄い背景色をつける */
+.custom-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* マウスオーバー時のハイライト */
+.custom-table tr:hover {
+  background-color: #f1f8c8;
+}
+
+.custom-table caption {
+  margin-bottom: 0.5em;
+}
+
+
+/* ------------------------------------------------------------------------------------
+  まんが用、作家毎のページ。フレックスボックスで画像と感想文を表示する
+  画像はグリッドレイアウトで配置する
+  ※新仕様
+  ------------------------------------------------------------------------------------ */
+/* 作家ページ */
+/*
+.author {
+  max-width: 90vw;
+  margin: 0 auto;
+}
+*/
+/* 作家のタイトル */
+.author-name {
+  font-size: 2rem;
+  margin: 0 auto;
+  margin-bottom: 32px;
+  border-bottom: 3px solid #ddd;
+  padding-bottom: 8px;
+}
+
+/* 作品単位のコンテナ */
+.artwork {
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+/* 作品タイトル */
+.artwork-title {
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+}
+
+/* artworkコンテナ内の「本棚＋感想」のコンテナ */
+.artwork-body {
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  /*align-items: flex-start;*/
+}
+
+/* 本棚コンテナ */
+.shelf {
+  display: grid;
+  /* grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); */
+  grid-template-columns: repeat(auto-fill, 60px);
+  gap: 16px;
+  flex: 1;
+  align-content: start;
+}
+
+/* 本棚コンテナ内の画像 */
+.shelf img {
+  width: 60px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+/* 本棚コンテナ内の各本のコンテナ */
+.book {
+  position: relative;
+  /*width: 100%;*/
+  width: 60px;
+}
+
+/* 本の巻数 */
+.vol {
+  position: absolute;
+  inset: 0;
+  /* 全体を覆う */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.0rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  border-radius: 4px;
+  /* 巻数にhoverしてもマウスクリックできるようにする */
+  pointer-events: none;
+}
+
+/* 本にホバーした時の画像 */
+.book:hover img {
+  transform: scale(1.4);
+  z-index: 10;
+}
+
+/* 本にホバーした時の巻数 */
+.book:hover .vol {
+  opacity: 1;
+}
+
+/* 感想文 */
+.review {
+  /*flex: 0 0 640px;*/
+  flex: none;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #555;
+  background: #faf8f3;
+  padding: 16px;
+  border-left: 1px solid #c9b37e;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+
+  /*
+  body {
+    padding: 16px;
+  }
+  */
+  .artwork-body {
+    flex-direction: column;
+  }
+
+  .review {
+    max-width: none;
+    margin-top: 12px;
+  }
+}
+
+
+/* ------------------------------------------------------------------------------------
+  コード表示（pre>code.xxx）のマージン等
+   ------------------------------------------------------------------------------------ */
+pre {
+  margin-top: 0.5em;
+}
+
+/* ------------------------------------------------------------------------------------
+  ボタン表示
+   ------------------------------------------------------------------------------------ */
+#details-toggleAll {
+  margin-top: 0.5em;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+}
+
+/* ------------------------------------------------------------------------------------
+  テキスト削除（取り消し）
+   ------------------------------------------------------------------------------------ */
+.delete-text {
+  color: gray;
+  text-decoration-thickness: 2px
+}
+
+
+/* ------------------------------------------------------------------------------------
+  Youtube
+   ------------------------------------------------------------------------------------ */
+.youtube-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  /* 16:9 */
+}
+
+.youtube-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* ------------------------------------------------------------------------------------
+  その他
+  .paragraph--break 話題が変わった時に通常の行間よりも広く開けるためのクラス
+  .ml1              左に1emの空白をあける
+   ------------------------------------------------------------------------------------ */
+.paragraph--break {
+  margin-top: 2.0em;
+}
+
+.ml1 {
+  margin-left: 1em;
+}
