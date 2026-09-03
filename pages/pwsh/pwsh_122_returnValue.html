@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHの複数の値を返す関数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHの関数はreturnは1つですが、場合によっては複数の値を返したいケースがあります。その場合に複数の値を返す方法をまとめた章です">
+<meta name="keywords" content="pwsh,PowerShell,複数の値を返す関数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/実行:/pages/pwsh/pwsh_000_index.html#toc120 >">
+</head>
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの複数の値を返す関数
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">PowerShellの複数の値を返す関数</h2>
+          <h3 id="toc12" class="h3chapter underline">複数の値を返す関数</h3>
+          <p>PowerShellの関数はreturnで1つの値を返すが、場合によっては複数の値を返したい場合がある。例えば、文字列を変換する関数は「変換した文字列」を返すととともに「関数の成否」も返したいようなケースである。
+          </p>
+          <h3 id="toc20" class="h3chapter underline">複数の値を返す関数の作成方法</h3>
+          <p>他の方法があるかもしれないが[PSCustomObject]でキャストした連想配列を返すようにすれば複数の値を返せる</p>
+          <p>つまり<span class="marker">[PSCustomObject]＠{キー=バリュー....} を返す</span> ってこと</p>
+          <ul>
+            <span class="font-large">[PSCustomObject]でキャストした連想配列で値を返す関数</span>
+            <pre><code class="powershell">
+          # 
+          # 複数の値を返すの関数のテスト
+          #
+          [cmdletbinding()]
+          param()
+
+          #////////////////////////////////////////////////////////////////////////
+          # 複数の値を返す関数 hoge
+          function script:hoge {
+            [CmdletBinding()]
+            param(
+              [String]$orgString
+            )  
+              #--------------------------------------------------------
+              # PSCustomObjeでキャストして各メンバに値をいれて返す
+              # 変数はコール側からもらわなくてもいい
+              if ([String]::IsNullOrEmpty($orgString)) {
+                # 空の文字列が渡された場合
+                return [PSCustomObject]@{                           #// 連想配列@{} を [PSCustomObject]型にキャストして返している
+                  status = $false                                   #// .statusキーと値、.convStringキーと値 で複数の値を返している
+                  convString = $null                                #// 
+                }  
+              } else {
+                return [PSCustomObject]@{
+                  status = $true
+                  convString = $orgString.ToUpper()
+                }  
+              }  
+          }    
+
+          #////////////////////////////////////////////////////////////////////////
+          # メインブロック
+          $myVersion = "v1.00.00"
+          #--------------------------------
+          # 関数コール
+          $result = hoge "moto no moji"                             #// コール側は連想配列型の引数を渡さなくてもいい
+          if ($result.status) {                                     #// 関数の成否結果を.statusメンバ（キー）で判別している
+            Write-Host ('$result.status =', $result.status)
+            Write-Host ('$result.convString = ', $result.convString)
+          } else {
+            Write-Error("conv失敗しました")
+          }  
+
+          実行結果）
+          #// 2つの値を受け取っている
+          $result.status = True                 #// 関数が成功していることがわかる
+          $result.convString =  MOTO NO MOJI    #// 変換後の大文字になった文字列 
+          </code></pre>
+            <p>この関数は、引数で文字列をもらいそれを大文字変換して返還後の文字列を返す関数である。この時、関数の処理結果も返したいので[PSCustomObject]でキャストした連想配列を返している</p>
+            <ul>
+              <li>
+                注意点１
+                <p><span
+                    class="marker">関数コール側は、連想配列を引数として渡さなくてもいい。</span>Cとかのイメージでは構造体型の引数を渡してそのメンバに値をセットして返してもらうけど、Powershellではコール側で連想配列型を用意してそれを渡す<strong>「ではない」</strong>。<br />C言語は静的型付け言語なのでコンパイル時に型の確認を行うけど、PowerShellは動的型付け言語なので関数側で作った連想配列型を返してもらうことができる。<br />そうすると次に<span
+                    class="marker">関数コール側は戻ってくる連想配列型にどんなメンバ（キー）があるのかをどうやってわかるの？という疑問が出てくるが、プログラマがhoge関数は[PSCustomObject]連想配列を返すものと知っている。各メンバ（キー）は何があるかを知っているという前提</span>
+                  となっている</p>
+              </li>
+            </ul>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

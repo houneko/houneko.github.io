@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShellとバッチファイルの連携時の問題 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellとバッチファイルの連携時に起こった問題です">
+<meta name="keywords" content="pwsh,PowerShell,バッチファイルとの連携">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/現場の課題:/pages/pwsh/pwsh_000_index.html#toc400 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        バッチファイルからPowerShellへ配列の引数を渡す
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">バッチファイルからPowerShellへ配列の引数を渡す</h2>
+        <!-- section -->
+        <section>
+          <h3 id="toc12" class="h3chapter underline">バッチファイルとの連携</h3>
+          <p>まず最初にバッチファイルとPowerShellが連携しないといけないのは何故かを説明します（PowerShellだけを使っていたらこの問題は起きません）<br /> PowerShellを使うには、<a
+              href="pwsh_123_preprun.html">「少し準備」</a>が必要となっています。このため、PowerShellを知らない人の環境で実行してもらうには、説明して使えるように設定して・・とハードルがあります。
+          </p>
+          <p>また、GUIになれている人はCUI操作は不慣れな事が多いです（PowerShellのコードはダブルクリックしても動かない）</p>
+          <p>
+            そこで、PowerShellのコードをバッチファイルで包んでリリースすれば、GUIでバッチファイルをダブルクリックして実行することもできるし、コマンドラインからバッチファイルを実行させることもできて、この問題が解決できます
+          </p>
+          <p>実際に、部内にPowerShellスクリプトをリリースする時は、この方法で行っています</p>
+        </section>
+        <!-- section -->
+        <section>
+          <h3 id="toc14" class="h3chapter underline">バッチファイルからPowerShellへ配列の引数を渡す</h3>
+          <p>バッチファイルからPowerShellを実行させる方法は、PowerShellを知らないユーザには有効でこの方法でやっていたのですが、あるケースで問題が起きました</p>
+          <ul class="no-marker">
+            <li>
+              <span class="font-large">プログラム概要</span>
+              <p>バッチファイルを起動すると、ユーザに対象のファイルタイプを指定してもらいます。この時複数のファイルタイプがある場合は「,」カンマで区切って指定してもらいます（例：*.csv, *.txtなど）</p>
+              <p>これを「EXT」という変数に格納して、この変数をPowerShellの引数にしてPowerShellスクリプトを呼び出します</p>
+              <p>PowerShellは、この引数をString[]型で受け取り、このファイルタイプのファイルを取得し処理を行います</p>
+            </li>
+            <li>
+              <span class="font-large">発生した問題</span>
+              <p>ファイルタイプを複数指定した場合、PowerShell側では対象ファイルが０件となって処理が終了してしまう</p>
+              <p>発生した事象を見ると以下のような状況でした</p>
+              <ul>
+                <li>PowerShellスクリプト単独で実行する場合は、問題は発生しない</li>
+                <li>バッチファイルからファイルタイプを1つだけPowerShellに渡す場合は、問題は発生しない</li>
+                <li><span class="underline">バッチファイルから複数のファイルタイプをPowerShellに渡すと、問題は発生する</span> </li>
+              </ul>
+              <p>以上より、バッチファイルから複数のファイルタイプを配列で渡す時に問題が起きていることが分かります</p>
+            </li>
+            <li>
+              <span class="font-large">原因</span>
+              <p>バッチファイルが渡す値が配列になっていない事が原因でした。</p>
+              <p>バッチファイルが起動してユーザが「*.csv, *.txt」と入力したとします。この意図は「*.csv」「*.txt」という複数の拡張子のファイルが対象ですよというものですが、<span
+                  class="emphasis">バッチファイルはこれを「"*.csv, *.txt"」という１つの文字列として渡します</span></p>
+              <p>このため、PowerShell側では「"*.csv, *.txt"」という拡張子のファイルを検索して、結果0件でしたとなっていました</p>
+            </li>
+          </ul>
+        </section>
+
+        <!-- section -->
+        <section>
+          <h3 id="toc16" class="h3chapter underline">バッチファイルからPowerShellへ配列を渡す方法</h3>
+          <p>バッチファイル側（こっちは基本何も変わらない）</p>
+          <pre><code class="bat">
+        set "DEFAULT_EXT=*.csv"
+        ...
+        rem ///////////////////////////////////////////////////////////////////////////
+        rem // 拡張子（配列）の入力
+        set /p EXT="拡張子を指定してください（複数ある場合はカンマで区切る） : "
+        if "%EXT%"=="" (set "EXT=%DEFAULT_EXT%")
+        ...
+        rem ///////////////////////////////////////////////////////////////////////////
+        rem // PowerShellコール
+        powershell -NoProfile -ExecutionPolicy RemoteSigned -File %BIN_DIR%\hoge.ps1 -fileTypes "%EXT%"
+        </code></pre>
+          <p>PowerShell側は、バッチファイルから渡されたデータを配列にする処理を追加する</p>
+          <p>渡された
+            -fileTypes引数が、1つでかつカンマが含まれているかを調べる（バッチから渡されたものか調べる）。YESなら正規表現「空白が0個以上ありカンマがあり空白が0個以上」のパタンで分割して、fileTypesに再代入する（これで配列になる）
+          </p>
+          <pre><code class="powershell">
+        Write-Debug ("before -fileTypes = " + $fileTypes)
+        # 以下の処理を追加する
+        # ------------------------------------------------------------------------------------------------
+        # バッチファイルは複数のファイルタイプも「1つの文字列」として渡すため、PowerShell側で配列に変える
+        if ($fileTypes.Count -eq 1 -and $fileTypes[0] -match ",") {
+            $fileTypes = $fileTypes[0] -split "\s*,\s*"
+        }
+        # ------------------------------------------------------------------------------------------------
+        # ちゃんと分解できたかデバッグ表示してみる
+        Write-Debug ("after -fileTypes = " + $fileTypes)
+        Write-Debug ("type = " + $fileTypes.GetType())      # ← String[]になっている
+        </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

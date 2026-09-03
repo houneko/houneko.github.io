@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ZoneID | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="ZoneIDは、WindowsXp SP2以降に導入された概念で、ファイルにZoneIDというセキュリティ情報をもたせて、インターネットから入手したファイルかどうかを判断できるようにしている仕組みです">
+<meta name="keywords" content="pwsh,PowerShell,ZoneID,インターネットから入手">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/現場の課題:/pages/pwsh/pwsh_000_index.html#toc400 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        ZoneID
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">ZoneID問題</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">発生した課題・問題とは</h3>
+          <p>自宅で作成したスクリプトをメールで会社に送り実行しようとしたら・・</p>
+          <p>以下のように「このhoge.ps1は、デジタル署名されていません・・・」というメッセージが表示されて、実行できない問題がおきました</p>
+          <pre><code class="powershell">
+          PS&gt; ./hoge.ps1
+            #「このhoge.ps1は、デジタル署名されていません・・・」というメッセージが表示される
+        </code></pre>
+          <p>当初、管理者権限のせいかと思い、以下を実行してみた</p>
+          <pre><code class="powershell">
+          PS&gt; isAdmi
+          False
+            # isAdmiは今のユーザが管理者権限かを調べる自作関数。Falseは管理者権限ではない
+        </code></pre>
+          <p>管理者権限じゃないから実行できなかったのかなと思い、管理者権限で起動しなおして試してみたが、同じエラーが出てスクリプトが実行できなかった</p>
+          <pre><code class="powershell">
+          PS&gt; isAdmi
+          True    # 管理者権限になっている
+          PS&gt; ./hoge.ps1
+            #「このhoge.ps1は、デジタル署名されていません・・・」というメッセージが表示される
+        </code></pre>
+          <p>ちなみに、実行ポリシーがRestrictedだったら「スクリプト実行が無効になっているので・・・」というようなメッセージが出るので、本件は実行ポリシーの問題ではない。</p>
+          <p>また、先ほどの確認で管理者権限の問題でもないことがわかった。なんで？</p>
+          <p>これは「ZoneID」のせいであった</p>
+        </section>
+
+        <section>
+          <h3 id="toc14" class="h3chapter underline">そもそもZoneIDとは</h3>
+          <p>WindowsXp SP2以降に導入された概念。ファイルにZoneID
+            というセキュリティ情報を持たせて、インターネットから入手したファイルを区別できるようにしている。これにより、そのファイルの実行時にユーザへ実行可否を問い合わせることでセキュリティを保つ仕組みを実現させるための情報
+          </p>
+          <p>インターネットから入手した *.ps1 スクリプトはローカルに保存していても外から来たファイルであることがZoneIDに書かれているので実行時の挙動が変わる</p>
+          <h3 id="toc16" class="h3chapter underline">ZoneIDはどこに格納されている？</h3>
+          <p>ファイルにZoneIDという情報が付いているのはわかったけど、これはどこに格納されている？</p>
+          <p>
+            一般にファイルは単にバイナリデータの集合だけど、NTFSなどの「ストリーム」をサポートしたファイルシステムでは、1つのファイルに複数のストリームというデータを持たせることができる（ストリームはトラックみたいなもので、メインデータが格納されているストリームと、補助的な情報が格納されるストリームを持つことができる。
+          </p>
+          <p>ストリームを指定しない or ストリームを解釈しないファイルシステムの場合は、メインのデータストリームだけが見える</p>
+          <p>ZoneIDは<span class="marker">「Zone.Identifier」ストリームに格納されており、インターネットから入手したファイルの値は「３」</span>である</p>
+        </section>
+
+        <section>
+          <h3 id="toc18" class="h3chapter underline">ZoneIDの確認方法</h3>
+          <p>ZoneIDを調べる方法は各ストリームを表示させて「Zone.Identifier」ストリームがあるかを調べ、その値を確認すればいい</p>
+          <p>Get-Itemでストリームを表示させて、Get-Contentで「Zone.Identifier」の値を確認する</p>
+          <ul class="no-marker">
+            <li>
+              <span class="marker font-large">「Get-Item 対象ファイル -Stream *」</span>
+              <p>まず、そのファイルの全ストリームを表示させてみて「Zone.Identifier」ストリームがあるかを調べる</p>
+            </li>
+            <li>
+              <span class="marker font-large">「Get-Content 対象ファイル名 -Stream Zone.Identifier」</span>
+              <p>そのファイルに「Zone.Identifier」ストリームがあれば値を表示させる</p>
+            </li>
+          </ul>
+          <p>まず、自作のファイルのZoneIDを調べてみる。</p>
+          <p>以下は「Get-Item 対象ファイル -Stream *」でそのファイルのストリームを表示させてみた結果。この結果の<span
+              class="marker">「Stream」の項目を見る</span>と「:$DATA」という名前になっていることがわかる。これは本データを示すものでデータストリームである。</p>
+          <p>また、ストリームはこの「:$DATA」しかなく「Zone.Identifier」ストリームは存在していない。</p>
+          <p>つまり、このファイルは<span class="font-large">インターネット経由のファイルではない</span>（自作ファイルなので当たり前）</p>
+          <pre><code class="powershell">
+      &gt; Get-Item .\tmp_2.zip -Stream *
+
+      PSPath        : Microsoft.PowerShell.Core\FileSystem::C:\TEMP\tmp_2.zip::$DATA
+      PSParentPath  : Microsoft.PowerShell.Core\FileSystem::C:\TEMP
+      PSChildName   : tmp_2.zip::$DATA
+      PSDrive       : C
+      PSProvider    : Microsoft.PowerShell.Core\FileSystem
+      PSIsContainer : False
+      FileName      : C:\TEMP\tmp_2.zip
+      Stream        : :$DATA              #← Streamは「:$DATA」なのでデータ本体のストリーム
+      Length        : 21183        
+      </code></pre>
+          <p>次にインターネットからDLして来たファイルを調べてみる</p>
+          <p>以下は、インターネットからDLしたファイルを「Get-Item ファイル -Stream
+            *」で表示させてみた結果。この結果を見るとストリームが2つあることがわかる。1つはデータ本体「:$DATA」で、もう1つは「Zone.Identifier」ストリームである。</p>
+          <p>つまり、このファイルには「Zone.Identifier」ストリームという情報が付いている</p>
+          <p>ただし<span
+              class="marker">「Zone.Identifier」ストリームがついていても、まだインターネットからDLしたものとは断定できない。</span>なので、このストリームの値を確認してみる。その結果が「3」なのでインターネットからDLしたファイルであることが確認できた
+          </p>
+          <pre><code class="powershell">
+      &gt; Get-Item .\tmp_2.zip -Stream *
+      PSPath        : Microsoft.PowerShell.Core\FileSystem::C:\TEMP\th.jpg::$DATA
+      PSParentPath  : Microsoft.PowerShell.Core\FileSystem::C:\TEMP
+      PSChildName   : th.jpg::$DATA
+      PSDrive       : C
+      PSProvider    : Microsoft.PowerShell.Core\FileSystem
+      PSIsContainer : False
+      FileName      : C:\TEMP\th.jpg
+      Stream        : :$DATA              #← Streamは「:$DATA」なのでデータ本体のストリーム
+      Length        : 32624
+
+      PSPath        : Microsoft.PowerShell.Core\FileSystem::C:\TEMP\th.jpg:Zone.Identifier
+      PSParentPath  : Microsoft.PowerShell.Core\FileSystem::C:\TEMP
+      PSChildName   : th.jpg:Zone.Identifier
+      PSDrive       : C
+      PSProvider    : Microsoft.PowerShell.Core\FileSystem
+      PSIsContainer : False
+      FileName      : C:\TEMP\th.jpg
+      Stream        : Zone.Identifier     #← 「Zone.Identifier」ストリーム
+      Length        : 149
+
+      #「Zone.Identifier」ストリームがあるけど、インターネットからDLしたものかはまだ分からない
+      #「Get-Content ファイル名 -Stream Zone.Identifier」で値を調べる
+      &gt; Get-Content .\th.jpg -Stream Zone.Identifier
+      [ZoneTransfer]
+      ZoneId=3        # ← ZoneIDが「3」なのでインターネットからDLしたファイルである
+      ReferrerUrl=https://www.bing.com/
+      HostUrl=https://th.bing.com/th?id=OPAC.opx%2b5Ofs29Ekew474C474&w=592&h=550&o=5&pid=21.1
+    </code></pre>
+          <h3 id="toc20" class="h3chapter underline">ファイルのプロパティによる確認方法</h3>
+          <p>ストリームを表示やZoneID値を見る事は出来ないがGUIでも確認することができる。ローカルファイル、インターネットからDLしたファイルそれぞれのファイルを右クリックしてプロパティを開くと表示に違いがある</p>
+          <img src="/assets/pic/pwsh_402_zoneid_01.png" alt="zoneid" />
+
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Get-Member | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Get-Memberは、他のコマンドレットが返すオブジェクトを調べるためのコマンドレットです。この記事では、Get-Memberの基本的な使い方から応用的な使い方まで、サンプル例を使って詳しく説明します">
+<meta name="keywords" content="pwsh,PowerShell,コマンドレット,Get-Member">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Get-Member
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Get-Member</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">Get-Memberとは</h3>
+          <p>
+            Get-Memberは、他のコマンドレットが返す結果（つまりオブジェクト）が、どんなメンバを持っているかを調べるためのコマンドレットです。このため、あるコマンドレットの結果をパイプで渡してもらうという使い方が多いかなと思います。
+          </p>
+          <pre><code class="powershell">
+        &gt; cmdlet-A | Get-Member   ← cmdlet-Aの結果（オブジェクト）のもつメンバを表示する
+        &gt; cmdlet-B -Option 値 | Get-Member    ← cmdlet-Bを-Option 値で実行した結果のオブジェクトが持つメンバを表示する
+        &gt; cmdlet-C | Get-Member -MemberType Property ← cmdlet-Cの結果オブジェクトが持つ、プロパティメンバだけ表示する
+        </code></pre>
+          <p>自分はよく間違うのですが<span
+              class="emphasis">Get-Memberは、「コマンドレットのメンバでなく、コマンドレットの結果オブジェクトのメンバ」を調べる</span>ためのものです。コマンドレットの結果はオブジェクトなので、そのオブジェクトがどんなプロパティやメソッドを持っているかがわかれば、さらにプロパティ値から情報を取得できたりできます（どんなプロパティやメソッドを持っているか知らないと、その先のことができないのでこのコマンドレットは結構便利）
+          </p>
+          <pre><code class="powershell">
+        # Get-ChildItemの結果オブジェクトがどんなメンバを持っているか（大量にある）
+        &gt; Get-ChildItem | Get-Member
+        Name                      MemberType     Definition
+        ----                      ----------     ----------
+        LinkType                  CodeProperty   System.String LinkType{get=GetLinkType;}
+        Mode                      CodeProperty   System.String Mode{get=Mode;}
+        Target                    CodeProperty   System.Collections.Generic...
+        ....
+        # Get-ChildItemの結果オブジェクトがどんなメンバを持っているか（大量にある）
+        &gt; Get-ChildItem | Get-Member
+      </code></pre>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">配列をGet-Memberに渡すと</h3>
+          <p>配列などのコレクションをパイプでGet-Memberに渡すと、配列要素オブジェクトのGet-Memberになります。配列オブジェクト自体のGet-Memberを意図していたら結果が違うので注意が必要</p>
+          <p><a href="pwsh_104_pipeline.html#toc20">パイプの動作について</a>も参照してみてください</p>
+          <pre><code class="powershell">
+        &gt; $myarray = @("neko", "inu", "usagi", "sika")     # $myarray配列
+        &gt; $myarray | Get-Member -MemberType Properties     # $myarray配列のプロパティメンバを調べたい意図
+        Name   MemberType Definition                          # あれ？思ったより少ないな…
+        ----   ---------- ----------
+        Length Property   int Length {get;}
+
+        # $myarray | Get-Memberは、$myarrayの要素がパイプを通って渡されるので、$myarray[n] のメンバを調べていることになる
+        # つまり、以下と同じ
+        &gt; $myarray[0] | Get-Member -MemberType Properties
+        Name   MemberType Definition                          
+        ----   ---------- ----------
+        Length Property   int Length {get;}
+
+        # $myarray[0].getType() はStringなので、以下と同じでもある
+        &gt; "mystring" | Get-Member -Membertype Properties
+        Name   MemberType Definition                          
+        ----   ---------- ----------
+        Length Property   int Length {get;}
+        </code></pre>
+          <p>じゃ、配列自体のメンバを調べたい場合はどうするのか？</p>
+          <p>Get-Memberには、パイプで渡す以外にも-InputObjectというオプションがあるのでこれで配列を指定すればいい</p>
+          <pre><code class="powershell">
+        &gt; Get-Member -InputObject $myarray -MemberType Properties    # -InputObjectオプションで「$myarray」配列を指定
+        Name           MemberType    Definition                         # 配列オブジェクトが持っているプロパティ
+        ----           ----------    ----------
+        Count          AliasProperty Count = Length
+        IsFixedSize    Property      bool IsFixedSize {get;}
+        IsReadOnly     Property      bool IsReadOnly {get;}
+        IsSynchronized Property      bool IsSynchronized {get;}
+        Length         Property      int Length {get;}
+        LongLength     Property      long LongLength {get;}
+        Rank           Property      int Rank {get;}
+        SyncRoot       Property      System.Object SyncRoot {get;}  
+
+        # Countというプロパティがあるのが分かったので、これを表示させてみる。
+        # また、Countは AliasPropertyで、Lengthのエイリアスであることもわかる
+        &gt; $myarray.Count
+        5                       # 配列要素数を持っているプロパティ
+        </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

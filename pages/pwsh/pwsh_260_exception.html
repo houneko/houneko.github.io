@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShellの例外 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellで例外に対するエラーハンドリングを行う方法についてまとめています">
+<meta name="keywords" content="pwsh,PowerShell,PowerShellの例外,エラーハンドリング">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/エラーハンドリング:/pages/pwsh/pwsh_000_index.html#toc260 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの例外
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellの例外</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">例外</h3>
+          <p>例外は、プログラム実行中に発生する想定しないエラー（起こるかも知れないという想定はある）。また、throw文で意図的に例外を起こすこともできる</p>
+          <p>
+            例外にはいろいろな型がある。こういう時、自分は全部を理解したいという気持ちになるのですが、この考えはあんまり良くない。発生したケース毎にそれだけケアした方がいいです。そうしないと例外を調べるだけで膨大な時間がかかってしまう（と思います）。
+          </p>
+          <div><a
+              href="https://learn.microsoft.com/ja-jp/powershell/scripting/learn/deep-dives/everything-about-exceptions?view=powershell-7.5"
+              target="_blank">例外について知りたかったことのすべて</a></div>
+          <div><a href="https://powershellexplained.com/2017-04-07-all-dotnet-exception-list/" target="_blank">All .Net
+              Exceptions List</a></div>
+
+          <h3 id="toc14" class="h3chapter underline">例外型の例</h3>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">System.Exception</span>
+              <p>これが例外の一番親のクラス。例外を型毎にcatchする場合、これを最後にする（そうしないと全部これがcatchするから）</p>
+            </li>
+            <li>
+              <span class="is-bold">System.Management.Automation.ItemNotFoundException</span>
+              <p>ファイルやフォルダが存在しない場合の例外の型</p>
+            </li>
+            <li>
+              <span class="is-bold">System.UnauthorizedAccessException</span>
+              <p>アクセス権がないオブジェクトへアクセスした場合の例外型</p>
+            </li>
+          </ul>
+          <p>発生した例外の型を調べる方法。<span class="marker">catchの中で「$_.Exception.GetType().FullName」を見る</span></p>
+          <pre><code class="Powershell">
+        try {
+            #このエラーは例外を発生させないので「-ErrorAction Stop」で例外に昇格させる
+            Get-Content "C:\存在しないファイル.txt" -ErrorAction Stop
+        }
+        catch {
+            #発生した例外の型を表示させる
+            #Exceptionクラスの型を表示させる
+            Write-Host $_.Exception.GetType().FullName
+        }
+
+        #この実行結果は以下となる（これがこの例外型）
+        System.Management.Automation.ItemNotFoundException
+        </code></pre>
+
+          <h3 id="toc16" class="h3chapter underline">.NETの例外型、PowerShellの例外型</h3>
+          <p>PowerShellは.NET上で動いているので、例外の型も.NETの例外型を使っている。しかし、.NETの例外型をラップしてPowerShellの例外型にしているものもあり複雑</p>
+          <p>例えば、ファイルやフォルダが存在しない場合の例外型は以下のようになっている</p>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">.NETの例外型： [System.IO.FileNotFoundException]</span>
+              <p>ファイルやフォルダが存在しない場合の例外の型</p>
+            </li>
+            <li>
+              <span class="is-bold">PowerShellの例外型： [System.Management.Automation.ItemNotFoundException]</span>
+              <p>ファイルやフォルダが存在しない場合の例外の型</p>
+            </li>
+            <li>
+              <span class="is-bold">存在しないファイルへのアクセスに対して発生する例外型がどちらなのかを見切れるか</span>
+              <p>難しいと思う。このため、<a href="pwsh_261_trycatchfinally.html">try/catch</a>で型を指定したcatchブロックは、明確なケース以外は使わない方がいいかも
+              </p>
+              <pre><code class="powershell">
+            try {
+              Get-Content "hoge.txt" -ErrorAction Stop
+            }
+            catch [System.IO.FileNotFoundException] {
+              #この例では、ここには入らない
+              #ファイルが存在しないという例外は一緒だが、この例外型は.NETの例外型のため
+              Write-Host "例外：ファイルが見つからない（.NET）"
+            }
+            catch [System.Management.Automation.ItemNotFoundException] {
+              #この例では、ここには入る
+              #これはファイルが存在しないという例外のPowershellの例外型だから
+              Write-Host "例外：ファイルが見つからない（PowerShell）"
+            }
+            </code></pre>
+              <p>
+                存在しないファイルへのアクセスについて、.NETの例外型が[System.IO.FileNotFoundException]、PowerShellの例外型が[System.Management.Automation.ItemNotFoundException]なので、これが分かっていたら以下のように「,（カンマ）」でつなげて書くこともできる
+              </p>
+              <pre><code class="powershell">
+            catch [System.IO.FileNotFoundException],[System.Management.Automation.ItemNotFoundException] {
+              ...
+            }
+            </code></pre>
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

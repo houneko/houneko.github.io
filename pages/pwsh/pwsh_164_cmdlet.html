@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>cmdlet | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのコマンドレットとは？コマンドレットが返すものは何か？コマンドレットの調べ方や使い方をまとめています">
+<meta name="keywords" content="pwsh,PowerShell,コマンドレット,cmdlet,コマンドレットとは">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Cmdlet（コマンドレット）
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">Cmdlet（コマンドレット）</h2>
+          <h3 id="toc12" class="h3chapter underline">Cmdlet（コマンドレット）とは</h3>
+          <p>
+            PowerShellはCUIなので、コマンド（PowerShellではコマンドレットという）で操作することになります。じゃ、コマンドレットって何なん？ということになりますが、これはPowerShellに何かをさせるためのキーワードです。例えば「Get-ChildItem」というコマンドレットを入力するとそのディレクトリ一覧が表示されるということです。
+          </p>
+          <pre><code class="powershell">
+        &gt; Get-ChildItem
+
+        Mode          LastWriteTime         Length Name
+        ----          -------------         ------ ----
+        d----         yyyy/mm/dd    hh:mm          work        ← ディレクト（workディレクト）が1つと
+        -a---         yyyy/mm/dd    hh:mm     1230 hoge.txt    ← hoge.txtが1つあることがわかる
+        </code></pre>
+
+          <h3 id="toc14" class="h3chapter underline">コマンドレットが返すものはオブジェクト</h3>
+          <p>PowerShellがいいのはオブジェクト指向になっていること。このため、コマンドレットが返すものは.NETのオブジェクトになっています</p>
+          <p>例：Get-Dateコマンドレット</p>
+          <p>Get-Dateの結果がどういう型であるかは「.GetType()」メソッドで調べる事ができる。というかメソッドがある時点でオブジェクトが返って来ていることが明白。(Get-Date).GetType()で確認する
+          </p>
+          <pre><code class="powershell">
+        #// 日付時刻データが返ってくるが、これはテキストではなくオブジェクトが返って来ている
+        &gt; Get-Date
+        YYYY年MM月DD日 hh:mm:ss 
+        
+        #// Get-Dateが返してくるオブジェクト型を調べてみる
+        #// DateTime型（System.DateTime）であることが分かる
+        &gt; (Get-Date).GetType()
+        IsPublic IsSerial Name        BaseType
+        -------- -------- ----        --------
+        True     True     DateTime    System.ValueType
+        </code></pre>
+          <p>
+            Get-Dateの結果は「System.DateTime」型のオブジェクトが返って来ている事がわかったので、次にこの型が持っているメソッドやプロパティはどんなものがあるか調べてみる。PowerShellには、どんなメンバがあるかを調べるためのコマンドレットがあり「Get-Member」で調べることができる。
+          </p>
+          <p>以下の例のように多数のメソッドやプロパティがあることが分かる。例えば、Monthプロパティというのがあり、int Monthが返ってきそうなプロパティであることが想定できる。</p>
+          <pre><code class="powershell">
+        &gt; Get-Date | Get-Member
+
+          TypeName: System.DateTime     ← System.DateTime型であることがわかる
+
+        # メソッドやプロパティが多数あることが分かる
+        Name                 MemberType     Definition
+        ----                 ----------     ----------
+        Add                  Method         datetime Add(timespan value)
+        AddDays              Method         datetime AddDays(double value)
+        ...
+        GetType              Method         type GetType()
+        ...
+        ToString             Method         string ToString(), string ToString(string format), ...
+        ...
+        Month                Property       int Month {get;}
+        Second               Property       int Second {get;}
+        ...        
+        </code></pre>
+          <p>例えば、上記でMonthプロパティというのがあるのが分かったので、試してみる</p>
+          <pre><code class="powershell">
+        &gt; (Get-Date).Month
+        # 今1月として、Monthプロパテの値である1が返ってきている
+        1
+
+        # スタティックメソッド InvariantCulture()で、1月を英語表示に変えて表示する
+        &gt; (Get-Date).ToString("MMMM", [System.Globalization.CultureInfo]::InvariantCulture)
+        January
+        </code></pre>
+          <p>オブジェクトが返って来ているので、このように必要なプロパティを取得したり、メソッドを使って加工したり、いろいろ自由度の高い処理ができる</p>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

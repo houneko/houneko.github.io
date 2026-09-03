@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Everything | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellでEverythingを使った高速な検索を行う方法です。EverythingにはCLIツール（es.exe）があるのでこれを使う事でコマンドベースでプログラムを作ることができます">
+<meta name="keywords" content="pwsh,PowerShell,Everything,es.exe,高速なファイル検索">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/並列処理:/pages/pwsh/pwsh_000_index.html#toc280 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellでEverythingを使う
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellでEverythingを使う</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">PowerShellでEverythingを使う</h3>
+          <p><a
+              href="es_100_outline.html">Everything</a>を使えば、ファイル検索が超高速に実現できます。また、EverythingにはCLIツール（es.exe）もあり、コマンドラインからEverythingを使う事もできます（es.exeを使う場合は、Everythingが起動している必要があります）。
+          </p>
+          <p>PowerShellで大量のファイルを検索する場合、<a
+              href="pwsh_280_parallel.html">並列処理</a>を行う事で高速化できますが、Everythingがインストールされている（かつEverythingが起動している）環境であれば、EverythingのCLIツール（es.exe）を使った方が高速です
+          </p>
+          <p>まず、es.exe
+            を使ってみる。es.exeをパスが通った所におきコマンドラインから「es」と入力したら全ファイルが表示されます（この使い方は現実的ではないですが、かなり高速であることがわかります。途中でCtrl+Cで止められます）。また、コマンドに「-help」オプション（hは小文字）をつけて実行するとコマンドヘルプが表示されます
+          </p>
+          <pre><code class="powershell">
+        &gt; es -help
+        ES 1.x.x.xx
+        ES is a command line interface to search Everything from a command prompt.
+        ES uses the Everything search syntax.
+
+        Usage: es.exe [options] search text
+        Example: ES  Everything ext:exe;ini
+
+        Search options
+          -r &lt;search&gt;, -regex &lt;search&gt;
+                Search using regular expressions.
+          ....
+          ...
+        </code></pre>
+          <p>次に、サンプルとしてesの検索結果をPowerShellに渡して、PowerShellでもらったデータを処理できるか確認してみます。以下のサンプルのようにewをPowerShellで使うことができるのが分かります
+          </p>
+          <pre><code class="powershell">
+          # myfuncを含むps1ファイルが一気に検索される
+          &gt; es *.ps1 | Where-Object {$_ -like "*myfunc*"}
+          C:\My\MyCmd\myfunc_Hoge.ps1
+          D:\TEMP\INTEST\myfunc_Fuga.ps1
+          ...
+        </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">PowerShellでEverythingを使う手順（① Everything）</h3>
+          <p>
+            Everything（es.exe）を使うためには、Everything（es.exe）が使えるかという点と、NTFSファイルシステムを使ったドライブかという点と、ネットワークドライブではないローカルドライブであるという点を調べて全部がOKならEverythingが使えます
+          </p>
+          <ol class="two-digit">
+            <li>
+              <span class="font-large">es.exeコマンドが存在しているかを調べる</span>
+              <p>
+                Everythingをインストールしている人でも、CLIツールをインストールしていない場合があります。その場合はコマンドラインからEverythingを使う事はできないため、スクリプトを実行する前にes.exeがカレントPCに存在するかを調べておきます
+              </p>
+              <pre><code class="powershell">
+            # カレントPCに「es.exe」が存在しているかを調べる
+            # PowerShellは、es.exeが存在していない場合は、エラーとなりますが、停止しないエラーとなります
+            # -ErrorAction SilentlyContinueを付けるのは、エラーを表示しないようにするため
+            if (Get-Command es.exe -ErrorAction SilentlyContinue) {
+              # es.exe は存在する
+            } else {
+              # es.exeは存在しないため、Everythingは使用不可
+            }
+            </code></pre>
+            </li>
+
+            <li>
+              <span class="font-large">Everythingが起動しているかを調べる</span>
+              <p>Everythingプロセスが起動しているかをGet-Processで調べる（<span class="emphasis">この処理はesが動かくをテストする事で代行できる</span>）</p>
+              <pre><code class="powershell">
+            # カレントPCで「Everythingプロセス」が起動しているか調べる
+            if (Get-Process Everything -ErrorAction SilentlyContinue) {
+              # Everythingプロセスは起動しています
+            } else {
+              # Everythingプロセスは起動していません
+            }
+            </code></pre>
+            </li>
+
+            <li>
+              <span class="font-large">Everythingサービスが実行されているかを調べる</span>
+              <p>Everythingがサービス起動しているかをGet-Serviceで調べる（<span class="emphasis">この処理はesが動かくをテストする事で代行できる</span>）</p>
+              <pre><code class="powershell">
+            # カレントPCで「Everythingサービス」が実行されているか調べる
+            $myEverything = Get-Service -Name Everythin -ErrorAction SilentlyContinue            
+            if ($myEverything -and $myEverything.Status -eq "Running") {
+              # Everythingサービスは実行中です
+            } else {
+              # Everythingサービスは実行されていません
+            }
+            </code></pre>
+            </li>
+
+            <li>
+              <span class="font-large">es.exeが実行できるかを調べる</span>
+              <p>
+                Everythingプロセスが起動しているか？、サービス起動しているか？を調べる事でesが使えるかどうかは想定できますが、本当にes.exeが使えるかどうかは厳密にはesを実行しみるのが一番確実です。このためes.exeをテスト実行して確認できれば、「Everythingが起動しているかを調べる」「Everythingサービスが実行されているかを調べる」という確認はしなくてもいいです。
+              </p>
+              <pre><code class="powershell">
+            # es.exeで1ファイルだけ検索してエラーにならなければ、es.exeは動作するという判断
+            try {
+              es "" -n 1 &gt; $null
+              return $true
+            } catch {
+              return $false
+            }
+            </code></pre>
+            </li>
+          </ol>
+          <p>これらをまとめて、es.exeが存在するか使用可能かを判定するテスト関数を作成してそれをコールすればいい</p>
+          <pre><code class="powershell">
+        #//////////////////////////////////////////////////////////////////////////////////////////////////////
+        #// function
+        #//////////////////////////////////////////////////////////////////////////////////////////////////////
+        function script:Test-EverythingAvailable {
+          param ()
+          Write-Debug ("Enter Test-EverythingAvailable()")
+
+          #// es.exe（EverythingのCLIツール）が存在するか調べる
+          if (-not (Get-Command es.exe -ErrorAction SilentlyContinue)) {
+            Write-Debug ("Exit Test-EverythingAvailable() -- es.exe does not exist.")
+            return $false
+          }
+          try {
+            #// es.exeが動くかを調べる。全ファイルを検索して1つだけ検索し結果は捨てる
+            #// es.exeで例外が発生しなければ実行できたので、$trueを返す
+            #// 失敗したらcatchに入るので$falseを返す
+            es "" -n 1 &gt; $null
+            Write-Debug ("Exit Test-EverythingAvailable() -- es.exe is available!")
+            return $true
+          } catch {
+            Write-Debug ("Exit Test-EverythingAvailable() -- es.exe was found, but it does not work.")
+            return $false
+          }
+        }
+        </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">PowerShellでEverythingを使う手順（② NTFSファイルシステム）</h3>
+          <p>次に、対象ドライブがNTFSかを調べます</p>
+          <ol class="two-digit">
+            <li>
+              <span class="font-large">UNCパスかどうか調べる</span>
+              <p>渡されたパスが「\\*」であればネットワークなので対象外にする</p>
+              <pre><code class="powershell">
+            # 渡されたパスが「\\*」なら、$falseを返す
+            if ($myPath -like "\\*") {return $false}
+            </code></pre>
+            </li>
+            <li>
+              <span class="font-large">FileSystemプロパティを調べる</span>
+              <p>ドライブレターから論理ボリュームを取得し、その論理ボリュームのFileSystemプロパティを調べる。プロパティ値が「NTFS」の場合は$trueで、それ以外は$falseを返す</p>
+              <pre><code class="powershell">
+            #// ドライブレター取得（例: C:）
+            $driveLetter = Split-Path $myPath -Qualifier
+            Write-Debug ("driveLetter = " + $driveLetter)
+            #// 論理ボリュームを取得
+            $logicalVol = Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='$driveLetter'" -ErrorAction SilentlyContinue
+            Write-Debug ("logicalVol = " + $logicalVol)
+            Write-Debug ("logicalVol.FileSystem = " + $logicalVol.FileSystem)
+            
+            #// 存在しない論理ボリュームなら$falseを返す
+            if (-not $logicalVol) {return $false}
+
+            Write-Debug ("Exit Test-NTFS()")
+            return $logicalVol.FileSystem -eq "NTFS"
+            </code></pre>
+            </li>
+          </ol>
+          <p>これもNTFS化をテストする関数にして、NTFSだったら$trueを返すようにしたらいいです</p>
+          <pre><code class="powershell">
+        #//////////////////////////////////////////////////////////////////////////////////////////////////////
+        #// function
+        #//////////////////////////////////////////////////////////////////////////////////////////////////////
+        function script:Test-NTFS {
+          param ($myPath)
+          Write-Debug ("Enter Test-NTFS()")
+          Write-Debug ("myPath = " + $myPath)
+          
+          # UNCは基本Everything対象外なのでFalse扱い
+          if ($myPath -like "\\*") {return $false}
+          
+          #// ドライブレター取得（例: C:）
+          $driveLetter = Split-Path $myPath -Qualifier
+          Write-Debug ("driveLetter = " + $driveLetter)
+          #// 論理ボリュームを取得
+          $logicalVol = Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='$driveLetter'" -ErrorAction SilentlyContinue
+          Write-Debug ("logicalVol = " + $logicalVol)
+          Write-Debug ("logicalVol.FileSystem = " + $logicalVol.FileSystem)
+          
+          #// 存在しない論理ボリュームなら$falseを返す
+          if (-not $logicalVol) {return $false}
+
+          Write-Debug ("Exit Test-NTFS()")
+          return $logicalVol.FileSystem -eq "NTFS"
+        }
+        </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">PowerShellでEverythingを使う手順（③ ネットワークドライブ）</h3>
+          <p>ネットワークドライブ先のサーバがWindowsでNTFSだったとしても、<span class="emphasis">ネットワーク越しにMFT情報は取得できない</span>
+            ので、結果的にネットワークドライブはEverything高速化の恩恵は受けられない。このため、対象がネットワークドライブかどうかを調べます</p>
+          <ol class="two-digit">
+            <li>
+              <span class="font-large">UNCパスかどうか調べる</span>
+              <p>渡されたパスが「\\*」であればネットワークなので対象外にする</p>
+              <pre><code class="powershell">
+            # 渡されたパスが「\\*」なら、$falseを返す
+            if ($myPath -like "\\*") {return $false}
+            </code></pre>
+            </li>
+            <li>
+              <span class="font-large">対象のドライブレターがネットワークドライブか調べる</span>
+              <p>渡されたパスからドライブレターを取り出し、そのドライブレターがネットワークドライブか調べる</p>
+              <pre><code class="powershell">
+            $driveLetter = Split-Path $myPath -Qualifier
+            $myID = Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='$driveLetter'" -ErrorAction SilentlyContinue
+            #// DriveType
+            #//   2 = リムーバブル
+            #//   3 = ローカル固定
+            #//   4 = ネットワーク
+            #//   5 = CD-ROM
+            #//   6 = RAM Disk
+            </code></pre>
+            </li>
+          </ol>
+          <p>これもネットワークドライブテスト関数にして、ネットワークドライブか調べるようにしたらいいです</p>
+          <pre><code class="powershell">
+        #//////////////////////////////////////////////////////////////////////////////////////////////////////
+        #// function
+        #//////////////////////////////////////////////////////////////////////////////////////////////////////
+        function script:Test-NetworkPath {
+          param ($myPath)
+          Write-Debug ("Enter Test-NetworkPath()")
+          Write-Debug ("myPath = " + $myPath)
+          
+          #// UNCパスならネットワークなので、$tureで即リターン
+          if ($myPath -like "\\*") {return $true}
+          
+          #// $myPathからドライブレターを取り出し、そのドライブレターがネットワークドライブかを調べる
+          $driveLetter = Split-Path $myPath -Qualifier
+          $myID = Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='$driveLetter'" -ErrorAction SilentlyContinue
+          Write-Debug ("driveLetter = " + $driveLetter)
+          Write-Debug ("myID = " + $myID)
+          Write-Debug ("myID.DriveType = " + $myID.DriveType)
+          
+          Write-Debug ("Exit Test-NetworkPath()")
+          #// DriveTypeを見てネットワークかどうかを判別して結果を返す
+          #//   2 = リムーバブル
+          #//   3 = ローカル固定
+          #//   4 = ネットワーク
+          #//   5 = CD-ROM
+          #//   6 = RAM Disk
+          #//
+          return ($myID -and $myID.DriveType -eq 4)
+        }        
+        </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

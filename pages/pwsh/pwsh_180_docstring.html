@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ヒアドキュメント | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellでは改行を含む文字列を扱うことができます。それがヒアドキュメントというものです">
+<meta name="keywords" content="pwsh,PowerShell,ヒアドキュメント">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/文字列処理:/pages/pwsh/pwsh_000_index.html#toc180 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        ヒアドキュメント
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">PowerShellのヒアドキュメント</h2>
+          <h3 id="toc12" class="h3chapter underline">ヒアドキュメントとは</h3>
+          <p>ヒアドキュメントは文字列をプログラム内に埋め込むもので、普通の文字列の表現と異なり、改行などのコードもそのまま表現される。より柔軟な文字列が扱えます</p>
+          <p class="">ヒアドキュメントの作り方）</p>
+          <ol>
+            <li>ダブルクォーテーションまたはシングルクォーテーションで文字列を囲む</li>
+            <li>１．で囲んだ文字列をクォーテーション毎＠で囲む
+              <p>つまり「@"…"@」または「@'…'@」がヒアドキュメントとなる</p>
+            </li>
+          </ol>
+          <h3 id="toc13" class="h3chapter underline">ヒアドキュメントの注意点</h3>
+          <p>ヒアドキュメントは@'～'@、または@”～"@でドキュメントを囲むだけなのだが、閉じる＠の前にスペースやタブなどがあるとエラーになる。つまり閉じ側は、必ず行の先頭に書かないといけない</p>
+          <pre><code class="powershell">
+        エラー内容）						
+        Line |					
+          39 |      "@					
+             |      ~~					
+             | White space is not allowed before the string terminator.
+        </code></pre>
+          <h3 id="toc14" class="h3chapter underline">「@"…"@」と「@'…'@」の違い</h3>
+          <p>
+            PowerShellのヒアドキュメントは、上述のように@とシングルクォーテーションで囲むパターンと、@とダブルクォーテーションで囲むパターンがある。この違いは、シングルクォーテーションで囲んだ場合は中に変数名を書いた時、その変数は展開されない。ダブルクォーテーションで囲んだ場合は、その中の変数は展開されるという違いがある。
+          </p>
+          <pre><code class="powershell">
+        $myName = "Neko desu"
+        $myVersion = "v1.00.01"
+        #// シングルクォーテーションで囲んだヒアドキュメント例
+        $singleUsage = @'
+          $myName / $myVersion
+          シングルクォーテーションで囲んだ変数は展開されません
+        '@
+        
+        #// ダブルクォーテーションで囲んだヒアドキュメント例
+        $doubleUsage = @"
+          $myName / $myVersion
+          シングルクォーテーションで囲んだ変数は展開されません
+        "@
+
+        Write-Host $singleUsage
+        Write-Host $doubleUsage
+
+        結果）
+        $myName / $myVersion        #// シングルクォーテーションで囲んだ変数は展開されていない
+        シングルクォーテーションで囲んだ変数は展開されません
+
+        Neko desu / v1.00.01        #// ダブルクォーテーションで囲んだ変数は展開される
+        シングルクォーテーションで囲んだ変数は展開されません        
+        </code></pre>
+
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

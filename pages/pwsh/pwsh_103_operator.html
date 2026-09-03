@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHの演算子 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHの演算子（算術演算子、代入演算子、論理演算子、比較演算子、書式演算子、配列演算子、型演算子、文字列演算子、三項演算子、サブ式演算子、ドットソース演算子、呼び出し演算子、カンマ演算子、レンジ演算子、Null合体演算子、Null合体代入演算子、Null条件演算子）を整理したページです">
+<meta name="keywords" content="pwsh,PowerShell,算術演算子、代入演算子、論理演算子、比較演算子、書式演算子、配列演算子、型演算子、文字列演算子、三項演算子、サブ式演算子、ドットソース演算子、呼び出し演算子、カンマ演算子、レンジ演算子、Null合体演算子、Null合体代入演算子、Null条件演算子">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/基本:/pages/pwsh/pwsh_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの演算子
+      </h1>
+
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellの演算子</h2>
+        <p>PowerShellの演算子も他の言語と同様に多数（算術演算子、論理演算子、比較演算子、範囲演算子、置換演算子、型演算子、包含演算子、、）あります</p>
+        <p><a
+            href="https://learn.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_operators?view=powershell-7.6"
+            target="_blank">参考ページ（Microsoft）</a></p>
+        <p><a href="https://dotiga.software/windows/ps/2025-list-of-powershell-operators" target="_blank">参考ページ</a></p>
+
+        <!-- 目次 -->
+        <div class="toc-header">
+          <span class="toc-label">目次：</span>
+          <button id="details-toggleAll">すべて開く</button>
+        </div>
+        <div class="toc-container">
+          <details class="toc-card tocall" id="toc100main">
+            <summary>
+              <span id="toc11" class="title">演算子（PowerShellのいろいろな演算子について）</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="#toc20">算術演算子</a></li>
+              <li><a href="#toc60">代入演算子</a></li>
+              <li><a href="#toc30">論理演算子</a></li>
+              <li><a href="#toc40">比較演算子</a></li>
+              <li><a href="#toc50">書式演算子</a></li>
+              <li><a href="#toc70">配列演算子</a></li>
+              <li><a href="#toc80">型演算子</a></li>
+              <li><a href="#toc90">文字列演算子</a></li>
+              <li><a href="#toca0">三項演算子</a></li>
+              <li><a href="#tocb0">サブ式演算子</a></li>
+              <li><a href="#toce0">ドットソース演算子</a></li>
+              <li><a href="#tocf0">呼び出し演算子</a></li>
+              <li><a href="#tocc0">カンマ演算子</a></li>
+              <li><a href="#tocd0">レンジ演算子</a></li>
+              <li><a href="#tocg0">Null合体演算子</a></li>
+              <li><a href="#toch0">Null合体代入演算子</a></li>
+              <li><a href="#toci0">Null条件演算子</a></li>
+            </ol>
+          </details>
+        </div>
+
+        <!-- 算術演算子 -->
+        <section>
+          <h3 id="toc20" class="h3chapter underline">PowerShellの算術演算子</h3>
+          <p>算術演算子は、他の言語とだいたい同じですが「+」はオーバロードされているので、文字同士の連結にも使えます</p>
+          <table class="custom-table">
+            <caption>算術演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+              <th>サンプル例等</th>
+            </tr>
+            <tr>
+              <td>+</td>
+              <td>加算</td>
+              <td>PS&gt; $result = 10 + 20 <br />PS&gt; 30<br />PS&gt; $result = "10" + "20" <br />PS&gt; 1020</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>減産</td>
+              <td>PS&gt; $result = 10.1 - 20 <br />PS&gt; -9.9</td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>乗算</td>
+              <td>PS&gt; $result = 10.1 * 20.1 <br />PS&gt; 203.01000000000002</td>
+            </tr>
+            <tr>
+              <td>/</td>
+              <td>除算</td>
+              <td>PS&gt; $result = 10.1 / 20 <br />PS&gt; 0.505</td>
+            </tr>
+            <tr>
+              <td>%</td>
+              <td>剰余</td>
+              <td>PS&gt; $result = 10 % 3 <br />PS&gt; 1</td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          #// +演算子
+          &gt; $intResult = 10 + 20
+          &gt; $strResult = "10" + "20"
+          &gt; $intResult
+          30
+          &gt; $strResult
+          1020
+          &gt; $strResult.GetType()   #// ← $strResultはString型になっている
+          IsPublic IsSerial Name      BaseType
+          -------- -------- ----      --------
+          True     True     String    System.Object
+          </code></pre>
+        </section>
+
+        <!-- 代入演算子 -->
+        <section>
+          <h3 id="toc60" class="h3chapter underline">PowerShellの代入演算子</h3>
+          <p>代入演算子は、C言語と同じです</p>
+          <table class="custom-table">
+            <caption>代入演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>=</td>
+              <td>左辺に右辺の値を代入する</td>
+            </tr>
+            <tr>
+              <td>+=</td>
+              <td>左辺に右辺の値を＋して代入する</td>
+            </tr>
+            <tr>
+              <td>-=</td>
+              <td>左辺に右辺の値をーして代入する</td>
+            </tr>
+            <tr>
+              <td>*=</td>
+              <td>左辺に右辺の値を＊して代入する</td>
+            </tr>
+            <tr>
+              <td>/=</td>
+              <td>左辺に右辺の値を／して代入する</td>
+            </tr>
+            <tr>
+              <td>%=</td>
+              <td>左辺に右辺の値を％して代入する</td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          #// +=演算子
+          &gt; $intResult = 10
+          &gt; $intResult += 20       #// ← 数値の+=演算
+          &gt; $strResult = "10"
+          &gt; $strResult += "20"     #// ← 文字列の+=演算
+          &gt; $intResult
+          30
+          &gt; $strResult
+          1020
+          </code></pre>
+        </section>
+
+        <!-- 論理演算子 -->
+        <section>
+          <h3 id="toc30" class="h3chapter underline">PowerShellの論理演算子</h3>
+          <p>0以外の数値は、$trueとして扱われます。また「-b」で始まる論理演算子はバイナリでの論理演算となります</p>
+          <table class="custom-table">
+            <caption>論理演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+              <th>サンプル例等</th>
+            </tr>
+            <tr>
+              <td>-and</td>
+              <td>AND</td>
+              <td>PS&gt; $result = 10 -and 20 <br />True<br />0以外の数値はtrueなので演算結果はtrueになる<br /><br />PS&gt; $result =
+                $true -and $alse <br />False</td>
+            </tr>
+            <tr>
+              <td>-or</td>
+              <td>OR</td>
+              <td>PS&gt; $result = $true -or $false -or $false <br />True</td>
+            </tr>
+            <tr>
+              <td>-xor</td>
+              <td>XOR</td>
+              <td>PS&gt; $result = $true -xor $false -xor $false<br />True<br />PS&gt; $result = $true -xor $false
+                -xor $true<br />False</td>
+            </tr>
+            <tr>
+              <td>-not</td>
+              <td>NOT</td>
+              <td>PS&gt; $result = -not(10 -and 20) <br />PS&gt; False</td>
+            </tr>
+            <tr>
+              <td>-band</td>
+              <td>ビット毎のAND</td>
+              <td>PS&gt; $result = 10 -band 3 <br /> 2<br />バイナリでのAND、1010(b)と0011(b)のANDなので2となる</td>
+            </tr>
+            <tr>
+              <td>-bor</td>
+              <td>ビット毎のOR</td>
+              <td>PS&gt; $result = 10 -bor 3<br /> 11<br />バイナリでのOR、1010(b)と0011(b)のORなので11となる</td>
+            </tr>
+            <tr>
+              <td>-bxor</td>
+              <td>ビット毎のXOR</td>
+              <td>PS&gt; $result = 10 -xor 3<br /> 9 <br />バイナリでのXOR、1010(b)と0011(b)のORなので9となる</td>
+            </tr>
+            <tr>
+              <td>-bnot</td>
+              <td>ビット毎のNOT</td>
+              <td>PS&gt; $result = -bnot (10)<br /> 5<br />バイナリでのNOT、1010(b)の反転なので5となる</td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          #// 数値の場合、0以外は真。文字の場合は何かの文字があれば真となる
+          &gt; $val = -10      #// 負でも0以外なら真
+          &gt; $result = if($val) { '真です' } else { '偽です' }
+          &gt; $result
+          真です
+          #// バイナリの論理演算
+          &gt; $result = 10 -band 3
+          #// 2進数で表示するメソッドやプロパティは無いので、Convertクラスのスタティックメソッドで表示する
+          &gt; [Convert]::ToString($result, 2).PadLeft(8, '0')  
+          00000010
+          </code></pre>
+        </section>
+
+        <!-- 比較演算子 -->
+        <section>
+          <h3 id="toc40" class="h3chapter underline">PowerShellの比較演算子</h3>
+          <p>
+            比較演算子は、数値の比較と文字の比較があります。文字の比較の場合、先頭に「-c」が付くと大文字小文字を区別する比較になる。また「-i」が付くと大文字小文字は区別しない比較になる。何もつかないものは「-i」と同じなので、<span
+              class="marker">覚えるのは「-c」が大文字小文字を区別した比較になる</span>だけでいい</p>
+          <p>比較演算子の失敗例</p>
+          <p>PowerShellの比較演算子は、上で述べたように「-xxx」という形式になっています。これは他の言語とちょっと違う表現なので、最初は間違ってしまうこともあるかと思います。以下のはそのような失敗例です
+          </p>
+          <p>正規表現を使った比較もあります。VBAのように正規表現のインスタンスを生成する必要はなく、いきなり正規表現の比較ができます</p>
+          <pre><code class="powershell">
+          if ($myVar = "On") {    #// このコードの意図は、$myVarが"On"だったらというものだが、
+            ....                  #// この書き方だと、$myVarに"On"が代入され比較はされない。
+          }                       #// $myVarによらずブロック内に入るので意図した動作にならない
+          </code></pre>
+          <table class="custom-table">
+            <caption>比較演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+              <th>サンプル例等</th>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-eq</span>（-ceq、-ieq）</td>
+              <td>等しい</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-ne</span>（-cne、-ine）</td>
+              <td>等しくない</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-gt</span>（-cgt、-igt）</td>
+              <td>より大きい</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-ge</span>（-cge、-ige）</td>
+              <td>以上</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-lt</span>（-clt、-ilt）</td>
+              <td>より小さい</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-le</span>（-cle、-ile）</td>
+              <td>以下</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-like</span>（-clike、-ilike）</td>
+              <td>ワイルドカードによる比較。一致するとTrueが返ってくる</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-notlike</span>（-cnotlike、-inotlike）</td>
+              <td>ワイルドカードによる比較。一致しなかったらTrueが返ってくる</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-match</span>（-cmatch、-imatch）</td>
+              <td>正規表現による比較。一致するとTrueが返ってくる</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:bold">-notmatch</span>（-cnotmatch、-inotmatch）</td>
+              <td>正規表現による比較。一致しなかったらTrueが返ってくる</td>
+              <td></td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          #// -like演算子の例
+          &gt; $myStr = "Neko to Usagi desu"
+          &gt; $result = if ($myStr -like '*Usagi*') { 'Yes' } else { 'No' }
+          &gt; Yes      #// ← -like演算子でワイルドカード比較した結果
+          #// -match演算子の例
+          &gt; $result = if ($myStr -match '.+Usagi.+') { 'Yes' } else { 'No' }
+          &gt; Yes      #// ← -match演算子で正規表現を使った比較結果
+          </code></pre>
+        </section>
+
+        <!-- 書式演算子 -->
+        <section>
+          <h3 id="toc50" class="h3chapter underline">PowerShellの書式演算子</h3>
+          <p>PowerShellの演算子には文字列の書式を指定する「書式演算子」があります</p>
+          <p>書式演算子は、文字列に {0}、{1} のようなインデクスを埋め込んで、-f演算子（これが書式演算子）に続けて変数や定数などを指定します</p>
+          <p>Cのprintfに少し似ている感じだけど、ちょっと違うか（printf("円周率 = %.2f\n", pi);）</p>
+          <ul>
+            <li>
+              <span id="toc51" class="font-large">書式演算子 基本パタン</span>
+              <pre><code class="powershell">
+            &gt; "{0} と {1} です" -f 5, 10           #インデクス{0}に5、インデクス{1}に10が対応している
+            5 と 10 です
+            &gt; "{0} と {1} です" -f "Neko", "INU"   #インデクス{0}にNeko、インデクス{1}にINUが対応している
+            Neko と INU です            
+            </code></pre>
+            </li>
+            <li>
+              <span id="toc52" class="font-large">書式演算子 右寄せ、左寄せ</span>
+              <p>右寄せは、インデクスに「カンマ」で数値を指定。左寄せはインデクスに「カンマ」でマイナス数値を指定する</p>
+              <pre><code class="powershell">
+            &gt; "{0,4} と {1,-4} です" -f 5, 10
+                5 と 10   です# ←5は、右寄せされて表示。10は左寄せで表示されている
+            </code></pre>
+            </li>
+            <li>
+              <span id="toc53" class="font-large">書式演算子 0パディング</span>
+              <p>
+                例えばループカウンタを表示させる時など、この0パディングを使うことがあります。ループは1から1000とかに桁数が増えるので表示がガタつくため0パディングして、0001、0002・・とすると見た目がきれいで見やすいです
+              </p>
+              <pre><code class="powershell">
+            &gt; "{0:000}" -f 2     # 0を桁数分指定する方法
+            002
+            &gt; "{0:d3}" -f 2      # d(10進数)、数値で桁数を指定する方法（どちらも同じ結果を得られる）
+            002
+            </code></pre>
+            </li>
+            <li>
+              <span id="toc54" class="font-large">書式演算子 小数点表示</span>
+              <p>0.00や#.##で小数点表示する。この時、桁数指定に対してデータの桁数が多い場合は指定桁数に合うよう小数点を四捨五入される</p>
+              <pre><code class="powershell">
+            &gt; "{0:0.00}" -f 1.234
+            1.23                                # 小数点以下2桁に四捨五入して、1.23になっている
+            &gt; "{0:#.##}" -f 10.245
+            10.25
+            </code></pre>
+            </li>
+            <li>
+              <span id="toc55" class="font-large">書式演算子 金額</span>
+              <p>N指定した場合、3桁ごとに「カンマ」が付いて金額の表示ができる。また、#,### のように指定することもできる（こっちの方が直観的でわかりやすいかも）。</p>
+              <p>Nで指定した場合、小数点2桁も付いて表示されますが、N0としたら小数点表示をしないようにできます。N数字で小数点以下の桁数を指定できます</p>
+              <pre><code class="powershell">
+            &gt; "{0:N}" -f 123456789         # 3桁毎にカンマで区切って表示。小数点以下は2桁表示がつく
+            123,456,789.00
+            &gt; "{0:N0}" -f 123456789        # 3桁毎にカンマで区切って表示。N0なので小数点以下表示なし
+            123,456,789
+            &gt; "{0:N3}" -f 123456789        # 3桁毎にカンマで区切って表示。小数点以下は3桁指定
+            123,456,789.000
+            &gt; "{0:#,###}" -f 123456789     # #,### で3桁区切りを指定
+            123,456,789
+            </code></pre>
+            </li>
+            <li>
+              <span id="toc56" class="font-large">書式演算子 %表示</span>
+              <p>0%または、#%で指定するとパーセント表示することができます</p>
+              <pre><code class="powershell">
+            &gt; "{0:#.#%}" -f 0.345
+            34.5%
+            &gt; "{0:0.0%}" -f 0.345
+            </code></pre>
+            </li>
+            <li>
+              <span id="toc57" class="font-large">書式演算子 日付表示</span>
+              <pre><code class="powershell">
+            &gt; "{0:yyyy/MM/dd HH:mm:ss}" -f (Get-Date)  # Get-Dateは()かっこで囲む
+            2020/03/20 12:10:51
+            </code></pre>
+            </li>
+            <li>
+              <span id="toc58" class="font-large">書式演算子 基数変換</span>
+              <p>基数変換は、10進数と16進数しかサポートしていません。2進数や8進数は自分で計算しないといけないです</p>
+              <pre><code class="powershell">
+            &gt; "0x{0:x4}" -f 100    # 10進数の100を16進表示
+            0x0064
+            &gt; "{0:d}" -f 0x64      # 16進数の0x64を10進数表示
+            100
+            </code></pre>
+            </li>
+          </ul>
+        </section>
+
+        <!-- 配列演算子 -->
+        <section>
+          <h3 id="toc70" class="h3chapter underline">PowerShellの配列演算子</h3>
+          <p>配列演算子は、「配列要素に〇〇が含まれるか」の演算結果を返すものです</p>
+          <p>この書式は方向が逆で2種類あります（つまり左辺に配列を書くものと、左辺に値を書くものがあります）</p>
+          <p><span class="emphasis">-containsは「配列に値が含まれるか」</span>の見方をする演算子です</p>
+          <p><span class="emphasis">-inは「値が配列に含まれるか」</span>の見方をする演算子です</p>
+          <pre><code class="pwsh">
+          # -contains、-inの書式
+          &lt;配列&gt; -contains &lt;値&gt;     #// ← -contains演算子は左辺の配列に右辺の値が含まれるかを調べる
+          &lt;値&gt; -in &lt;配列&gt;           #// ← -in演算子は左辺の値が右辺の配列が含まれるかを調べる
+          </code></pre>
+          <table class="custom-table">
+            <caption>配列演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>-contains</td>
+              <td>左辺の配列に右辺の値が含まれるかを調べる。含まれていた場合は$trueが返る</td>
+            </tr>
+            <tr>
+              <td>-notcontains</td>
+              <td>左辺の配列に右辺の値が含まれないかを調べる。含まれていなかった場合は$trueが返る</td>
+            </tr>
+            <tr>
+              <td>-in</td>
+              <td>左辺の値が右辺の配列に含まれるかを調べる。含まれていた場合は$trueが返る</td>
+            </tr>
+            <tr>
+              <td>-notin</td>
+              <td>左辺の値が右辺の配列に含まれないかを調べる。含まれていなかった場合は$trueが返る</td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          &gt; $animals = @("neko", "inu", "usagi")
+          &gt; $animals -contains "hito"
+          False
+          &gt; "hito" -in $animals
+          False
+          </code></pre>
+        </section>
+
+        <!-- 型演算子 -->
+        <section>
+          <h3 id="toc80" class="h3chapter underline">PowerShellの型演算子</h3>
+          <p>-is、-isnot型演算子は、オブジェクトが指定された型かを調べる演算子。$trueまたは$falseが返る</p>
+          <p>自分的には、オブジェクトが持っているGetType()メソッドで型は分かるので、あんまり使わないかな。。</p>
+          <p>-as型変換演算子は、オブジェクトを指定した型へ変換を試みる演算子です。型変換が失敗しても例外にならず$nullになる</p>
+          <p><span class="emphasis">そのオブジェクト自体が変換されるのではない</span>という点に注意。変換した結果を代入する変数が必要です</p>
+          <table class="custom-table">
+            <caption>配列演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>-is</td>
+              <td>書式：&lt;オブジェクト&gt; -is &lt;[型]&gt;。オブジェクトが指定した型であれば$true</td>
+            </tr>
+            <tr>
+              <td>-isnot</td>
+              <td>書式：&lt;オブジェクト&gt; -isnot &lt;[型]&gt;。オブジェクトが指定した型でなければ$true</td>
+            </tr>
+            <tr>
+              <td>-as</td>
+              <td>書式：&lt;オブジェクト&gt; -as &lt;[型]&gt;。オブジェクトを指定した型に変換を試みる</td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          #// -is演算子
+          &gt; $animals -is [array]
+          True
+          &gt; $animals.GetType() 
+          IsPublic IsSerial Name          BaseType
+          -------- -------- ----          --------
+          True     True     Object[]      System.Array
+          #// -as演算子
+          &gt; $strDate = "2000/10/20"
+          &gt; $strDate.GetType()                 #// String型
+          &gt; $strDate -as [Datetime]            #// datetime型へ変換を試みる
+          &gt; $strDate.GetType()                 #// String型のまま。この結果を代入する変数が必要
+          &gt; $myDate = $strDate -as [Datetime]  #// 変換結果を代入
+          &gt; $myDate.GetType()                  #// Datetime型
+          IsPublic IsSerial Name          BaseType
+          -------- -------- ----          --------
+          True     True     DateTime      System.ValueType          
+          </code></pre>
+        </section>
+
+        <!-- 文字列演算子 -->
+        <section>
+          <h3 id="toc90" class="h3chapter underline">PowerShellの文字列演算子</h3>
+          <p>PowerShellには、文字列操作用の演算子があります。昔PowerShellを使い始めた時に「-split」がめちゃ便利だなと思った記憶があります</p>
+          <table class="custom-table">
+            <caption>文字列演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>-replace</td>
+              <td>書式：&lt;文字列&gt; -replace &lt;元の文字&gt;, &lt;置換後文字&gt;。正規表現で指定することも可能</td>
+            </tr>
+            <tr>
+              <td>-split</td>
+              <td>書式：&lt;文字列&gt; -split &lt;分割に使う文字&gt;。正規表現で指定することも可能</td>
+            </tr>
+            <tr>
+              <td>-join</td>
+              <td>書式：-join &lt;結合する文字&gt;</td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          #// -Replace演算子
+          &gt; "Cat is God." -Replace "Cat", "Neko"
+          Neko is God.
+          #// -Split演算子
+          #// pathは「;」で複数のパスが設定されているので見にくい
+          &gt; $env:Path
+          C:\Program Files\PowerShell\7;C:\Program Files\ImageMagick-7.1.2-Q16-HDRI;....
+          &gt; $env:Path -Split ';'
+          C:\Program Files\PowerShell\7
+          C:\Program Files\ImageMagick-7.1.2-Q16-HDRI
+          C:\WINDOWS\system32
+          ...
+          ...
+          #// -join演算子
+          &gt; $result = -join ("a", "b", "c", "d")
+          &gt; $result
+          abcd
+          </code></pre>
+        </section>
+
+        <!-- 三項演算子 -->
+        <section>
+          <h3 id="toca0" class="h3chapter underline">PowerShellの三項演算子</h3>
+          <p>三項演算子を使えばif文が簡潔に書くことができます。C言語にもあった演算子ですがあんまり使ってなかったです。PowerShellでは使うようにしようかな。。</p>
+          <table class="custom-table">
+            <caption>三項演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>三項演算子</td>
+              <td>書式：&lt;条件&gt;? &lt;trueケース&gt;: &lt;falseケース&gt;</td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          &gt; (Test-IsAdministrator)? "管理者権限です": "管理者権限はありません"
+          管理者権限です
+          </code></pre>
+        </section>
+
+        <!-- サブ式演算子 -->
+        <section>
+          <h3 id="tocb0" class="h3chapter underline">PowerShellのサブ式演算子</h3>
+          <p>サブ式書式は、$(...) という書き方のものです。</p>
+          <p>PowerShellの変数は、ダブルクォーテーションの中に書くと展開されるようになっています。しかし、展開されないケースも存在しています。その場合、サブ式演算子（Subexpression
+            Operator：$()式）を使います</p>
+          <p>サブ式演算子が無くてもいいケース</p>
+          <pre><code class="pwsh">
+          #// サブ式演算子が無くてもいいケース
+          &gt; $myName = "Neko"
+          &gt; Write-Host "Hello, $myName"
+          Hello, Neko                       #// この場合は、$()式を使わなくてもいい
+          </code></pre>
+          <p>サブ式演算子が必要なケース</p>
+          <pre><code class="pwsh">
+          #// サブ式演算子が必要なケース１（プロパティやメソッドを参照する場合）
+          &gt; $myDate = Get-Date
+          &gt; Write-Host "今日は、$myDate.Day 日です"
+          #// PowerShellは、$myDateまでしか変数と認識していない。このため、Dayプロパティは解釈されない
+          今日は、07/12/2010 06:04:11.Day 日です    #// Dayプロパティが解釈されていない
+          ↓
+          &gt; Write-Host "今日は、$($myDate.Day) 日です"
+          今日は、12 日です    #// Dayプロパティが理解された
+
+          #// サブ式演算子が必要なケース２（計算式を使う場合）
+          &gt; $a = 10
+          $gt; $b = 20
+          $gt; "sum = ($a + $b)"
+          sum = (10 + 20)         #// $a + $b を計算してくれていない
+          $gt; "sum = $($a + $b)"
+          sum = 30                #// $()式を使うとうまくいく
+
+          #// サブ式演算子が必要なケース３（コマンドレット結果を使う場合）
+          &gt; "Now is (Get-Date)"
+          Now is Get-Date               #// Get-Dateコマンドレットが評価されていない
+          &gt; "Now is $(Get-Date)"
+          Now is 07/12/2010 10:25:16    #// Get-Dateコマンドレットが評価されている
+          </code></pre>
+        </section>
+
+        <!-- ドットソース演算子 -->
+        <section>
+          <h3 id="toce0" class="h3chapter underline">PowerShellの「.」ドットソース演算子</h3>
+          <p>ドットソース（Dot Sourcing）は「.（ドット）とスペース」で指定する演算子で、ドットソース演算子の後に実行したいコマンドやファイル名を書きます</p>
+          <p>ドットソースで実行するとそのセッション、スコープ内でそのファイル内の変数や関数が実行できるようになります</p>
+          <p>これは<a href="pwsh_2a0_module.html">モジュール化</a> と似ていますが、モジュール化よりも簡易的に部品を共有する仕組みと言えるかと思います</p>
+          <table class="custom-table">
+            <caption>ドットソース演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>ドット演算子</td>
+              <td>書式：. スペース &lt;式|ファイル|コマンド&gt;</td>
+            </tr>
+          </table>
+          <p>以下のSample.ps1を通常実行した場合と、ドットソースで実行した場合の違いを見てみます</p>
+          <p>通常の実行例</p>
+          <pre><code class="pwsh">
+          #// Sample.ps1 を通常実行する
+          function Say-Message {
+            Write-Host $message
+          }
+          $message = "Hello"
+          Say-Message
+
+          &gt; .\Sample.ps1     #// 普通に Sample.ps1 を実行
+          Hello                 
+          &gt; $message         #// $message変数をタイプしても何も表示されない
+          </code></pre>
+          <p>ドットソースで実行した例</p>
+          <p>ドットソースで実行すると、このセッション内、スコープ内でスクリプトの変数や関数が利用できるようになる。このため、ドットソース実行後も$message変数が参照できています</p>
+          <pre><code class="pwsh">
+          &gt; . .\Sample.ps1     #// 最初の「. （ドット とスペース）」がドットソース演算子
+          Hello                   
+          &gt; $message           #// $message変数を見ることができている
+          Hello                   #// この「Hello」は変数内容を表示しているもの
+          </code></pre>
+          <p>ドットソースが良く使われる用途は（自分が使っている用途）、関数ライブラリの読み込みかなと思います。自分が使っている方法は、<a
+              href="pwsh_124_profile.html#toc25">「自作関数を関数名で呼び出せるようにする」</a>というものです。これは$Profile内で自作関数「hogeFunction.ps1」ファイルをドットソースで実行し、PowerShell起動時にその関数を実行できるようにしています
+          </p>
+          <pre><code class="pwsh">
+          #// MyUtility.ps1
+          function Get-Today { Get-Date }
+          function Say-Hello { Write-Host "Hello" }
+          function ...
+
+          #// ドットソースで「MyUtility.ps1」を実行する（これでこのセッション内で関数が呼び出せるようになる）
+          . .\MyUtility.ps1
+
+          #// ドットソース実行後は以下のように関数が使えるようになる
+          Get-Today
+          Say-Hello
+          ...
+          </code></pre>
+          <p>ドットソースの注意点</p>
+          <p>
+            以下のサンプルコードは、Main.ps1内でSample.ps1をドットソースで実行していますが、両方のファイルで同じ変数名$messageを使っており名前がぶつかっています。この時、$messageは上書きされてしまいます
+          </p>
+          <pre><code class="pwsh">
+          #// Sample.ps1
+          $message = "Sample Message"
+
+          #// Main.ps1
+          $message = "Main Message"
+          . .\Sample.ps1                  #// Main.ps1内で、Sample.ps1をドットソースで実行
+          Write-Host $message
+
+          #// Main.ps1を実行すると
+          &gt; .\Main.ps1
+          Sample Message                  #// ドットソースで実行したファイルの$message変数内容になっている
+          </code></pre>
+          <p>なぜこうなるか？</p>
+          <p>ドットソースで実行したファイルは、その内容がそこに展開されるのと同じで、Sample.ps1の$message変数がここに展開されているからです</p>
+          <pre><code class="pwsh">
+          #// Main.ps1
+          $message = "Main Message"
+          . .\Sample.ps1                  #// Main.ps1内で、Sample.ps1をドットソースで実行
+
+            ↓
+
+          #// これは以下のように書いたのと同じ
+          #// Main.ps1
+          $message = "Main Message"
+          $message = "Sample Message"     #// Sample.ps1のドットソース実行は、その内容をここに展開したのと同じ
+          </code></pre>
+          <p>ということで、最初ドットソース実行はあまりイメージしにくかったのですが、自分の用途は$Profileで自作関数をコマンドのように呼び出せるようする使い方だけです</p>
+        </section>
+
+        <!-- 呼び出し演算子 -->
+        <section>
+          <h3 id="tocf0" class="h3chapter underline">PowerShellの呼び出し演算子</h3>
+          <p>呼び出し演算子（Call Operator）は、「&」でコマンドやスクリプト、スクリプトブロックを実行するための演算子です</p>
+          <p>この演算子は、スクリプトブロックを実行する時に真価を発揮するっぽい。スクリプトブロックという処理をデータとして扱いPowerShellらしい書き方ができます（自分は使いこなせてないので別途更新）</p>
+          <p>見た感じスクリプトブロックを無名関数のように処理のかたまりとして実行させることができます</p>
+          <pre><code class="pwsh">
+          &gt; $myCmd = "Get-Date"  #// 変数にコマンドを代入
+          &gt; $myCmd               #// 変数名だけ書くと...
+          Get-Date                  #// Get-Dateという文字が表示されるだけ
+          &gt; & $myCmd             #// 呼び出し演算子（callOperator）を使った場合
+          2010年12月04日            #// 文字列"Get-Date" がコマンドとして実行されている
+          </code></pre>
+          <p>スクリプトやスクリプトブロックを実行させる</p>
+          <pre><code class="pwsh">
+          #// スクリプトを呼び出し演算子で実行する
+          & .\Sample.ps1
+          Sample.ps1スクリプト内容が実行される
+
+          #// スクリプトブロックを呼び出し演算子で実行する
+          $scriptBlock = {
+            "Hello Block"
+          }
+          & $scriptBlock
+          Hello Block               #// スクリプトブロックの内容が表示されている
+          </code></pre>
+          <p>引数をつけて実行することもできます</p>
+          <pre><code class="pwsh">
+          #// 引数を指定して実行する
+          #// スペースを含むパスの場合は、ダブルクォーテーションで囲む
+          & "C:\Program Files\App.exe" -para -para2
+
+          #// コマンドレットも引数付きで実行できる
+          & Get-ChildItem -Directory
+          </code></pre>
+          <p>呼び出し演算子とドットソースの違い</p>
+          <ul>
+            <li>
+              <span>呼び出し演算子&（callOperator）</span>
+              <p>呼び出し演算子&（callOperator）は、子スコープで実行される（別スコープ）。そしてその変数や関数は呼び出し元に残らない</p>
+            </li>
+            <li>
+              <span>ドットソース演算子</span>
+              <p>ドットソース演算子は、同じスコープで実行され、その変数や関数は呼びだし元に残る</p>
+            </li>
+          </ul>
+        </section>
+
+        <!-- カンマ演算子 -->
+        <section>
+          <h3 id="tocc0" class="h3chapter underline">PowerShellの「,」カンマ演算子</h3>
+          <p>「,」カンマ演算子は、配列を作るための演算子です</p>
+          <table class="custom-table">
+            <caption>カンマ演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>カンマ演算子</td>
+              <td>書式：要素1, 要素2, 要素3, …</td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          &gt; $myArray = 10, 20, 30
+          &gt; $myArray.GetType()
+          IsPublic IsSerial Name       BaseType
+          -------- -------- ----       --------
+          True     True     Object[]   System.Array   #//配列になっている
+
+          #// これは、以下の書き方とほぼ同じ
+          $myArray = @(10, 20, 30)
+          </code></pre>
+          <p>1つだけ要素を持つ配列を作る時の書き方</p>
+          <pre><code class="pwsh">
+          &gt; $myArray = ,10     #//要素が10だけの配列
+          &gt; $myArray = @(10)   #//これと同じ
+          #// 配列を要素とする配列
+          &gt; $myArray = 100, 200, 300
+          $gt; $myB = ,$myArray   #// [[100,200,300]] という配列になっている
+          </code></pre>
+        </section>
+
+        <!-- レンジ演算子 -->
+        <section>
+          <h3 id="tocd0" class="h3chapter underline">PowerShellの「..」レンジ演算子</h3>
+          <p>「..」レンジ演算子は、前後に開始の値と最後の値を指定し、その間は連続となるような指定をする演算子です。この演算子も配列を作ります</p>
+          <p>連続性がある文字にも使えます</p>
+          <table class="custom-table">
+            <caption>レンジ演算子</caption>
+            <tr>
+              <th>演算子</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>レンジ演算子</td>
+              <td>書式：開始の値..最後の値</td>
+            </tr>
+          </table>
+          <pre><code class="pwsh">
+          &gt; $myArray = 10..15
+          &gt; $myArray.GetType()
+          IsPublic IsSerial Name       BaseType
+          -------- -------- ----       --------
+          True     True     Object[]   System.Array   #//配列になっている
+          &gt; $myArray
+          10
+          11
+          12
+          13
+          14
+          15
+
+          #// 連続する文字にも使える
+          &gt; $myArray = 'a'..'e'
+          &gt; $myArray
+          a
+          b
+          c
+          d
+          e
+          </code></pre>
+        </section>
+
+        <!-- Null演算子 -->
+        <section>
+          <h3 id="tocg0" class="h3chapter underline">PowerShellのNull合体演算子「??」</h3>
+          <p>
+            null〇〇という演算子は3つあります。いずれも$nullに関する操作を行う演算子で普通にif文や三項演算子で書くよりも短く、簡潔に書けます（逆に言うと、if文や三項演算子で書けるので必須ではないとも考えられると思います）
+          </p>
+          <p>名前が「Null合体演算子」というイメージしにくいものですが、?? という演算子で表現します。意味は左辺が$nullだったら、右辺の値を代入するというものです</p>
+          <pre><code class="pwsh">
+          $name = $null
+          $result = $name ?? "NewName"
+          $result                       #// $resultは、NewNameと表示される
+          #// ??演算子（Null合体演算子）は、以下の文と同じ
+          #// if文で書く場合
+          $result = if($null -eq $name) {
+            "NewName"
+          } else {
+            $name
+          }
+          #// 三項演算子で書く場合
+          $result = ($null -eq $name)? "NewName": $name
+          </code></pre>
+          <p></p>
+
+          <h3 id="toch0" class="h3chapter underline">PowerShellのNull合体代入演算子「??=」</h3>
+          <p>Null合体代入演算子、??=は、その変数が$nullなら値を代入するというものです</p>
+          <pre><code class="pwsh">
+          $name ??= "NewName"
+          </code></pre>
+
+          <h3 id="toci0" class="h3chapter underline">PowerShellのNull条件演算子「?.」</h3>
+          <p>オブジェクトがnullかもしれない場合に、そのプロパティに対して操作する演算子</p>
+          <pre><code class="pwsh">
+          $user = $null
+          $user.Name にアクセスするとエラーになる
+
+          #// $userが$nullかもしれない場合は、Null条件演算子を使うとエラーにならない
+          $user?.Name     #// エラーにならず、$nullが返る
+          </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

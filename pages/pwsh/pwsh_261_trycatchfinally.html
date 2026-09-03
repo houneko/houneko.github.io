@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShellのtry～catch～finallyによる例外処理 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellで例外に対するtry～catch～finallyによる例外処理をサンプルを元にまとめています">
+<meta name="keywords" content="pwsh,PowerShell,PowerShellの例外,エラーハンドリング,try～catch～finally">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/エラーハンドリング:/pages/pwsh/pwsh_000_index.html#toc260 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellのtry～catch～finallyによる例外処理
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellのtry～catch～finallyによる例外処理</h2>
+        <section>
+          <h3 id="toc16" class="h3chapter underline">try～catch～finally</h3>
+          <p>try～catch～finallyは、プログラム実行中に発生する例外に対するエラーハンドリングの構造を記述するもの。try～catch～finallyは複数書くこともできるしネストすることもできる</p>
+          <p>try～catch～finallyの基本的な構造</p>
+          <pre><code class="powershell">
+        #try～catch～finallyの構造
+        try{
+          #ここに例外が発生する可能性がある処理を書く
+          ...
+        }
+        catch {
+          #ここはtryで発生した例外に対する処理を書く
+          ...
+        }
+        finally {
+          #finallyブロックは例外が発生した場合も発生しなかった場合も実行される
+        }
+        </code></pre>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">tryブロック</span>
+              <p>tryブロックは、例外が発生する可能性がある処理を記述する。例外が発生した場合、catchブロックに捕獲される</p>
+            </li>
+            <li>
+              <span class="is-bold">catchブロック</span>
+              <p>catchブロックは、tryブロックで発生した例外がキャッチされる部分</p>
+              <p><span class="marker">無印のcatchは、catch [System.Exception]
+                  の省略形</span>となっている。つまり、catchの後に例外の型を指定することで、それぞれの例外に対する処理を分けて書くことができる。その場合、上から順に評価され該当するcatchだけが実行される
+              </p>
+              <ul class="no-marker">
+                <li>
+                  <span class="is-bold">例外型毎のcatchブロック</span>
+                  <p>例外型に応じたcatchブロックを作ることで、その例外に適したエラーハンドリングができる。ただし全部の例外型のcatch文を書くのは現実的ではないので、想定する型だけ書けばいい。</p>
+                  <p>
+                    しかし、いろいろ調べてみると例外型は多数あり、.NETの例外型もあるので一旦全てのケースとして「無印のcatch」で確実にキャッチしてからそのブロック内で例外型を調べて発生した例外型にあう処理を書いた方がいいかもしれない。今後の研究ネタかな
+                  </p>
+                  <pre><code class="powershell">
+                try {
+                  Get-Content "hoge.txt" -ErrorAction Stop
+                }
+                catch [System.UnauthorizedAccessException] {
+                  #この例では、ここには入らない
+                  Write-Host "例外：アクセス権がない"
+                }
+                catch [System.IO.FileNotFoundException] {
+                  #この例では、ここには入らない
+                  #ファイルが存在しないという例外は一緒だが、この例外型は.NETの例外型のため
+                  Write-Host "例外：ファイルが見つからない（.NET）"
+                }
+                catch [System.Management.Automation.ItemNotFoundException] {
+                  #この例では、ここには入る
+                  #これはファイルが存在しないという例外のPowershellの例外型だから
+                  Write-Host "例外：ファイルが見つからない（PowerShell）"
+                }
+                catch {
+                  #全ての例外はここに入るが、これよりも前に該当する例外catchがあれば、ここには入らない
+                  Write-Host "例外：その他のエラー"
+                }                  
+                </code></pre>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <span class="is-bold">finallyブロック</span>
+              <p>finallyブロックは、例外が発生した場合もしなかった場合も<span class="is-underline">基本的に必ず</span> 入る。これがfinallyブロックの存在意義かと思います
+              </p>
+              <p><span
+                  class="marker">finallyブロックにはオープンしてたものをクローズするとか、設定した値を元に戻すとか、ロックを解除するとかの処理だけを書く</span>ようにする。ここに制御構造を入れたらバグが入る可能性があるしデバッグが難しくなる可能性がある。なので、状態復帰関係の処理だけ書くようにする
+              </p>
+              <p><span
+                  class="marker-red">特にreturnは書いたらだめ（PowerShellでは書けないようになっている）。また、後始末用の関数を作っておき、finallyブロックからそれをコールしてもいいが、この場合後始末用の関数はthrowを投げないようしないといけない</span>
+              </p>
+              <ul class="no-marker">
+                <li>
+                  <span class="is-bold">finallyブロックの必要性</span>
+                  <p>
+                    finallyブロックは場合によっては必要ないけど、場合によっては必要。どういう時に必要かと言うと、try/catchの中から抜けてしまう可能性がある場合、finallyブロックを作って確実に後始末ができるようにする
+                  </p>
+                  <p>
+                    以下のサンプルは、try～catchで例外が発生しようがしまいが処理Zに行くから、finallyブロックの存在意義は無いんじゃないと思ったケースです。一見、処理Zは例外有無によらず実行されるように見えるけど、実行されないケースも起こりうる。そうすると処理Zで予定していたクローズ処理などの後始末ができずに終わってしまう可能性がある
+                  </p>
+                  <pre><code class="powershell">
+                try {
+                  # 例外が発生する可能性がある処理
+                  ...
+                }
+                catch {
+                  # 例外が発生した場合の処理
+                  ...
+                }
+
+                # 処理Z             # finallyブロックが無くても、例外有無によらず
+                ...                 # この処理Zは実行されるはずでは？ じゃ、finallyブロックの存在意義は？
+                </code></pre>
+
+                  <p>以下のコードは、catchブロックでreturn がある。また、finallyブロックが無いのでここでリターンしてしまう</p>
+                  <p>このため、後始末処理であるクローズやリセット処理が実行されなくなる</p>
+                  <pre><code class="powershell">
+                try {
+                  # 例外が発生する処理
+                  Get-Content "throw.txt" -ErrorAction Stop
+                }
+                catch {
+                  Write-Host "例外： $($_.Exception.GetType().FullName)"
+                  return "AB"
+                }
+                # finallyブロックを使わずにファイルクローズなどの後始末をする
+                My-CloseHoge                                              # ← catchブロックでreturnしているので、
+                My-ResetHoge                                              # ← この処理は実行されなくなる。〃
+                Write-Host ("end test")                
+
+                ### 実行結果 ###
+                PS&gt; myErrorTest.ps1
+                例外： System.Management.Automation.ItemNotFoundException   ← 発生した例外型
+                AB                                                          ← catchブロックでreturnしたコード
+                </code></pre>
+
+                  <p>じゃ、このコードにfinallyブロックを入れるとどうなる。catchブロックでreturnがあるのにfinallyブロックに入るのか？</p>
+                  <p>catchブロックにreturnがあっても、finallyブロックには入れる。このため、finallyブロックでクローズなどの処理を実行することが可能</p>
+                  <pre><code class="powershell">
+                try {
+                  # 例外が発生する処理
+                  Get-Content "throw.txt" -ErrorAction Stop
+                }
+                catch {
+                  Write-Host "例外： $($_.Exception.GetType().FullName)"
+                  return "AB"                                               # ←catchブロックでreturnしているが
+                }
+                # finallyブロックでファイルクローズなどの後始末をする
+                finally {
+                  Write-Host ("this is finally block.")                     # ← finallyブロックには入る
+                  My-CloseHoge
+                  My-ResetHoge
+                }
+                Write-Host ("end test")                                     # ←??
+
+                ### 実行結果 ###
+                PS&gt; myErrorTest.ps1
+                例外： System.Management.Automation.ItemNotFoundException   ← 発生した例外型
+                AB                                                          ← catchブロックでreturnしたコード
+                this is finally block.                                      ← finallyブロックに入っている
+                start My-CloseHoge
+                start My-ResetHoge 
+                </code></pre>
+
+                  <p>つまり、catchブロックでreturnしていていも、finallyブロックは実行される。</p>
+                  <p>しかし、finallyブロックの後にある「Write-Host ("end test")」は実行されていない。なんでか？？</p>
+                  <p><span
+                      class="marker">この例では、catchブロックでreturnしている。しかし、finallyブロックがあるので、finallyブロックには入り処理が行われる。その後、finallyブロックの処理が終れば、returnが実行されるから</span>
+                  </p>
+                  <p>じゃ、catchブロックのreturnを外したら、finallyブロックの後の「Write-Host ("end test")」は実行されるの？答えはYES</p>
+                  <p>returnが削除されたらfinallyブロック実行後に「Write-Host ("end test")」が実行される</p>
+                </li>
+                <li>
+                  <p>じゃ、finallyブロックでreturnしたらいいのでは？</p>
+                  <p>PowerShellでは、finallyブロックにはreturn制御コードは書けないようになっている。</p>
+                  <p>ただし、書けたとしてもfinallyブロックにはreturnは書いたらだめ。これはfinallyブロックのreturnにより例外のエラー情報はかき消されるため</p>
+                </li>
+                <li></li>
+              </ul>
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

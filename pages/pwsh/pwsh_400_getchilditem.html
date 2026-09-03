@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Get-ChildItemのExecuteオプション | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Get-ChildItemには多数のオプションがありますが、その中で「-Exclude」オプションは指定したものを取得しない（除外する）機能を持っていますが、これが意図した動作にならないことがあります。その事例と対処方法です">
+<meta name="keywords" content="pwsh,PowerShell,Get-ChildItemのExecuteオプション">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/現場の課題:/pages/pwsh/pwsh_000_index.html#toc400 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Get-ChildItemの「-Exclude」オプション
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">Get-ChildItemの「-Exclude」の問題</h2>
+          <h3 id="toc12" class="h3chapter underline">発生した課題・問題とは</h3>
+          <p>文章が長くなったので先に問題は何かを書いておきます。問題は「-Exclude と -Filter を一緒に使ったらGet-ChildItemが何も取得しなくなった」というものです。詳しくは以下をみてみてください。
+          </p>
+          <p>
+            まず、当初したかった事とは、フォルダAからフォルダBへファイルをコピーするということです。そうすると、Get-ChildItemでフォルダAのファイルObjを取得して、それをパイプでForEach-Objectに渡して、Copy-ItemでフォルダBへコピーしたらいいのかなと思うかと思います。
+          </p>
+          <p>
+            この時、フォルダAのファイルを全部コピーするだけなら何も気にしなくてもいいのですが、フォルダAの中のあるファイルはコピーしたくないという事情がありました（実際は、フォルダAは開発環境でフォルダBが実行環境となっています。開発環境には作成中やテスト中のコードがあり、それを実行環境へコピーしたくなかったというのが本当の事情です。そのままコピーしてもいいけど実行環境に不完全なごみができると何かいややなぁという意図です）
+          </p>
+          <p>パイプの先に渡す前の問題なので、パイプは一旦置いておいて、Get-ChildItemの挙動を見てみます。まず、調べると「-Exclude」オプションで取得したくないものを指定できるというのがわかりました。</p>
+          <p>「-Exclude」オプションのテスト結果</p>
+          <pre><code class="powershell">
+        # このフォルダ内のファイル
+        #   C:\Temp
+        #     ├ Check-Fuga.ps1              … コピー対象
+        #     ├ Check-Hoge.ps1              … コピー対象
+        #     ├ INTEST-Get-Hoge.ps1         … コピーしなくていいファイル
+        #     ├ INTEST-Make-Hoge.ps1        … コピーしなくていいファイル
+        #     ├ Myデータ.csv                … コピーしなくていいファイル
+        #     ├ OLD）Update-MyHoge.ps1      … コピーしなくていいファイル
+        #     ├ ReadMe_Show-MyFuga.txt      … コピーしなくていいファイル
+        #     ├ ReadMe_Update-MyHoge.txt    … コピーしなくていいファイル
+        #     ├ Show-MyFuga.ps1             … コピー対象
+        #     ├ Show-MyHoge.ps1             … コピー対象
+        #     ├ Update-MyHoge.ps1           … コピー対象
+        #
+        PS &gt; $excludeList = @("INTEST*", "KARI*", "OLD*")          # 除外するファイルのキーワード
+        PS &gt; Get-ChildItem -Path C:\TEMP -Exclude $excludeList
+        #
+        結果）  
+        Check-Fuga.ps1              # $excludeListのキーワードで始まるファイル（INTEST*、OLD*）は除外されている
+        Check-Hoge.ps1              # しかし、リストにないtxtファイルやcsvファイルは残っている。これは当たり前
+        Myデータ.csv                # -Exclude は一見正常動作している
+        ReadMe_Show-MyFuga.txt
+        ReadMe_Update-MyHoge.txt
+        Show-MyFuga.ps1
+        Show-MyHoge.ps1
+        Update-MyHoge.ps1
+      </code></pre>
+          <p>
+            上記のテスト結果では「-Exclude」オプションで指定したファイルは表示されなかったので一見テストはOKに見える。ただし、txtファイルやcsvファイルは、先頭がINTESTやOLDなどの除外キーワードで始まっていないので、Get-ChildItemの結果に含まれてしまう。じゃ、Get-ChildItem
+            の -Filterで「*.ps1」ファイルだけにしたらいいやんと思って試してみた結果・・・</p>
+          <p>以下の通り<span class="marker-red">何も表示されなくなってしまった。</span> -Filterが悪いのかなと思い、-Filter "*.ps1"
+            だけを実行するとちゃんとps1ファイルだけが表示される。なので、-Filter と -Exclude を組み合わせて使うと正しい結果が得られないように見える。このスイッチは排他ではないので原因はわからない状態。
+          </p>
+          <pre><code class="powershell">
+      PS &gt; $excludeList = @("INTEST*", "KARI*", "OLD*")          # 除外するファイルのキーワード
+      PS &gt; Get-ChildItem -Path C:\TEMP -Filter "*.ps1" -Exclude $excludeList     # -Filter "*.ps1" を追加
+      #
+      結果）  
+            # *** ← 何も表示されなくなった ***
+
+      # -Filterが問題かと思い、-Filter "*.ps1" だけ試してみた結果
+      PS &gt; Get-ChildItem -Path C:\TEMP -Filter "*.ps1"     # -Filter "*.ps1" だけをテスト
+      結果）
+      Check-Fuga.ps1              # ps1ファイルだけが表示されている
+      Check-Hoge.ps1              # なので、-Filter "*.ps1" は正しい
+      INTEST-Get-Hoge.ps1
+      INTEST-Make-Hoge.ps1
+      OLD）Update-MyHoge.ps1
+      Show-MyFuga.ps1
+      Show-MyHoge.ps1
+      Update-MyHoge.ps1      
+      </code></pre>
+          <h3 id="toc14" class="h3chapter underline">回避方法</h3>
+          <p>
+            真の原因はよくわからないが、Webを見ると「-Exclude」オプションを使わずに、Get-ChildItemの結果をパイプでWhere-Objectに渡して、そこで正規表現で、除外キーワードを含むファイルをマッチさせないように運用があることが分かった。それを参考にした処理が以下
+          </p>
+          <ol class="">
+            <li>
+              <span>$excludeListの内容を少し変える。$excludeList = @("INTEST","KARI","OLD")。*を取る</span>
+            </li>
+            <li>
+              <span>$excludeListを使って正規表現パタンを作成する</span>
+              <p>^(INTEST|KARI|OLD) これは、INTESTまたはKARIまたはOLDで始まる というパタン</p>
+            </li>
+            <li>
+              <span>Get-ChildItemの結果をパイプでWhere-Objectに渡して除外ファイルをフィルタする</span>
+            </li>
+            <li>
+              <span>修正結果</span>
+              <pre><code class="powershell">
+          #// 以下のキーワードで始まるファイルはUpdate（コピー）しない
+          $excludeList = @('INTEST', 'OLD', 'WORK')
+  
+          #// $excludeListを正規表現パタンに変換する
+          $excludePattern = '^(' + (
+            ($excludeList | ForEach-Object { [Regex]::Escape($_) }) -join '|'
+          ) + ')'
+          
+          #// Get-ChildItemの結果をパイプでWhere-Objectにわたす
+          Get-ChildItem -Path $SRC -Filter "*.ps1" | Where-Object {$_.Name -notmatch $excludePattern}
+          
+          結果）
+          #// 以下の通り、除外キーワードで始まらないps1ファイルが取り出されているので成功
+          Check-Fuga.ps1
+          Check-Hoge.ps1
+          Show-MyFuga.ps1
+          Show-MyHoge.ps1
+          Update-MyHoge.ps1
+          </code></pre>
+            </li>
+          </ol>
+          <h3 id="toc16" class="h3chapter underline">修正内容の詳細説明</h3>
+          <ol>
+            <li>
+              <span class="font-large">$excludeListの修正</span>
+              <p>$excludeList = @('INTEST*', 'OLD*', 'WORK*') → $excludeList = @('INTEST', 'OLD', 'WORK') <br />
+                この修正は各配列要素の末尾に「*」を取る。なんでかというリストではワイルドカードで使っているが、正規表現の変換でそのまま文字とした正規表現パタンになってしまうため。"INTEST*"という文字で始まるパタンでは「INTEST-Hoge.ps1」などがマッチしなくなり除外できないから
+              </p>
+            </li>
+            <li>
+              <span>$excludeListを正規表現パタンに変換する</span>
+              <pre><code class="powershell">
+          #// $excludeListを正規表現パタンに変換する
+          $excludePattern = '^(' + (                  #// パタン先頭の文字列は、'^('
+            #// 1. $excludeList をパイプで渡す
+            #// 2. ForEach-Objectで[Regex]::Escape() で $_の特殊文字を含むものをエスケープする
+            #//    | でjoinする。これでORになる
+            ($excludeList | ForEach-Object { [Regex]::Escape($_) }) -join '|'
+          ) + ')'     #// パタンの最後の文字列は、')’
+          
+          出来上がったパタン
+          ^(INTEST|KARI|OLD)
+          </code></pre>
+            </li>
+            <li>
+              <span class="font-large">Where-Objectで除外ファイルをフィルタ</span>
+              <p>Get-ChildItemで*.ps1ファイルだけ取り出して、Where-Objectで除外パタンにマッチしないものだけ出力する</p>
+              <pre><code class="powershell">
+          Get-ChildItem -Filter "*.ps1" | Where-Object {$_.Name -notmatch $excludePattern}
+          </code></pre>
+            </li>
+          </ol>
+          <p></p>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

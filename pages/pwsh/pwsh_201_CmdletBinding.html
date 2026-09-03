@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>CmdletBinding属性 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのCmdletBinding属性。CmdletBindingがトリガとなったWrite-Debugでの問題事象">
+<meta name="keywords" content="pwsh,PowerShell,CmdletBinding属性とWrite-Debugの問題">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/高度化:/pages/pwsh/pwsh_000_index.html#toc200 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        <!-- HOUTBD：CmdletBindingはもう少しまとめる -->
+        CmdletBinding属性によるWrite-Debug問題
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">CmdletBinding属性によるWrite-Debug問題</h2>
+          <h3 id="toc12" class="h3chapter underline">CmdletBinding属性によるWrite-Debug問題</h3>
+          <p>
+            [CmdletBinding()]により関数の高度化が行われ、自動的に-Debugや-Verboseが使えるようになります。この結果ある問題が発生しました。これはスクリプトに埋め込んでいるWrite-Debug実行時に「この操作を実行しますか？」という確認メッセージが出るというものです。また、この事象はWindows
+            Powershellでしか発生しません<a href="pwsh_101_variable.html#toc32">（どーゆこと？）</a></p>
+          <p>自分の環境は、PowerShell Coreなので影響はないのですが、備忘録としてページに残しておきます</p>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Get-Verb | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのコマンドレットは、動詞-名詞の書式となっています。この時、推奨される動詞がありそれを教えてくれるコマンドレットがGet-Verbです">
+<meta name="keywords" content="pwsh,PowerShell,コマンドレット,Get-Verb">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Get-Verb
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">Get-Verb</h2>
+          <h3 id="toc12" class="h3chapter underline">Get-Verbとは</h3>
+          <p>
+            PowerShellのコマンドレットは、動詞-名詞の書式となっており統一的な命名規則があります。このため自作のコマンドレット名もこのルールで作る方がいいと思います。そうなった時に望ましい名前（望ましい動詞）があり、それをMicrosoftが定義しています。その一覧を取得できるのが、このコマンドレット「Get-Verb」です
+          </p>
+          <p>
+            自作コマンドレットを作り始めた時は、これを知らなかったので動詞-名詞の形であればなんでもいいと思っていたけど（それでも実害はない）、PowerShell文化があるのが分かったので、今後は承認された動詞を使おうと思っています
+          </p>
+          <pre><code class="powershell">
+        Get-Verb
+        Verb        Group
+        ----        -----
+        Add         Common
+        Clear       Common
+        Close       Common
+        Copy        Common
+        ...         ...
+        </code></pre>
+          <h3 id="toc14" class="h3chapter underline">動詞のグループ化</h3>
+          <p>各動詞は無秩序に並んでいるのではなく、グループ化されて整理されている。このため自分が作りたい機能がどのグループになるのかを考えてその中の動詞をチョイスすればPowerShell文化に則った命名ができると思います
+          </p>
+          <table class="custom-table">
+            <tr>
+              <th>グループ</th>
+              <th>動詞の種類</th>
+              <th>備考</th>
+            </tr>
+            <tr>
+              <td>Common (共通)</td>
+              <td>「Add」など、ほぼすべてのコマンドレットに適用できる汎用アクションを定義します。</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Communications (通信)</td>
+              <td>「Connect」などの通信に適用されるアクションを定義します。</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Data (データ)</td>
+              <td>「Backup」などのデータ処理に適用されるアクションを定義します。</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Diagnostic (診断)</td>
+              <td>「Debug」などの診断に適用されるアクションを定義します。</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Lifecycle (ライフサイクル)</td>
+              <td>「Complete」のようなライフサイクルに適用されるアクションを定義します。</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Security (セキュリティ)</td>
+              <td>「Revoke」のようなセキュリティに適用されるアクションを定義します。</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Other (その他)</td>
+              <td>その他のタイプのアクションを定義します。</td>
+              <td></td>
+            </tr>
+          </table>
+          <p>参考サイト</p>
+          <p><a href="https://cheshire-wara.com/powershell/ps-help/get-verb-help/"
+              target="_blank">コマンドレット説明書【Get-Verb】の使い方 (PowerShell v5.1)</a></p>
+          <p><a
+              href="https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands?view=powershell-7.5">Approved
+              Verbs for PowerShell Commands（Microsoft公式ページ）</a></p>
+
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

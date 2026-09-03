@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Get-ContentとWrite-Host | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Get-Contentでファイルを読み込み、それをWrite-Hostで表示させると意図しない表示になる（1行で表示される）。ファイルの内容のまま表示させたい場合はどうするの？という話です">
+<meta name="keywords" content="pwsh,PowerShell,Get-ContentとWrite-Host">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/現場の課題:/pages/pwsh/pwsh_000_index.html#toc400 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Get-Content結果をWrite-Hostで表示すると・・・
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Get-Content結果をWrite-Hostで表示する</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">発生した課題・問題とは</h3>
+          <p>あるスクリプト内でGet-Contentにてあるファイルをリードして、それをWrite-Hostで表示すると意図した表示にならない（1行で表示されてしまう）という現象がおきます</p>
+          <p>以下のコードを実行すると、このファイル結果が1行で「[CmdletBinding()] param() Write-Verbose ("start !!")
+            ・・・」のように1行で表示されてしまう。意図していたのはファイルのイメージのまま表示されることだったけど意図しない結果になってしまった</p>
+          <pre><code class="powershell">
+        # myError.ps1
+        [CmdletBinding()]
+        param()
+        Write-Verbose ("start !!")
+
+        $myContent = Get-Content "myError.ps1"
+        Write-Host $myContent
+
+        Write-Verbose ("end")
+        </code></pre>
+
+          <h3 id="toc14" class="h3chapter underline">原因と対策</h3>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">原因</span>
+              <div class="text">
+                <img src="/assets/pic/pwsh_403_getcontent_01.png" alt="Get-Contentの結果"
+                  class="responsive-img image-float" />
+                <p><br />この原因は、<span class="marker">Get-Contentがファイルの各行を配列要素として読み込む</span>ことと、<span
+                    class="marker">Write-Hostが配列を表示する時に各要素をスペースでつないで1つの文字列として表示する</span>ことによります。<br />
+                  この絵はデバッグ画面ですが、Get-Contentの結果を受け取った変数「$myContent」が配列になっていることがわかります</p>
+              </div>
+            </li>
+            <li>
+              <span class="is-bold">対策案１）</span>
+              <pre><code class="powershell">
+            # Write-Host を以下のように修正する
+            Write-Host ($myContent -Join "`n")
+          </code></pre>
+              <p>Write-Hostで配列を表示すると、各配列要素をスペースでつなげて1つの文字で表示するので、これを「-Join
+                "`n"」に変える。スペースでつなげるかわりに、改行で各要素をつなげて表示するので結果的にファイルと同じイメージで表示されるようになる</p>
+            </li>
+            <li>
+              <span class="is-bold">対策案２）</span>
+              <p>ForEach-Objectで配列要素を1つずつWrite-Hostで表示する</p>
+              <pre><code class="powershell">
+          # Write-Host を以下のように修正する
+          $myContent | ForEach-Object {Write-Host $_}
+          </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">対策案３）</span>
+              <p>Write-Hostを使わずに「Write-Output」にする</p>
+              <pre><code class="powershell">
+          # Write-Outputを使う
+          Write-Output $myContent
+          </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">対策案４）</span>
+              <p>Get-Contentに「-Raw」オプションをつける。-Rawを付けると配列として読み込まれなくなり、このファイル内容そのままで読み込む</p>
+              <pre><code class="powershell">
+          $myContent = Get-Content "myError.ps1" -Raw
+          Write-Host $myContent
+          </code></pre>
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

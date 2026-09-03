@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>CmdletBinding属性 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのCmdletBinding属性。CmdletBinding属性により関数やスクリプトを高度なものにできます">
+<meta name="keywords" content="pwsh,PowerShell,CmdletBinding属性,高度化">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/高度化:/pages/pwsh/pwsh_000_index.html#toc200 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        <!-- HOUTBD：CmdletBindingはもう少しまとめる -->
+        CmdletBinding属性（HOUTBD）
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">CmdletBinding属性</h2>
+          <h3 id="toc12" class="h3chapter underline">CmdletBinding属性とは</h3>
+          <p>
+            CmdletBinding属性は、自分の関数やスクリプトを「高度な関数」または「高度なスクリプト関数」にするための属性です。<br />何かよくわからんが、PowerShellのコマンドレットが持つパラメータ（-WhatIfや、-Debug、-ErrorAction、-Verbose、・・・）を自動的にサポートしてくるようにする属性と理解していたら大体あっていると思う。コマンドレットが持つ基本的な機能を継承するってことなのでバインディングなのかな。
+          </p>
+          <p>CmdletBinding属性を指定するだけでいいが、以下の注意点がある</p>
+          <ul>
+            <li><span class="marker-red">関数またはスクリプトの一番先頭に書かないといけない</span></li>
+            <li><span class="marker-red">[CmdletBinding()]の次の行には、Param()が必要</span></li>
+            <li><span class="marker-red">角かっこで、CmdletBinding() を囲む（[]が属性だから）</span>つまり、[CmdletBinding()] と書く
+              <p>[]で囲まないと、CmdletBinding() と解釈されてしまう。</p>
+            </li>
+          </ul>
+          <p>今までは、例えば -Debugを使いたい場合、自分でParam()に[Switch]型で$Debugを定義して使っていたけど、[CmdletBinding()]属性を付ければ、<span
+              class="marker"><strong>Param()で定義、$Debug変数が定義されていたらどうこうというIf文も書かなくていい。</strong> </span> </p>
+          <pre><code>
+        #//////////////////////////////////////////////////////////////////////////
+        # 今までやっていた方法（自分で、$Debugを定義するやりかた）
+        #
+        Param(
+          [Switch]$Debug      #// ← ** [CmdletBinding()]属性をつけたら、この定義は要らない **
+        )
+
+        #// ↓ ** [CmdletBinding()]属性をつけたら、このif文は要らない **
+        if($Debug) {$DebugPreference = "Continue"} else {$DebugPreference = "SilentlyContinue"}
+        ...
+        Write-Debug ("Enter $func_name")
+      </code></pre>
+          <pre><code>
+        #//////////////////////////////////////////////////////////////////////////
+        # [CmdletBinding()]属性を指定するやりかた
+        #
+        [CmdletBinding()]   # これがCmdletBinding()の属性指定
+        Param()
+        ...
+        Write-Debug ("Enter $func_name")  #何も宣言せずに、すぐWrite-Debugが使える
+
+        CmdletBinding()を先頭に定義しておけば、実行時に以下のようにするだけでいい。これで、Write-Debugのコードが出力される
+        PS&gt; .\Hoge.ps1 -Debug
+      </code></pre>
+        </section>
+        <section>
+          <!-- HOUTBD -->
+          <h3 id="toc13" class="h3chapter underline">CmdletBinding属性は引数も取ることができる</h3>
+          <p>TBD。CmdletBinding()は属性だけど、引数を指定することができる。とりあえずは使わないけど、<a
+              href="https://www.delftstack.com/ja/howto/powershell/powershell-cmdletbinding/"
+              target="_blank">この辺りのページ</a>に書いてある</p>
+        </section>
+        <section>
+          <h3 id="toc14" class="h3chapter underline">VSCodeのインテリセンスではCmdletBindingじゃないけど・・・</h3>
+          <p>VSCodeを使っているとインテリセンスが効いて、CmdletBi・・と入力すると、候補に<span
+              class="marker">CmdletBindingAttribute</span>が出てくる。これは、dotnet型が本当の型なので、CmdletBindingAttributeが本当の型だから。でも、PowerShellではそれのAliasとして「CmdletBinding」を使っているので、気にせず「CmdletBindingAttribute」を選択すればいい。これを選択してもPowerShellのps1ファイルの場合は「CmdletBinding」として入力される。
+          </p>
+        </section>
+        <section>
+          <h3 id="toc15" class="h3chapter underline">CmdletBindingは全部の関数につけないとだめ？</h3>
+          <p>
+            結論から言うとその関数を単独で使う予定があるかどうかだと思います。あるps1ファイルの中にある関数を単独で実行したい場合はつけた方がいいけど、ps1ファイル内で使うだけなら各関数には[CmdletBinding()]を書かなくてもいい
+          </p>
+          <p>以下の例は、Test-Hoge.ps1 ファイルで、この関数は以下のように作っている</p>
+          <ul class="no-marker">
+            <li class="underline">Test-Hoge.ps1ファイルの中には、内部関数「hoge1()」がある</li>
+            <li class="underline">Test-Hoge.ps1ファイルの先頭で、[CmdletBinding()]属性を指定している</li>
+            <li class="underline">内部関数「hoge1()_」には、[CmdletBinding()]属性は指定していない</li>
+          </ul>
+          <pre><code class="powershell">
+        #//
+        #// Test-Hoge.ps1ファイル
+        #//
+        [CmdletBinding()]                       #// Test-Hoge.ps1ファイルの先頭で
+        param()                                 #//  [CmdletBinding()]属性を指定している
+                                                #//  ∴このスクリプトは高度化している
+        Write-Verbose("Verbose表示 01")
+        Write-Debug("start TEST Code")
+
+        #// 内部関数 Hoge1()
+        function Hoge1 {                        #// 内部関数Hoge1()は、[CmdletBinding()]属性はなし
+          write-Host("Write-Host: Hoge1")       #// これは、Write-Hostなので必ず表示される
+          Write-Debug("Enter Hoge1")
+          Write-Verbose("this meg from Hoge1")
+          Write-Debug("Exit Hoge2")
+        }
+
+        #// main
+        Write-Debug("now call Hoge1()")
+        Hoge1                                   #// 内部関数Hoge1() をコール
+
+        Write-Verbose("Verbose表示 02")
+        Write-Debug("end TEST Code")
+        </code></pre>
+          <p>実行テストと結果</p>
+          <ul class="no-marker">
+            <li>
+              <span class="font-large">実行結果１</span>
+              <p>
+                実行結果１では、コマンドラインからps1ファイルを実行したもの。この時のコマンドライン引数は「-Verbose」と「-Debug」。<br />Test-Hoge.ps1は、高度化しているのでこれらの引数を受け取ることができる
+              </p>
+              <p>
+                この結果を見たらわかるが、内部関数Hoge1()は[CmdletBinding()]属性をつけていないが、Write-VerboseやWrite-Debugは表示されている。これはスクリプトファイルの先頭で指定した[CmdletBinding()]属性により、Preference変数が設定されるので、内部関数にもこの設定値に従った動作となっているから。
+              </p>
+              <p>なので<span class="marker">ps1ファイル内でつかう関数には[CmdletBinding()]属性は指定しなくてもいい</span>ということになる</p>
+              <pre><code class="powershell">
+            PS &gt; .\Test-Hoge.ps1 -Debug -Verbose   # ← コマンドライン引数は「-Verbose」と「-Debug」でスクリプトを実行
+            VERBOSE: Verbose表示 01
+            DEBUG: start TEST Code
+            DEBUG: now call Hoge1()
+            Write-Host: Hoge1                         
+            DEBUG: Enter Hoge1                        # 内部関数Hoge1()は[CmdletBinding()]属性を指定していないが
+            VERBOSE: this meg from Hoge1              # Write-Verbose や Write-Debug が表示されていることがわかる
+            DEBUG: Exit Hoge2
+            VERBOSE: Verbose表示 02
+            DEBUG: end TEST Code              
+            </code></pre>
+            </li>
+            <li>
+              <p>
+                上記の結果の通り、ps1ファイル内から内部関数を使う場合は内部関数に[CmdletBinding()]属性をつけなくてもいいことが分かりましたが、この関数を単独で使う場合は話が違います。以下の例は、ドットソースで実行して関数をロードし、関数だけをコールしてみた結果です。
+              </p>
+              <span class="font-large">実行結果２</span>
+              <p>
+                この結果では、関数内部にあるWrite-DebugやWrite-Verboseは出力されていないことが分かります。ps1ファイルでは[CmdletBinding()]属性をつけているけど、この内部関数には[CmdletBinding()]属性が無いので、-Debugや-Verboseが効かないということです
+              </p>
+              <pre><code class="powershell">
+            PS &gt; . .\Test-Hoge.ps1       #// ドットソースでps1ファイルを実行し、内部関数をロード
+            PS &gt; Hoge1 -Debug -Verbose   #// -Debug や -Verbose をつけて関数を実行してみる
+
+            結果）
+            Write-Host: Hoge1   #// Hoge1()関数内の Write-Host だけが出力されている  
+            </code></pre>
+            </li>
+            <li>
+              <p>とりあえず、ps1スクリプトで動作させる分には内部関数にも属性がかかるのでいいけど、関数を個別に使いたくなった場合は各関数内でも[CmdletBinding()]属性を指定してあげる必要がある</p>
+              <p>次にこの内部関数に[CmdletBinding()]属性をつけてどうなるかを試してみる</p>
+              <pre><code class="powershell">
+            #//
+            #// Test-Hoge.ps1ファイル
+            #//
+            [CmdletBinding()]                       
+            param()                                 
+                                                    
+            Write-Verbose("Verbose表示 01")
+            Write-Debug("start TEST Code")
+
+            #// 内部関数 Hoge1()
+            function Hoge1 {
+              [CmdletBinding()]                     #// 内部関数Hoge1()にも [CmdletBinding()]属性をつける
+              param()                               #// param() も必要。変更点はこれだけ
+              write-Host("Write-Host: Hoge1")       
+              Write-Debug("Enter Hoge1")
+              Write-Verbose("this meg from Hoge1")
+              Write-Debug("Exit Hoge2")
+            }
+
+            #// main
+            Write-Debug("now call Hoge1()")
+            Hoge1                                   
+
+            Write-Verbose("Verbose表示 02")
+            Write-Debug("end TEST Code")
+            </code></pre>
+              <span class="font-large">実行結果３</span>
+              <p>以下の結果は、関数Hoge1()に[CmdletBinding()]属性をつけて、もう一度関数をロード。Hoge1() を -Debugや-Verbose 引数をつけて実行してみたものです</p>
+              <pre><code class="powershell">
+            PS &gt; . .\Test-Hoge.ps1       #// ドットソースでps1ファイルを実行し内部関数をロード
+            PS &gt; Hoge1 -Debug -Verbose   #// -Debug や -Verbose をつけて関数を実行してみる
+
+            結果）
+            Write-Host: Hoge1
+            DEBUG: Enter Hoge1              #// Write-Debug結果が出力されている
+            VERBOSE: this meg from Hoge1    #// Write-Verboseも出力されている
+            DEBUG: Exit Hoge2
+            </code></pre>
+            </li>
+          </ul>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

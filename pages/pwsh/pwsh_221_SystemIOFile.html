@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>System.IO.Fileクラスのスタティックメソッド | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="System.IO.Fileクラスが提供しているスタティックメソッドについて、ReadAllBytes、WriteAllBytes、OpenReadを理解する">
+<meta name="keywords" content="pwsh,PowerShell,.NETのスタティックメソッド,System.IO.Fileクラス,ReadAllBytes,WriteAllBytes,OpenRead">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/スタティックメソッド:/pages/pwsh/pwsh_000_index.html#toc220 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        <!-- HOUTBD：追加があれば追記していく -->
+        System.IO.Fileクラスのスタティックメソッド
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">[System.IO.File]::ReadAllBytes() と [System.IO.File]::WriteAllBytes()
+          </h2>
+          <h3 id="toc12" class="h3chapter underline">[System.IO.File]::ReadAllBytes() と
+            [System.IO.File]::WriteAllBytes()</h3>
+          <p>ファイルをリードするコマンドレットやメソッドは複数あるが、[System.IO.File]::ReadAllBytesは、データをバイトイメージでリードするスタティックメソッド。<br />
+            例えば、Get-Contentもファイルをリードするが、文字コードや改行コードを変えてしまう可能性がある。しかし、[System.IO.File]::ReadAllBytesはバイトイメージでリードするので文字コードや改行コードを変えることはない。
+          </p>
+          <p>業務でcsvファイルを扱うことがあるがこの時文字コードや改行コードを変えると意図した結果が得られなくなるのでGet-Contentは使えないということもある。そういう時はこのスタティックメソッドが使える</p>
+          <p>サンプル例</p>
+          <p>このサンプルでは、UTF8で改行コードがLFのCSVファイル「Test.csv」をバイトリードしてバイトライトした結果とテキストリードしてテキストライトした結果を比べてみるためのものです</p>
+          <pre><code class="powershell">
+        [cmdletbinding()]
+        param()
+
+        Write-Debug('start TEST-ReadAllBytes')
+        $inputCsv = Join-Path -Path $PSScriptRoot -ChildPath "Test.csv"
+        $outputBinCsv = Join-Path -Path $PSScriptRoot -ChildPath "CopiedBin.csv"
+        $outputTextCsv = Join-Path -Path $PSScriptRoot -ChildPath "CopiedText.csv"
+        write-debug('$inputCsv = ' + $inputCsv)
+
+        # ///////////////////////////////////////////////////////////////
+        # // [System.IO.File]::ReadAllBytes()でバイトリードする
+        $myBytes = [System.IO.File]::ReadAllBytes($inputCsv)                # ReadAllBytes()でバイトリード
+        write-debug('$myBytes = ' + $myBytes)                               # このデバッグでバイトリード内容が表示してみる
+        [System.IO.File]::WriteAllBytes($outputBinCsv, $myBytes)            # WriteAllBytes()でバイトデータをライト出力する
+
+        # ///////////////////////////////////////////////////////////////
+        # // Get-Contentでリードする
+        $work = Get-Content $inputCsv                                       # 比較用のGet-Contentでのテキストリード
+        Write-Debug('$work = ' + $work)                                     # 比較用のSet-Contentでのテキストライト
+        Set-Content $outputTextCsv $work
+
+        Write-Debug('end TEST-ReadAllBytes')          
+        </code></pre>
+          <p>以下は実行時のデバッグ表示画面</p>
+          <p>$myBytesは、バイトリードされた値が格納されているのがわかる。また$workは、Get-Contentでリードした時点で文字化けしていることがわかる（これはテストした環境がWindows
+            PowershellなのでSJISでリードしているから）</p>
+          <pre><code class="powershell">
+        デバッグ: start TEST-ReadAllBytes
+        デバッグ: $inputCsv = C:\temp\Test.csv
+        デバッグ: $myBytes = 34 231 140 171 227 129 167 227 129 153 34 44 34 231 138 ...
+                    227 129 142 227 129 167 227 129 153 34 10 34 227 130 138 227 130 ...
+        デバッグ: $work = "迪ｫ縺ｧ縺・,"迥ｬ縺ｧ縺・,"縺・＆縺弱〒縺・ "繧翫ｓ縺斐〒縺・,...
+        デバッグ: end TEST-ReadAllBytes
+        </code></pre>
+          <p>このスクリプト結果は、以下のようになっておりReadAllBytesでバイトリードした内容をWriteAllBytesでバイトライトした結果は文字コードや改行コードは変更されていないが、<span
+              class="marker-red">Get-ContentとSet-Contentでテキストリード、テキストライトしたものは文字コード、改行コードが変わっている</span></p>
+          <p>※これは「Windows Powershell」でテストしたので、文字コードも変わってしまったのだと思う（Windows PowershellはSJIS）</p>
+          <img src="/assets/pic/pwsh_221_ReadAllBytes_01.png" alt="ReadAllBytes" class="responsive-img" />
+        </section>
+      </article>
+      <article>
+        <section>
+          <h2 id="toc20" class="h2chapter-title">[System.IO.File]::OpenRead()</h2>
+          <h3 id="toc22" class="h3chapter underline">[System.IO.File]::OpenRead()</h3>
+          <p>このメソッドは、指定されたファイルをリードオンリーで開き、そのファイルを扱うためのファイルストリームを返す。</p>
+          <p><span
+              class="marker">OpenReadスタティックメソッドはファイルをストリームとして扱うためのファイルオープン。</span>$fsはファイルストリームとして扱えるためのオブジェクト。なので、$fs.Readメソッドは指定したバイト数でのリードができる
+          </p>
+          <p>ファイルをストリームとして扱うことで、そのファイルの文字コードを意識しなくてもいいようになる（単にバイト列のかたまりとして扱う）</p>
+          <p>ちなみに、<span class="marker">ファイルハンドルとファイルストリームは違う</span> </p>
+          <p class="underline">ファイルハンドラ</p>
+          <p>ファイルハンドラは、OSが管理しているファイルの識別子IDみたいなもの</p>
+          <p class="underline">ファイルストリーム</p>
+          <p>ファイルストリームは、ファイルハンドラを含む高レベルなファイルを操作するためのオブジェクト。オブジェクトなのでプロパティやメソッドがある</p>
+          <pre><code class="powershell">
+        # $file.FullNameファイルに対するファイルストリームObjが生成される
+        $fs = [System.IO.File]::OpenRead($file.FullName)
+        # .NETの固定長バッファを作成する
+        $buffer = New-Object byte[] $bytesCount                   
+        # $fsファイルストリームのReadメソッド。$bufferにリードし、リードした結果を$readBytesCounte
+        $readBytesCount = $fs.Read($buffer, 0, $bytesCount) 
+        # $fs.Closeで、$file.FullNameファイルをクローズする
+        $fs.Close()
+        </code></pre>
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

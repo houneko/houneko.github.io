@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>.NETのスタティックメソッド | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellをある程度使いこなしてくると、.NETのスタティックメソッドを使うことが出てきます。.NETは広大で全てのスタティックメソッドを覚えたり網羅することは難しいですが、使ったことがあるものは理解しておきたいものです">
+<meta name="keywords" content="pwsh,PowerShell,.NETのスタティックメソッド">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/スタティックメソッド:/pages/pwsh/pwsh_000_index.html#toc220 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        <!-- HOUTBD：.NETのスタティックメソッドはもう少しまとめる -->
+        .NETのスタティックメソッド
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">.NETのスタティックメソッド</h2>
+          <h3 id="toc12" class="h3chapter underline">.NETのスタティックメソッドとは</h3>
+          <p>
+            PowerShellは、.NET上で実行されています。ある程度PowerShellのコードを書くようになると、.NETのスタティックメソッドを使うことも増えてきます。<br />では、.NETのスタティックメソッドとは何か？
+          </p>
+          <p>
+            スタティックメソッドは、インスタンスを生成せずに直接呼び出すことができるメソッド。通常、xxクラスのメソッドはそのクラス型のインスタンスを生成すれば使えるようになるけど、スタティックメソッドはインスタンスを生成しなくても使えるようになっています
+          </p>
+          <h3 id="toc14" class="h3chapter underline">PowerShellでの、.NETのスタティックメソッドの呼び出し方</h3>
+          <p><span class="marker">角かっこでクラス名を囲み、::（コロン2つ）でメソッド名を指定する</span> </p>
+          <p>例： <span class="font-large">[System.IO.File]::ReadAllBytes</span></p>
+          <p>参考）C#も.NET上で実行されているので、同じスタティックメソッドを使うことができる。ただし呼び出し方は少し違う</p>
+          <ul class="no-marker">
+            <li>PowerShellの場合
+              <p class="">[System.IO.File]::ReadAllText("test.txt")</p>
+            </li>
+            <li>C#の場合
+              <p class="">System.IO.File.ReadAllText("test.txt");</p>
+            </li>
+          </ul>
+
+          <!-- toc16 -->
+          <h3 id="toc16" class="h3chapter underline"><span class="marker-red">.NETのクラスが持つスタティックメソッドを調べる方法</span></h3>
+          <p>調べ方はいろいろあると思いますが、1つの方法として以下の2ステップで調べることができます</p>
+          <ol>
+            <li>
+              <span class="">クラスをパイプでGet-Memberに渡してどんなメソッドがあるか調べる</span>
+              <p>そのクラスが持つスタティックメソッドはどのようなものがあるかを調べるには、以下のようにGet-Member -staticで調べることができる。</p>
+              <p><span class="marker">[System.IO.File] | Get-Member -Static</span> </p>
+              <pre><code class="powershell">
+            # [System.IO.File]クラスのスタティックメソッド。めちゃくちゃいっぱいある
+            &gt; [System.IO.File] | Get-Member -Static
+            Name                 MemberType Definition
+            ----                 ---------- ----------
+            AppendAllBytes       Method     static void AppendAllBytes(string path, byte[] bytes), ...
+            AppendAllBytesAsync  Method     static System.Threading.Tasks.Task AppendAllBytesAsync(string path, ...
+            ...
+            ReadAllBytes         Method     static byte[] ReadAllBytes(string path)
+            ...
+            </code></pre>
+            </li>
+            <li>
+              <span class="">気になるメソッドがあれば公式ドキュメントで調べる</span>
+              <p><a href="https://learn.microsoft.com/ja-jp/docs/" target="_blank">Microsoftの技術ドキュメント</a></p>
+              <p>このトップページから「.NET」をクリックして、その中にある「.NET APIリファレンス」を開く。.NET
+                APIブラウザで「System.IO.File.ReadAllBytes」などのキーワードで検索する</p>
+            </li>
+          </ol>
+
+          <!-- toc18 -->
+          <h3 id="toc18" class="h3chapter underline"><span class="marker-red">スタティックメソッドのもっと調べる方法</span></h3>
+          <p>あるクラスがどんなスタティックメソッドをもっているかは<a href="#toc16">「.NETのクラスが持つスタティックメソッドを調べる方法」</a>
+            で調べることができます。この章は、そこで見つかったあるスタティックメソッドについて、もっと深く調べる方法についてまとめています</p>
+          <p>例：[System.IO.Path]::GetFileNameWithoutExtension</p>
+          <p>とりあえず、[System.IO.Path]をGet-Memberで調べて、GetFileNameWithoutExtension()
+            というメソッドが見つかった。じゃ、これを使ってみようと思ったという想定での例です</p>
+          <p>GetFileNameWithoutExtensionメソッドを使うには、どんなメソッドか知らないといけないですが、以下のように深堀することができます。</p>
+          <ol>
+            <li>
+              <span class="" style="font-weight: bold;">[System.IO.Path] を Get-Member で調べる</span>
+              <p>まずはこれが第一歩で、このクラスが持つスタティックメソッドを調べる</p>
+              <pre><code class="powershell">
+              # [System.IO.Path]クラスのスタティックメソッド。当然いっぱいある
+              &gt; [System.IO.Path] | Get-Member -MemberType Method -Static
+              
+              TypeName: System.IO.Path
+              
+              Name                         MemberType Definition
+              ----                         ---------- ----------
+              ChangeExtension              Method     static string ChangeExtension(string path, string extension)
+              Combine                      Method     static string Combine(string path1, string path2), static string …
+              ...
+              GetFileNameWithoutExtension  Method     static string GetFileNameWithoutExtension(string path), ...
+              ...
+            </code></pre>
+            </li>
+            <li>
+              <span class="" style="font-weight: bold;">例として GetFileNameWithoutExtension を調べてみる</span>
+              <p>Get-Helpで調べられるか？、答えはNo。Get-Helpは、PowerShellのコマンドレットや関数などが対象のため</p>
+              <p>じゃ、どうするか？</p>
+              <p>Get-Memberには、-Name というオプションがあるので対象のメソッドを指定して調べる</p>
+              <pre><code class="powershell">
+            # -Nameオプションで対象のメソッドを指定して調べる（-Staticもつける）
+            &gt; [System.IO.Path] | Get-Member -Name GetFileNameWithoutExtension -Static
+
+              TypeName: System.IO.Path
+
+            Name                        MemberType Definition
+            ----                        ---------- ----------
+            GetFileNameWithoutExtension Method     static string GetFileNameWithoutExtension(string path), static ...
+            </code></pre>
+              <p>Definitionに関数プロトタイプが書かれているようだけど文が長いので省略されている</p>
+            </li>
+            <li>
+              <span class="" style="font-weight: bold;">GetFileNameWithoutExtension のDefinitionを調べる</span>
+              <p>[System.IO.Path] | Get-Member -Name GetFileNameWithoutExtension -Static
+                でこのメソッドの概要を調べることができるのはわかったけど、Definitionに書かれている内容が長文のため省略されている。これを全部表示させる</p>
+              <p>この結果をFormat-Listで表示させる</p>
+              <pre><code class="powershell">
+            #// Format-Listで成形して全部表示させる
+            &gt; [System.IO.Path] | Get-Member -Name GetFileNameWithoutExtension -Static | Format-List *
+            TypeName   : System.IO.Path
+            Name       : GetFileNameWithoutExtension
+            MemberType : Method
+            Definition : 
+              static string GetFileNameWithoutExtension(string path), 
+              static System.ReadOnlySpan[char] GetFileNameWithoutExtension(System.ReadOnlySpan[char] path)
+            </code></pre>
+              <p style="color:red">Definitionから分かる事</p>
+              <p>Definitionには、以下の2つが書かれている。これは関数プロトタイプが2つあることを示しており、つまりオーバロードされている事がわかる</p>
+              <p>また、それぞれのメソッドの戻り値や引数もわかる</p>
+              <pre><code class="powershell">
+              # このGetFileNameWithoutExtension()は、戻り値がstringで、引数はstring型のpath
+              # pathを渡せば、拡張子を除くファイル名のStringが返ってくる（と想像できる）
+              static string GetFileNameWithoutExtension(string path), 
+              
+              # このGetFileNameWithoutExtension()は、戻り値がSystem.ReadOnlySpan[char]、
+              # 引数は、System.ReadOnlySpan[char]型のpath。どっちもわからん。
+              # 戻り値も引数も何かの配列っぽいけどわからん。だけど関数プロトタイプはなんとなくわかった
+              static System.ReadOnlySpan[char] GetFileNameWithoutExtension(System.ReadOnlySpan[char] path)
+            </code></pre>
+            </li>
+
+            <li>
+              <span class="" style="font-weight: bold;">クラスのGetMethods()でも調べることができる</span>
+              <pre><code class="powershell">
+            [System.IO.Path].GetMethods() | 
+              Where-Object Name -eq 'GetFileNameWithoutExtension' | 
+              foreach {
+                $_ | Format-List Name, ReturnType
+                $_.GetParameters() | Format-Table ParameterType
+              }  
+
+              Name       : GetFileNameWithoutExtension
+              ReturnType : System.String
+              ParameterType
+              -------------
+              System.String
+
+              Name       : GetFileNameWithoutExtension
+              ReturnType : System.ReadOnlySpan`1[System.Char]
+              ParameterType
+              -------------
+              System.ReadOnlySpan`1[System.Char]
+            </code></pre>
+            </li>
+
+            <li>
+              <span class="" style="font-weight: bold;">まとめ</span>
+              <p>各クラスのスタティックメソッドを調べるには、①まずはクラスをパイプでGet-Memberに渡してどんなスタティックメソッドがあるかを調べる、②次に知りたいスタティックメソッドを深堀するという手順になる
+              </p>
+              <pre><code class="powershell">
+            #まとめると
+              ① [クラス名]の持つメソッドをGet-Memberで調べる  
+                    [クラス名] | Get-Member -Static -MemberType Method
+                        ↓
+              ② 調べたいメソッドが見つかれば深堀する          
+                    [クラス名] | Get-Member -Name 対象のメソッド名 -Static
+                        または
+                    [クラス名] | Get-Member -Name 対象のメソッド名 -Static | Format-List *
+            </code></pre>
+            </li>
+          </ol>
+
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

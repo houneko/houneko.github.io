@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PWSHの並列処理 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell 7以降のバージョンでは並列処理が可能となっており、大量のデータを高速に処理できるようになっています。基本的な使い方から応用的な使い方までサンプル例を使って説明しています">
+<meta name="keywords" content="pwsh,PowerShell,PWSHの並列処理">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/並列処理:/pages/pwsh/pwsh_000_index.html#toc280 >">
+</head>
+
+<!-- HOUTBD -->
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの並列処理
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellの並列処理</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">並列処理とは</h3>
+          <p>PowerShellで通常の処理を行う場合、順番に実行するので大量のデータを扱うケースでは時間がかかっていました</p>
+          <p>PowerShell7以降のバージョンでは、この問題に対して「並列処理」が可能となりました</p>
+          <p>並列処理とは、同時に複数の処理をすることです</p>
+          <p>これは、.NETのThreadPoolを使ったマルチスレッド処理となっており、各処理は別スレッドとして複数のCPUコアに分散されて実行されます。</p>
+          <p>
+            スレッドのコアへの振り分けはOSがやるのでプログラマは意識しなくてもいいですが、ThrottleLimit（並列数）はプログラマが考えます。並列処理を行う場合、並列数を上げたら上げた分高速になるわけではないため、最適値を検討する必要があります。<br />※OSのスケジューリングのオーバヘッドが大きくなるため
+          </p>
+        </section>
+        <section>
+          <h3 id="toc14" class="h3chapter underline">論理コア</h3>
+          <p>
+            まず、論理コアはどういう事かですが、インテルのCPUはハイパスレッテイングがありOSから見たら物理コア数以上のCPUが見えています。例えば、物理コア数が8でハイパスレッティングが（2スレッド/コア）なら、8x2=16の論理コアがあることになります
+          </p>
+          <p>OSは、並列処理を論理コアに対して振り分けるので、実行PCの論理コア数を知る必要があります。論理コア数を超えた並列処理も可能ですがケースによっては、高速化にならない場合もあります</p>
+          <p>実行PCの論理コア数は、[Environmet]クラスのスタティックプロパティ ProcessorCount で取得できます。</p>
+          <ol class="no-marker">
+            <li>[Environment]::ProcessorCount</li>
+          </ol>
+        </section>
+
+        <section>
+          <h3 id="toc16" class="h3chapter underline">並列数の決定</h3>
+          <p>最適な並列数を決めないと結果的に遅くなる場合があります。これはOSがスレッドを切り替えて（コンテキストスイッチ）スケジューリングしているためそのオーバヘッドが大きくなるためです。</p>
+          <p>1つの目安は、高速化対象の処理がCPUの計算がボトルネックになっているのか、IO待ちが大きいため遅くなっているのかで切り分けるものです</p>
+          <ol class="no-marker">
+            <li><span>CPU処理がボトルネック</span>
+              <p>これは、常にCPUが忙しい状態であり、これ以上増やしても限界って事なので、最大でもコア数までの指定がいい</p>
+            </li>
+            <li><span>IO待ちがボトルネック</span>
+              <p>これは、常にIO待ちで待っている時間が長い状態であり、空き時間をCPUに渡して処理をさせればいい。このケースはコア数以上の指定も効果がある場合がある</p>
+            </li>
+          </ol>
+          <!-- HOUTBD 以下にコア数決定のための実測について書く -->
+          <p></p>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHのSwitch文 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのSwitch文についての章です。PowerShellのswitch文は他の言語と同様ですが、例えばC言語のswitch～case文よりも高機能となっています">
+<meta name="keywords" content="pwsh,PowerShell,switch文">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/構文:/pages/pwsh/pwsh_000_index.html#toc140 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellのSwitch～Case文
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">PowerShellのSwitch文</h2>
+          <h3 id="toc12" class="h3chapter underline">PowerShellのSwitch文</h3>
+          <p>
+            PowerShellにもSwitch文がある。Switch文は、他の言語と同様にif文の分岐が多数になる場合などで使うと可読性や保守性の高いコードを書くことができる。また、PowerShellのSwitch文は、例えばC言語のswitch～case文よりも高機能となっている
+          </p>
+          <p>switch文の基本的な書式は、他の言語だいたい同じだけど、Case文は不要（存在しない）。また、breakは必要となっている</p>
+          <pre><code class="powershell">
+          # Switch文の基本形
+          switch (評価式) {
+            値1 { 処理1; break }  # PowerShellのswitch文は、Caseは無い。breakは必要
+            値2 { 処理2; break }
+            値3 { 処理3; break }
+            ...
+            Default {処理}
+          }
+        </code></pre>
+          <p>サンプルコード<br />このサンプルコードは、評価式の$seasonの値が2で、分岐する値は2が2つ定義されている。この場合、最初のケースがヒットして評価される。breakが無ければ次の「2」にもヒットする
+          </p>
+          <pre><code class="powershell">
+        $season = 2
+        switch ($season) {
+          0 { Write-Host "春です" ; break }
+          1 { Write-Host "夏です" ; break }
+          2 { Write-Host "秋です" ; break }
+          2 { Write-Host "It's autumn." ; break }
+          3 { Write-Host "冬です" ; break }
+          Default { Write-Host "四季ちゃうやん" ; break }
+        }	
+        #実行結果
+        秋です
+        </code></pre>
+          <h3 id="toc20" class="h3chapter underline">Switch文のいろいろなオプション</h3>
+          <p>switch文には、いろいろなオプションがありswitchの挙動を変えることができる。こういうのはC言語にはない（と思う）</p>
+          <ul>
+            <li>-CaseSensitiveオプションによる大文字小文字区別での分岐判定
+              <p>switch文に -CaseSensitiveオプションをつけると、大文字小文字を区別した分岐判定になる</p>
+              <pre><code class="powershell">
+            $lang = "PowerShell"	
+            switch -CaseSensitive ($lang) {	                  # -CaseSensitiveオプションにより大文字小文字が区別される
+              "powershell" { Write-Host "small case" ; break }    # 小文字なのでヒットしない
+              "POWERSHELL" { Write-Host "large case" ; break }    # 大文字なのでヒットしない
+              "PowerShell" { Write-Host "mix case" ; break }      # このケースにヒットする
+              Default { Write-Host "no-hit" ; break }	
+            }	
+            #実行結果
+            mix case
+            </code></pre>
+            </li>
+            <li>-Wildcardオプションによるワイルドカードでの分岐判定
+              <p>switch文に -Wildcardオプションをつけるとワイルドカードでの分岐判定になる。以下のサンプルは「-CaseSensitive」と「-Wildcard」オプションの両方をつけている。<span
+                  class="marker">オプションは複数つけることができる</span></p>
+              <pre><code class="powershell">
+            $lang = "PowerShell"
+            switch -CaseSensitive -Wildcard ($lang) {   # -CaseSensitive と -Wildcardオプションがついている
+              "p*" { Write-Host "p で始まる" ; break }  # p* だけど大文字小文字の区別をするのでヒットしない
+              "*L" { Write-Host "L で終わる" ; break } 
+              "P*" { Write-Host "P で始まる" ; break }  # P*なのでヒットする
+              Default { Write-Host "no-hit" ; break }
+            }
+            #実行結果
+            P で始まる
+            </code></pre>
+            </li>
+            <li>-FIleオプションをつけると評価式にファイルを指定できるようになる
+              <p>※ファイルの1行ずつが$_に読み込まれるそれを評価式として値とswitch比較する</p>
+              <pre><code class="powershell">
+            $mycmd = @()
+            Get-Command | Select-Object Name &gt; hoge_switch.txt   # Get-Command | Select Nameでコマンド名だけを hoge_switch.txtに書き出す
+            switch -Wildcard -File ".\hoge_switch.txt" {
+              "Get-A*" { $mycmd += ($_ + "`n")}     # Get-A*というコマンド名のものを mycmdバッファに追記する
+            }
+            Write-Host "Get-A* Cmdlet = ", $mycmd.Count   # Get-A* のコマンド名のものの数
+            Write-Host "Get-A* Cmdlet are ", `n , $mycmd  # Get-A* のコマンド名を表示
+            
+            #実行結果
+            Get-A* Cmdlet = 23	
+            Get-A* Cmdlet are 	
+            Get-AppPackage
+            Get-AppPackageDefaultVolume
+            Get-AppPackageLastError
+            Get-AppPackageLog
+            Get-AppPackageManifest
+            Get-AppPackageVolume
+            ・・・
+
+            #同じことは以下でも取得できる
+            #$a = get-command | select name | where { $_.name -like "get-a*" }
+            </code></pre>
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

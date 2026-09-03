@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHのGet-Help | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのコマンドレットの各コマンドレットのヘルプはそれ専用のヘルプ用コマンドレットがあります">
+<meta name="keywords" content="pwsh,PowerShell,コマンドレット,Alias">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Get-Help
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">Get-Help</h2>
+          <h3 id="toc12" class="h3chapter underline">Get-Helpとは</h3>
+          <p>PowerShellのコマンドレットは、Cmd.exeの頃の
+            Helpオプション（/hや/?など）とは違い、ヘルプ処理を行うコマンドレットが用意されています。つまり、各コマンドレットのヘルプ表示を行うコマンドレットがあるということです。それが、このGet-Helpです</p>
+          <p>Get-Helpコマンドレットを使えば、他のコマンドレットの仕様を調べることができます</p>
+          <pre><code class="powershell">
+        #// Get-Help 調べたいコマンドレット
+        &gt; Get-Help Get-ChildItem     # Get-Help コマンドレット名
+        &gt; Get-Help ls                # Get-Help エイリアス名でも可
+
+        NAME
+            Get-ChildItem
+        #//オーバロードされているので複数のSyntaxがある    
+        SYNTAX
+            Get-ChildItem [[-Path] &lt;string[]&gt;] ....   
+            Get-ChildItem [[-Filter] &lt;string&gt;] ....
+        #//このコマンドレットのエイリアス一覧
+        ALIASES
+            gci
+            ls
+            dir
+        #//注意事項。コマンドレットのヘルプファイルが見つからなかったメッセージが出ている
+        #//ここでは省略しているけど、本当の画面では他の方法もサジェストされている
+        REMARKS
+            Get-Help cannot find the Help files for this cmdlet on this computer....
+        </code></pre>
+          <p>昔風な（コマンド名にヘルプオプションをつける）ヘルプ表示も可能。だけどGet-Helpに統一した方が使い方を覚えられるしPowerShellっぽいのでいい</p>
+          <pre><code class="powershell">
+        &gt; Get-ChildItem -?
+        </code></pre>
+
+          <h3 id="toc14" class="h3chapter underline">Get-Help：もっと詳しく調べる方法</h3>
+          <p>Get-Helpもコマンドレットなので、引数を持っている。「-Detailed」や「-Online」を指定するともっと詳しいヘルプ表示が出るようになる（-OnlineはWebページ）</p>
+          <p>もっと詳しく調べる方法</p>
+          <pre><code class="powershell">
+        #// -Detailedオプションを指定した詳細ヘルプ表示
+        &gt; Get-Help Get-ChildItem -Detailed
+        
+        #// -Onlineオプションを指定した詳細な調べ方（Webページが開く。これが一番詳しい）
+        &gt; Get-Help Get-ChildItem -Online
+        </code></pre>
+
+          <h3 id="toc16" class="h3chapter underline">Get-Helpの表記方法</h3>
+          <p>Get-Helpで表示されるかっこには意味があります。これはDOSからの流れなので、昔の人は無意識にこの思考になっているかもしれませんが、一応書いておきます。</p>
+          <pre><code class="powershell">
+        #// 角かっこは省略可能を示しています
+        #// 以下の意味は、Get-HogeHogeには -Attribute というパラメータ指定が可能であり、それが[]で囲まれている
+        #// よって、
+        #// Get-HogeHoge                     ← 全部省略した表記も可能
+        #// Get-HogeHoge -Attribute ReadOnly ← 全部省略しない書き方もOK
+        #// Get-HogeHog ReadOnly             ← -Attributeを省略した書き方もOK
+        Get-HogeHoge  [[-Attribute] { ReadOnly | Hidden | System }]
+        
+        #// 波かっこは、その中から1つを選択するという事を示しています
+        #// { ReadOnly | Hidden | System } は、この中のどれか1つを選択
+        #// よって、
+        #// Get-HogeHoge -Attribute ReadOnly ← ReadOnly値を指定した例
+        #// Get-HogeHoge -Attribute Hidden   ← Hiddenを指定した例
+        Get-HogeHoge  [[-Attribute] { ReadOnly | Hidden | System }]
+        </code></pre>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

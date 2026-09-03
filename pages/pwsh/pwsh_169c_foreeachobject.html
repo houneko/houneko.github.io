@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ForEach-Object | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="ForEach-Objectは、パイプで使うコマンドレットです。名前からするとForEachループ的な動作を想像しますがそうではないので、このコマンドレットは間違いやすいのではないかと思います。この記事では、自分が間違った点をサンプル例を使って詳しく説明します">
+<meta name="keywords" content="pwsh,PowerShell,コマンドレット,ForEach-Object">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        ForEach-Object
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">ForEach-Object</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">ForEach-Objectとは</h3>
+          <p>ForEach-Objectは、<a href="pwsh_104_pipeline.html#toc12"
+              class="emphasis font-large">パイプと合わせて使うコマンドレットです。</a>名前からするとForEachループのような動作をするものと思うかもしれませんが、<span
+              class="emphasis font-large">ループのような動作はしません</span></p>
+          <p>
+            ForEach-Objectは、パイプラインで渡されたオブジェクトに対してやりたい事をForEach-Objectのスクリプトブロック内に記述して使います。列挙可能なオブジェクトをパイプラインには渡した場合、1つのつずつ渡されてくる（つまりパイプ自体がループのような動作になっており、ForEach-Objectに渡されるのは1つのオブジェクト）。これを1つずつ受け取って何かするというのが、このコマンドレットの働きです
+          </p>
+        </section>
+
+        <section>
+          <h3 class="h3chapter underline" id="toc20">ForEach-Object と foreach文</h3>
+          <p>
+            自分がForEach-Objectが分かりにくいなと思うのは、ForEach-Objectとforeach文がある事が1つの理由かなと思っています（さらにはForEach-Objectのエイリアスはforeach。もはや設計失敗では？）
+          </p>
+          <p>ForEach-Objectとforeach文の比較</p>
+          <table class="custom-table">
+            <caption>ForEach-Objectとforeach文の比較</caption>
+            <tr>
+              <th>項目</th>
+              <th><b>ForEach-Object</b></th>
+              <th><b>foreach文</b></th>
+            </tr>
+            <tr>
+              <td>タイプ</td>
+              <td>コマンドレット</td>
+              <td>制御構文</td>
+            </tr>
+            <tr>
+              <td>入力</td>
+              <td><span class="emphasis">パイプライン</span></td>
+              <td>コレクション</td>
+            </tr>
+            <tr>
+              <td>処理</td>
+              <td>逐次（ストリーム）</td>
+              <td>一括</td>
+            </tr>
+            <tr>
+              <td>メモリ効率</td>
+              <td>良い（1つずつメモリ消費し解放）</td>
+              <td>一括分のメモリ確保</td>
+            </tr>
+          </table>
+          <p>ForEach-Objectの例</p>
+          <pre><code class="powershell">
+        &gt; Get-ChildItem -File | ForEach-Object {$_.FullName}   # このパイプ全体がループ。ForEach-Objectは1つずつ処理する
+        </code></pre>
+          <p>foreach文の例</p>
+          <pre><code class="powershell">
+        &gt; $files = Get-ChildItem -File
+        &gt; foreach ($f in $files) {write-host $f}   # foreach文は、$filesから1つずつ取り出してループを構成
+        </code></pre>
+        </section>
+
+        <section>
+          <h3 class="h3chapter underline" id="toc30">おまけ：「in」と「-in」について</h3>
+          <p>foreach文は、コレクションから1つのオブジェクトを取り出す時に「in」という文を使います。これは演算子の「-in」とは完全に別ものですが、自分はよく間違えるのでメモ書きしておきます</p>
+          <ol class="no-marker">
+            <li>
+              <span class="font-large">構文の「in」</span>
+              <p>「in」は演算子ではなく、foreach文の構文の書式。意味としてはそのままで<span
+                  class="emphasis">「in」はコレクションの中から1つ取り出す</span>という意味になります。コレクションの中から1つ取るので「in」と覚えるって感じでしょうか</p>
+            </li>
+            <li>
+              <span class="font-large">演算子の「-in」</span>
+              <p>ハイフンが付いている「-in」は演算子。つまり、<span
+                  class="emphasis">「-in」は含まれるかを調べる演算子</span>という意味です。ハイフンがついていたら演算子と覚えるって感じでしょうか</p>
+              <p>「-in」演算子の例</p>
+              <pre><code class="powershell">
+            &gt; "neko" -in @("inu", "neko", "usagi")
+            True
+            &gt; 10 -in 1..9
+            False
+            </code></pre>
+            </li>
+          </ol>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

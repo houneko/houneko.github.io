@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Environmentクラスのスタティックメソッド | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Environmentクラスが提供しているスタティックメソッドについて">
+<meta name="keywords" content="pwsh,PowerShell,.NETのスタティックメソッド,Environmentクラス,GetEnvironmentVariable,SetEnvironmentVariable">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/スタティックメソッド:/pages/pwsh/pwsh_000_index.html#toc220 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        <!-- HOUTBD：追加があれば追記していく -->
+        Environmentクラスのスタティックメソッド
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">[Environment]::GetEnvironmentVariable</h2>
+          <h3 id="toc12" class="h3chapter underline">[Environment]::GetEnvironmentVariable</h3>
+          <p>このメソッドは、カレントプロセスから環境変数を取得するためのスタティックメソッド。メソッドはオーバロードされているので引数を１つ取るものと２つ取るものがある<span><a
+                href="https://learn.microsoft.com/ja-jp/dotnet/api/system.environment.getenvironmentvariable?view=net-8.0"
+                target="_blank">（詳細）</a></span>。<br />自分のケースでは、Path環境変数を取得する時にこのメソッドを使った。</p>
+          <p><a
+              href="https://learn.microsoft.com/ja-jp/dotnet/api/system.environment.getenvironmentvariable?view=net-8.0"
+              target="_blank">Environment.GetEnvironmentVariable メソッド（Microsoft）</a></p>
+          <pre><code class="powershell">
+        #// カレントユーザの Path を取得
+        $currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+        </code></pre>
+          <h2 id="toc20" class="h2chapter-title">[Environment]::SetEnvironmentVariable</h2>
+          <h3 id="toc14" class="h3chapter underline">[Environment]::SetEnvironmentVariable</h3>
+          <p>このメソッドは、GetEnvironmentVariableのSet版で環境変数を設定するためのスタティックメソッド。こちらもオーバロードされている。<span><a
+                href="https://learn.microsoft.com/ja-jp/dotnet/api/system.environment.setenvironmentvariable?view=net-8.0#system-environment-setenvironmentvariable(system-string-system-string)"
+                target="_blank">（詳細）</a></span>。<br />自分のケースでは、Path環境変数を設定する時にこのメソッドを使った。</p>
+          <p><a
+              href="https://learn.microsoft.com/ja-jp/dotnet/api/system.environment.setenvironmentvariable?view=net-8.0#system-environment-setenvironmentvariable(system-string-system-string)"
+              target="_blank">Environment.SetEnvironmentVariable メソッド（Microsoft）</a></p>
+          <pre><code class="powershell">
+          #// ユーザ環境変数Pathを設定する
+          #// ※$newPathは、既存のパスと新たに追加するパスの合計
+          [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
+        </code></pre>
+          <h3 id="toc16" class="h3chapter underline"><span class="marker-red">環境変数Pathの設定時における失敗</span></h3>
+          <p>
+            [Environment]::GetEnvironmentVariable、[Environment]::SetEnvironmentVariableメソッドにより、環境変数Pathの値を取ってきて、追加したいパスを設定することができるという事はわかった。これで早速やってみたところパスは通ったので安心していたのですが、実は大きな失敗をしていました。
+          </p>
+          <p>どう言うことかというと、<span class="font-large">同じパスが環境変数Pathに重複して登録されてしまう問題が発生</span></p>
+          <pre><code class="powershell">
+        # 環境変数を表示させてみた結果
+        [Environment]::GetEnvironmentVariable('Path', 'User') -split ';'
+
+        C:\Program Files\PowerShell\7\;       # ← 同じパスが複数登録されてしまっている
+        C:\Users\xxx\.dotnet\tools;
+        C:\Program Files\dotnet\;
+        ...
+        ...
+        C:\Program Files\PowerShell\7\;       # ← 同じパスが複数登録されてしまっている
+        C:\Users\xxx\.dotnet\tools;
+        C:\Program Files\dotnet\;
+        ...        
+        </code></pre>
+          <p>コードは以下のようになっており、指定されたパスが環境変数Pathに存在するかを判断してから追加しているので、このような事が起こるはずないと思っていたのですが、結果は上記の通りです</p>
+          <p class="underline">では何が問題だったのか？</p>
+          <p><span class="font-large">答えは「Path」と「PATH」を混在して使っていたから</span></p>
+          <p>
+            PathもPATHも論理的には同じはずだけど、Windows、.NET、PowerShellの組み合わせでは副作用がでることがある。今回起こったことは、ユーザ環境変数Pathとシステム環境変数Pathが混ざって、それが[Environment]::SetEnvironmentVariable(<span
+              style="color:red;">'PATH'</span>, $newPath, 'User') でユーザ環境変数Pathに書き込まれたようである。</p>
+          <pre><code class="powershell">
+        #// カレントユーザの Path を取得
+        $currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+
+        #// セミコロン区切りで各パスを分解、既に存在するかチェック（大文字小文字・末尾 \ 無視）
+        $paths = $currentPath -split ';'
+        $exists = $paths | Where-Object {
+            $_.TrimEnd('\') -ieq $binPath.TrimEnd('\')
+        }
+
+        #// 存在しなければ追加。存在していれば何もしない
+        if (-not $exists) {
+            #// カレントPATHの最後に「;」がある場合と無い場合があるので見切って追加する
+            if ($currentPath -and $currentPath[-1] -ne ';') {
+                #// 末尾にセミコロンが無ければ追加
+                $newPath = "$currentPath;$binPath"
+            } else {
+                #// 末尾にセミコロンがあればそのまま追加
+                $newPath = "$currentPath$binPath"
+            }
+            #///////////////////////////////////////////////////////////////////////////
+            #// ここが環境変数Pathに設定しているところ
+            #// *** 「PATH」になっているため問題が発生 ***
+            #// *** 「Path」と「PATH」を混在させるとだめ! ***
+            #///////////////////////////////////////////////////////////////////////////
+            [Environment]::SetEnvironmentVariable('PATH', $newPath, 'User')
+            Write-Host ('パスを追加しました')
+            exit 0
+        } else {
+          Write-Host ('既にパスは設定されています')
+            exit 1
+        }
+        </code></pre>
+
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHの環境変数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHの環境変数は、自動変数の一種ですが値を設定することができます。環境変数は自分で設定することができる点が自動変数とは異なります">
+<meta name="keywords" content="pwsh,PowerShell,環境変数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/基本:/pages/pwsh/pwsh_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの環境変数
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellの環境変数</h2>
+        <section>
+
+          <!-- Powershellの環境設定変数 -->
+          <h3 id="toc30" class="h3chapter underline">PowerShellの環境設定変数</h3>
+          <p>この変数もPowerShellが自分せ設定するので自動変数の一種だけど、<span class="marker-red">環境設定変数はユーザが設定を変えることができる</span> </p>
+          <p>詳しくは、<a
+              href="https://learn.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_preference_variables?view=powershell-7.5"
+              target="_blank">Microsoftの「about_Preference_Variables」ページで</a></p>
+          <p>自分が良く使う環境設定変数</p>
+          <ul class="no-marker">
+            <li>
+              <span class="font-large">「$ConfirmPreference」は、確認画面を出すか出さないかのボーダー値である</span>
+              <p>$ConfirmPreference環境設定変数は、PowerShellのコマンドレットや関数が重要な変更を加える可能性があると判断した場合に「この操作を実行しますか？ はい（Y）
+                いいえ（N）・・・」のようなメッセージを出すかどうかを制御する設定変数</p>
+              <table class="custom-table">
+                <caption>$ConfirmPreferenceの主な設定値</caption>
+                <tr>
+                  <th>設定値</th>
+                  <th>値の意味</th>
+                </tr>
+                <tr>
+                  <td>None</td>
+                  <td>確認表示を完全に出さない</td>
+                </tr>
+                <tr>
+                  <td>Low</td>
+                  <td>ConfirmImpactがLow以上の動作の場合、確認が出る</td>
+                </tr>
+                <tr>
+                  <td>Medium</td>
+                  <td>ConfirmImpactがMedium以上の動作の場合、確認が出る</td>
+                </tr>
+                <tr>
+                  <td>High（デフォルト）</td>
+                  <td>ConfirmImpactがHigh以上の動作の場合、確認が出る</td>
+                </tr>
+                <tr>
+                  <td>Internal</td>
+                  <td>内部用。通常は使用しない</td>
+                </tr>
+              </table>
+              <p>$ConfirmPreference環境設定変数は「確認画面」を出すか出さないかを制御するものというのは、わかった。じゃ、どういう場合だとこの確認画面が出るのか？という疑問が出てくると思います。結論は以下
+              </p>
+              <p>確認が発生するのは、<span
+                  class="marker"><strong>実行するコマンドレットの「ConfirmImpact」の値が、$ConfirmPreference値以上の場合</strong></span>である。</p>
+              <p>
+                どういうことかと言うと、今から実行する処理のインパクトレベルがボーダー値（$ConfirmPreferenceの値）以上となっている場合、その処理を実行すると何かまずいかもしれんということで、ユーザに確認が発生する
+              </p>
+              <p>テストしてみる</p>
+              <ol>
+                <li>テストとして「Remove-Item」を実行する、Test.ps1スクリプトを作成</li>
+                <li>Remove-Itemの ConfirmImpactを調べる
+                  <pre><code class="powershell">
+              PS&gt; $cmd = Get-Command Remove-Item
+              PS&gt; $attr = $cmd.ImplementingType.GetCustomAttributes($true) | Where-Object {$_ -is [System.Management.Automation.CmdletAttribute]}
+              PS&gt; $attr.ConfirmImpact
+              Medium  # ← Remove-Item の ConfirmImpactは「Medium」であることが分かる
+              </code></pre>
+                </li>
+                <li>$ConfirmPreferenceの値を下げる（確認が出やすいようボーダー値を下げる）
+                  <pre><code class="powershell">
+              PS&gt; $ConfirmPreference = 'Low'
+              PS&gt; $ConfirmPreference
+              Low  # ← $ConfirmPreferenceの値が Low に変わった事が確認できる
+              </code></pre>
+                </li>
+                <li>Test.ps1スクリプトを実行して、確認画面が出るかテストしてみる
+                  <pre><code class="powershell">
+              PS&gt; ./Test.ps1   #Remove-Item を含むスクリプトを実行してみる
+
+              # ↓ Remove-ItemのConfirmImpactは「Medium」に対して、$ConfirmPreferenceの値は「Low」なので 確認画面が表示された。
+              Confirm
+              Are you sure you want to perform this action?
+              Performing the operation "Remove File" on target "C:\Users\houneko\OneDrive\My\TEST_CODE_用\PowerShell関係\hoge.bat".
+              [Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"):              
+              </code></pre>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <span class="font-large">「$DebugPreference」は、Write-Debug コマンドレットの挙動を制御するための設定値である</span>
+              <p>$Debugpreferenceは、タイトルの通りWrite-Debugコマンドレットが実行される時に「表示するのか」「確認を求めてから表示するのか」「何もしないのか」などの挙動を変えるための設定値である
+              </p>
+              <table class="custom-table">
+                <caption>$DebugPreferenceの主な設定値</caption>
+                <tr>
+                  <th>設定値</th>
+                  <th>値の意味</th>
+                </tr>
+                <tr>
+                  <td>SilentlyContinue (デフォルト)</td>
+                  <td>デバッグメッセージを表示しない</td>
+                </tr>
+                <tr>
+                  <td>Continue</td>
+                  <td>デバッグメッセージを表示し、スクリプト実行を続行</td>
+                </tr>
+                <tr>
+                  <td>Inquire</td>
+                  <td>デバッグメッセージを表示し、続行するか確認を求める</td>
+                </tr>
+                <tr>
+                  <td>Stop</td>
+                  <td>デバッグメッセージを表示し、エラーとして停止</td>
+                </tr>
+              </table>
+              <p>テストしてみる</p>
+              <p>この例は、<a
+                  href="./pwsh_200_CmdletBinding.html#toc12">[CmdletBinding()]</a>で高度化しているので、コマンドラインから「-Debug」をつけるだけで$Debugpreferenceの値が変わり、Write-Debugが表示されるようになっている
+              </p>
+              <pre><code class="powershell">
+            [CmdletBinding()] 
+            param()
+
+            write-host("This is Test.ps1")
+            Write-Host($DebugPreference)
+            Write-Debug("Enter")
+            Write-Debug("Exit")
+
+            # ================
+            # 実行結果１
+            &gt; .\Test.ps1   # ← そのままTest.ps1スクリプトを実行してみる
+            This is Test.ps1
+            SilentlyContinue  # ← $Debugpreferenceの値はデフォルト値（なので、Write-Debugは表示されていない）
+
+            # ================
+            # 実行結果２
+            &gt; .\Test.ps1 -Debug  # ← -Debugオプションをつけて、Test.ps1スクリプトを実行してみる
+            This is Test.ps1
+            Continue                # ← $Debugpreferenceの値が変更されている。
+                                    #    これは[CmdletBinding()]を設定しているから、高度化されているため
+            DEBUG: Enter            # ← Write-Debugの結果が表示されている
+            DEBUG: Exit
+            </code></pre>
+              <p><span id="toc32" class="marker font-large">Windows PowerShellにおける$DebugPreferenceとWrite-Debug問題</span>
+              </p>
+              <p>
+                これは現場で起きた事象です。部内向けのスクリプト（snowflakeのコマンド入力を代行するスクリプト）を作った時、Write-Debugで実行の確認「この操作を実行しますか？」が出るようになりました。PowerShell
+                Core環境だと確認がでないのでますます混乱。。</p>
+              <p>まず調べた事は「$ConfirmPreference =
+                'none'」かですが、これは正しく設定している（$ConfirmPreferenceがnoneでも各コマンドレットの処理に「-Confirm」スイッチがついてると確認が出るがこれも指定はしていない）。
+              </p>
+              <p>次に調べたことは、Windows PowerShellとPowerShell Coreでのこの変数の違いです</p>
+              <p>部内ではPowerShell Coreを使っている人はいない（事務職なので当たり前）ので、スクリプトの実行環境はWindows PowerShellになります。ここが、問題の起点でした。</p>
+              <table class="custom-table">
+                <caption>Windows PowerShellとPowerShell Coreでの比較結果</caption>
+                <tr>
+                  <th></th>
+                  <th>Windows PowerShell環境</th>
+                  <th>PowerShell Core環境</th>
+                </tr>
+                <tr>
+                  <td>スクリプト内での$Debugpreferenceの値</td>
+                  <td><span style="color: red;">Inquire</span></td>
+                  <td>Continue</td>
+                </tr>
+                <tr>
+                  <td>シェル上での$Debugpreferenceの値</td>
+                  <td>SilentlyContinue</td>
+                  <td>SilentlyContinue</td>
+                </tr>
+                <tr>
+                  <td>確認メッセージの有無</td>
+                  <td>出る</td>
+                  <td>出ない</td>
+                </tr>
+              </table>
+              <p><span class="marker">なんでこの差がでたのか？</span></p>
+              <p>実は、$Debugpreferenceの値はスクリプト上で設定していない。なのになんでこのような差がでてしまうのか？。これはWindows PowershellとPowerShell
+                Coreのデバッグに対する設計思想の違いになる。Windows
+                Powershellのデバッグ設計は「対話重視」なので、$DebugPreferenceのデフォルト値は「Inuquire」になりやすいが、PowerShell
+                Coreのデバッグ設計は「自動化重視」なので$DebugPreferenceのデフォルト値は「Continue」になる</p>
+              <p>シェルとスクリプトで$DebugPreferenceの値が違うのはシェルとスクリプトではスコープが違うから</p>
+              <p><span class="marker">何がトリガだったのか？</span></p>
+              <p>このスクリプトは関数の高度化を指定しています。つまり<a
+                  href="./pwsh_200_CmdletBinding.html#toc12">[CmdletBinding()]属性</a>を付けている。これがトリガであった。<br />[CmdletBinding()]により「-Debug」オプションが使えるようになりますが、この時Windows
+                PowershellとPowerShell Coreの違いにより$DebugPreferenceの値が異なっており、Windows Powershellでは確認メッセージが出ていたということです。</p>
+              <pre><code class="powershell">
+            #// [CmdletBinding()]属性により「-Debug」が使えるようになる
+            #// 内部的に$DebugPreference変数が設定される
+            #// この時、Windows PowershellとPowerShell Coreで設定値が異なる!
+            [CmdletBinding()] 
+            param([String]$binPath, [Switch]$help)
+
+            #// $ConfirmPreferenceは「None」
+            #// Noneに設定していも、$DebugPreferenceが「Inuquire」なら
+            #// Write-Debug時に確認メッセージが出る
+            $ConfirmPreference = 'None'
+            ...
+            ...
+            Write-Debug ("start $myName / $myVersion")
+            ...
+            ...
+            Write-Debug ('$binPath = ' + $binPath)
+            </code></pre>
+              <p>いや～、PowerShellは謎が多いし奥が深い（おもしろい）</p>
+            </li>
+            <li>
+              <span id="toc33" class="font-large">「$ErrorActionPreference」は、エラー時の挙動を決める設定</span>
+              <p>その前にまず似ているもので「-ErrorAction」というオプションがあるが、これは$ErrorActionPreferenceとは別のもの（似ているけど）</p>
+              <ul>
+                <li>
+                  <span class="underline">$ErrorActionPreference環境設定変数</span>
+                  <p>この環境設定変数は、スクリプト全体に対するエラーの挙動を指定するもの。</p>
+                </li>
+                <li>
+                  <span id="toc34" class="underline">-ErrorActionオプション</span>
+                  <p>
+                    このオプションは特定のコマンドレット毎のオプション設定。あるコマンドレットに「-ErrorAction」が指定されていて、さらにスクリプトにも$ErrorActionPreferenceも設定されている場合、個別のコマンドレットについている方が強い
+                  </p>
+                  <pre><code class="powershell">
+                # スクリプトHoge.ps1
+                $ErrorActionPreference = "Stop"   # Hoge.ps1スクリプト全体に対する設定
+                ...
+                Get-Item "C:\存在しなないフォルダ" -ErrorAction SilentlyContinue
+
+                # 結果
+                この例では、スクリプト全体に対してエラーがあった場合「Stop」が指定されているが、Get-Itemであるフォルダのデータを
+                取ろうとした時に存在しなかった場合は「SilentlyContinue」で継続される（個別で設定した方が強いから）
+                </code></pre>
+                  <table class="custom-table">
+                    <caption>$ErrorActionferenceの主な設定値</caption>
+                    <tr>
+                      <th>設定値</th>
+                      <th>値の意味</th>
+                    </tr>
+                    <tr>
+                      <td>Continue (デフォルト)</td>
+                      <td>エラー メッセージが表示されるが止まらずに処理が継続される</td>
+                    </tr>
+                    <tr>
+                      <td>Stop</td>
+                      <td>例外扱いになりスクリプトが停止（catch可能）する</td>
+                    </tr>
+                    <tr>
+                      <td>SilentlyContinue</td>
+                      <td><span class="emphasis">エラーを表示せずに続行。存在するかテストする時などに使う</span></td>
+                    </tr>
+                    <tr>
+                      <td>Ignore</td>
+                      <td>エラーを無視して続行（SilentlyContinueよりも強く無視、ログも残さない）</td>
+                    </tr>
+                    <tr>
+                      <td>Inquire</td>
+                      <td>エラー発生時にユーザーへ確認（Y/N）</td>
+                    </tr>
+                  </table>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <span class="font-large">「$VerbosePreference」は、詳細表示を行うかどうかを決める設定</span>
+              <p>
+                Write-Hostだと表示のOn/Offを切り替えようと思うと、if文でOn/Offしないといけないが、Write-Verboseはこの$VerbosePreferenceで制御できる。またVerboseは<a
+                  href="./pwsh_200_CmdletBinding.html#toc12">[CmdletBinding()]</a>で高度化しているので引数を定義しなくてもすぐ使える</p>
+              <p>
+                -Debugと一緒で[CmdletBinding()]しておけば、xxPreference変数に値を設定しなくてもいい（したらだめ）。引数に「-Verbose」を指定すると、Write-Verbose()の表示が行われるようになる。
+              </p>
+              <pre><code class="powershell">
+            My-Hoge.ps1
+            [CmdletBinding()]     #// これで My-Hoge.ps1は高度化される
+            param(
+              [Switch]$Ver,
+              [Switch]$help
+            )
+            ...
+            #// [CmdletBinding()]をしておけば、以下のif文は不要!!
+            # if ($verbose) {
+            #   # Write-Verboseが表示される
+            #   $VerbosePreference = 'Continue'
+            # } else {
+            #   $VerbosePreference = 'SilentlyContinue'
+            # }
+            ...
+            Write-Verbose('$Neko = ' +  $Neko)    #// -Verboseが指定されていたら実行される
+            Write-Verbose('$Usagi = ' + $Usagi)   #// -Verboseが指定されていなければ実行されない
+            </code></pre>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>MyCmd | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellはいろいろな事ができます。その中で自分がしたいことをプログラム（ps1スクリプトや関数）にした場合、適切な管理をすればいつでも、どこでも（任意のフォルダ）から使えるようになります">
+<meta name="keywords" content="pwsh,PowerShell,自作コマンド,自作スクリプト,自作関数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/自作:/pages/pwsh/pwsh_000_index.html#toc240 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        自作スクリプト、関数の運用
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">.自作スクリプト、関数の運用</h2>
+          <h3 id="toc12" class="h3chapter underline">自作スクリプト、関数の運用とは</h3>
+          <p>
+            PowerShellはいろいろな事ができます。その中で自分がしたいことをプログラム（ps1スクリプトや関数）にした場合、そのプログラムをパスが通った所に置くだけではだめです。つまり、バッチファイルのように手軽に使えるようにするためには一定の工夫が必要です。しかし、適切な管理・運用をすれば、バッチファイルと同じようにいつでも、どこから（任意のフォルダ）でも使えるようになります。以下は自分の管理・運用の例です
+          </p>
+          <h3 id="toc14" class="h3chapter underline">開発環境と実行環境の分離</h3>
+          <p>
+            開発環境と実行環境を分離して構築しています。開発環境はOnedriveに作成。家のPCは複数台あるけどどのマシンからも開発環境は共通的に見えるのでマシンを変えた時の環境構築や設定の時間ロスを考えなくて良くなります。実行環境はそのPCのローカルドライブに構築しています。
+          </p>
+          <h3 id="toc16" class="h3chapter underline">開発環境のファイルを実行環境へロード</h3>
+          <p>
+            開発環境と実行環境を別々にあるので、開発完了したファイルやバージョンアップしたファイルは実行環境へ任意のタイミングでロードできるようにしています。そのためのコマンドが「Update-MyCmd」です（これも自作スクリプト）。任意のコマンドラインからこのスクリプトを実行すると開発環境の「myFunctionsフォルダ」内容が実行環境の「myFunctions」フォルダへロードされます。myFunctionsフォルダも同様。
+          </p>
+          <p>ロード後、<a href="pwsh_124_profile.html#toc24">$Profileも実行</a>するので、カレント環境で新しいps1スクリプトや関数が使えるようになります</p>
+          <img src="/assets/pic/pwsh_240_update-mycmd_01.png" alt="開発環境へファイルをロード" class="responsive-img" />
+          <h3 id="toc18" class="h3chapter underline">実行環境での実行</h3>
+          <p>Update-MyCmdスクリプトを実行すると、開発環境のファイルを実行環境へロードし、その後<a
+              href="pwsh_124_profile.html#toc24">$Profileを実行</a>します。これで、実行環境の任意のフォルダから「関数名」や「スクリプト名」で自作関数、自作スクリプトが実行可能となります
+          </p>
+          <img src="/assets/pic/pwsh_240_update-mycmd_02.png" alt="開発環境のファイルを実行" class="responsive-img" />
+
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

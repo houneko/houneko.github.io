@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHのコマンドレットの必須知識 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHのコマンドレットを書くと時に知っておくべき知識をまとめた章です">
+<meta name="keywords" content="pwsh,PowerShell,cmdlet">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellのコマンドレットの必須知識
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">PowerShellのコマンドレットを書く時の必須知識</h2>
+          <h3 id="toc12" class="h3chapter underline">必須知識とは</h3>
+          <p>
+            PowerShellを使いこなせればかなりいろいろな事ができます。Windowsで言うとWindowsの骨の髄まで操作できるかと思います。また、PowerShellを使いこなすということは、コマンドレットを使いこなすというのと同義だと思います。<br />じゃ、コマンドレットを全部覚えたらいいんじゃね？となりそうですがこれは自分には向いていません（人によってはこれでもいいかも）。コマンドレットは多いし、1つ1つが深いので完全に見切るのはコストが高すぎると思います。またこのコストをかけて普段使わないようなコマンドレットの全仕様を覚えてもコストに見合わないです
+          </p>
+          <p>でもPowerShellを使いこなすということはコマンドレットを知らないと始まらないので、どうするのか？</p>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">ヘルプやWebで調べる方法</span>
+              <ul class="no-marker">
+                <li>
+                  <p>Get-HelpやWebページでの検索する王道の方法。<br />
+                    あるコマンドレットを使う場合、そのコマンドレットがどういう機能があるか、どういうオプションがあってどういう使い方があるかなどを調べる。</p>
+                  <pre><code class="powershell">
+                  &gt; Get-Help Get-Process -Online
+                  </code></pre>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <span class="marker is-bold">Ctrl+SPACEで情報を表示する方法</span>
+              <ul class="no-marker">
+                <li>
+                  <p>Ctrl+SPACEは重要なショートカットキー。コマンドレットの候補が表示されたり、そのコマンドレットが持っているオプション引数を表示してくれたりする</p>
+                  <pre><code class="powershell">
+                  &gt; Get-Proc
+                  # Get-Procまでタイプして「Ctrl+SPACE」を押すと候補やプロトタイプが表示される
+                  </code></pre>
+                  <p>Get-Procのように途中までタイプして「Ctrl+SPACE」を押すと候補やプロトタイプが表示される。これを見ると「Get-Proc」で始まるコマンドレットは、Get-Processと
+                    Get-ProcessMitigation という2つがあるのが分かる。</p>
+                  <p>次に、Get-Processのプロトタイプも表示されている</p>
+                  <img class="responsive-img" src="/assets/pic/pwsh_125_mustKnow_01.png" alt="Ctrl+SPACE" />
+                  <p>これで、Get-Process が確定して、次にオプションを指定する時にも「Ctrl+SPACE」が使える</p>
+                  <pre><code class="powershell">
+                  &gt; Get-Process -
+                  # -までタイプしたところで「Ctrl+SPACE」を押すとオプションの候補が表示される
+                  </code></pre>
+                  <p>「-オプション」の一覧が表示されて、どんなオプションがあるか分かる。また、今フォーカスされているもの（例だと-Name）の型なども分かる</p>
+                  <img src="/assets/pic/pwsh_125_mustKnow_02.png" alt="Ctrl+SPACE" class="responsive-img" />
+                  <p>2つ目以降のオプションの時にも「Ctrl+SPACE」は効く</p>
+                  <img src="/assets/pic/pwsh_125_mustKnow_03.png" alt="Ctrl+SPACE" class="responsive-img" />
+                  <p>Get-Process -Name Power* -FileVersionInfo の実行結果</p>
+                  <pre><code class="powershell">
+      &gt; Get-Process -Name Power* -FileVersionInfo
+
+      ProductVersion   FileVersion      FileName
+      --------------   -----------      --------
+      0.96.1.0         0.96.1.0         C:\Users\xxx\AppData\Local\PowerToys\PowerToys.exe
+      0.96.1.0         0.96.1.0         C:\Users\xxx\AppData\Local\PowerToys\PowerToys.AlwaysOnTop.exe
+      0.96.1.0         0.96.1.0         C:\Users\xxx\AppData\Local\PowerToys\PowerToys.Awake.exe
+      0.96.1.0         0.96.1.0         C:\Users\xxx\AppData\Local\PowerToys\PowerToys.ColorPickerUI.exe
+      0.96.1.0         0.96.1.0         C:\Users\xxx\AppData\Local\PowerToys\PowerToys.CropAndLock.exe
+      0.96.1.0         0.96.1.0         C:\Users\xxx\AppData\Local\PowerToys\PowerToys.FancyZones.exe
+      0.96.1.0         0.96.1.0         C:\Users\xxx\AppData\Local\PowerToys\KeyboardManagerEngine\PowerToys.KeyboardManagerEngine.exe
+      0.96.1.0         0.96.1.0         C:\Users\xxx\AppData\Local\PowerToys\WinUI3Apps\PowerToys.Peek.UI.exe
+      0.96.1.0         0.96.1.0         C:\Users\xxx\AppData\Local\PowerToys\PowerToys.PowerLauncher.exe                    
+                  </code></pre>
+                </li>
+                <li></li>
+                <li></li>
+              </ul>
+
+            </li>
+            <li></li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

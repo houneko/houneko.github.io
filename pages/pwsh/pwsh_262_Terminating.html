@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>終了するエラーと終了しないエラー | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellの終了するエラーと終了しないエラーとは。例をも基に説明します">
+<meta name="keywords" content="pwsh,PowerShell,終了するエラーと終了しないエラー">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/エラーハンドリング:/pages/pwsh/pwsh_000_index.html#toc260 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        終了するエラーと終了しないエラー
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">終了するエラー</h2>
+        <p>
+          PowerShellのエラーは、終了するエラーと終了しないエラーというものに分かれる。このエラーは名前の通りスクリプト実行を停止するようなエラーと、そのエラーが発生してもスクリプト実行は停止しないエラーという振る舞いになる。
+        </p>
+        <p>また、終了しないエラーも例外に昇格させることができるので、PowerShellのエラーハンドリングを最初に学ぶ時にすこしややこしい印象を与えてしまう</p>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">終了するエラー</h3>
+          <p>終了するエラー「Terminating Error」は、その名の通りスクリプト実行を停止させるようなエラーのこと</p>
+          <ul>
+            <li>このエラーは例外</li>
+            <li><a href="pwsh_261_trycatchfinally.html">try～catch</a>で捕まえることができる</li>
+            <li>throwでこのエラー（例外）を発生させることができる</li>
+            <li>$Errorにエラー情報は格納される</li>
+          </ul>
+          <h3 id="toc14" class="h3chapter underline">throwで終了するエラーを発生させる</h3>
+          <p>throwで例外を発生させることができる。例外は終了するエラーなので、tryブロックで発生させた例外はcatchブロックで捕まえることができる</p>
+          <pre><code class="powershell">
+        try {
+          throw "user throw"    #throwを実行して例外を発生させる
+          return "AB"
+        }
+        catch {
+          Write-Host "例外： $($_.Exception.GetType().FullName)"
+        }
+
+        #実行結果
+        例外： System.Management.Automation.RuntimeException    #catchブロックに入ってる
+        AB
+        </code></pre>
+          <p>※throwは、tryブロック以外で書くと誰もcatchしないので即終了する（最終的にPowerShellが例外を受け取りエラー表示する）</p>
+
+          <h3 id="toc16" class="h3chapter underline">throwを返す関数</h3>
+          <p>関数コール元はtryブロックから関数をコールする。関数は内部の処理でエラーがあればthrowを投げる</p>
+          <p>この実装は、エラーフラグを返しコール元でそれを判断するという処理と同じようなものだけど、throwを使う方がコードがシンプルになる</p>
+          <pre><code class="powershell">
+        #////////////////////////////////////////////
+        # throwを投げる関数
+        function DoMyHoge {
+          param ($file)
+
+          if (-not (Test-Path $file)) {
+            # エラーの場合、throwを投げる
+            throw 'ファイルがありません'
+          }
+        }
+
+        #////////////////////////////////////////////
+        # Main
+        Write-Host "start"
+        try {
+          # throwを投げる関数をコール。neko.txtは存在しないファイル
+          DoMyHoge "neko.txt"
+        }
+        catch {
+          Write-Host "DoMyHoge()が失敗しました"
+        }
+
+        # 実行結果
+        start
+        DoMyHoge()が失敗しました
+        </code></pre>
+        </section>
+      </article>
+
+      <article>
+        <h2 id="toc20" class="h2chapter-title">終了しないエラー</h2>
+        <section>
+          <h3 id="toc22" class="h3chapter underline">終了しないエラー</h3>
+          <p>終了しないエラー「Non-Terminating Error」は、その名の通りで<span class="marker">このエラーが発生しても停止しない</span></p>
+          <ul>
+            <li>このエラーは例外だけど例外として扱われていない（内部的には.NETの例外は発生しているが、PowerShellがthrowしないようにしている）</li>
+            <li><span class="marker">try～catchで捕まえることができない</span>（例外じゃないから。throwされていないから）</li>
+            <li>$Errorにエラー情報は格納される</li>
+          </ul>
+
+          <h3 id="toc24" class="h3chapter underline">終了しないエラーが終了しないことの確認</h3>
+          <p>
+            以下のサンプルを実行すると、tryブロック内のGet-Contentは指定されたファイルが存在しないので失敗する。しかし、ファイルが存在しないエラーは「終了しないエラー」となるので、エラー表示はでるけどスクリプトは終了しない。
+          </p>
+          <p>スクリプトが終了しないのでエラー以降のWrite-Hostは表示されている。また、例外じゃないのでcatchブロックのWrite-Hostは表示されていない</p>
+          <pre><code class="powershell">
+        try {
+          # 例外が発生する処理
+          Get-Content "throw.txt"                                   # 例外（もどき）が発生するがthrowされない
+        }                                                           # 処理は停止しない
+        catch {
+          Write-Host "例外： $($_.Exception.GetType().FullName)"    # ここには入らない
+          return "AB"
+        }
+        finally {
+          Write-Host "this is finally block."                       # finallyブロックは例外有無によらず入る
+          My-CloseHoge
+          My-ResetHoge
+        }
+        Write-Host ("end test")                                     # try～catch～finallyブロックの外
+
+        # 実行結果
+        # Line |
+        #   28 |    Get-Content "throw.txt"                         # エラー表示はされる
+        #      |    ~~~~~~~~~~~~~~~~~~~~~~~                         # （このエラー情報が$Error変数に格納されている）
+        #      | Cannot find path 'xx\throw.txt' because it does not exist.
+        # this is finally block.                                    # finallyブロックでの表示
+        # end test                                                  # ブロックが終わった後の表示
+        </code></pre>
+
+          <h3 id="toc26" class="h3chapter underline">どのようなエラーが終了しないエラーなのか</h3>
+          <p>終了しないエラーはたくさんあります。以下はサンプル例</p>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">ファイルやパス系のコマンド</span>
+              <p>以下のファイルやパスを扱うコマンドレットなどは終了しないエラーになる。ファイル・パス対象が存在しなかった、処理できなかった等。でも処理全体を止めるほどではないか。という扱いっぽい</p>
+              <ul>
+                <li>Get-Content</li>
+                <li>Get-Item</li>
+                <li>Remove-Item</li>
+                <li>Copy-Item</li>
+              </ul>
+            </li>
+            <li>
+              <span class="is-bold">権限やアクセス系のコマンド</span>
+              <p>権限が足らないやアクセス権を持ってない操作などは終了しないエラーになる。権限が足らずアクセスできなかった等、でも処理全体を止めるほどではないか。という扱いっぽい</p>
+              <ul>
+                <li>Get-Content</li>
+                <li>Remove-Item</li>
+              </ul>
+            </li>
+            <li>
+              <span class="is-bold">WMI/CMI/ネットワーク系のコマンド</span>
+              <p>指定したサービスやプロセスが見つからない系のエラーは終了しないエラーになる。見つからなかったけど処理全体を止めるほどではないか。という扱いっぽい</p>
+              <ul>
+                <li>Get-Service</li>
+                <li>Get-Process</li>
+              </ul>
+            </li>
+          </ul>
+
+          <h3 id="toc28" class="h3chapter underline">終了しないエラーを終了するエラーに変える</h3>
+          <p>終了しないエラーが起きた場合、エラー表示してそのまま処理が継続されるが、エラーで終了させたいケースも存在する。このため終了しないエラーを終了するエラーに昇格させることもできるようになっています</p>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">$ErrorActionPreference = 'Stop'</span>
+              <p><a
+                  href="pwsh_101_variable.html#toc33">$ErrorActionPreference変数</a>はPowerShellの環境設定変数でスクリプト全体に対するエラーの挙動を指定するもの
+              </p>
+              <p>この変数にStopを代入すると、スクリプト全体でエラーがあったら例外扱いとなり処理を停止するようになる。この変数にstopを代入する前の値を保存しておきfinallyブロックで元に戻す</p>
+              <p>以下の例は、存在しないファイルをGet-Contentしている。通常はこのエラーは終了しないエラーなので、catchブロックに入らずそのまま処理が進むが、$ErrorActionPreference =
+                'Stop' が指定されているので、例外がthrowされてcatchブロックに入っていることがわかる</p>
+              <pre><code class="powershell">
+            # スクリプト全体でエラーがあれば停止するように設定する
+            $oldEAP = $ErrorActionPreference
+            $ErrorActionPreference = 'Stop'
+            try {
+              # 以下の処理は「終了しないエラー」になるので、throwされない
+              # なので、catchブロックに入らずそのまま処理が進む
+              Get-Content "throw.txt"
+            }
+            catch {
+              Write-Host "例外： $($_.Exception.GetType().FullName)"
+            }
+            finally {
+                $ErrorActionPreference = $oldEAP    #元の設定値に戻しておく
+            }
+
+            #実行結果
+            例外： System.Management.Automation.ItemNotFoundException    #catchブロックに入ってる
+            </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">-ErrorAction Stop</span>
+              <p>各コマンドレットに<a href="pwsh_101_variable.html#toc34">-ErrorActionオプション</a>をつけて、個別にエラー時の振る舞いを定義できる。このオプション値を
+                stop に設定すると、エラーがあった場合停止するようになる（例外に昇格）</p>
+              <pre><code class="powershell">
+            try {
+              # 以下の処理は「終了しないエラー」だが -ErrorAction Stopが指定されているので例外に昇格する
+              # throwされるのでcatchブロックに入る
+              Get-Content "throw.txt" -ErrorAction Stop
+            }
+            catch {
+              Write-Host "例外： $($_.Exception.GetType().FullName)"
+            }
+
+            #実行結果
+            例外： System.Management.Automation.ItemNotFoundException    #catchブロックに入ってる
+            </code></pre>
+              <p>
+                ちなみにスクリプトに$ErrorActionPreference='Stop'が指定されている場合、-ErrorActionを設定するとどうなるか？この場合、-ErrorActionの設定の方が優位なので、-ErrorActionの設定が優先される
+              </p>
+
+            </li>
+            <li>
+
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

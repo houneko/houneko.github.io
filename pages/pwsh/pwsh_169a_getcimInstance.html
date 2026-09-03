@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Get-CimInstance | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Get-CimInstanceは、Windows専用のコマンドレットで、CIM（Common Information Model）を通してWindowsの内部情報を取得することができます。この記事では、Get-CimInstanceの基本的な使い方から応用的な使い方まで、サンプル例を使って詳しく説明します">
+<meta name="keywords" content="pwsh,PowerShell,コマンドレット,Get-CimInstance,Common Information Model">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Get-CimInstance
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Get-CimInstance</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">Get-CimInstanceとは</h3>
+          <p>Get-CimInstanceは、CIM（Common Information Model）を通してWindowsの内部情報を取得することができます。かなりいろいろなクラスがあり様々な情報が取得できます。詳細は<a
+              href="pwsh_162_gethelp.html#toc12">Get-Help</a>で見てみてください</p>
+        </section>
+        <section>
+          <h3 id="toc14" class="h3chapter underline">CIMとWMI</h3>
+          <p>CIM（Common Information Model）とは、WMI（Windows Management
+            Instrumentation：これもCIMベースで作られたWindows仕様モデル）の後継の概念モデルで、PCやハードウェアの個別な情報を共通の形で表現した仕様・仕組みです</p>
+          <p>CIMは、<a href="https://www.dmtf.org/"
+              target="_blank">DMTF</a>という団体が策定した標準仕様であり、Windowsだけのための仕様ではないです。Windows
+            PowerShellでは、WMIを使うケースがありましたが、現在はCIMが推奨されています</p>
+          <p>Get-CimInstanceと同じようなコマンドレットで、Get-WmiObjectがありますがPowerShell Coreではサポートされていないです。Get-CimInstanceは、Windows
+            PowerShellでもサポートされています</p>
+          <p>つまり、Windows PowerShellでも、PowerShell Coreでも「WMI系」のコマンドレットではなく「CIM系」のコマンドレットを使う方がいいです</p>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">Get-CimInstanceの使い方</h3>
+          <p>
+            Get-CIMInstanceは、かなりオプションがあります。また各オプションで指定する値も多数あり全部を覚えることはしなくてもいいです（極めたらすごい）。取得したい情報が新たに出てきた時にその部分だけ追加で覚えていけばいいかなと思います
+          </p>
+          <pre><code class="powershell">
+        &gt; Get-CimInstance -ClassName ここでCtrl+Space
+        1204 個の候補をすべて表示しますか? (y または n) _     ← -ClassNameで指定できる値が1000以上あり確認メッセージが出ている
+        ...
+        Win32_OnBoardDevice                   ← いろいろなおもしろそうな情報が取れるっぽい
+        Win32_OperatingSystem
+        Win32_OperatingSystemAutochkSetting
+        ...
+
+        # Win32_OperatingSystem クラスを指定してこのCIM情報を取得してみる
+        &gt; Get-CIMInstance -ClassName Win32_OperatingSystem
+        # デフォルトで取れるのは以下の項目
+        SystemDirectory     Organization BuildNumber RegisteredUser   SerialNumber    Version
+        ---------------     ------------ ----------- --------------   ------------    -------
+        C:\WINDOWS\system32              xxxx        houneko.xx       xxx-xxx-        10.0.26200
+        # Get-Memberで他にどんなものがあるか調べてみる
+        &gt; Get-CIMInstance -ClassName Win32_OperatingSystem | Get-Member
+        # Win32_OperatingSystemクラスの情報は以下のようなものがあることが分かる
+        Name                                      MemberType  Definition
+        ----                                      ----------  ----------
+        ...
+        InstallDate                               Property    CimInstance#DateTime InstallDate {get;}
+        ...
+        &gt; Get-CIMInstance -ClassName Win32_OperatingSystem | Select-Object InstallDate
+        InstallDate
+        -----------
+        2015/01/04 8:56:24    ← OSがインストールされた日がわかった
+        </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">クラス情報を調べる方法</h3>
+          <p>例えば「Win32_PhysicalMemory」。これは名前の通り、MSがWindows用に実装したCimベースのクラス</p>
+          <p>これらのクラスはGet-Helpでは取得できない（コマンドレットではないから）</p>
+          <p>まずは、<a href="https://learn.microsoft.com/ja-jp/dotnet/api/?view=net-10.0" target="_blank">APIブラウザ</a>
+            で探してみるが、見つからない。そういう時は、このAPIブラウザ画面のパンくずリストの「Learn」をクリックして全体で探すと見つかったりします</p>
+          <p>Get-CimClassというコマンドレットで、クラス一覧を表示させることもできます。大量にありますが、パイプを使って絞り込んで探すことができると思います</p>
+          <pre><code class="pwsh">
+          &gt; Get-CimClass
+          CimClassName                        CimClassMethods      CimClassProperties
+          ------------                        ---------------      ------------------
+          __SystemClass                       {}                   {}
+          __thisNAMESPACE                     {}                   {SECURITY_DESCRIPTOR}
+          __Provider                          {}                   {Name}
+          ...
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">メモリに関する情報が取得できるクラス</h3>
+          <p>他にもあると思いますが、とりあえず覚えたのは以下の２つ</p>
+          <ul>
+            <li>Win32_PhysicalMemoryArray
+              <p>このクラスを使って自分のPCのメモリスロット数を調べることができます</p>
+              <pre><code class="powershell">
+              &gt; Get-CimInstance Win32_PhysicalMemoryArray | Select-Object MemoryDevices
+              MemoryDevices   
+              -------------
+                          2    # このPCにはメモリスロットが2つあることがわかる
+              </code></pre>
+            </li>
+            <li>Win32_PhysicalMemory
+              <p>このクラスを使ってメモリの情報を取得できます</p>
+              <pre><code class="powershell">
+              &gt; Get-CimInstance Win32_PhysicalMemory | 
+                    Select-Object Banklabel, Capacity, Speed, Manufacture, PartNumber, SMBiosMemoryType
+                    Banklabel        : P0 CHANNEL A       #スロットA
+                    Capacity         : 17179869184        #容量16GB
+                    Speed            : 3200               #速さ 3200MT/s（32M転送/s）
+                    Manufacture      :                    #メーカ
+                    PartNumber       : M471A2G43CB2-CWE   #型番
+                    SMBiosMemoryType : 26                 #26は、DDR4 SDRAM
+
+                    Banklabel        : P0 CHANNEL B
+                    Capacity         : 17179869184
+                    Speed            : 3200
+                    Manufacture      : 
+                    PartNumber       : D4N3200CS-16G       
+                    SMBiosMemoryType : 26              
+            </code></pre>
+            </li>
+            <li>おまけ
+              <p>
+                T/sという単位は何なん。昔はB/sでバイト/secで表していることが多かったと思いますが、今はT/s。これは転送回数/secということらしいです。<br />例えばこの値が「5600」だった場合、5600メガ回転送/sということ。DDRメモリは64bit幅なので、5600
+                x 10^6 x 64bit = 44.8GB/s という高速なメモリってことです。</p>
+            </li>
+          </ul>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

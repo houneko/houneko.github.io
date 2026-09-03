@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHの自動変数について | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHの自動変数についてまとめた章です。自動変数は多数ありますが全部を使いこなさなくても自分が使うものだけ押さえたらいいと思います">
+<meta name="keywords" content="pwsh,PowerShell,自動変数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/基本:/pages/pwsh/pwsh_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの自動変数
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellの自動変数</h2>
+        <section>
+          <!-- Powershellの自動変数 -->
+          <h3 id="toc12" class="h3chapter underline">PowerShellの自動変数</h3>
+          <p>自動変数は、PowerShellが自分で作り各情報を設定している変数。<span class="marker">自動変数はユーザが変更したりすることをはできない</span> （書き換えた場合動作は保証されない）
+          </p>
+          <p>自動変数はいっぱいあります（7.xでは、42種類位ある）。<br />詳しくは<a
+              href="https://learn.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-7.5&utm_source=chatgpt.com"
+              target="_blank">Microsoftのページ「about_Automatic_Variables」で</a> </p>
+          <p>自分が良く使う自動変数</p>
+          <ul class="no-marker">
+
+            <!-- PSVersionTable -->
+            <li>
+              <span id="toc20" class="font-large">$PSVersionTable</span>
+              <p>この自動変数は、PowerShellのバージョンを格納している</p>
+              <pre><code class="powershell">
+            $PSVersionTable   # ← $PSVersionTable自動変数を表示させてみる。以下の結果はPowerShell Coreでのもの
+              Name                           Value
+              ----                           -----
+              PSVersion                      7.5.4
+              PSEdition                      Core
+              GitCommitId                    7.5.4
+              OS                             Microsoft Windows 10.0.26100
+              Platform                       Win32NT
+              PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0…}
+              PSRemotingProtocolVersion      2.3
+              SerializationVersion           1.1.0.1
+              WSManStackVersion              3.0            
+            </code></pre>
+            </li>
+
+            <!-- PSScriptRoot -->
+            <li>
+              <span id="toc24" class="font-large">$PSScriptRoot</span>
+              <p>今実行したスクリプトのパスが代入される自動変数。以下のデバッグ画面を見ると左ペインの変数一覧に$PSScriptRootが表示されていることがわかる。この変数にはこのスクリプトを実行した時のパスが入っている
+              </p>
+              <p><span class="marker-red">スクリプト内からは見えるが、ターミナルからは空文字に見えるので注意</span></p>
+              <img src="/assets/pic/pwsh_101_psscriptroot_01.png" alt="$PSScriptRoot変数" class="responsive-img" />
+            </li>
+
+            <!-- PSBoundParameters -->
+            <li>
+              <span id="toc25" class="font-large">$PSBoundParameters</span>
+              <p>この変数は、コマンドライン引数の名前と値を「キーとバリュー」で辞書のような形で格納しています。モジュールのデバッグで「-Debug」オプションをモジュール関数に渡す時に使えると思います</p>
+              <pre><code class="pwsh">
+              #//
+              #// TEST Program
+              #//
+              [Cmdletbinding()]
+              param(
+                [Int]$intNumber,
+                [Switch]$swHoge,
+                [String]$stName
+              )
+              Write-Debug ('$PSBoundParameters = ' + ($PSBoundParameters | Out-String))
+              
+              #//実行
+              &gt; .\myTest2.ps1 -intNumber 10 -swHoge -stName Neko -Debug
+
+              #//結果
+              DEBUG: $PSBoundParameters =
+              Key       Value
+              ---       -----
+              intNumber    10       #// ←各引数名と値が、KeyとValueに格納されている
+              swHoge     True
+              stName     Neko
+              Debug      True
+              </code></pre>
+            </li>
+
+            <!-- $‗ -->
+            <li>
+              <span id="toc22" class="font-large">$_（見にくいけど$の後に「＿」アンダーバーがついてる）</span>
+              <p>一番良く使うかも。「$_」は、<span class="marker-red"><strong>パイプライン処理で使うための自動変数。</strong> </span>これは、<span
+                  class="marker-red">今パイプで渡された<strong>１つのオブジェクト</strong> を意味している</span></p>
+              <p>横道にそれるが、<span
+                  class="marker-red"><strong>パイプラインの動作は前段の結果（オブジェクト）が一気に渡されるのでは無い！</strong></span>なので、前段のコマンドレットの結果の1つがパイプを通って次のコマンドレットに渡される。この時の後段のコマンドレットはそれを「$_」で受け取っている
+              </p>
+              <pre><code class="powershell">
+            Get-Process | ForEach-Object {$_.Name}  # ← Get-Processの結果（オブジェクト）が丸ごと一気にパイプで渡されるのでは無い！
+                                                    # ← Get-Processでプロセス全体のオブジェクトができたら、それを1つずつ（1個のプロセス）
+            結果）                                  # ← パイプで渡すなので、ForEach-Objectの「$_」には 1プロセスずつ渡されてくる
+            ・・・
+            Cmd
+            ・・・
+            Code
+            Code
+            ・・・
+            </code></pre>
+              <p>また、もう1つの注意点で「$_」は、<span class="marker-red"><strong> スクリプトブロック「つまり{}」内でのみ使える。</strong>
+                </span>という事も忘れないようしないと間違った処理を書いて悩んでしまうので注意</p>
+              <pre><code class="powershell">
+            Get-Command | Write-Host ($_.Name)  # ← エラーになる
+                                                # ← なんでかというと「$_」はスクリプトブロック｛｝でしか使えないから
+            </code></pre>
+              <p>パイプで渡すのは1オブジェクトずつだが、後段のコマンドレットによってはそれを全部受け取ってから処理するものもある</p>
+              <pre><code class="powershell">
+            Get-Process | ForEach-Object { $_.Name } | Sort-Object
+            # この動作は、① Get-Processでプロセス一覧のオブジェクトができる（多分プロセス一覧の配列）
+            # 次に ② として、①の結果を1つずつ ForEach-Objectに渡す。ForEach-Objectでは「$_」で受け取り名前を表示する
+            # 次に ③ として、ForEach-Object「$_」オブジェクトを 次の Sort-Object に渡す
+            # Sort-Objectでは、1つの「$_」を処理せずに全部渡されるまで待ち、最後にソートする
+            </code></pre>
+            </li>
+
+            <!-- $$ -->
+            <li>
+              <span id="toc21" class="font-large">$$</span>
+              <p>
+                Microsoftのページ「about_Automatic_Variables」では「セッションによって受信された最後の行の最後のトークンを格納します。」という何かよくわからない説明だけど、要はこのセッションで最後に入力したもの
+                が格納されている変数です</p>
+              <pre><code class="powershell">
+            &gt; nekodesuka   # ← プロンプトにnekodesuka というわけ分からんものを流してみる（当然エラーになる ↓）
+            nekodesuka: The term 'nekodesuka' is not recognized as a name of a cmdlet, function, script file, or ...
+            Check the spelling of the name, or if a path was included, verify that the path is correct and try again. 
+
+            &gt; $$     # セッションの最後のトークンを表示させてみる
+            nekodesuka  # 最後に実行したトークンが表示されている
+            </code></pre>
+            </li>
+
+            <!-- IsWindows -->
+            <li>
+              <span id="toc23" class="font-large">$IsWindows</span>
+              <p>現在のセッションがWindowsで行われているかを調べる時の自動変数。Windowsで実行している場合、$true が格納されている</p>
+              <pre><code class="powershell">
+            $IsWindows    # $IsLinuxや、$IsMacOS という自動変数もある
+            結果）
+            True
+            </code></pre>
+            </li>
+
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

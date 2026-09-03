@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHの引数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHの引数。PowerShellの引数指定はparam()ブロックで柔軟に指定できます。またparam()ブロックには処理を記述することも可能です">
+<meta name="keywords" content="pwsh,PowerShell,PowerShellの実行,引数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/実行:/pages/pwsh/pwsh_000_index.html#toc120 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの引数（実は奥が深い）
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">PowerShellの引数指定のいろいろ</h2>
+          <h3 id="toc12" class="h3chapter underline">引数を$args自動変数で受け取る方法</h3>
+          <p><span
+              class="marker-underline">この方法は、使うメリットがないのであまり使われていない（なのでさらっと流す）。</span><br />この方法は、$argsという自動変数で配列として引数を受け取る。配列なので順番に意味がありどのインデックスの要素が何の引数かを渡す側と受け取る側がちゃんと認識していないといけない。<br />また、<span
+              class="marker-underline-red">$argsには名前引数は格納されない。</span>つまり、Param()で定義している引数は$argsには格納されない。</p>
+          <pre><code>
+        #
+        # Hoge.ps1
+        #
+        Param(
+          [String]$myName = "Neko"
+        )
+
+        Write-Host ("myName = ", $myName)
+        $i = 0
+        foreach($arg in $args) {
+          Write-Host '$args[', $i, '] = ', $arg, "`t", ", ", $arg.GetType()
+          $i++
+        }
+
+        #実行結果（コマンドライン引数無しで実行）
+        PS&gt; .\Hoge.ps1
+          myName = Neko   ← $myNameのデフォルト値が使われている
+
+        #実行結果（コマンドライン引数を適当に渡してみる）
+        #Param()で指定していない引数も配列で受け取っていることが分かる
+        PS&gt; .\hoge.ps1 -Fuga ISBE -myName Usagi
+          myName =  Usagi                             ← 名前引数 $myNameで指定した値
+          $args[ 0 ] =  -Fuga      ,  System.String   ← $Args[0]。-Fugaと「ハイフン」で引数名ぽく見えるが「-Fuga」自体が値
+          $args[ 1 ] =  ISBE       ,  System.String   ← $Args[1]
+        </code></pre>
+          <p><span class="marker-underline">また、Param()で指定した引数以上を渡した場合も、$Argsが受け取る！</span></p>
+          <pre><code class="powershell">
+        Param(
+          [String]$myName,
+          [String]$myAddress
+        )
+
+        Write-Host ("myName = ", $myName)
+        Write-Host ("myAddress = ", $myAddress)
+
+        if ($Args.Count -ge 1) {
+          Write-Host $Args.Count
+          $i = 0
+          foreach($arg in $args) {
+            Write-Host ("Args[", $i, "] = ", $arg)
+            $i++
+          }
+        }
+        
+        # 実行結果（Param()で指定した以上の引数を渡してみた結果）
+        PS&gt; .\Hoge3.ps1 -myName Neko -myAddress KOBE Usagi Tori
+        myName =  Neko      ← Param()で指定している名前引数
+        myAddress =  KOBE   ← 〃
+        2                   ← $Args.Countは 2 なので、2個の別の引数も受け取っている
+        Args[ 0 ] =  Usagi  ← Param()で指定していない引数
+        Args[ 1 ] =  Tori   ← 〃
+        </code></pre>
+
+
+          <h3 id="toc20" class="h3chapter underline">引数をParam()ブロックで受け取る方法</h3>
+          <p>Powershellでは、この方法がメジャー（と思うし、自分はこっちで書いている）。これは、<span class="marker-underline">関数やスクリプトの先頭に
+              Param()ブロックを書き、その中で引数を指定する方法。</span> </p>
+          <ol>
+            <li id="toc21">属性をつけて必須引数、位置引数、型指定などを表現できる（属性は角かっこ[] で指定する）
+              <pre><code class="PowerShell">
+            Param(
+              [Parameter(Mandatory=$true, Position=0)][String]$myPath,  ← 属性は角かっこ[]で示す、また複数指定できる
+              [Parameter(Position=1)][Int]$myCount=5,
+              [Parameter(Position=2)][ValidateSet("L","M","H")][String]$Pri="M",
+              [Switch]$Force
+            )
+            Write-Host ("myPath = ", $myPath)
+            Write-Host ("myCount= ", $myCount)
+            Write-Host ("Pri    = ", $Pri)
+            Write-Host ("Force  = ", $Force)
+
+            # 実行結果
+              PS&gt; .\Hoge.ps1 -myPath C:\Temp  ← 第1引数はMandatoryなので指定しないといけない
+              myPath =  C:\Temp   ← 必須引数
+              myCount=  5         ← オプション引数、デフォルト値が使われている
+              Pri    =  M         ← オプション引数、デフォルト値が使われている
+              Force  =  False     ← オプション引数、スイッチ引数は指定しない場合、False
+
+            # この引数指定の意味
+              $myPath   必須引数。指定しなければPowerShellから入力を促される。Positionが0なので第1引数。String型
+              $myCount  オプション引数、Positionが1なので第2引数。Int型で、デフォルト値がある引数
+              $Pri      オプション引数、Positionが2なので第3引数。String型で、取りうる値が「L、M、H」のいずれか。デフォルト値あり
+                        ※ ValidateRange(1,10) のように数値範囲 1～10 を指定することもできる
+              $foreach  オプション引数、スイッチ引数
+            </code></pre>
+              <ul>
+                <li>[ValidateSet]
+                  <p>[ValidateSet]は、選択できる範囲を指定する属性。[Parameter(Position=2)][ValidateSet("L","M","H")][String]$Pri="M"
+                    は、"L","M","H"の中から選択可能となる。</p>
+                </li>
+                <li>[ValidateRange]
+                  <p>[ValidateRange]は、数値型で選択範囲を指定する属性。例えば、[ValidateRange(1,10)] は、1～10の数値が制定できる範囲となる。</p>
+                </li>
+              </ul>
+            </li>
+            <li id="toc22"><span class="marker-underline">デフォルト値がある引数（デフォルト引数）の使い方は注意が必要</span>
+              <p>先ほどの例で、$MyCount=5、$Pri="M"
+                という引数は、それぞれ数値の5、文字列のMというデフォルト値を持っている。この例では型が違うからどちらの引数が省略されているかPowerShellは判断できるので問題はない。<br /><span
+                  class="marker-underline-red">しかし、以下の例のように同じ型のデフォルト引数が複数ある場合、どちらの引数が省略されたかを判断できない</span><br />以下の例は、2つのInt型デフォルト引数
+                $myAgeと$myValue を持つスクリプトの実行例を書いている。この例では「.\Hoge.ps1
+                35」として実行している。2つの引数に対して1つしか指定していないので、$myAgeか$myValueのどちらかは省略されている。実行結果を見るとPowerShellは、$myValueが省略されたと解釈して$myValueにデフォルト値が適用されている。<br /><span
+                  class="marker-red">しかし、ユーザ意図は$myAgeを省略して、$myValueに35
+                  を指定したかった可能性がある。</span>でも同じ型なのでどちらの引数が省略されたのか判断できない。という問題をはらんでいる。</p>
+              <pre><code class="powershell">
+            Param(
+              [Parameter(Position=0)][Int]$myAge=25,
+              [Parameter(Position=1)][Int]$myValue=75
+            )  
+            Write-Host("myAge  = ", $myAge)
+            Write-Host("myValue= ", $myValue)            
+
+            #実行結果
+            PS&gt; .\Hoge3.ps1 35  ← Int型のデフォルト引数 $myAge、$myValue のどちらかは省略されている。
+              myAge  =  35    ← PowerShellは、コマンドラインから渡されたのは「$myAge」と判断しているが、
+              myValue=  75       ユーザの意図は、$myAgeを省略し $myValueに対して 35 という値を指定している可能性がある！
+            </code></pre>
+              <p>
+                こういう時は、明示的に名前で引数を指定するように運用を気をつけないといけない（運用面）。また、コード側では、必須引数はPositionをつけるけど、デフォルト引数はPositionをつけないようにする（コード面）。
+              </p>
+              <pre><code class="powershell">
+            #実行結果
+            PS&gt; .\Hoge3.ps1 -myValue 35  ← $myAgeは省略し、$myValueだけ値を指定
+              myAge  =  25    ← $myAgeはデフォルト値が使われている
+              myValue=  35    ← $myValueはユーザ指定した値が使われている
+            </code></pre>
+            </li>
+            <li id="toc23">Param()内の順番が引数の順番
+              <p>Positionで位置を指定しない場合、Param()内の順番が引数順番とみなされるみたい。だけど、位置を指定しない引数を指定する場合は、名前で指定した方が安全。</p>
+              <pre><code class="powershell">
+            Param(
+              [String]$myName,
+              [String]$myAddress
+            )  
+            Write-Host("myName  = ", $myName)
+            Write-Host("myAddress= ", $myAddress)
+
+            # 実行結果
+            .\Hoge3.ps1 neko usagi
+            myName  =  neko     ← 位置指定していないが第1引数として受け取っている
+            myAddress=  usagi   ← 同様
+
+            # 実行結果（名前を明示して指定した方がいい）
+            .\Hoge3.ps1 -myName neko -myAddress usagi
+            myName  =  neko     ← 結果は同じだけど
+            myAddress=  usagi
+          </code></pre>
+            </li>
+            <li id="toc24">名前を指定する引数のメリット
+              <p>名前を指定すると引数の順番は気にしなくていいようになる</p>
+              <pre><code class="powershell">
+            # 実行結果（引数の順番を変えて指定できている）
+            .\Hoge3.ps1 -myAddress usagi -myName neko
+            myName  =  neko     ← 順番を変えて引数を渡しても名前で紐づけできている
+            myAddress=  usagi
+            </code></pre>
+            </li>
+            <li id="toc25"><span class="marker">Param()内には実行コードも書ける！</span>
+              <p>
+                通常、パスなどを引数で受け取るとそのパスを使う前にパスの存在をチェックして、存在しなければエラーにする等の処理を行うと思うが、それをParam()内で引数を受け取る時にチェックすることができる。<br /><span
+                  class="marker-underline">それが、ValidateScript属性。</span>つまり、Param()は単純な引数を受け取るブロックではないってことやな。<br />
+              <p>ValidateScriptも属性なので、[ValidateScript({..処理..})] のように角かっこ[]の中に処理を書く</p>
+              </p>
+              <pre><code class="powershell">
+            [CmdletBinding()]
+            Param(
+              [Parameter(Mandatory=$true, Position=0)]
+              [ValidateScript({
+                write-host("ValidateScriptチェック中 : $_")
+                If (-Not (Test-Path $_ -PathType Container)) {
+                  throw "$_ が存在しません、中止します"
+                } else {
+                  $true
+                }
+
+              })]
+              [String]$myPath
+            )
+            Write-Host("ここに来たという事はパスは正しい")
+            
+            # 実行結果
+            PS&gt; .\Hoge.ps1 C:\Hoge
+            ValidateScriptチェック中 : C:\Hoge
+            Hoge3.ps1: Cannot validate argument on parameter 'myPath'. C:\Hoge が存在しません、中止します
+
+            # コード解説
+            ValidateScriptは属性なので[]で囲む。処理はこの[]中に書く
+            [Parameter()]、[ValidateScript]、[String] は引数 $myPath にかかる属性
+            $_    : 渡された引数を示す
+            throw : Catchブロックは無いが、この場合Powershellシステムが受け取る。これが無いとエラーで止まらない
+          </code></pre>
+            </li>
+            <li id="toc26">属性の実体は、.NETのクラス
+              <p>VSCodeでコーディングをしているとインテリセンスが効いて、ValidateSc…
+                と入力すると「ValidateScriptAttribute」が候補に出てくる。これはPowerShellの「ValidateScript」が、.NETの「ValidateScriptAttribute」の省略形だから。
+              </p>
+              <ul>
+                <li>[ValidateScript] ← .NETのValidateScriptAttribute の省略形</li>
+                <li>[ValidateSet] ← .NETのValidateSetAttribute の省略形</li>
+                <li>[Parameter] ← .NETのParameterAttribute の省略形</li>
+              </ul>
+              <p>なので、「ValidateScriptAttribute」を選択してもVSCode上では「ValidateScript」と表示される</p>
+            </li>
+            <li id="toc27">Mandatory=$true の場合はデフォルト引数は不可
+              <p>Mandatoryがtrueという事は必須引数という事。それに対してデフォルト値を指定すると省略できる引数とみなされるので不整合になる。</p>
+            </li>
+            <li id="toc28">配列を引数に指定する
+              <p>配列を引数で渡すこともできる。</p>
+              <pre><code class="powershell">
+            Param(
+                [String]$inu,
+                [Array]$neko,               ← これが配列型の引数
+                [String]$tori
+            )
+            Write-Host ("inu = ", $inu)
+            Write-Host ("tori = ", $tori)
+            if ($neko.Count -ge 1) {
+              Write-Host $neko.Count
+              $i = 0
+              Write-Host ("neko = ", $neko)
+            }
+
+            # 実行結果（コマンドラインから引数で配列を渡す）
+            PS&gt; .\Hoge4.ps1 -inu Wan -neko Tama, Mike, Nya, Kuro -tori Pip    ← 配列（-neko）は、カンマで区切って要素を指定する
+            inu =  Wan
+            tori =  Pip
+            4                             ← 配列要素が4つ
+            neko =  Tama Mike Nya Kuro    ← 配列要素を表示している
+            </code></pre>
+              <p>配列の型指定</p>
+              <ul>
+                <li>[Array]
+                  <p>この型は、Array型を示している。<span
+                      class="marker-underline">PowerShellの配列は型の混在が可能</span>なので、Arrayで指定していたら、混合型の配列も受け取れる。</p>
+                </li>
+                <li>[Int[]]
+                  <p>
+                    受け取る型がInt（Sysytem.Int32）であることが明白なら、[Int[]]でInt型の配列と指定してもわかりやすくていい。同様にString型だけの配列を受け取るなら、[String[]]でいい
+                  </p>
+                </li>
+                <li>[Object[]]
+                  <p>オブジェクト型の配列を受け取る指定。<span
+                      class="marker-underline">PowerShellの配列は型の混在が可能</span>なので、[Object[]]で指定していたら混在型の配列も受け取れる。[Array]と同様。
+                  </p>
+                </li>
+              </ul>
+              <p>[Int[]]で受け取る設定に対して、実際に渡されるものが数値以外があった場合</p>
+              <ul>
+                <li>型が違う配列が渡された場合
+                  <p>[Int[]]に対して、引数が「1, 10, Neko,
+                    …」だった場合はエラーになる。PowerShellは、[Int[]]が指定れているので渡された引数が数値っぽい文字であってもInt型にキャストして受け取ろうとする。しかし、本当の文字が渡されてきたらキャストはできないので、エラーになる。要は、何が渡されるか、イレギュラーな引数が渡されたらどうするかなどを設計時にちゃんと考えておかないといけない。
+                  </p>
+                </li>
+              </ul>
+            </li>
+            <li id="toc29">ポインタを引数で渡す
+              <p>コマンドライン引数では、ポインタを渡すことは無いと思うが、関数から関数をコールする場合、その引数にポインタを指定できる。</p>
+              <p class="underline">ポインタを引数で渡す方法</p>
+              <ol>
+                <li>関数側：
+                  <ul>
+                    <li>引数は、[ref]引数名 で指定して受け取る</li>
+                    <li>値は、変数名.Value でアクセスする</li>
+                  </ul>
+                </li>
+                <li>コール側：</li>
+                <ul>
+                  <li>引数は、[ref]引数名を丸かっこで囲んで、つまり ([ref]引数名）で関数に渡す</li>
+                </ul>
+              </ol>
+              <!-- 
+            <div class="card">
+              <h2>ポインタを引数で渡す方法</h2>
+              <div class="detail">
+                <h3>関数側：</h3>
+                <ul>
+                  <li>引数は、[ref]引数名 で指定して受け取る</li>
+                  <li>値は、変数名.Value でアクセスする</li>
+                </ul>
+                <h3>コール側：</h3>
+                <ul>
+                  <li>引数は、([ref]引数名）で関数に渡す</li>
+                </ul>
+              </div>
+            </div>
+ -->
+              <p>ポインタ渡しの関数コールは、関数側の仮引数は [Ref]$変数 で受ける。コール側の実引数は、丸かっこで囲んで ([Ref]$変数名) で渡す</p>
+              <pre><code class="powershell">
+            function test-ref {
+              param (		
+                [ref]$refArg,         ← [Ref]で修飾しているので、この仮引数はポインタ
+                $noRef
+              )		
+              $refArg.Value += 10		  ← $refArg.Value でポインタ先のデータを示す
+              $noRef += 20		
+            }		
+                
+            $a = 1
+            $b = 2
+            test-ref ([ref]$a) $b     ← 関数コール。この実引数 ([Ref]$a) はポインタ渡し
+            Write-Host '$a = ', $a
+            Write-Host '$b = ', $b              
+
+            # 実行結果
+            PS&gt; .\Hoge5.ps1
+            $a =  11                  ← $aはポインタ渡ししているので、関数側で実体に対して+10されている
+            $b =  2                   ← $bは、関数内で仮引数が+20されているだけなので、関数を抜けると無くなる
+            </code></pre>
+            </li>
+            <!-- HOUTBD -->
+            <li id="toc2A">引数をパイプで渡すことも可能
+              <h3 style="color:red;">TBD</h3>
+              <ol>
+                <li>$input自動変数で受け取る場合
+                  <p>スクリプトや関数にパイプで渡された引数は、$input という自動変数に格納されてくる。この方法は、$Args自動変数で、Param()指定していない引数を受け取るのと似たようなもので、<span
+                      class="marker-underline">パイプ入力も本来はParam()で受け取るのがいい。</span></p>
+                  <pre><code class="powershell">
+
+                </code></pre>
+                </li>
+                <li></li>
+              </ol>
+            </li>
+
+          </ol>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

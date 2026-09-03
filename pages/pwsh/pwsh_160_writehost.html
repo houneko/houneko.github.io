@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Write-Hostコマンドレット | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Write-Hostは画面表示するためのコマンドレットで、これを使って処理内容を表示したりできます">
+<meta name="keywords" content="pwsh,PowerShell,コマンドレット,Write-Host">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Write-Host
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">Write-Host</h2>
+          <h3 id="toc12" class="h3chapter underline">Write-Hostコマンドレット</h3>
+          <p>Write-Hostは、<a
+              href="pwsh_100_outline.html#toc26">名前から想像</a>できるように画面に引数で指定したデータを表示してくれるコマンドレット。自分の使い方は、あるプログラム（hoge.ps1）を作った時に処理状況をその時の変数値と一緒に表示する場合によく使っている。同様のコマンドレットに<a
+              href="pwsh_161_writedebug.html">「Write-Debug」</a>もあるがこればデバッグモードになっている時に出力されるもので開発時に使う。そう考えるとWrite-Hostは通常動作に使うということになるのかな
+          </p>
+
+          <h3 id="toc14" class="h3chapter underline">Write-Hostコマンドレットの使い方</h3>
+          <p>自分の使い方は上に書いた通りプログラム中に「xx処理中： $hoge変数 =
+            値」のように途中結果を表示したりすることが多い。ログみたいな感じ。で、この時Write-Hostに渡す引数指定でよく、どうするんやったっけ？と忘れるのでここで整理しておく</p>
+          <p>以下の結果を見ると「Write-Host ('name = ' + $msg)」が一番使い勝手がいいかな</p>
+          <ul class="no-marker">
+            <li>
+              <span class="marker font-large underline">Write-Host ('name = ' + $msg)</span>
+              <p>この結果は、一番イメージにあっているのでこれを使っている。丸かっこで囲んで'変数名 = 'と「+」でその変数名を指定する。<br />表示結果は「name = Neko-desu」</p>
+            </li>
+            <li>
+              <span class="marker-underline">Write-Host 'name = ', $msg</span>
+              <p>この結果は「name =&nbsp;&nbsp;Neko-desu」となる。=の後にもう１つスペースが入っている。これは「'name =
+                '」と「$msg」の2つの引数がスペースをはさんで表示される。1つ目のスペースは「= 」で、もう1つはWrite-Hostが2つ目の引数の間に入れている。<br />
+                これが意図したものであればいいが、スペースが2個あるのでなんかバランスが悪い</p>
+            </li>
+            <li>
+              <span class="marker-underline">Write-Host ('name = ', $msg)</span>
+              <p>上の「Write-Host 'name = ', $msg」と一緒</p>
+            </li>
+            <li>
+              <span class="marker-underline">Write-Host 'name = ' + $msg</span>
+              <p>この結果は、「name =&nbsp;&nbsp;+&nbsp;Neko-desu」となる。つまり「+」も引数データとみなされている。これだと使えん</p>
+            </li>
+            <li>
+              <pre><code class="powershell">
+            &gt; $msg = "Neko-desu"
+            &gt; Write-Host ('name = ' + $msg)
+            結果）name = Neko-desu                  # 一番意図したもの
+
+            &gt; Write-Host 'name = ' , $msg
+            結果）name =  Neko-desu                 # イコールの後に余計なスペースが入っている
+            &gt; Write-Host ('name = ' , $msg)
+            結果）name =  Neko-desu                 # 同上
+            &gt; Write-Host 'name = ' + $msg
+            結果）name =  + Neko-desu               # 同上に加えて「+」も表示されてしまっている
+            </code></pre>
+            </li>
+          </ul>
+
+          <h3 id="toc16" class="h3chapter underline">Write-Hostコマンドレットのいろいろなパラメータ</h3>
+          <p>コマンドレットのオプション。いろいろあるが使ったりすることがあるものをまとめておく</p>
+          <ul class="no-marker">
+            <li>
+              <span>-Foregroudcolor と -Backgroundcolor</span>
+              <p>文字の色や背景の色を変えることができるオプション。以下の例は文字色を赤で、背景の色をグレーにしている</p>
+              <img src="/assets/pic/pwsh_writehost_01.png" alt="foregroundcolorとbackgroundcolor" />
+            </li>
+            <li>
+              <span>-NoNewline</span>
+              <p>改行しないでWrite-Host出力を行う</p>
+              <pre><code class="powershell">
+            # -NoNewlineオプションがあるのでこの表示は改行されない
+            Write-Host ('No newline : ') -NoNewline              
+            Write-Host ('2nd Msg') -Foregroudcolor Green
+            </code></pre>
+              <img src="/assets/pic/pwsh_writehost_02.png" alt="nonewline" />
+            </li>
+            <li></li>
+          </ul>
+
+          <h3 id="toc18" class="h3chapter underline">公式ドキュメント</h3>
+          <p>公式が出しているドキュメント。PowerShellは世界中で使われており個人があげているページも詳しい説明があったりするけどやっぱり公式のドキュメントは見る</p>
+          <a href="https://learn.microsoft.com/ja-jp/powershell/module/microsoft.powershell.utility/write-host?view=powershell-7.5"
+            target="_blank">Write-Hostドキュメント</a>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Measure-Command | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Measure-Commandは、スクリプトブロックで囲んだ処理にかかる時間を測定するコマンドレットです。この記事では、Measure-Commandの基本的な使い方から応用的な使い方まで、サンプル例を使って詳しく説明します">
+<meta name="keywords" content="pwsh,PowerShell,コマンドレット,Measure-Command,測定">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Measure-Command
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Measure-Command</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">Measure-Commandとは</h3>
+          <p>
+            Measure-Commandは、スクリプトブロックで指定した処理にかかる時間を測定するコマンドレットです。コマンドレットや任意のスクリプト、スクリプトファイル（*.ps1）、外部コマンドなどいろいろなものを測定できます
+          </p>
+          <ol class="no-marker">
+            <li>
+              <span class="font-large">例1）コマンドレットの処理時間を測定</span>
+              <pre><code class="powershell">
+              # 例）コマンドレットの処理時間を測定
+            # Get-Commandの処理時間を測定した結果。日、時、分、秒、・・と各単位ごとに処理時間が返ってくる
+            &gt; Measure-Command {Get-Command}
+            Days              : 0
+            Hours             : 0
+            Minutes           : 0
+            Seconds           : 0
+            Milliseconds      : 460
+            Ticks             : 4605306
+            TotalDays         : 5.33021527777778E-06
+            TotalHours        : 0.000127925166666667
+            TotalMinutes      : 0.00767551
+            TotalSeconds      : 0.4605306
+            TotalMilliseconds : 460.5306        
+            # 例）複数のコマンドレットを測定することもできる
+            # Get-CommandとGet-ChildItemの2つを測定した例。また、TotalSecondsプロパティだけ表示させている
+            &gt; (Measure-Command {Get-Command; Get-ChildItem}).TotalSeconds
+            0.4452348
+          </code></pre>
+            </li>
+            <li>
+              <span class="font-large">例2）ブロック処理の処理時間を測定</span>
+              <pre><code class="powershell">
+            # ループ処理ブロックを指定した例
+            &gt; (Measure-Command {
+            &gt;&gt; for ($i=0; $i -lt 10000; $i++) {
+            &gt;&gt; write-host $i
+            &gt;&gt; }
+            &gt;&gt; }              
+            6.3306243
+            </code></pre>
+            </li>
+            <li>
+              <span class="font-large">例3）ps1ファイルの処理時間を測定</span>
+              <pre><code class="powershell">
+            # スクリプトファイルを指定した例。*.ps1ファイルを指定することもできる
+            &gt; (Measure-Command {..\..\MyCmd\INTEST_Get-MyHoge.ps1}).TotalSeconds
+            237.9020867
+            </code></pre>
+            </li>
+            <li>
+              <span class="font-large">例4）外部コマンドの処理時間を測定</span>
+              <pre><code class="powershell">
+            # 外部コマンドの処理時間を測定
+            &gt; (Measure-Command {cmd /c fc .\measureTImeTest.ps1 .\old-measureTImeTest.ps1}).TotalSeconds
+            0.1124901
+          </code></pre>
+            </li>
+          </ol>
+          <section>
+            <h3 id="toc14" class="h3chapter underline">Get-Dateで簡易測定</h3>
+            <p>精度は落ちますが、自分が自作スクリプトでよく使う方法は、Get-Dateを使ったものです。プログラムの先頭と最後にGet-Dateで時間を取得しその差分で処理時間を表示したりしています</p>
+            <pre><code class="powershell">
+          $startTime = Get-Date    # ← [DateTIme]::Nowメソッドでもいい
+            ...
+            ...
+          Write-Host ("done.. {0:N2} 秒" -f ((Get-Date) - $startTime).TotalSeconds)
+
+          done.. 0.35 秒 のように表示される
+          </code></pre>
+
+          </section>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

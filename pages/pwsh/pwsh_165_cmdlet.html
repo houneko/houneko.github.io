@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>cmdlet | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellでやりたい事をどうやって実現させるか？コマンドレットを使えるようにするにはどのような手順が必要か？を自分なりにまとめています">
+<meta name="keywords" content="pwsh,PowerShell,コマンドレット,コマンドレットを使えるようになる,PowerShellでやりたいことを実現させるには">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellでやりたい事をどうやって実現させるか
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">PowerShellでやりたい事を実現させるには</h2>
+          <h3 id="toc12" class="h3chapter underline">PowerShellでやりたい事を実現させるには</h3>
+          <p>
+            PowerShellはコマンドレットで操作するので、コマンドレットを知らないと処理が書けない。でもコマンドレットってどのようなものがありどう使うのか？自分がしたい事を実現するコマンドレットは何なのか？などが最初の壁になると思います。これは自分で探して理解をつけていくしかないのかなと思いますが、自分はこんな感じで理解していったという話です。
+          </p>
+          <p>付け焼き刃で分かった気になるよりも、なんで？なんで？を突き詰めて行った方が近道では？と思います。昔のことわざの「急がば回れ」は良く言ったものです</p>
+
+          <h3 id="toc14" class="h3chapter underline">例：今実行中のサービスを調べたい</h3>
+          <p>とりあえず、今実行中のサービスを調べたいとなったとして、どうやって実現するか</p>
+
+          <ol class="list list--marker-on list--indent two-digit">
+            <li class="list__item">
+              <span class="list__title">Get-Service でサービスが調べられることを思い出す</span>
+              <div class="list__desc">
+                <p>PowerShellは、動詞-名詞で統一された構造になっているので、Get-系であることと「Service」という名詞で、Get-Serviceを思いつく</p>
+                <p>
+                  と言っても全く最初だと思いつくも何もないので、全く最初の場合は、とりあえず「Get-Command」を覚えてください。Get-Commandで、コマンドレット一覧が出てくるので、GetとServiceなどのキーワードでそれっぽいコマンドレットを見つける
+                </p>
+              </div>
+            </li>
+
+            <li class="list__item">
+              <span class="list__title">Get-Serivce で何が取れるかを、Get-Member を使って調べる</span>
+              <div class="list__desc">
+                <p>Get-Serive | Get-Member -MemberType Property を実行</p>
+                <pre><code class="powershell">
+              &gt; Get-Serive | Get-Member -MemberType Property
+              
+              Name                MemberType Definition
+              ----                ---------- ----------
+              BinaryPathName      Property   System.String {get;set;}
+              CanPauseAndContinue Property   bool CanPauseAndContinue {get;}
+              CanShutdown         Property   bool CanShutdown {get;}
+              CanStop             Property   bool CanStop {get;}
+              ・・・
+              StartupType         Property   Microsoft.PowerShell.Commands.ServiceStartupType {get;set;}
+              Status              Property   System.ServiceProcess.ServiceControllerStatus Status {get;}
+              UserName            Property   System.String {get;set;}
+              </code></pre>
+              </div>
+            </li>
+
+            <li class="list__item">
+              <span class="list__title">それっぽいやつで、Statusというプロパティがあることがわかる</span>
+              <div class="list__desc">
+                <p>Definitionの内容を見ると、System.ServiceProcess.ServiceControllerStatus型 のStatus{} という関数でget
+                  という処理をしていることがなんとなくわかる。System.ServiceProcess.ServiceControllerStatus型は
+                  .NETを勉強しないとわからんけど名前からサービスのステータスの型っぽいのがわかる。<br />でこれをgetしているので、このステータスをみたらいいじゃねってのが見えてくる</p>
+              </div>
+            </li>
+
+            <li class="list__item">
+              <span class="list__title">Statusというプロパティがどんな値を持つかをGet-Helpで調べる</span>
+              <div class="list__desc">
+                <pre><code class="powershell">
+              &gt; Get-Help Get-Service -Online
+              </code></pre>
+                <p>そうするといろいろな説明の中に、Statusプロパティの説明があるのでそれを見ると「サービスの Status
+                  プロパティは、状態の名前が整数値を表す列挙値です。」とあり、このプロパティでサービスの状態が確認できるのが明確となる。</p>
+                <p>もう少し説明を調べると、この列挙型の詳細は別のリンクになっており、ServiceControllerStatus 列挙型のところで説明されていることがわかる</p>
+                <p>名前空間:System.ServiceProcess</p>
+                <p>アセンブリ:System.ServiceProcess.ServiceController.dll</p>
+                <p>この列挙型は数値でサービスの現在の状態を表しており以下となっていることがわかった</p>
+                <table class="custom-table">
+                  <tr>
+                    <th>名前</th>
+                    <th>値</th>
+                    <th>意味</th>
+                  </tr>
+                  <tr>
+                    <td>ContinuePending</td>
+                    <td>5</td>
+                    <td>サービスの継続は保留中。 Win32 のSERVICE_CONTINUE_PENDING定数と同じ</td>
+                  </tr>
+                  <tr>
+                    <td>Paused</td>
+                    <td>7</td>
+                    <td>サービスは一時中断。 Win32 のSERVICE_PAUSED定数と同じ</td>
+                  </tr>
+                  <tr>
+                    <td>PausePending</td>
+                    <td>6</td>
+                    <td>サービスの一時中断は保留中。 Win32 の SERVICE_PAUSE_PENDING定数と同じ</td>
+                  </tr>
+                  <tr>
+                    <td><span style="color:red;">Running</span></td>
+                    <td>4</td>
+                    <td>サービスは実行中。 Win32 の SERVICE_RUNNING定数と同じ</td>
+                  </tr>
+                  <tr>
+                    <td>StartPending</td>
+                    <td>2</td>
+                    <td>サービスは開始中。 Win32 の SERVICE_START_PENDING定数と同じ</td>
+                  </tr>
+                  <tr>
+                    <td>Stopped</td>
+                    <td>1</td>
+                    <td>サービスは実行されていません。 Win32 の SERVICE_STOPPED定数と同じ</td>
+                  </tr>
+                  <tr>
+                    <td>StopPending</td>
+                    <td>3</td>
+                    <td>サービスは停止中。 Win32 の SERVICE_STOP_PENDING定数と同じ</td>
+                  </tr>
+                </table>
+              </div>
+            </li>
+
+            <li class="list__item">
+              <span class="list__title">StatusプロパティがServiceControllerStatus列挙型で、列挙名かがわかった</span>
+              <div class="list__desc">
+                <p>この中の「Running」となっているサービスが実行中のものなのでこれを表示させればいいことがわかる</p>
+              </div>
+            </li>
+
+            <li class="list__item">
+              <span class="list__title">Get-Serviceで、Statusが「Running」のサービスを表示させる</span>
+              <div class="list__desc">
+                <pre><code class="powershell">
+            &gt; Get-Service | Where {$_.Status -eq "Running"}
+
+            Status   Name               DisplayName
+            ------   ----               -----------
+            Running  AarSvc_fb89259     Agent Activation Runtime_fb89259
+            Running  AdobeARMservice    Adobe Acrobat Update Service
+            ・・・
+            ・・・
+            </code></pre>
+                <p>実行中のサービス一覧を取得することができた（完）</p>
+              </div>
+            </li>
+          </ol>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

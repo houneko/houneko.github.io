@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ArgumentとParameter | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell固有の話ではないですが、ArgumentとParameterの違いは何？ということをまとめている章です">
+<meta name="keywords" content="pwsh,PowerShell,ArgumentとParameterの違い,実引数,仮引数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/その他:/pages/pwsh/pwsh_000_index.html#toc300 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        ArgumentとParameter
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">ArgumentとParameter</h2>
+          <h3 id="toc12" class="h3chapter underline">ArgumentとParameterは同じもの？違うもの？</h3>
+          <p>自分はIT業界で開発をやっていた時期があるのですが、ArgumentとParameter
+            は同じように思っていたが、ある時調べたら厳密には使い分けがあることがわかった。せっかくなので、ここにドキュメント化しておこうと思って作ったページです（自分の周りでは、混同して使われることが多くて、混同していてもある程度意味が通じているので問題はなかったんや・・）
+          </p>
+          <h3 id="toc20" class="h3chapter underline">Argumentって何</h3>
+          <p>ArgumentとParameterは違うって事なので、じゃArgumentは何って話。<span
+              class="marker">Argumentは関数コール側が渡す<strong>実引数のこと。</strong></span>なので、関数をコールする時に渡す引数はArgumentである</p>
+          <h3 id="toc30" class="h3chapter underline">Parameterって何</h3>
+          <p>Argumentは関数コール側で指定する実引数ということなので想像がつくと思うけど、<span
+              class="marker">Parameterは関数定義側が受け取る<strong>仮引数のこと。</strong></span>なので、関数側で定義している引数はParameterである</p>
+          <br />
+          <p>Argumentでコールして、Parameterで受け取るってことやな</p>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

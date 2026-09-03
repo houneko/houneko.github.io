@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShellのif文 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellのif文についての章です。PowerShellのif文は他の言語と同様ですが、$nullとの比較の場合は少しだけ注意が必要です">
+<meta name="keywords" content="pwsh,PowerShell,if文,$nullとの比較">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/構文:/pages/pwsh/pwsh_000_index.html#toc140 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellのif文
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellのif文</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">PowerShellのif文</h3>
+          <p>
+            PowerShellにもif文があります（当然...）。基本的な構造や構文は他の言語と同様ですが、$nullとの比較は少し注意が必要です</p>
+          <pre><code class="powershell">
+          # if文の基本形
+          if (条件式１) {
+            条件式１がtrueの時に実行される処理
+            ...
+          } elseif (条件式２) {
+            条件式２がtrueの時に実行される処理
+            ...
+          } elseif (条件式..) {
+            条件式..がtrueの時に実行される処理
+            ...
+          } else {
+            全ての条件式がFalseの場合に実行される処理
+            ...
+          }
+        </code></pre>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">$nullとの比較での注意事項</h3>
+          <p>$nullと配列を比較する場合、少しだけ注意が必要です。通常、if文の条件式は（$変数名 -eq
+            値）のように「左辺が変数」「右辺が比較する値」という形で書きますが、$nullと配列の比較の場合は「左辺が比較する値（つまり$null）」と書きます</p>
+          <pre><code class="pwsh">
+        #// 普通のif文
+        if ($myName -eq 'Neko') {     #// 左辺は「$myName変数」、右辺が比較する値
+          ....
+        } else {
+          ....
+        }
+        </code></pre>
+          <p>なぜ、$nullと配列変数の比較の場合は「左辺に$null」を書くのか？</p>
+          <p>これは、そう推奨されているからです。本当の理由は意図しない比較になる可能性があるからです</p>
+          <pre><code class="pwsh">
+        $nameAry = @($null, "Neko", "Usagi")    #// $nameAryは、存在するが$nullを含んでいる配列
+        $wk = "Hoge"
+        $wk = $nameAry -eq $null                #// $wkに 何が返ってくるか見てみる
+        if ($nameAry -eq $null) {               #// この条件式は $null となるので False側に分岐する
+          Write-Host "Yes"
+        }
+        else {
+          Write-Host "No"                       #// よって、これが表示される
+        }        
+        </code></pre>
+          <p>デバッグ画面</p>
+          <p>「$nameAry -eq
+            $null」は、$nameAry配列の$nullに一致した要素が返ってくる（つまりインデクス0の$nullが返ってくる）。このため、配列がnullなのかではなく、配列に$nullが含まれるかの意味になってしまう。
+          </p>
+          <p>だから、配列と$nullの比較は、$nullを左辺に書く。こう書くと左辺がスカラー値なので、$trueか$falseのどちらかが返ってくるので「配列そのものが$null？」の判別ができる</p>
+          <img src="/assets/pic/pwsh_141_if_01.webp" alt="$nullと配列の比較" />
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">参考）C言語でのNULL値の比較</h3>
+          <p>Cの時もNULLとの比較は、左辺にNULLを書きますが、これは少し意味が違います</p>
+          <p>これは、NULLを代入するコーディングミスをコンパイル時に見つけ出させるテクニック（比較==を間違って、代入にしても左辺がNULLならコンパイル時にエラーとなって分かる）</p>
+          <p>
+            ※でも最近のコーディングスタイルはこの書き方は特に推奨していないようです。コンパイラが強力になっており、変数が左辺で値が右辺という書き方がより自然なためです（まぁ、昔の人はNULLを左に書くのが慣習になっているかも。そういうコードを見たら歴史的な背景があったんだなと思えばいいでしょう）
+          </p>
+          <pre><code class="c">
+          if (NULL==p) {    //左辺が変数だと間違って、p=NULLにしてしまってもコンパイルは通るので気づかない
+            ....            //左辺がスカラー値だと、NULL=p はエラーになって分かる
+          }
+          </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

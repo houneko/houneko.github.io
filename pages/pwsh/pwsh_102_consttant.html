@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHの定数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShell/PWSHの定数。PowerShellの定数は、宣言時は「$」はつけないですが、使用時には「$」をつけて参照する等ちょっとめんどくさいです">
+<meta name="keywords" content="pwsh,PowerShell,定数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/基本:/pages/pwsh/pwsh_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellの定数
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">PowerShellの定数</h2>
+          <h3 id="toc12" class="h3chapter underline">PowerShellの定数</h3>
+          <p>PowerShellの定数は、宣言時と参照時で「$」をつけない・つけるの違いがあり、何かめんどくさい。</p>
+          <p>定数の性質として、削除や再代入不可なので壊したくないデータや値が変化しないものを定数化するという考えは他の言語と同じ</p>
+          <p><span class="marker">「定数宣言時は＄をつけない。使用時は＄をつける」</span></p>
+          <p>なんでこんな整理にしたんやろ。。間違うもと</p>
+          <pre><code class="powershell">
+        PS&gt; Set-Variable -name NEKO_NAME -value "JoeTaro" -option Constant     #//定数宣言と代入
+        PS&gt; Write-Host ("Neko name = ", $NEKO_NAME)    #// 定数を使ってみる
+        結果）
+        Neko name =  JoeTaro
+        </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

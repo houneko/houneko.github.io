@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShell/PWSHのパイプラインとは | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="パイプ（パイプライン）は、PowerShell/PWSHの特徴的な機能の1つです（シェルだから当然？）。これは1つのコマンドレット結果を次のコマンドレットに渡すことで複雑な処理を行う事ができます。パイプの使い方をサンプル例を使って詳しく説明します">
+<meta name="keywords" content="pwsh,PowerShell,パイプライン">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/基本:/pages/pwsh/pwsh_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        パイプ（パイプライン）
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">パイプ（パイプライン）</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">パイプ（パイプライン）とは</h3>
+          <p>パイプ（パイプライン）とは「|」により、左辺のコマンドレットの結果を右辺に渡す機能です。コマンドレットA | コマンドレットB
+            のように複数の処理をつなげて全体として複雑な処理を実現しています。この例の場合、コマンドレットAの結果をコマンドレットBに渡してAの結果をBで処理した結果という機能が実現できています</p>
+          <p>これはPowerShell独自の機能ではなく、シェルが一般的に備えている基本的な機能かと思いますが使いこなすと便利です。（以下パイプ）</p>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">パイプの動作イメージ</h3>
+          <p>例）パイプを使わず変数を経由して次の処理を行う</p>
+          <pre><code class="powershell">
+          &gt; $files = Get-ChildItem -File    # $filesには複数のファイルオブジェクトが代入される
+          &gt; foreach ($file in $files) {     # $files変数を介して、foreach文で１つずつ処理
+            Write-Host $file.FullName
+          }
+          </code></pre>
+          <p>例２）パイプを使って例と同様な処理を行う</p>
+          <pre><code class="powershell">
+          &gt; Get-ChildItem -File | ForEach-Object {$_.FullName}
+          </code></pre>
+          <p>例２はパイプを使ってGet-ChildItemの結果を次のコマンドレットに渡していますが、この時パイプにはどのように渡されるかを正しく理解しないと混乱すると思います（自分がそうだった）</p>
+          <p>自分は最初、Get-ChildItemの結果のファイル達全体のオブジェクトのかたまりが渡されると思っていましたが、これは<span class="emphasis">間違い</span>です。</p>
+          <p>つまり、<span class="emphasis font-large">列挙可能なもの（１つずつ取り出せるもの。配列やコレクションなど）をパイプに流す場合、１つずつ渡されるようになっています</span>
+          </p>
+          <ol>
+            <li>Get-ChildItem -File で、ファイルAのオブジェクトが取得される</li>
+            <li>ファイルAのオブジェクトがパイプで ForEach-Objectに渡され、そのスクリプトブロックに記述されている処理が実行される</li>
+            <li>Get-ChildItem -File で、ファイルBのオブジェクトが取得される</li>
+            <li>ファイルBのオブジェクトがパイプで ForEach-Objectに渡され、そのスクリプトブロックに記述されている処理が実行される</li>
+            <li>・・・全部のファイルオブジェクトに対して繰り返される</li>
+          </ol>
+          <p>そうすると配列をパイプに渡す場合も、配列要素が１つずつ渡されるということになります（列挙可能だから）。以前、<a
+              href="pwsh_169b_getmember.html#toc20">Get-Memberを使って配列オブジェクトのメンバを調べた</a>
+            時に意図した動作にならなかったのは、このパイプの性質のためだったということです</p>
+        </section>
+        <section>
+          <h3 id="toc30" class="h3chapter underline">パイプの動作イメージの疑問</h3>
+          <p>列挙可能なオブジェクトをパイプに渡す場合、オブジェクトが1つずつ渡されるということはわかったのですが、そうすると別の疑問がでてきました（これは、ForEach-Objectの理解不足によるものだったのですが）
+          </p>
+          <p>パイプで1つずつ渡すのであれば、ForEach-Object を使わなくてもいいんじゃない？ というのが当時の疑問でした</p>
+          <p>つまり、1つずつ渡されることが繰り返されているので、パイプ動作自体がループのようになっているため、ForEach-Objectを書く意味が分からなかったということです</p>
+          <p>テスト１</p>
+          <p>これはそもそも文法上エラー。$_自動変数はスクリプトブロック内でしか使えない自動変数なので、この書き方自体ができませんでした</p>
+          <pre><code class="powershell">
+            &gt; Get-ChildItem -FIle | $_.FullName    # $_はこのような書き方はできないので文法レベルで間違ってる・・
+            </code></pre>
+          <p>テスト２</p>
+          <p>これは意図した動作になった。やっぱりForEach-Objectは使わなくてもいいんじゃね？（ちがう）</p>
+          <p>この時、Write-Hostには引数が何もないけど、ファイルオブジェクトN
+            が渡されておりそれを表示しています。これだけだったらForEach-Objectを使わなくても同じですが、複数の事を実行したければやっぱりForEach-Objectが必要になります。</p>
+          <pre><code class="powershell">
+            &gt; Get-ChildItem -FIle | Write-Host
+            </code></pre>
+          <p>ForEach-Objectを使わないと複数の事は書けない</p>
+          <pre><code class="powershell">
+            &gt; Get-ChildItem -File | {  # ForEach-Objectを使わないでスクリプトブロックを書こうとしたらエラーになった
+            &gt;&gt; $count++
+            &gt;&gt; Write-Host $count
+            &gt;&gt; }
+            ParserError:
+            Line |
+              1 |  Get-ChildItem -File | {
+                |                        ~
+                | Expressions are only allowed as the first element of a pipeline
+            </code></pre>
+          <p>ForEach-Objectを使うと複数の事を書ける</p>
+          <pre><code class="powershell">
+            &gt; Get-ChildItem -File | ForEach-Object {
+            &gt;&gt; $count++
+            &gt;&gt; Write-Host $count
+            &gt;&gt; }
+            1   # ForEach-Objectを使うと正しく動作した
+            2
+            3
+            ...
+            </code></pre>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

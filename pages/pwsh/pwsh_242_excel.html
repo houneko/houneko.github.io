@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>PowerShellでExcelを操作する | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="ExcelはCOMモデルで設計されているので外部から操作することができます。PowerShellからもExcelを操作できますのでその方法を説明します">
+<meta name="keywords" content="pwsh,PowerShell,Excel操作,COM">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/自作:/pages/pwsh/pwsh_000_index.html#toc240 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        PowerShellでExcelを操作する
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">PowerShellでExcelを操作する</h2>
+        <!-- PowerShellでExcelを操作する -->
+        <section>
+          <h3 id="toc20" class="h3chapter underline">PowerShellでExcelを操作できます</h3>
+          <p>
+            ExcelはCOMモデルで作られているので外部から部品として操作することができます。PowerShellでExcelを操作する場合「New-Object」コマンドレットで、-ComObjectとして「Excel.Application」を指定することでExcelアプリケーションを操作できるようになります
+          </p>
+          <p>※COM = Component Object
+            Model。COMは、SWをコンポーネント（独立した処理を行う構成要素。独立したソフトウェアって感じかな）で構成する概念や仕様の事。なので外部からExcelを部品のように操作することができます<br /></p>
+          <p>以下の操作を見ながら、PowerShellでExcelを操作する例を示します</p>
+          <p>
+            比較用に、現在手動で「Book1.xlsx」と「Book2.xlsx」を開いた状態から始めます。1つのEXCELプロセスに、ブックオブジェクトが2つあるというイメージです（各Book1.xlsx、Book2.xlsxはスレッドではない）。
+          </p>
+          <p>なので、新しくBook3.xlsxを起動すると、EXCELプロセス内に、Book1.xlsx、Book2.xlsx、Book3.xlsxが見え、Book3.xlsxを閉じると
+            Book1.xlsx、Book2.xlsxだけになります</p>
+          <div class="text">
+            <img src="/assets/pic/pwsh_242_taskmgr01.png" alt="taskmgr初期画面" class="image-float" />
+            <p>
+              手動でBook1.xlsxとBook2.xlsxを起動した状態でのタスクマネージャー画面。<br />Excelプロセスが1つあり、その中にBook1.xlsxとBook2.xlsxオブジェクトが見えている。Book1.xlsxとBook2.xlsxはスレッドではなく、WorkBookオブジェクト
+            </p>
+          </div>
+          <div class="text">
+            <img src="/assets/pic/pwsh_242_getprocess01.png" alt="Get-Process結果1" class="image-float" />
+            <p>Get-Process -Name Excelの結果。プロセスID 32580 のExcelが手動で起動したEXCEL</p>
+          </div>
+        </section>
+
+        <!-- Excel.Applicationの生成 -->
+        <section>
+          <h3 id="toc21" class="h3chapter underline">Excelオブジェクトを生成する</h3>
+          <p>まず最初にするのがこの操作です。New-Objectコマンドレットで、-ComObject として Excel.Application を指定して、Excelアプリケーションを生成します</p>
+          <pre><code class="powershell">
+        &gt; $myExcel = New-Object -ComObject Excel.Application
+        </code></pre>
+          <p>Excel.Applicationを生成した後のタスクマネージャー画面とGet-Process画面での確認結果</p>
+          <p>Excelインスタンは生成されているけど、バックグラウンドプロセスになっており人間には見えない状態で起動していることがわかります（Visibleを$trueにしたら見える）</p>
+
+          <ol class="no-marker">
+            <li>
+              <span>タスクマネージャーで見た画面</span>
+              <div class="text">
+                <img src="/assets/pic/pwsh_242_taskmgr02.png" alt="taskmgr画面2" class="image-float" />
+                <p>Excelオブジェクトを生成した直後は、画面には見えておらず、バックグラウンドプロセスとして生成されている</p>
+              </div>
+            </li>
+            <li>
+              <span>Get-Processコマンドレットで見た画面</span>
+              <div class="text">
+                <img src="/assets/pic/pwsh_242_getprocess02.png" alt="Get-Process画面2" class="image-float" />
+                <p>New-Objectで作成したExcelは別プロセスID 28344として起動されている（手動でExcelブックを開くと既存プロセス内にブックオブジェクトが追加される）</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Excel.Applicationの見える化 -->
+        <section>
+          <h3 id="toc22" class="h3chapter underline">生成しただけではExcelオブジェクトは見えない</h3>
+          <p>New-Objectで生成したExcelオブジェクトは最初は見えないようになっている（バックグラウンドプロセスになっている）。この状態でも操作自体はできますが、一旦見える化しておきます</p>
+          <p>見える化は、$myExcelオブジェクトの「.Visible」プロパティの値を「$true」にすればいいです（もう一度見えなくしたい場合は、$falseを設定）</p>
+          <pre><code class="powershell">
+        &gt; $myExcel.Visible = $true
+        </code></pre>
+          <div class="text">
+            <img src="/assets/pic/pwsh_242_visible.png" alt="見える化したExcelオブジェクト" class="image-float" />
+            <p>$myExcelを見える化したもの。ブックオブジェクトやシートオブジェクトもまだ無い</p>
+          </div>
+          <p>また、見える化したらタスクマネージャーの表示がバックグラウンドプロセスからアプリプロセスに見え方が変わる（.Visibleを$falseにすると、バックグラウンドプロセスに戻る）</p>
+          <div class="text">
+            <img src="/assets/pic/pwsh_242_visible02.png" alt="Excelオブジェクトの見える化結果" class="image-float" />
+            <p>$myExcelオブジェクトを見える化すると、タスクマネージャーのアプリプロセスに別プロセスとして見えてくる</p>
+          </div>
+        </section>
+
+        <!-- HOUTBD Excel.Applicationの描画系のプロパティ設定 -->
+        <section>
+          <h3 id="toc23" class="h3chapter underline">Excelオブジェクトの表示プロパティ</h3>
+          <p>.Visibleプロパティの他にも表示関係のプロパティがあります。以下のプロパティはVBAでもほぼ同じ名前であり、VBAを使っていた人はどういうものかイメージできるかと思います</p>
+          <ul class="no-marker">
+            <li>$myExcel.DisplayAlerts = $false</li>
+            <li>$myExcel.ScreenUpdating = $false</li>
+            <li>$myExcel.EnableEvents = $false</li>
+          </ul>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

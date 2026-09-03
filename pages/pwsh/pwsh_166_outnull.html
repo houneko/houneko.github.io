@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Out-Null | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Out-Nullコマンドレットの使い方">
+<meta name="keywords" content="pwsh,PowerShell,Out-Null,コマンドレット">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Out-Nullコマンドレット
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">Out-Nullコマンドレット</h2>
+          <h3 id="toc12" class="h3chapter underline">Out-Nullコマンドレットとは</h3>
+          <p>
+            人のコードを見ていたら、Out-Nullコマンドレットというのがありました。以下のようなコードです。このコマンドレットは使ったことがなかったのですが、PowerShellの命名ルールから考えて何かをOutputする、Nullにとなります。Nullは通常、空っぽを示すので無の世界に何かを出力するって感じで想像できます。
+          </p>
+          <p>そこまでは初見でも何となくわかったのですが、何でこれが必要かはピンときませんでした。なので、少し調べてみました</p>
+          <pre><code class="powershell">
+        New-Item -ItemType Directory -Path $outputDir | Out-Null
+        </code></pre>
+          <p>とりあえず、Get-Helpでこのコマンドレットを調べてみました</p>
+          <pre><code class="powershell">
+        &gt; Get-Help Out-Null -Online
+        </code></pre>
+          <p>「説明 Out-Null コマンドレットは、実際には出力を NULL
+            に送信し、パイプラインから出力を削除し、出力が画面に表示されないようにします。」というのが書いてありました。大体想像した通りですが、出力が画面に表示されないようするってのがこのコマンドレットの役目のようです</p>
+          <p>次に、前述のNew-Item操作をパイプ出力なしで実行してみました。その結果、以下のようになりディレクト作成の結果情報がコンソールに出力されてしまいます。</p>
+          <p>
+            ということは、この人の意図はNew-Itemでディレクトリを作成したいけど、その結果メッセージは表示してほしくないってことだったという事がわかりました。そういえば、自分もps1スクリプトの中でディレクトを作るケースがあり同じような事をしていたのを思い出しました（自分は[void]でキャスト）。
+          </p>
+          <pre><code class="powershell">
+        &gt; $outputDir = "C:\Users\xxx\Hoge\TEMP"
+        &gt; New-Item -ItemType Directory -Path $outputDir    #// ← パイプ出力しないで実行してみた
+
+            Directory: C:\Users\xxx\Hoge                          #// ← New-Itemの実行結果がコンソールに表示される
+
+        Mode                 LastWriteTime         Length Name    #// ← 作成されたディレクトリ情報
+        ----                 -------------         ------ ----
+        d----          yyyy/mm/dd    hh:mm                TEMP    
+        </code></pre>
+          <p>このパイプでOut-Nullに出力するというのがPowerShellの文化にあっているように思います。なので今後は自分もこっちの書き方にしようかなと思います（可読性もこっちの方が高いんじゃないかな）</p>
+
+          <h3 id="toc14" class="h3chapter underline">Out-Nullコマンドレットと同様な処理</h3>
+          <ol class="no-marker">
+            <li>
+              <span class="underline">代入して捨てる</span>
+              <p>これでNew-Item結果メッセージはコンソールに出なくなるけど、$myNull変数に代入して後で使う？などの疑問が出そうで可読性を考えるとあまりきれいではないのかなと今は思っています</p>
+              <pre><code class="powershell">
+            &gt; $myNull = New-Item -ItemType Directory -Path $outputDir
+            </code></pre>
+            </li>
+            <li>
+              <span class="underline">[void]でキャストする</span>
+              <p>自分はこの書き方でやっていた。New-Itemの処理全体を()で囲み、それを[void]でキャストする</p>
+              <pre><code class="powershell">
+            &gt; [void](New-Item -ItemType Directory -Path $outputDir)
+            </code></pre>
+            </li>
+          </ol>
+          <p>なお、Webページには New-Itemの「-OutVariable」オプションを使う方法もあったけど、これはコンソールに出力されるのでだめ</p>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

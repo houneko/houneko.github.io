@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>コマンドレットオプションの色 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="PowerShellを使い始めた時、一番いやだったものがこのオプションの色でした。コマンドラインであるコマンドレットにオプションをつけて指定する場合、このオプションの色がグレーなので全く見えず困っていました">
+<meta name="keywords" content="pwsh,PowerShell,オプションの色,コマンドレットのオプション,見にくい,見やすいように色を変える,Get-PSReadLineOption">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/現場の課題:/pages/pwsh/pwsh_000_index.html#toc400 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        コマンドレットオプションの色を変える方法
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">コマンドレットオプションの色の問題</h2>
+        <!-- section -->
+        <section>
+          <h3 id="toc12" class="h3chapter underline">コマンドレットオプションの色の問題とは</h3>
+          <p>コマンドラインからコマンドレットを実行する場合、「-xxx」というオプションをつけて指定する事が多々あります。この時、デフォルトの色が背景色の黒に近いグレー色なので、見えにくいという問題がありました。</p>
+          <p>初めてPowerShellを使った時は、いろいろな事を知らなかったので、問題解決するまでしばらくストレスでした</p>
+          <p>ちなみに、ここに記述している解決方法は当時見つけた方法と違う気がするのですが、昔の資料が無いのと、これで問題解決するので一旦解決方法として残しておこうと思います</p>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">現在の色設定を確認する</h3>
+          <p>現在、オプションがどのような色に設定されているかを確認する方法が「Get-PSReadLineOption」というコマンドレットです。これで「ParameterColor」がオプションに指定されている色です</p>
+          <pre><code class="pwsh">
+          &gt; Get-PSReadLineOption
+          #// このコマンドレットでコマンドラインの設定が分かる（色以外にもいろいろな設定がされている）
+          EditMode                               : Windows
+          AddToHistoryHandler                    : System.Func`2[System.String,System.Object]
+          HistoryNoDuplicates                    : True
+          HistorySavePath                        : C:\Users\xxx\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+          HistorySaveStyle                       : SaveIncrementally
+          ...
+          #// この辺から色に関する設定がわかる
+          CommandColor                           : "`e[93m"
+          CommentColor                           : "`e[32m"
+          ...
+          OperatorColor                          : "`e[90m"
+          ParameterColor                         : "`e[90m"     #// ParameterColorがオプションの色を指定している
+          ...                                                   #// もともとはこの色は「グレー」になっていた
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">解決方法</h3>
+          <p>この問題は「ParameterColor」の色がグレーに設定されていたからです。なので、この設定を見やすい色に変えたらいいです。変更は「Set-PSReadLineOption」コマンドレットで行います</p>
+          <pre><code class="pwsh">
+          #// ParameterColorではなく「Parameter」に変更したい色を設定する
+          &gt;  Set-PSReadLineOption -Colors @{Parameter = "`e[96m"}
+          </code></pre>
+          <p>この設定は、このセッション中だけ有効なので、PowerShellを閉じると設定が消えてしまうので、恒久的に変更した五場合は、<a
+              href="pwsh_124_profile.html">$Profile</a>に「Set-PSReadLineOption -Colors @{Parameter = "`e[96m"}」を追加しておけばいい
+          </p>
+          <p>※しかし、自分の環境では$Profileには追加していないのに、変更した設定がずっと有効になっている（なんで？）</p>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

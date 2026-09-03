@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Get-Command | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Get-Commandは実は便利なコマンドレット。Get-CommandはPowerShellが提供しているコマンドレットだけではなく、自作関数・スクリプト、外部アプリケーションも対象としています。このため、コマンドレットや関数・スクリプト、外部アプリケーションを探すという使い方もできます">
+<meta name="keywords" content="pwsh,PowerShell,Get-Command,コマンドレット">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PWSH,PowerShell">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/Cmdlet:/pages/pwsh/pwsh_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Get-Command
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">Get-Command</h2>
+          <h3 id="toc12" class="h3chapter underline">Get-Gommandとは</h3>
+          <p>
+            Get-Commandは実は便利なコマンドレット。Get-CommandはPowerShellが提供しているコマンドレットだけではなく、自作関数・スクリプト、外部アプリケーションも対象としています。このため、コマンドレットや関数・スクリプト、外部アプリケーションを探すという使い方もできます
+          </p>
+          <p>引数無しで、Get-Commandを実行するとPowerShellが持っているコマンドレットや関数、Aliasなどが一覧表示される。大量に表示されるので、一画面ずつ見たいは場合は<a
+              href="pwsh_168_outhost.html#toc10">「Out-Host -Paging」</a> で見ることができる</p>
+          <pre><code class="powershell">
+        &gt; Get-Command
+        #出力結果（大量に表示され画面がスクロールする）
+        CommandType     Name                            Version    Source
+        -----------     ----                            -------    ------
+        Alias           Add-AdlAnalyticsDataSource      1.0.3      Az.DataLakeAnalytics
+        Alias           Add-AdlAnalyticsFirewallRule    1.0.3      Az.DataLakeAnalytics
+        Alias           Add-AdlStoreFirewallRule        1.3.1      Az.DataLakeStore        
+        ...
+        ...
+        </code></pre>
+          <h3 id="toc14" class="h3chapter underline">「CommandType」について</h3>
+          <p>Get-Commandを実行すると表示される項目に「CommandType」というのがありますが、CommandTypeでは以下の情報を表示しています</p>
+          <ul class="no-marker">
+            <li>
+              <spam class="is-bold">CommandTypeの意味</spam>
+              <p>Get-Commandを実行すると表示項目に「CommandType」が表示されるます。この意味は以下の通りです。</p>
+              <table class="custom-table">
+                <tr>
+                  <th>値</th>
+                  <th>意味</th>
+                  <th>備考</th>
+                </tr>
+                <tr>
+                  <td>Alias</td>
+                  <td>エイリアス</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Function</td>
+                  <td>関数</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Cmdlet</td>
+                  <td>コマンドレット</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Filter</td>
+                  <td>フィルタ</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Script</td>
+                  <td>PowerShellスクリプト</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Application</td>
+                  <td>アプリケーション</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Workflow</td>
+                  <td>ワークフロー</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>ExternalScript</td>
+                  <td>Pathにある外部スクリプト</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+            <li>
+              <spam class="emphasis is-bold">CommandTypeで種類を指定してGet-Commandを実行する パート1</spam>
+              <p>Get-Commandのオプションで「-CommandType」を指定し、値を「ExternalScript」にすると外部スクリプトだけを表示することができます。</p>
+              <p>以下は実行結果サンプル。これを見ると自分が作った自作スクリプトも、外部からインストールしたスクリプトも外部スクリプトとして見えていることが分かる</p>
+              <pre><code class="powershell">
+            &gt; Get-Command -CommandType ExternalScript    # ExternalScriptだけを表示するようにする
+
+            CommandType     Name                  Version    Source
+            -----------     ----                  -------    ------
+            ExternalScript  Check-HtmlFiles.ps1               C:\..\Check-HtmlFiles.ps1                     # ←自作スクリプト
+            ExternalScript  Check-ShowSnippetsPS1.ps1         C:\..\Check-ShowSnippetsPS1.ps1               # ←自作スクリプト
+            ExternalScript  gemini.ps1                        C:\Users\xxx\AppData\Roaming\npm\gemini.ps1   # ←外部から来たスクリプト
+            ...
+            ...
+            </code></pre>
+            </li>
+
+            <li>
+              <spam class="emphasis is-bold">CommandTypeで種類を指定してGet-Commandを実行する パート2</spam>
+              <p>
+                「-CommandType」オプションは外部スクリプトは指定値「ExternalScript」があるけど、関数は「Function」しかない。このため自作関数を調べようとしても「Function」には内部Functionも多数あるからこのままだと見にくい
+              </p>
+              <p>PowerShellはパイプで次のコマンドにオブジェクトを渡せるので、Where-Objectでフィルタする</p>
+              <pre><code class="powershell">
+            &gt; Get-Command -CommandType Function | Where-Object {$_.Name -like "*isad*"}
+
+            CommandType     Name                  Version    Source
+            -----------     ----                  -------    ------
+            Function        isAdmi                                              # ←自作関数の「isAdmi」が表示された
+            ...
+            ...
+            </code></pre>
+            </li>
+
+            <li>
+              <spam class="emphasis is-bold">CommandTypeでApplicationを指定すると外部アプリも表示できる</spam>
+              <p>Get-Commandは、PowerShell内のコマンドレットだけを対象としていないので（ナイスな設計）、カレントPCにインストールされているアプリケーション（実行ファイル）も表示させることができる。
+              </p>
+              <p>このアプリケーションはパスが通った所にあるExeやCom、bat（com）などが対象となる（なのでExcelとかは表示されない）</p>
+              <p>以下の例は自作のcalen.exeを表示させたところ</p>
+              <pre><code class="powershell">
+            &gt; Get-Command -CommandType Application | Where-Object {$_.Name -like "cal*"}
+            CommandType     Name                                               Version    Source
+            -----------     ----                                               -------    ------
+            Application     calc.exe                                           10.0.2610… C:\WINDOWS\system32\calc.exe
+            Application     calen.exe                                          0.0.0.0    C:\WINDOWS\system32\calen.exe              
+            </code></pre>
+            </li>
+          </ul>
+
+          <h3 id="toc16" class="h3chapter underline">Get-Commandで表示する項目を変更する方法</h3>
+          <p>Get-Commandを実行するとデフォルトでは、CommandType、Name、Version、Sourceが表示されていますが、これを変更することができます</p>
+          <p class="paragraph--break">変更方法</p>
+          <ol>
+            <li>
+              <span class="is-bold">まずは、パイプでGet-Memberに渡して表示できる項目を調べる</span>
+              <p>Get-Help Get-Commandで調べる方法もあるけど、Get-Memberでプロパティを表示させる方法もある。</p>
+              <pre><code class="powershell">
+            &gt; Get-Command | Get-Member -MemberType Proper*
+            Name                MemberType     Definition
+            ----                ----------     ----------
+            CommandType         Property       System.Management.Automation.CommandTypes CommandType {get;}
+            Definition          Property       string Definition {get;}
+            Description         Property       string Description {get;set;}
+            Module              Property       psmoduleinfo Module {get;}
+            ModuleName          Property       string ModuleName {get;}
+            Name                Property       string Name {get;}
+            ...
+            ...
+            </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">Select-Object で項目を指定する（パイプでSelect-Objectに渡して指定する）方法</span>
+              <p>Select-Object 項目1, 項目2, … のように表示したい項目をカンマで区切って指定する</p>
+              <p>以下は、NameとVersionだけ表示させるようにした例。表示順はVersion, Nameで表示させる</p>
+              <pre><code class="powershell">
+            &gt; Get-Command | Select-Object Version, Name | Out-Host -Paging
+            Version Name
+            ------- ----
+            1.0.3   Add-AdlAnalyticsDataSource
+            1.0.3   Add-AdlAnalyticsFirewallRule
+            1.3.1   Add-AdlStoreFirewallRule
+            1.3.1   Add-AdlStoreItemContent
+            ...
+            ...
+            </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">Select-Object 以外の方法もある</span>
+              <p>Format-Table で項目をカンマで区切って指定する方法</p>
+              <p>以下は、NameとVersionだけ表示させるようにした例。表示順はVersion, Nameで表示させる</p>
+              <pre><code class="powershell">
+            &gt; Get-Command | Format-Table Version, Name -Autosize | Out-Host -Paging
+            Version Name
+            ------- ----
+            1.0.3   Add-AdlAnalyticsDataSource
+            1.0.3   Add-AdlAnalyticsFirewallRule
+            1.3.1   Add-AdlStoreFirewallRule
+            1.3.1   Add-AdlStoreItemContent
+            ...
+            ...
+            </code></pre>
+            </li>
+          </ol>
+
+          <h3 id="toc18" class="h3chapter underline">Get-Commandで特定のコマンドを表示する</h3>
+          <p>Get-Commandだけを実行すると全部のコマンドレットや関数などが表示されるが、特定のコマンドレットだけを表示させることもできる</p>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">指定したコマンドレットだけを表示する方法</span>
+              <pre><code class="powershell">
+            #Get-Commandの後にスペースでコマンドレット名Hogeを指定。
+            #このコマンドレット名Hogeは、Get-Commandの引数に相当するのでパイプで指定しない
+            &gt; Get-Command Get-Process
+
+            #指定したコマンドレットだけ表示された
+            CommandType     Name            Version    Source
+            -----------     ----            -------    ------
+            Cmdlet          Get-Process     7.0.0.0    Microsoft.PowerShell.Management
+            </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">ワイルドカードで指定することも可能</span>
+              <pre><code class="powershell">
+            &gt; Get-Command Get-Pro*
+
+            #Get-Proで始まるコマンドレットだけ表示された
+            CommandType     Name                                               Version    Source
+            -----------     ----                                               -------    ------
+            Alias           Get-ProvisionedAppPackage                          3.0        Dism
+            Alias           Get-ProvisionedAppSharedPackageContainer           3.0        Dism
+            Alias           Get-ProvisionedAppxPackage                         3.0        Dism
+            Cmdlet          Get-Process                                        7.0.0.0    Microsoft.PowerShell.Management
+            Cmdlet          Get-ProcessMitigation                              1.0.12     ProcessMitigations
+            Cmdlet          Get-ProvisioningPackage                            3.0        Provisioning            
+          </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">ワイルドカードではなくPowerShellっぽい指定も可能</span>
+              <pre><code class="powershell">
+            &gt; Get-Command -Verb Get | Out-Host -Paging
+            #動詞部が「Get」のものが表示されている
+            CommandType     Name                                               Version    Source
+            -----------     ----                                               -------    ------
+            Alias           Get-AdlAnalyticsAccount                            1.0.3      Az.DataLakeAnalytics
+            Alias           Get-AdlAnalyticsComputePolicy                      1.0.3      Az.DataLakeAnalytics
+            Alias           Get-AdlAnalyticsDataSource                         1.0.3      Az.DataLakeAnalytics          
+            ...
+            ...
+
+            #同時に名詞部も指定してみる。名詞部は「Pro*」で指定した例
+            &gt; Get-Command -Verb Get -Noun Pro* | Out-Host -Paging
+            CommandType     Name                                               Version    Source
+            -----------     ----                                               -------    ------
+            Alias           Get-ProvisionedAppPackage                          3.0        Dism
+            Alias           Get-ProvisionedAppSharedPackageContainer           3.0        Dism
+            Alias           Get-ProvisionedAppxPackage                         3.0        Dism
+            Cmdlet          Get-Process                                        7.0.0.0    Microsoft.PowerShell.Management
+            Cmdlet          Get-ProcessMitigation                              1.0.12     ProcessMitigations
+            Cmdlet          Get-ProvisioningPackage                            3.0        Provisioning            
+          </code></pre>
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

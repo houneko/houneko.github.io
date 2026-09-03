@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Get-Helpで自作スクリプトのヘルプ表示を行う | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="以前から、標準のコマンドレットと同様に、自作スクリプトや自作関数でもGet-Helpでヘルプ表示をしたいと思っていました。やり方が分かったのでその方法を説明します">
+<meta name="keywords" content="pwsh,PowerShell,自作スクリプトをGet-Help表示する">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="PowerShell,pwsh">
+<meta name="breadcrumb" content="ホーム:/index.html > PWSH/自作:/pages/pwsh/pwsh_000_index.html#toc240 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        Get-Helpで自作スクリプト、関数のヘルプ表示
+      </h1>
+      <article>
+        <!-- Get-Helpで自作スクリプト、自作関数のヘルプ表示を行う方法 -->
+        <h2 id="toc10" class="h2chapter-title">Get-Helpで自作スクリプト、関数のヘルプ表示</h2>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">自作スクリプトのヘルプをGet-Helpで表示させる方法</h3>
+          <p>
+            以前は、自作のスクリプトや関数のヘルプ表示を行う場合、-Helpオプションを作ってそれが指定されたら、ヒアドキュメントで使用方法などを表示していました（イメージで言うと、Cmd時代の自作コマンドの/hオプションでヘルプ表示みたいな感じ）。
+          </p>
+          <p>一方、標準のコマンドレットは「Get-Help コマンドレット」でヘルプ表示するので同じ形式でしたいなと思っていました</p>
+          <p>実はこれができるというのが分かり、それをまとめたものがこの章です</p>
+          <p>適切なコメントブロックに所定の書式でヘルプ情報を書いておけば、他のコマンドレットと同様に「Get-Help 自作スクリプト」「Get-Help 自作関数」でヘルプ表示されます</p>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">Comment-based Help</span>
+              <p>&lt;#～#&gt;のコメントブロックの中にヘルプ表示する内容を書く</p>
+            </li>
+            <li>
+              <span class="is-bold">各キーワードで指定する</span>
+              <p>ヘルプ項目毎のキーワードがあり、キーワード毎にヘルプ内容を書く</p>
+              <pre><code class="powershell">
+            &lt;#
+              .キーワードA
+                ......
+              .キーワードB
+                ......
+            &gt;#
+            </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">先頭に書く</span>
+              <p>スクリプトの先頭、関数の先頭（function宣言の前、またはfunctionブロック内の先頭）に書く。<a
+                  href="pwsh_200_CmdletBinding.html">[Cmdletbinding()]</a>も先頭に書くルールですが、Comment-based Help
+                の方が先に書きます。Get-Helpは先頭にあるコメントブロックからヘルプ情報を取るので先頭に無いとだめという事です。また、あくまでコメント文なので<a
+                  href="pwsh_200_CmdletBinding.html">[Cmdletbinding()]</a>の書き位置とも競合しません</p>
+            </li>
+            <li>
+              <span class="is-bold">各キーワードについて</span>
+              <p>各キーワードの意味です。また書く順番もこの通りにするのが良いです（暗黙的にこの順番になっているらしい）</p>
+              <table class="custom-table">
+                <tr>
+                  <th>No</th>
+                  <th>キーワード名</th>
+                  <th>意味</th>
+                  <th>例</th>
+                </tr>
+                <tr>
+                  <td>01</td>
+                  <td>.SYNOPSIS</td>
+                  <td>概要を1行で要約したもの</td>
+                  <td>ファイルをバックアップするスクリプトです</td>
+                </tr>
+                <tr>
+                  <td>02</td>
+                  <td>.DESCRIPTION</td>
+                  <td>詳細説明を書く、複数行になってもいい</td>
+                  <td>指定されたフォルダのファイルをバックアップフォルダにコピーします<br />既存ファイルがある場合は上書きされます</td>
+                </tr>
+                <tr>
+                  <td>03</td>
+                  <td>.PARAMETER A1</td>
+                  <td>コマンドライン引数のA1について書く。各パラメータ毎に分けて書く</td>
+                  <td>A1：[String]型で、フォルダパスを指定します</td>
+                </tr>
+                <tr>
+                  <td>04</td>
+                  <td>.EXAMPLE</td>
+                  <td>使用例を数パタン書く</td>
+                  <td>My-BackUp -targetPath D:\MyBackup <br />My-BackUp -Debug</td>
+                </tr>
+                <tr>
+                  <td>05</td>
+                  <td>.INPUTS</td>
+                  <td>パイプライン入力の型を書く（コマンドライン引数は .PARAMETER）</td>
+                  <td>System.String</td>
+                </tr>
+                <tr>
+                  <td>06</td>
+                  <td>.OUTPUTS</td>
+                  <td>スクリプトや関数が返すもの</td>
+                  <td>System.Boolean スクリプトの成功・失敗</td>
+                </tr>
+                <tr>
+                  <td>07</td>
+                  <td>.NOTES</td>
+                  <td>補足情報や改版履歴など</td>
+                  <td>PG: HOUNEKO <br />Version: v1.00.12</td>
+                </tr>
+                <tr>
+                  <td>08</td>
+                  <td>.LINK</td>
+                  <td>関連リンク情報、関連コマンドなど</td>
+                  <td>https://....</td>
+                </tr>
+              </table>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">ヘルプは単にコメントブロック内容を表示しているのではない</h3>
+          <p>Get-Helpで自作スクリプトのヘルプ表示をする場合は、上述の通り先頭に&lt;#～#&gt;で所定のキーワードでヘルプ内容を書けばいいです。が、単に記述しているヘルプメッセージが表示されるわけでないっぽいです
+          </p>
+          <p>どういう事かというと、例えば「.PARAMETER」は、<span
+              class="emphasis">実際にそのスクリプト内にパラメータが宣言されていないと表示されません。</span>つまり、Get-Helpは単に定義された文字列を表示するだけではなく、対象物をパースしてヘルプ内容を表示しています
+          </p>
+          <pre><code class="powershell">
+        &lt;#
+        .SYNOPSIS
+        ............
+        .DESCRIPTION
+        ............
+        .PARAMETER targetPath
+        検索対象のフォルダ。省略した場合は "C:\Temp"
+        .PARAMETER fileTypes
+        対象の拡張子。複数指定する場合はカンマ区切りでも可
+        例: *.csv,*.txt,*.log
+        省略時は *.csv
+        .PARAMETER Recurse
+        サブフォルダも含めて検索する場合は指定
+        .PARAMETER fileOut
+        結果をCSV形式で出力する場合は指定
+        .PARAMETER ThrottleLimit
+        並列処理時の同時実行数（PowerShell 7以上）。省略時はCPUコア数
+        .PARAMETER help
+        古いIF用のヘルプスイッチ
+        #&gt;
+
+        [Cmdletbinding()]
+        param(
+                              # 実際のパラメタが定義されていないとヘルプ内容は表示されない
+        )
+
+        表示結果）
+        #### param()が未定義の場合のGet-Help結果（PARAMETER部分だけ抜粋）   
+        #### ← 各パラメタが表示されていない
+        PARAMETERS
+            &lt;CommonParameters&gt;
+                This cmdlet supports the common parameters: Verbose, Debug,
+                ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+                OutBuffer, PipelineVariable, and OutVariable. For more information, see
+                about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216).
+
+        #### param()を実体通りに宣言している場合のGet-Help結果（PARAMETER部分だけ抜粋）   
+        PARAMETERS
+            -targetPath &lt;String&gt;
+                検索対象のフォルダ。省略した場合は "C:\Temp"    ← 自分が書いたヘルプ内容
+
+                Required?                    false              ← Get-Helpが補完してくれている情報
+                Position?                    1
+                Default value                C:\Temp
+                Accept pipeline input?       false
+                Aliases
+                Accept wildcard characters?  false
+
+            -fileTypes &lt;String[]&gt;                         ← 2個目の引数説明
+                対象の拡張子。複数指定する場合はカンマ区切りでも可
+                例: *.csv,*.txt,*.log
+                省略時は *.csv
+
+                Required?                    false
+                Position?                    2
+                Default value                *.csv
+                Accept pipeline input?       false
+                Aliases
+                Accept wildcard characters?  false
+                ....
+        </code></pre>
+        </section>
+
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">古いIFも残しておく（任意）</h3>
+          <p>PowerShellのコマンドレットやスクリプトのオプションは「-名前 値」で指定するようになっているので、Cmdからやっていたユーザの中には、「-Help」があるだろうと想定しているケースもあるかと思います。
+          </p>
+          <p>そのため「-Help」も用意しておくと親切かなと思います。</p>
+          <p>その時、Get-Helpと同じものを出してもいいし、ヒアドキュメントで作ったストリングを表示してもいいかなと思います。</p>
+          <ol class="no-marker">
+            <li><span>Get-Helpと同じ内容を表示させる場合</span>
+              <pre><code class="powershell">
+            param(
+              ...
+              [switch]$help
+            )
+
+            # 古いユーザ向け help スイッチ対応
+            if($help){
+              Get-Help $MyInvocation.MyCommand.Path -Full
+              return
+            }
+            </code></pre>
+            </li>
+            <li><span>Cmd時代っぽいヘルプ表示にする場合</span>
+              <pre><code class="powershell">
+            param(
+              ...
+              [switch]$help
+            )
+
+            # ヘルプ表示する内容のヒアドキュメント
+            $myUsage = @'
+            $myName /  $myVersion
+              指定されたフォルダ配下のHTMLファイルを調べる
+              使い方:
+                My-CheckHoge [-path &lt;ディレクトリ名&gt;][-tags &lt;a,b,c...&gt;][-Help][-Debug]
+                Input :   -path     : [String]HTMLファイルがあるディレクトリ名
+                          -tags     : [Array]チェック対象のタグ名を配列で指定する。例： a, img, link, script
+                          -help     : [Switch]スイッチパラメータ。使用方法を表示する
+                          -debug    : [Switch]スイッチパラメータ。Debug用
+            '@
+
+            # 古いユーザ向け help スイッチ対応
+            if($help){
+              Write-Host $myUsage -ForegroundColor DarkYellow
+              Return
+            }
+            </code></pre>
+            </li>
+          </ol>
+
+
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
