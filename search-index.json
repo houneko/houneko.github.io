@@ -1,0 +1,2970 @@
+[
+  {
+    "title": "aboutMe",
+    "url": "/pages/about/about_000_index.html",
+    "category": "about",
+    "subcategory": [
+      "私について"
+    ],
+    "keywords": [
+      "aboutMe",
+      "私について"
+    ],
+    "description": "このホームページはHouNekoが管理しています。HouNeko（私）についてです"
+  },
+  {
+    "title": "batファイル",
+    "url": "/pages/bat/bat_000_index.html",
+    "category": "プログラム",
+    "subcategory": [
+      "batファイルの目次"
+    ],
+    "keywords": [
+      "bat",
+      "バッチファイル",
+      "目次"
+    ],
+    "description": "Windowsになってもbatファイルは使う事があります。また、PowerShellスクリプトをユーザ環境で実行する場合、batファイルでラップするとPowerShellを知らない人でも実行できるようになります。これらの需要がありまだ現役です"
+  },
+  {
+    "title": "batファイルとは",
+    "url": "/pages/bat/bat_100_outline.html",
+    "category": "プログラム",
+    "subcategory": [
+      "batファイルの基本事項",
+      "batファイルの歴史"
+    ],
+    "keywords": [
+      "bat",
+      "cmd",
+      "バッチファイル"
+    ],
+    "description": "batファイルとは。基本的な概念、歴史などをまとめたページです"
+  },
+  {
+    "title": "batファイルの変数",
+    "url": "/pages/bat/bat_101_variables.html",
+    "category": "プログラム",
+    "subcategory": [
+      "batファイルの変数",
+      "特殊な変数",
+      "変数の参照",
+      "ダブルクォーテーション"
+    ],
+    "keywords": [
+      "batファイルの変数",
+      "変数のスコープ",
+      "ダブルクォーテーション",
+      "特殊な変数"
+    ],
+    "description": "batファイルの変数。変数の設定と参照方法、ダブルクォーテーションの必要性。特殊な変数などをまとめたページです"
+  },
+  {
+    "title": "環境変数",
+    "url": "/pages/bat/bat_102_emvironmentvariables.html",
+    "category": "プログラム",
+    "subcategory": [
+      "batファイルで使う環境変数"
+    ],
+    "keywords": [
+      "batファイルで使う環境変数",
+      "OS定義の環境変数",
+      "CMD定義の環境変数"
+    ],
+    "description": "batファイルで使う環境変数。環境変数はOSが定義しているものと、Cmd.exeが定義しているものがあります"
+  },
+  {
+    "title": "mklink",
+    "url": "/pages/bat/cmd_200_mklink.html",
+    "category": "プログラム",
+    "subcategory": [
+      "便利なコマンド"
+    ],
+    "keywords": [
+      "シンボリックリンク",
+      "ハードリンク",
+      "ジャンクション"
+    ],
+    "description": "mklinkコマンドの説明ページです。シンボリックリンク、ハードリンク、ジャンクションの使い方や違いををまとめたページです"
+  },
+  {
+    "title": "C言語",
+    "url": "/pages/c/c_000_index.html",
+    "category": "プログラム",
+    "subcategory": [
+      "C言語の目次ページ"
+    ],
+    "keywords": [
+      "C",
+      "c",
+      "C言語",
+      "目次",
+      "トップページ"
+    ],
+    "description": "C言語の目次ページです。C言語はほとんどの言語に影響を与えた古の言語。自分はアセンブラが最初の言語で、次にやったのがC言語でした。C言語は今も現役だと思います（それほど当時の設計が過ぎれていたということか）"
+  },
+  {
+    "title": "C言語",
+    "url": "/pages/c/c_100_outline.html",
+    "category": "プログラム",
+    "subcategory": [
+      "C言語の概要",
+      "環境構築"
+    ],
+    "keywords": [
+      "C",
+      "c",
+      "C言語",
+      "環境構築"
+    ],
+    "description": "C言語とは何か？、C言語の環境構築について"
+  },
+  {
+    "title": "VSCodeでC言語",
+    "url": "/pages/c/c_101_environment.html",
+    "category": "プログラム",
+    "subcategory": [
+      "C言語の環境構築",
+      "VSCodeでC言語"
+    ],
+    "keywords": [
+      "C言語",
+      "環境構築",
+      "VSCode",
+      "Mingw"
+    ],
+    "description": "VSCodeでC言語の開発を行うための環境構築について"
+  },
+  {
+    "title": "C#のページ | HouNeko",
+    "url": "/pages/cs/cs_000_index.html",
+    "category": "プログラム",
+    "subcategory": [
+      "C#",
+      "CS"
+    ],
+    "keywords": [
+      "C#",
+      "CS",
+      "トップページ"
+    ],
+    "description": "C#のトップページです。コンソールアプリとデスクトップアプリについて書いていく予定です"
+  },
+  {
+    "title": "C#とは | HouNeko",
+    "url": "/pages/cs/cs_100_outline.html",
+    "category": "プログラム",
+    "subcategory": [
+      "C#",
+      "CS"
+    ],
+    "keywords": [
+      "C#",
+      "CS",
+      "トップページ"
+    ],
+    "description": "C#の概要を書いたページです"
+  },
+  {
+    "title": "C#のインストール | HouNeko",
+    "url": "/pages/cs/cs_101_install.html",
+    "category": "プログラム",
+    "subcategory": [
+      "C#",
+      "CS"
+    ],
+    "keywords": [
+      "C#",
+      "CS",
+      "インストール"
+    ],
+    "description": "C#のインストールについて書いたページです"
+  },
+  {
+    "title": "C#のデバッグと実行 | HouNeko",
+    "url": "/pages/cs/cs_102_debugandrun.html",
+    "category": "プログラム",
+    "subcategory": [
+      "C#",
+      "CS"
+    ],
+    "keywords": [
+      "C#",
+      "CS",
+      "デバッグと実行"
+    ],
+    "description": "C#のデバッグと実行について書いたページです"
+  },
+  {
+    "title": "コンソールアプリケーションのスケルトン | HouNeko",
+    "url": "/pages/cs/cs_200_skeleton.html",
+    "category": "プログラム",
+    "subcategory": [
+      "C#",
+      "CS"
+    ],
+    "keywords": [
+      "C#",
+      "CS",
+      "コンソールアプリケーション"
+    ],
+    "description": "C#のコンソールアプリケーションを選んだ場合に生成されるコードの分析結果です"
+  },
+  {
+    "title": "CSS3のページ | HouNeko",
+    "url": "/pages/css/css_000_index.html",
+    "category": "プログラム",
+    "subcategory": [
+      "css3",
+      "css"
+    ],
+    "keywords": [
+      "css",
+      "トップページ"
+    ],
+    "description": "CSS3に関するページです"
+  },
+  {
+    "title": "cssの基本 | HouNeko",
+    "url": "/pages/css/css_100_syntax.html",
+    "category": "プログラム",
+    "subcategory": [
+      "css3",
+      "css"
+    ],
+    "keywords": [
+      "css",
+      "基本事項"
+    ],
+    "description": "CSS3の基本的な話"
+  },
+  {
+    "title": "CSSのセレクタ | HouNeko",
+    "url": "/pages/css/css_101_selector.html",
+    "category": "プログラム",
+    "subcategory": [
+      "css3",
+      "css"
+    ],
+    "keywords": [
+      "css",
+      "CSSのセレクタ"
+    ],
+    "description": "CSSのセレクタ、CSSの優先順位"
+  },
+  {
+    "title": "CSSの継承と非継承 | HouNeko",
+    "url": "/pages/css/css_102_inherit.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "継承プロパティ",
+      "非継承プロパティ"
+    ],
+    "description": "CSSの継承プロパティと非継承プロパティについて違いを整理しました"
+  },
+  {
+    "title": "親子の指定方法 | HouNeko",
+    "url": "/pages/css/css_103_oyako.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "親子関係"
+    ],
+    "description": "親子の指定方法"
+  },
+  {
+    "title": "疑似クラスと疑似要素 | HouNeko",
+    "url": "/pages/css/css_104_pseudo.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "疑似クラス",
+      "疑似要素"
+    ],
+    "description": "疑似クラスは「:」で始まる要素の状態を指定するセレクタ。マウスオーバすると・・の動きは疑似クラスによるものです。疑似要素は「::」で始まるHTML側には存在しない要素もどきに対してスタイルを指定するものです"
+  },
+  {
+    "title": "CSSのクラス設計 | HouNeko",
+    "url": "/pages/css/css_105_classdesign.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "CSSのクラス設計"
+    ],
+    "description": "CSSのクラス設計。CSSは普通に定義していくとどんどん増えていきます。この時一定の設計方針を決めておかないと何がしたかったのかわからなくなりますという話です"
+  },
+  {
+    "title": "CSSのショートハンド記法 | HouNeko",
+    "url": "/pages/css/css_106_shorthand.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "CSSのショートハンド記法"
+    ],
+    "description": "CSSのショートハンドという書き方。ショートハンドを使うと複数のプロパティ、値をまとめて書くことができます"
+  },
+  {
+    "title": "ボックスモデルの余白 | HouNeko",
+    "url": "/pages/css/css_121_boxmodel.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "ボックスモデルの余白"
+    ],
+    "description": "ボックスモデルにおける余白。余白は2種類あり要素の外側にあるのがmarginで、要素の内側にあるのがpaddingです"
+  },
+  {
+    "title": "displayプロパティ | HouNeko",
+    "url": "/pages/css/css_121_display.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "displayプロパティ"
+    ],
+    "description": "displayプロパティ"
+  },
+  {
+    "title": "box-shadowプロパティ | HouNeko",
+    "url": "/pages/css/css_122_boxshadow.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "box-shadowプロパティ"
+    ],
+    "description": "box-shadowプロパティ"
+  },
+  {
+    "title": "animationプロパティ | HouNeko",
+    "url": "/pages/css/css_123_animation.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "animationプロパティ"
+    ],
+    "description": "animationプロパティ"
+  },
+  {
+    "title": "flexプロパティ | HouNeko",
+    "url": "/pages/css/css_124_flex.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "flexプロパティ"
+    ],
+    "description": "親にflexボックスを指定した場合、子アイテムにはflexプロパティで伸び縮みを設定できます"
+  },
+  {
+    "title": "clamp関数 | HouNeko",
+    "url": "/pages/css/css_141_clamp.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "clamp関数"
+    ],
+    "description": "clamp関数"
+  },
+  {
+    "title": "repeat関数 | HouNeko",
+    "url": "/pages/css/css_142_repeat.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "repeat関数"
+    ],
+    "description": "repeat関数"
+  },
+  {
+    "title": "CSSの変数 | HouNeko",
+    "url": "/pages/css/css_160_variable.html",
+    "category": "プログラム",
+    "subcategory": [
+      "CSS",
+      "CSS3"
+    ],
+    "keywords": [
+      "CSSの変数"
+    ],
+    "description": "CSSは変数を定義することができます"
+  },
+  {
+    "title": "Everythingのページ",
+    "url": "/pages/everything/es_000_index.html",
+    "category": "アプリ",
+    "subcategory": [
+      "Everything"
+    ],
+    "keywords": [
+      "Everything",
+      "es.exe",
+      "index",
+      "トップページ"
+    ],
+    "description": "Everythingに関するページです。Everythingとは何か？Everythingの使い方、特にコマンドラインからの使い方を中心に書いています"
+  },
+  {
+    "title": "Everything",
+    "url": "/pages/everything/es_100_outline.html",
+    "category": "アプリ",
+    "subcategory": [
+      "Everything"
+    ],
+    "keywords": [
+      "Everything",
+      "es.exe"
+    ],
+    "description": "Everythingに関するページです。主にEverythingのCLIツール（es.exe）の使い方などを書いています"
+  },
+  {
+    "title": "Excelのindexページ",
+    "url": "/pages/excel/excel_000_index.html",
+    "category": "Excel,VBA,マクロ,関数",
+    "subcategory": [
+      "目次",
+      "トップページ"
+    ],
+    "keywords": [
+      "Excel",
+      "VBA",
+      "目次",
+      "インデックス"
+    ],
+    "description": "Excelの関数、VBAに関するページです"
+  },
+  {
+    "title": "プロジェクト、モジュール、プロシージャ",
+    "url": "/pages/excel/vba_100_unit.html",
+    "category": "Excel,VBA,マクロ,関数",
+    "subcategory": [
+      "プロジェクト、モジュール、プロシージャ"
+    ],
+    "keywords": [
+      "Excel",
+      "VBA",
+      "デバッグ",
+      "プロジェクト",
+      "モジュール",
+      "プロシージャ"
+    ],
+    "description": "VBAの開発単位、スコープはプロジェクト、モジュール、プロシージャがあります"
+  },
+  {
+    "title": "ExcelのDebugLog",
+    "url": "/pages/excel/vba_3a0_debuglog.html",
+    "category": "Excel,VBA,マクロ,関数",
+    "subcategory": [
+      "デバッグ",
+      "DebugLog"
+    ],
+    "keywords": [
+      "Excel",
+      "VBA",
+      "デバッグ",
+      "DebugLog"
+    ],
+    "description": "開発中やデバッグ中は、コードにDebug.Printを入れて途中の状況をイミディエイトウィンドウに出したりしていると思いますが、リリース時にこれをオフにしないといけないです。実際はDebug.Printにはオフの機能は無いのでコメントアウトするのですが面倒だし、またログを出したい時はコメントアウトを外す必要があります。このためログ機能を関数することで、ログ出力をOn/Offしたりログレベルで出力を調整したりできます"
+  },
+  {
+    "title": "ダブルクォーテーションのエスケーブ",
+    "url": "/pages/excel/vba_401_escape.html",
+    "category": "プログラム",
+    "subcategory": [
+      "VBA",
+      "Excel"
+    ],
+    "keywords": [
+      "Excel",
+      "VBA",
+      "エスケーブ",
+      "ダブルクォーテーションのエスケープシーケンス",
+      "char(34)"
+    ],
+    "description": "Excelの世界では「\"」をエスケーブするのに「\\\"」ではなく「\"\"」となります。「\"」は文字列の開始や終了にも使われる文字なのですごくわかりにくい状況になります。"
+  },
+  {
+    "title": "HTML5のページ",
+    "url": "/pages/html/html_000_index.html",
+    "category": "HTML",
+    "subcategory": [
+      "HTML5の目次トップ"
+    ],
+    "keywords": [
+      "html",
+      "html5",
+      "目次"
+    ],
+    "description": "HTML5の解説ページのトップ目次です"
+  },
+  {
+    "title": "ImageMagickのページ | HouNeko",
+    "url": "/pages/ImageMagick/magick_000_index.html",
+    "category": "アプリ",
+    "subcategory": [
+      "ImageMagick"
+    ],
+    "keywords": [
+      "ImageMagick",
+      "画像変換",
+      "webp"
+    ],
+    "description": "ImageMagickに関するページです。ImageMagickとは何か？ImageMagickの使い方、特にコマンドラインからの使い方を中心に書いています"
+  },
+  {
+    "title": "ImageMagick | HouNeko",
+    "url": "/pages/ImageMagick/magick_100_outline.html",
+    "category": "アプリ",
+    "subcategory": [
+      "ImageMagick"
+    ],
+    "keywords": [
+      "ImageMagick",
+      "画像変換",
+      "webp",
+      "magick.exe"
+    ],
+    "description": "ImageMagickに関するページです。CLIツール（magick.exe）の使い方などを書いています"
+  },
+  {
+    "title": "ImageMagickでicoファイルに変換",
+    "url": "/pages/ImageMagick/magick_101_convico.html",
+    "category": "プログラム",
+    "subcategory": [
+      "ImageMagick",
+      "magick"
+    ],
+    "keywords": [
+      "ImageMagick",
+      "magick",
+      "png",
+      "ico",
+      "変換"
+    ],
+    "description": "magickで、pngファイルからicoファイルへ変換することができます"
+  },
+  {
+    "title": "JavaScriptとは",
+    "url": "/pages/js/js_100_outline.html",
+    "category": "プログラム",
+    "subcategory": [
+      "js",
+      "JavaScript"
+    ],
+    "keywords": [
+      "JavaScriptの有効化",
+      "JavaScriptを書く場所",
+      "どこに書くのか",
+      "インラインスクリプト",
+      "外部スクリプト",
+      "Hello World",
+      "コーディングスタイル",
+      "コーディングルール",
+      "キャメルケース",
+      "パスカルケース",
+      "アッパースネークケース"
+    ],
+    "description": "JavaScriptの基本的な話や、どこに記述するのかなどを書いた章です。また、JavaScriptのコーディングルールについても書いています"
+  },
+  {
+    "title": "JavaScriptの基本的な特徴 | HouNeko",
+    "url": "/pages/js/js_101_basic2.html",
+    "category": "プログラム",
+    "subcategory": [
+      "JS",
+      "JavaScript"
+    ],
+    "keywords": [
+      "JavaScriptの基本的な特徴",
+      "動的型付け言語",
+      "大文字小文字を区別する",
+      "インタプリタ",
+      "セミコロンで文が終了",
+      "DOM"
+    ],
+    "description": "JavaScriptの基本的な特徴を書いたページです"
+  },
+  {
+    "title": "JavaScriptのオブジェクト | HouNeko",
+    "url": "/pages/js/js_102a_object.html",
+    "category": "プログラム",
+    "subcategory": [
+      "JS",
+      "JavaScript"
+    ],
+    "keywords": [
+      "参照型",
+      "オブジェクト",
+      "オブジェクトが持つプロパティやメソッド",
+      "調べ方",
+      "MDNで調べる",
+      "console.dirで調べる",
+      "Object.getOwnPropertyNamesで調べる"
+    ],
+    "description": "JavaScriptのオブジェクトが持つプロパティやメソッドを調べる方法をまとめた章です"
+  },
+  {
+    "title": "変数と定数",
+    "url": "/pages/js/js_103_const.html",
+    "category": "プログラム",
+    "subcategory": [
+      "js",
+      "JavaScript"
+    ],
+    "keywords": [
+      "変数",
+      "定数",
+      "再代入",
+      "動的型付け言語"
+    ],
+    "description": "JavaScriptの変数、定数の話です"
+  },
+  {
+    "title": "jsでインタラクティブな動作を行う | HouNeko",
+    "url": "/pages/js/js_105_Interactive.html",
+    "category": "プログラム",
+    "subcategory": [
+      "JavaScript",
+      "js"
+    ],
+    "keywords": [
+      "インタラクティブな動作",
+      "Interactive"
+    ],
+    "description": "JavaScriptを使うと、Webページを動的にできます。例えば、ボタンをクリックしたら何かを行うなどのインタラクティブな動作が実現できます"
+  },
+  {
+    "title": "varとletとconst",
+    "url": "/pages/js/js_106_letvarconst.html",
+    "category": "プログラム",
+    "subcategory": [
+      "js",
+      "JavaScript"
+    ],
+    "keywords": [
+      "var",
+      "let",
+      "const",
+      "再代入",
+      "再定義",
+      "スコープの違い"
+    ],
+    "description": "JavaScriptの変数の宣言はvarとletがあります。今は変数宣言は全部letでいいと思いますが、以前はvarでの宣言もありました。constは定数の宣言です"
+  },
+  {
+    "title": "jsのfor文",
+    "url": "/pages/js/js_122_for.html",
+    "category": "プログラム",
+    "subcategory": [
+      "JavaScript",
+      "js"
+    ],
+    "keywords": [
+      "for文、for in文、for of文、各for文の違い"
+    ],
+    "description": "JavaScriptのfor文は、いつくか種類があります。for inは、他の言語ForEach文のような動作をしますが、取り出しているのは「index」です"
+  },
+  {
+    "title": "console.log",
+    "url": "/pages/js/js_123_consolelog.html",
+    "category": "プログラム",
+    "subcategory": [
+      "JavaScript",
+      "js"
+    ],
+    "keywords": [
+      "console.logの注意点",
+      "+演算子",
+      "変数名と値の表示"
+    ],
+    "description": "JavaScriptの開発では、console.logで「変数名＝値」を表示させたりしますが、この時の注意点を書いています"
+  },
+  {
+    "title": "funnctionキーワードで宣言するjsの関数",
+    "url": "/pages/js/js_140_function.html",
+    "category": "プログラム",
+    "subcategory": [
+      "js",
+      "JavaScript"
+    ],
+    "keywords": [
+      "関数",
+      "function",
+      "ホイスティング",
+      "関数の書き方"
+    ],
+    "description": "JavaScriptの関数について、funnctionキーワードを使った宣言方法や使い方をまとめた章です"
+  },
+  {
+    "title": "jsの関数",
+    "url": "/pages/js/js_141_function‗expression.html",
+    "category": "プログラム",
+    "subcategory": [
+      "js",
+      "JavaScript"
+    ],
+    "keywords": [
+      "関数",
+      "function",
+      "関数式",
+      "関数リテラル",
+      "関数の書き方"
+    ],
+    "description": "JavaScriptの関数式、関数リテラルの書き方や呼び出し方法、注意事項についてまとめた章です"
+  },
+  {
+    "title": "jsの関数",
+    "url": "/pages/js/js_142_arrowFunction.html",
+    "category": "プログラム",
+    "subcategory": [
+      "js",
+      "JavaScript"
+    ],
+    "keywords": [
+      "関数",
+      "function",
+      "アロー関数",
+      "=>",
+      "関数の書き方"
+    ],
+    "description": "JavaScriptのアロー関数の書き方や呼び出し方法、注意事項についてまとめた章です"
+  },
+  {
+    "title": "getElementByIdメソッド",
+    "url": "/pages/js/js_200_getElementById.html",
+    "category": "プログラム",
+    "subcategory": [
+      "JavaScript",
+      "js"
+    ],
+    "keywords": [
+      "Webページ操作",
+      "getElementById",
+      "要素を取得"
+    ],
+    "description": "Webページを操作するJavaScriptのメソッドたち。この章では、getElementByIdメソッドに関しての説明を行っています"
+  },
+  {
+    "title": "writeメソッド",
+    "url": "/pages/js/js_220_write.html",
+    "category": "プログラム",
+    "subcategory": [
+      "JavaScript",
+      "js"
+    ],
+    "keywords": [
+      "Webページ操作",
+      "write",
+      "ブラウザに表示する"
+    ],
+    "description": "JavaScriptが勉強しにくいのは、その処理結果を表示する先がブラウザであることだと思います。なので、ブラウザにJavaScriptの処理結果を表示させることでJavaScriptの処理を見ることができます"
+  },
+  {
+    "title": "for文",
+    "url": "/pages/js/js_221_for.html",
+    "category": "プログラム",
+    "subcategory": [
+      "JavaScript",
+      "js"
+    ],
+    "keywords": [
+      "Webページ操作",
+      "for",
+      "表を作る",
+      "配列",
+      "オブジェクトの配列"
+    ],
+    "description": "forループで表を作ることができます"
+  },
+  {
+    "title": "if文",
+    "url": "/pages/js/js_222_if.html",
+    "category": "プログラム",
+    "subcategory": [
+      "JavaScript",
+      "js"
+    ],
+    "keywords": [
+      "Webページ操作",
+      "if文"
+    ],
+    "description": "forループ作った表を使って、if文の分岐を入れてみるサンプルです"
+  },
+  {
+    "title": "阿部潤",
+    "url": "/pages/manga/AbeJun.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "阿部潤"
+    ],
+    "keywords": [
+      "阿部潤",
+      "あべ じゅん",
+      "AbeJun",
+      "ポルタス",
+      "忘却のサチコ"
+    ],
+    "description": "多分有名な作品は「忘却のサチコ」かなと思いますけど（これはこれで超グッドなまんが）、「ポルタス」は全然違う路線で１巻完結のまんがで良かった。こっち方面の方がもしかしたらあっているのでは"
+  },
+  {
+    "title": "あだち充",
+    "url": "/pages/manga/AdachiMitsuru.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "あだち充"
+    ],
+    "keywords": [
+      "あだち充",
+      "あだち みつる",
+      "AdachiMitsuru",
+      "クロスゲーム",
+      "H2"
+    ],
+    "description": "あだち充のまんがはセリフ無しのシーンが時々出てきますが、そのシーンは全ていいです"
+  },
+  {
+    "title": "安堂維子里",
+    "url": "/pages/manga/AndoIkori.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "安堂維子里"
+    ],
+    "keywords": [
+      "安堂維子里",
+      "あんどう いこり",
+      "AndoIkori",
+      "バタフライ・ストレージ",
+      "水の箱庭",
+      "世界の合言葉は水",
+      "特蝶　死局特殊蝶犯罪対策室",
+      "妖精消失"
+    ],
+    "description": "安堂維子里はかなり好きなまんが家さんです。バタフライ・ストレージは、はじめて読んだ時は斬新さや新しい才能を感じた。"
+  },
+  {
+    "title": "吾妻ひでお",
+    "url": "/pages/manga/AzumaHideo.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "吾妻ひでお"
+    ],
+    "keywords": [
+      "吾妻ひでお",
+      "あずま ひでお",
+      "失踪日記"
+    ],
+    "description": "吾妻ひでおは、レジェンドまんが家さん。失踪日記はまんが家らしい？吾妻ひでおらしい？と思います。元気でいて欲しい"
+  },
+  {
+    "title": "吾嬬竜孝",
+    "url": "/pages/manga/AzumaRyuko.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "吾嬬竜孝"
+    ],
+    "keywords": [
+      "吾嬬竜孝",
+      "あずま りゅうこう",
+      "AzumaRyuko",
+      "ダッフルコートアーミー"
+    ],
+    "description": "ダッフルコートアーミーは、「国境のエミーリャ」「デストロ246」「beautiful place」「東独にいた」に近い要素があるが、キャラや雰囲気は一番いいかも。2巻で終わってしまっているのが本当に残念です。ミトコンドリアアクセラレータという単語は頭に残るキーワード"
+  },
+  {
+    "title": "堀戸けい",
+    "url": "/pages/manga/HoritoKei.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "堀戸けい"
+    ],
+    "keywords": [
+      "堀戸けい",
+      "ほりと けい",
+      "HoritoKei",
+      "秘書のカガミ"
+    ],
+    "description": "堀戸けいの最高作品は「秘書のカガミ」。スーパー派遣社員のカガミが派遣先のイケメンを探しドタバタするパタンだけどおもしろいし大好きなまんがです。好きすぎて紙も電子も持っています"
+  },
+  {
+    "title": "細野不二彦",
+    "url": "/pages/manga/HosonoHujihiko.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "細野不二彦"
+    ],
+    "keywords": [
+      "細野不二彦",
+      "ほその ふじひこ",
+      "HosonoHujihiko",
+      "太郎",
+      "バディドッグ"
+    ],
+    "description": "絵がうまくて安定したまんが家さん"
+  },
+  {
+    "title": "冬川智子",
+    "url": "/pages/manga/HuyukawaTomoko.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "冬川智子"
+    ],
+    "keywords": [
+      "冬川智子",
+      "ふゆかわ ともこ",
+      "HuyukawaTomoko",
+      "あんずのど飴"
+    ],
+    "description": "あんずのど飴で知ったまんが家さん。女性まんが家さんだけど自分と同じ感性の人と思う。この人は多分子供の頃や、大人になるまで時の感覚をずっと持っているんだろうなと思います。"
+  },
+  {
+    "title": "池上遼一",
+    "url": "/pages/manga/IkegamiRyoichi.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "池上遼一"
+    ],
+    "keywords": [
+      "池上遼一",
+      "いけがみ りょういち",
+      "IkegamiRyoichi",
+      "六文銭ロック",
+      "舞",
+      "肌の記憶",
+      "池上遼一珠玉作品集",
+      "池上遼一自選集",
+      "赤い鳩アピル",
+      "信長",
+      "傷追い人",
+      "罪の意識",
+      "今日子",
+      "王立院雲丸の生涯",
+      "モッブ",
+      "ベステイア",
+      "スパイダーマン",
+      "サンクチュアリ",
+      "クライングフリーマン",
+      "オファード",
+      "オデッセイ",
+      "アダムとイブ",
+      "Strain",
+      "SOUL 覇",
+      "I・飢男",
+      "Heat",
+      "Box",
+      "BEGIN"
+    ],
+    "description": "レジェンドまんが家さんだけど、画力がぶっちぎりの人。まんがアプリで読める作品も多いけど若い人にはあまりささらないのかな。最初に買って読んだのは傷負い人かな"
+  },
+  {
+    "title": "今井大輔",
+    "url": "/pages/manga/ImaiDaisuke.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "今井大輔"
+    ],
+    "keywords": [
+      "今井大輔",
+      "いまい だいすけ",
+      "ImaiDaisuke",
+      "古都ことーユキチのことー",
+      "古都ことーチヒロのことー",
+      "ヒル・ツー",
+      "ヒル",
+      "パッカ",
+      "セツナフリック",
+      "こちら、あたためますか？",
+      "クロエの流儀"
+    ],
+    "description": "最初に「ヒル」を見た時は新しい感覚のまんがが始まった感じで衝撃的だった。まんがだから大乗やろという安心感がなくドキドキなストーリー。「クロエの流儀」も好きだけどアプリで見ているとみんなの感想はなんか自分と違う"
+  },
+  {
+    "title": "稲葉そーへー",
+    "url": "/pages/manga/InabaSohe.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "稲葉そーへー"
+    ],
+    "keywords": [
+      "稲葉そーへー",
+      "いなば そーへー",
+      "InabaSohe",
+      "白玉教授のしろねこ",
+      "白玉教授のしろねこ"
+    ],
+    "description": "「しらたまくん」のまんが家。しらたまくん達高校生のほのぼのとした日常。しらたまくんに知性があるというのが斬新だった。家の猫もしゃべってくれるとうれしい（人語でなくてもうみゃうみゃでもOK）"
+  },
+  {
+    "title": "石坂啓",
+    "url": "/pages/manga/IshizakaKei.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "石坂啓"
+    ],
+    "keywords": [
+      "石坂啓",
+      "いしざか けい",
+      "IshizakaKei",
+      "私はカラス",
+      "竜宮家族",
+      "アイムホーム"
+    ],
+    "description": "この人の絵はやわらかい感じで見たらすぐわかる"
+  },
+  {
+    "title": "伊藤潤二",
+    "url": "/pages/manga/ItoJyunji.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "伊藤潤二"
+    ],
+    "keywords": [
+      "伊藤潤二",
+      "いとう じゅんじ",
+      "ItoJyunji",
+      "地獄星レミナ",
+      "人間失格",
+      "伊藤潤二自選傑作集",
+      "伊藤潤二恐怖博物館",
+      "伊藤潤二の猫日記　よん＆むー"
+    ],
+    "description": "最初この人のまんがを読んだ時は狂気を感じてあまり好きではなかった（ホラー作家さんには誉め言葉になるかも）。それだけの表現をしている作品が多い。海外で人気なのもそういう所を感じるからかな。レミナとよんむーが特に好き"
+  },
+  {
+    "title": "賀来",
+    "url": "/pages/manga/Kaku.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "賀来"
+    ],
+    "keywords": [
+      "賀来",
+      "かく",
+      "Kaku",
+      "同人女アパート建ててみた"
+    ],
+    "description": "賀来先生の「同人女アパート建ててみた」は面白くなりかけてきたところで紙も電子も販売が無い。どういう事？"
+  },
+  {
+    "title": "カレー沢薫",
+    "url": "/pages/manga/KarezawaKaoru.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "カレー沢薫"
+    ],
+    "keywords": [
+      "カレー沢薫",
+      "カレーざわ かおる",
+      "KarezawaKaoru",
+      "きみにかわれるまえに",
+      "ひとりでしにたい"
+    ],
+    "description": "以前はこの人のタッチがあまり好きではなかったけど、今は結構好き。「きみにかわれるまえに」は生き物を飼う人は読んで欲しい。こういう話を描けるということはこの人はそういう心を持っている人なんだと思います"
+  },
+  {
+    "title": "こじまなおなり",
+    "url": "/pages/manga/KojimaNaonari.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "こじまなおなり"
+    ],
+    "keywords": [
+      "こじまなおなり",
+      "こじま なおなり",
+      "KojimaNaonari",
+      "おとなりボイスチャット"
+    ],
+    "description": "「おとなりボイスチャット」は大好き"
+  },
+  {
+    "title": "まんがトップページ",
+    "url": "/pages/manga/manga_000_index.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "まんがトップページ"
+    ],
+    "keywords": [
+      "まんが",
+      "トップページ"
+    ],
+    "description": "まんがのトップページです"
+  },
+  {
+    "title": "松本零士",
+    "url": "/pages/manga/MatsumotoReiji.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "松本零士"
+    ],
+    "keywords": [
+      "松本零士",
+      "まつもと れいじ",
+      "MatsumotoReiji",
+      "惑星ロボダンガードA",
+      "帰らざる時の物語",
+      "四次元世界",
+      "潜水艦スーパー99、銀河鉄道999",
+      "新宇宙戦艦ヤマト",
+      "宇宙戦艦ヤマト",
+      "ザ・コクピット",
+      "コクピット・レジェンド",
+      "衝撃降下90度",
+      "勇者の雷鳴",
+      "オーロラの牙"
+    ],
+    "description": "子供時代に好きだったまんが家さん。銀河鉄道999の描き込みはすごい。大泉学園駅にメーテルと哲郎の銅像がある"
+  },
+  {
+    "title": "三原ミツカズ",
+    "url": "/pages/manga/MiharaMitsukazu.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "三原ミツカズ"
+    ],
+    "keywords": [
+      "三原ミツカズ",
+      "みはら みつかず",
+      "MiharaMitsukazu",
+      ""
+    ],
+    "description": "三原ミツカズ先生の絵は少女まんが系できれいな絵だけど、それだけでなくストーリーが深い。当初名前から男性と思っていたけど実際は女性まんが家。DOLLはまだ全部読んでないけど、全ての話が深いし読後に疲労感を感じてしまうこともある。これは人間の持つ醜さを感じてしまうからかだろうか・・"
+  },
+  {
+    "title": "なかいま強",
+    "url": "/pages/manga/NakaimaTsuyoshi.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "なかいま強"
+    ],
+    "keywords": [
+      "なかいま強",
+      "なかいま つよし",
+      "NakaimaTsuyoshi",
+      "ライスショルダー"
+    ],
+    "description": "持っていないけど「うっちゃれ五所川原」はおもしろかった。続編も出ている"
+  },
+  {
+    "title": "non",
+    "url": "/pages/manga/non.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "non"
+    ],
+    "keywords": [
+      "non",
+      "のん",
+      "non",
+      "adabana徒花"
+    ],
+    "description": "adabana徒花の人"
+  },
+  {
+    "title": "押切蓮介",
+    "url": "/pages/manga/OshikiriRensuke.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "押切蓮介"
+    ],
+    "keywords": [
+      "押切蓮介",
+      "おしきり れんすけ",
+      "OshikiriRensuke",
+      "妖怪マッサージ",
+      "猫背を伸ばして新装版",
+      "ピコピコ少年TURBO",
+      "ピコピコ少年SUPER",
+      "ピコピコ少年EX",
+      "ピコピコ少年",
+      "ハイスコアガールCONTINUE",
+      "ハイスコアガール",
+      "ハイスコアガール DASH",
+      "でろでろ",
+      "おばけのおやつ",
+      "おどろ町モノノケ録"
+    ],
+    "description": "この人は小学生の男子の心を持っている人。ピコピコ少年シリーズを読むとピュアなまま大人になった感じがする。だからこういう作品が描けるのだろうな。この人の女版が山本さほかな（どちらも好き）"
+  },
+  {
+    "title": "坂井恵理",
+    "url": "/pages/manga/SakaiEri.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "坂井恵理"
+    ],
+    "keywords": [
+      "坂井恵理",
+      "さかい えり",
+      "SakaiEri",
+      "サード"
+    ],
+    "description": "サードは、男性、女性と三番目の性であるサードの話"
+  },
+  {
+    "title": "四位晴香",
+    "url": "/pages/manga/ShiiHaruka.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "四位晴香"
+    ],
+    "keywords": [
+      "四位晴香",
+      "しい はるか",
+      "ShiiHaruka",
+      "片恋スクリーム"
+    ],
+    "description": "片恋スクリームしか持ってないけど、このまんが好き。だらだらとひっぱらず短いけどきれいに終わっている。"
+  },
+  {
+    "title": "椎名高志",
+    "url": "/pages/manga/ShinaTakashi.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "椎名高志"
+    ],
+    "keywords": [
+      "椎名高志",
+      "しいな たかし",
+      "ShinaTakashi",
+      "ウルトラマンネクサス",
+      "絶対可憐チルドレン",
+      "（有）椎名大百貨店",
+      "GS美神極楽大作戦！！"
+    ],
+    "description": "椎名高志は関西人のセンスで自分にはなじむ。"
+  },
+  {
+    "title": "新谷かおる",
+    "url": "/pages/manga/ShintaniKaoru.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "新谷かおる"
+    ],
+    "keywords": [
+      "新谷かおる",
+      "ShintaniKaoru",
+      "しんたにかおる",
+      "Alice12",
+      "Sonic deserter",
+      "シリ-ズ1／1000sec",
+      "ガッデム",
+      "バランサー",
+      "銀色の照星",
+      "クレオパトラD.C.",
+      "パスカル・シティー",
+      "ふたり鷹",
+      "日の丸あげて",
+      "エラン",
+      "ぶっとび！！CPU",
+      "刀神妖緋伝",
+      "Navi",
+      "烈風伝",
+      "QUEEN1313",
+      "イカロスの飛ぶ日",
+      "孤独の虎",
+      "虎鮫海峡",
+      "戦闘親衛隊",
+      "鉄十字の鷲と虎",
+      "エリア88",
+      "ファントム無頼",
+      "RAISE",
+      "紅たん碧たん",
+      "砂の薔薇",
+      "新谷かおるARTWORKS"
+    ],
+    "description": "新谷かおるのまんがは全ていい！。自分と同じ感覚・周波数の人で新谷かおるの全てのまんがが好き。まんが界には、天才がいっぱいいますが、その中の１人です。安心して読めるし、きらきらした世界感がいい"
+  },
+  {
+    "title": "菅原じょにえる",
+    "url": "/pages/manga/SugawaraJyonieru.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "菅原じょにえる"
+    ],
+    "keywords": [
+      "菅原じょにえる",
+      "すがわら じょにえる",
+      "SugawaraJyonieru",
+      "清く貧しく"
+    ],
+    "description": "この先生のまんがは「清く貧しく」しか持っていないけど、みんないい子たちで楽しく読めるいいまんが。貧乏でも元気な古井亜美。貧乏を受け入れて、あるもので楽しく過ごしているのが楽しい。スーパーで1500円の肉を見て「それに手を出したら古井家はゲームオーバーだ」ってセリフは笑った。清水君が社会的に成功して一緒になればいいのになと思った。"
+  },
+  {
+    "title": "鈴木マサカズ",
+    "url": "/pages/manga/SuzukiMasakazu.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "鈴木マサカズ"
+    ],
+    "keywords": [
+      "鈴木マサカズ",
+      "すずき まさかず",
+      "SuzukiMasakazu",
+      "恋愛の神様",
+      "町田ほろ酔いめし浪漫人生の味",
+      "鼠、江戸を疾る",
+      "鼠、影を断つ",
+      "七匹の侍",
+      "最果てのサイクロプス",
+      "銀座からまる百貨店お客様相談室",
+      "ラッキーマイン",
+      "マトリズム",
+      "ダンダリン一〇一"
+    ],
+    "description": "この人のまんがは「最果てのサイクロプス」から読みだした。「最果てのサイクロプス」は超能力者の話だけど奇をてらったものではなく、実際に超能力者がいたらこういう風になるかもと思わせる感じで、超能力者ものではかなり好き。"
+  },
+  {
+    "title": "高橋留美子",
+    "url": "/pages/manga/TakahashiRumiko.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "高橋留美子"
+    ],
+    "keywords": [
+      "高橋留美子",
+      "たかはし るみこ",
+      "TakahashiRumiko",
+      "1ポンドの福音",
+      "MAO",
+      "うる星やつら",
+      "めぞん一刻",
+      "鏡が来た",
+      "犬夜叉",
+      "高橋留美子劇場",
+      "高橋留美子傑作短編集",
+      "人魚の傷",
+      "人魚の森",
+      "専務の犬",
+      "夜叉の瞳"
+    ],
+    "description": "まんが界の化け物（ディスってるのではなく賞賛）。この人のまんがは全てヒットしているし世間の評価なしでもおもしろい。またおもしろいだけでなく強烈なSFも描ける。思うにすごい人達は子供の頃の思い出や感覚をずっと持っているのだと思います"
+  },
+  {
+    "title": "高橋葉介",
+    "url": "/pages/manga/TakahashiYosuke.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "高橋葉介"
+    ],
+    "keywords": [
+      "高橋葉介",
+      "たかはし ようすけ",
+      "TakahashiYosuke",
+      "腹話術新装版",
+      "怪談新装版",
+      "学校怪談"
+    ],
+    "description": "学校怪談が有名だと思います。このまんがは怪談とある通りホラー系のまんがだけど、端々にやわらかさというかやさしさがにじんでいる。なので実はやさしい人では、と思っています"
+  },
+  {
+    "title": "たなかじゅん",
+    "url": "/pages/manga/TanakaJyun.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "たなかじゅん"
+    ],
+    "keywords": [
+      "たなかじゅん",
+      "たなか じゅん",
+      "TanakaJyun",
+      "わかってまんがな"
+    ],
+    "description": "わかってまんがな、ほんま"
+  },
+  {
+    "title": "梅澤春人",
+    "url": "/pages/manga/UmezawaHaruto.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "梅澤春人"
+    ],
+    "keywords": [
+      "梅澤春人",
+      "うめざわ はると",
+      "UmezawaHaruto",
+      "SURFINGMAN",
+      "カウンタック"
+    ],
+    "description": "カウンタックはスーパーカーブームを経験したからこそのまんがと思います。"
+  },
+  {
+    "title": "山本さほ",
+    "url": "/pages/manga/YamamotoSaho.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "山本さほ"
+    ],
+    "keywords": [
+      "山本さほ",
+      "やまもと さほ",
+      "YamamotoSaho",
+      "無慈悲な8bit",
+      "山本さんちのねこの話",
+      "岡崎に捧ぐ",
+      "この町ではひとり",
+      "いつもぼくをみてる"
+    ],
+    "description": "ゆるいけど深かったりするまんが。この人の男版が押切蓮介かな（どちらも好き）"
+  },
+  {
+    "title": "山本鈴美香",
+    "url": "/pages/manga/YamamotoSumika.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "山本鈴美香"
+    ],
+    "keywords": [
+      "山本鈴美香",
+      "やまもと すみか",
+      "YamamotoSaho",
+      "エースをねらえ！"
+    ],
+    "description": "アニメの方が印象が強いかも"
+  },
+  {
+    "title": "安彦良和",
+    "url": "/pages/manga/YasuhikoYoshikazu.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "安彦良和"
+    ],
+    "keywords": [
+      "安彦良和",
+      "やすひこ よしかず",
+      "YasuhikoYoshikazu",
+      "機動戦士ガンダムTHE ORIGIN"
+    ],
+    "description": "ガンダムは好きは好きだけど世間の人達のように熱くはなれない。。"
+  },
+  {
+    "title": "矢寺圭太",
+    "url": "/pages/manga/YateraKeita.html",
+    "category": "manga,まんが,漫画,マンガ",
+    "subcategory": [
+      "矢寺圭太"
+    ],
+    "keywords": [
+      "矢寺圭太",
+      "やてら けいた",
+      "YateraKeita",
+      "大彼女",
+      "ぽんこつポン子",
+      "おにでか！"
+    ],
+    "description": "「ぽんこつポン子」は人間とロボットの話。これからはロボットのまんがは増えるのかも。ぽんこつなのは人間？ポン子？。完璧じゃないロボットの方が人にはいいのかも。DOLLのようなロボットかポン子のようなロボットか。。2体とも必要。"
+  },
+  {
+    "title": "承太郎ページ",
+    "url": "/pages/neko/neko_003_joe.html",
+    "category": "neko",
+    "subcategory": [
+      "承太郎"
+    ],
+    "keywords": [
+      "承太郎",
+      "Joe",
+      "じょー",
+      "3番目"
+    ],
+    "description": "我が家の承太郎こと「じょー」のページです。じょーは我が家に3番目に来たねこちんです"
+  },
+  {
+    "title": "node.js",
+    "url": "/pages/nodejs/node_000_index.html",
+    "category": "アプリ",
+    "subcategory": [
+      "node.js"
+    ],
+    "keywords": [
+      "node.js",
+      "JavaScript",
+      "トップページ"
+    ],
+    "description": "node.jsのトップページです"
+  },
+  {
+    "title": "node.jsとは",
+    "url": "/pages/nodejs/node_100_outline.html",
+    "category": "アプリ",
+    "subcategory": [
+      "node.js"
+    ],
+    "keywords": [
+      "node.jsとは",
+      "node.jsの基本概念",
+      "OneDrive上のコードをnode.jsで実行すると動かない"
+    ],
+    "description": "node.jsについて調べたことを書いています。node.jsで実行するコードは、OneDrive上に置かない方がいいという話も追加しました"
+  },
+  {
+    "title": "PowerShell/PWSHのトップページです。PowerShellは知れば知るほど楽しいです。",
+    "url": "/pages/pwsh/pwsh_000_index.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "index",
+      "トップページ"
+    ],
+    "description": "PowerShell/PWSHに関するトップページです。主にWindows PowerShell、PWSH(PowerShellCore)の事を書いています。自分がPowerShellを使って得た知識などをドキュメント化したものです。PowerShellは奥が深く不思議な面もあり楽しいです"
+  },
+  {
+    "title": "PowerShell/PWSHの基本的な概念",
+    "url": "/pages/pwsh/pwsh_100_outline.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "基本概念",
+      "Windows PowerShell",
+      "PowerShell Core"
+    ],
+    "description": "PowerShell/PWSHの基本的な概念やPowerShellって何？について調べたことを書いています"
+  },
+  {
+    "title": "PowerShell/PWSHの自動変数について",
+    "url": "/pages/pwsh/pwsh_101a_autovariable.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "自動変数"
+    ],
+    "description": "PowerShell/PWSHの自動変数についてまとめた章です。自動変数は多数ありますが全部を使いこなさなくても自分が使うものだけ押さえたらいいと思います"
+  },
+  {
+    "title": "PowerShell/PWSHの環境変数",
+    "url": "/pages/pwsh/pwsh_101b_envvariable.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "環境変数"
+    ],
+    "description": "PowerShell/PWSHの環境変数は、自動変数の一種ですが値を設定することができます。環境変数は自分で設定することができる点が自動変数とは異なります"
+  },
+  {
+    "title": "PowerShell/PWSHのユーザ変数",
+    "url": "/pages/pwsh/pwsh_101c_uservariable.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "ユーザ変数"
+    ],
+    "description": "PowerShell/PWSHのユーザ変数。この変数はユーザが自由に作成、設定する変数です"
+  },
+  {
+    "title": "PowerShell/PWSHの変数",
+    "url": "/pages/pwsh/pwsh_101_variable.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "変数"
+    ],
+    "description": "PowerShell/PWSHの変数。PowerShellの変数には3つのタイプがあります（自動変数、環境設定変数、ユーザ変数）。このページはこれらの変数の概念についてまとめた章です"
+  },
+  {
+    "title": "PowerShell/PWSHの定数",
+    "url": "/pages/pwsh/pwsh_102_consttant.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "定数"
+    ],
+    "description": "PowerShell/PWSHの定数。PowerShellの定数は、宣言時は「$」はつけないですが、使用時には「$」をつけて参照する等ちょっとめんどくさいです"
+  },
+  {
+    "title": "PowerShell/PWSHの演算子",
+    "url": "/pages/pwsh/pwsh_103_operator.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "算術演算子、代入演算子、論理演算子、比較演算子、書式演算子、配列演算子、型演算子、文字列演算子、三項演算子、サブ式演算子、ドットソース演算子、呼び出し演算子、カンマ演算子、レンジ演算子、Null合体演算子、Null合体代入演算子、Null条件演算子"
+    ],
+    "description": "PowerShell/PWSHの演算子（算術演算子、代入演算子、論理演算子、比較演算子、書式演算子、配列演算子、型演算子、文字列演算子、三項演算子、サブ式演算子、ドットソース演算子、呼び出し演算子、カンマ演算子、レンジ演算子、Null合体演算子、Null合体代入演算子、Null条件演算子）を整理したページです"
+  },
+  {
+    "title": "PowerShell/PWSHのパイプラインとは",
+    "url": "/pages/pwsh/pwsh_104_pipeline.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "パイプライン"
+    ],
+    "description": "パイプ（パイプライン）は、PowerShell/PWSHの特徴的な機能の1つです（シェルだから当然？）。これは1つのコマンドレット結果を次のコマンドレットに渡すことで複雑な処理を行う事ができます。パイプの使い方をサンプル例を使って詳しく説明します"
+  },
+  {
+    "title": "PowerShell/PWSHの実行",
+    "url": "/pages/pwsh/pwsh_120_run.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "PowerShellの実行"
+    ],
+    "description": "PowerShell/PWSHの実行方法。スクリプトで実行するケースと関数で実行するケースの説明です"
+  },
+  {
+    "title": "PowerShell/PWSHの引数",
+    "url": "/pages/pwsh/pwsh_121_parameter.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "PowerShellの実行",
+      "引数"
+    ],
+    "description": "PowerShell/PWSHの引数。PowerShellの引数指定はparam()ブロックで柔軟に指定できます。またparam()ブロックには処理を記述することも可能です"
+  },
+  {
+    "title": "PowerShell/PWSHの複数の値を返す関数",
+    "url": "/pages/pwsh/pwsh_122_returnValue.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "複数の値を返す関数"
+    ],
+    "description": "PowerShell/PWSHの関数はreturnは1つですが、場合によっては複数の値を返したいケースがあります。その場合に複数の値を返す方法をまとめた章です"
+  },
+  {
+    "title": "PowerShell/PWSHを実行する前に知っておくべき知識",
+    "url": "/pages/pwsh/pwsh_123_preprun.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "実行方法",
+      "実行前に必要な知識"
+    ],
+    "description": "PowerShell/PWSHの実行方法。その前に・・。PowerShellを実行するにはその前に理解しておく事があります"
+  },
+  {
+    "title": "PowerShell/PWSHの実行する前に（$profile編）",
+    "url": "/pages/pwsh/pwsh_124_profile.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "実行方法",
+      "実行前に必要な知識",
+      "$profile"
+    ],
+    "description": "PowerShell/PWSHの実行方法。その前に知っておくべき$profileとは？をまとめた章です"
+  },
+  {
+    "title": "PowerShell/PWSHのコマンドレットの必須知識",
+    "url": "/pages/pwsh/pwsh_125_mustKnow.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "cmdlet"
+    ],
+    "description": "PowerShell/PWSHのコマンドレットを書くと時に知っておくべき知識をまとめた章です"
+  },
+  {
+    "title": "PowerShell/PWSHのSwitch文",
+    "url": "/pages/pwsh/pwsh_140_switchcase.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "switch文"
+    ],
+    "description": "PowerShellのSwitch文についての章です。PowerShellのswitch文は他の言語と同様ですが、例えばC言語のswitch～case文よりも高機能となっています"
+  },
+  {
+    "title": "PowerShellのif文",
+    "url": "/pages/pwsh/pwsh_141_if.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "if文",
+      "$nullとの比較"
+    ],
+    "description": "PowerShellのif文についての章です。PowerShellのif文は他の言語と同様ですが、$nullとの比較の場合は少しだけ注意が必要です"
+  },
+  {
+    "title": "Write-Hostコマンドレット",
+    "url": "/pages/pwsh/pwsh_160_writehost.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "Write-Host"
+    ],
+    "description": "Write-Hostは画面表示するためのコマンドレットで、これを使って処理内容を表示したりできます"
+  },
+  {
+    "title": "PowerShell/PWSHのAliasとは",
+    "url": "/pages/pwsh/pwsh_161_alias.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "Alias"
+    ],
+    "description": "PowerShellのコマンドレットは、動詞-名詞の書式となってわかりやすいですが従来のコマンドに比べて長くなります。また、従来のコマンドに慣れている人にも使いやすいようにエイリアスが用意されています"
+  },
+  {
+    "title": "PowerShell/PWSHのGet-Help",
+    "url": "/pages/pwsh/pwsh_162_gethelp.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "Alias"
+    ],
+    "description": "PowerShellのコマンドレットの各コマンドレットのヘルプはそれ専用のヘルプ用コマンドレットがあります"
+  },
+  {
+    "title": "Get-Verb | HouNeko",
+    "url": "/pages/pwsh/pwsh_163_getverb.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "Get-Verb"
+    ],
+    "description": "PowerShellのコマンドレットは、動詞-名詞の書式となっています。この時、推奨される動詞がありそれを教えてくれるコマンドレットがGet-Verbです"
+  },
+  {
+    "title": "cmdlet | HouNeko",
+    "url": "/pages/pwsh/pwsh_164_cmdlet.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "cmdlet",
+      "コマンドレットとは"
+    ],
+    "description": "PowerShellのコマンドレットとは？コマンドレットが返すものは何か？コマンドレットの調べ方や使い方をまとめています"
+  },
+  {
+    "title": "cmdlet | HouNeko",
+    "url": "/pages/pwsh/pwsh_165_cmdlet.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "コマンドレットを使えるようになる",
+      "PowerShellでやりたいことを実現させるには"
+    ],
+    "description": "PowerShellでやりたい事をどうやって実現させるか？コマンドレットを使えるようにするにはどのような手順が必要か？を自分なりにまとめています"
+  },
+  {
+    "title": "Out-Null | HouNeko",
+    "url": "/pages/pwsh/pwsh_166_outnull.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "Out-Null",
+      "コマンドレット"
+    ],
+    "description": "Out-Nullコマンドレットの使い方"
+  },
+  {
+    "title": "Get-Command | HouNeko",
+    "url": "/pages/pwsh/pwsh_167_getcommand.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "Get-Command",
+      "コマンドレット"
+    ],
+    "description": "Get-Commandは実は便利なコマンドレット。Get-CommandはPowerShellが提供しているコマンドレットだけではなく、自作関数・スクリプト、外部アプリケーションも対象としています。このため、コマンドレットや関数・スクリプト、外部アプリケーションを探すという使い方もできます"
+  },
+  {
+    "title": "Out-Host | HouNeko",
+    "url": "/pages/pwsh/pwsh_168_outhost.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "Out-Host",
+      "more",
+      "-Paging",
+      "1ページ毎の表示",
+      "1ページを超える場合の表示方法"
+    ],
+    "description": "Out-Hostは、画面表示量をコントロールする時に使うコマンドレットです。Cmd.exeの時の「-More」に相当する使い方です"
+  },
+  {
+    "title": "Get-CimInstance | HouNeko",
+    "url": "/pages/pwsh/pwsh_169a_getcimInstance.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "Get-CimInstance",
+      "Common Information Model"
+    ],
+    "description": "Get-CimInstanceは、Windows専用のコマンドレットで、CIM（Common Information Model）を通してWindowsの内部情報を取得することができます。この記事では、Get-CimInstanceの基本的な使い方から応用的な使い方まで、サンプル例を使って詳しく説明します"
+  },
+  {
+    "title": "Get-Member | HouNeko",
+    "url": "/pages/pwsh/pwsh_169b_getmember.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "Get-Member"
+    ],
+    "description": "Get-Memberは、他のコマンドレットが返すオブジェクトを調べるためのコマンドレットです。この記事では、Get-Memberの基本的な使い方から応用的な使い方まで、サンプル例を使って詳しく説明します"
+  },
+  {
+    "title": "ForEach-Object | HouNeko",
+    "url": "/pages/pwsh/pwsh_169c_foreeachobject.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "ForEach-Object"
+    ],
+    "description": "ForEach-Objectは、パイプで使うコマンドレットです。名前からするとForEachループ的な動作を想像しますがそうではないので、このコマンドレットは間違いやすいのではないかと思います。この記事では、自分が間違った点をサンプル例を使って詳しく説明します"
+  },
+  {
+    "title": "Measure-Command | HouNeko",
+    "url": "/pages/pwsh/pwsh_169_measurecommand.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "コマンドレット",
+      "Measure-Command",
+      "測定"
+    ],
+    "description": "Measure-Commandは、スクリプトブロックで囲んだ処理にかかる時間を測定するコマンドレットです。この記事では、Measure-Commandの基本的な使い方から応用的な使い方まで、サンプル例を使って詳しく説明します"
+  },
+  {
+    "title": "ヒアドキュメント | HouNeko",
+    "url": "/pages/pwsh/pwsh_180_docstring.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "ヒアドキュメント"
+    ],
+    "description": "PowerShellでは改行を含む文字列を扱うことができます。それがヒアドキュメントというものです"
+  },
+  {
+    "title": "配列 | HouNeko",
+    "url": "/pages/pwsh/pwsh_1a0_dataarray.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "配列",
+      "Array"
+    ],
+    "description": "いろいろな言語でもだいたい存在するデータ型の「配列」についてまとめた章です。配列を使えばデータをまとめて扱えて便利です"
+  },
+  {
+    "title": "CmdletBinding属性 | HouNeko",
+    "url": "/pages/pwsh/pwsh_200_CmdletBinding.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "CmdletBinding属性",
+      "高度化"
+    ],
+    "description": "PowerShellのCmdletBinding属性。CmdletBinding属性により関数やスクリプトを高度なものにできます"
+  },
+  {
+    "title": "CmdletBinding属性 | HouNeko",
+    "url": "/pages/pwsh/pwsh_201_CmdletBinding.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "CmdletBinding属性とWrite-Debugの問題"
+    ],
+    "description": "PowerShellのCmdletBinding属性。CmdletBindingがトリガとなったWrite-Debugでの問題事象"
+  },
+  {
+    "title": ".NETのスタティックメソッド | HouNeko",
+    "url": "/pages/pwsh/pwsh_220_staticMethod.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      ".NETのスタティックメソッド"
+    ],
+    "description": "PowerShellをある程度使いこなしてくると、.NETのスタティックメソッドを使うことが出てきます。.NETは広大で全てのスタティックメソッドを覚えたり網羅することは難しいですが、使ったことがあるものは理解しておきたいものです"
+  },
+  {
+    "title": "System.IO.Fileクラスのスタティックメソッド | HouNeko",
+    "url": "/pages/pwsh/pwsh_221_SystemIOFile.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      ".NETのスタティックメソッド",
+      "System.IO.Fileクラス",
+      "ReadAllBytes",
+      "WriteAllBytes",
+      "OpenRead"
+    ],
+    "description": "System.IO.Fileクラスが提供しているスタティックメソッドについて、ReadAllBytes、WriteAllBytes、OpenReadを理解する"
+  },
+  {
+    "title": "Environmentクラスのスタティックメソッド | HouNeko",
+    "url": "/pages/pwsh/pwsh_222_Environment.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      ".NETのスタティックメソッド",
+      "Environmentクラス",
+      "GetEnvironmentVariable",
+      "SetEnvironmentVariable"
+    ],
+    "description": "Environmentクラスが提供しているスタティックメソッドについて"
+  },
+  {
+    "title": "MyCmd | HouNeko",
+    "url": "/pages/pwsh/pwsh_240_mycmd.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "自作コマンド",
+      "自作スクリプト",
+      "自作関数"
+    ],
+    "description": "PowerShellはいろいろな事ができます。その中で自分がしたいことをプログラム（ps1スクリプトや関数）にした場合、適切な管理をすればいつでも、どこでも（任意のフォルダ）から使えるようになります"
+  },
+  {
+    "title": "Get-Helpで自作スクリプトのヘルプ表示を行う | HouNeko",
+    "url": "/pages/pwsh/pwsh_241_mycmdHelp.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "自作スクリプトをGet-Help表示する"
+    ],
+    "description": "以前から、標準のコマンドレットと同様に、自作スクリプトや自作関数でもGet-Helpでヘルプ表示をしたいと思っていました。やり方が分かったのでその方法を説明します"
+  },
+  {
+    "title": "PowerShellでExcelを操作する | HouNeko",
+    "url": "/pages/pwsh/pwsh_242_excel.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "Excel操作",
+      "COM"
+    ],
+    "description": "ExcelはCOMモデルで設計されているので外部から操作することができます。PowerShellからもExcelを操作できますのでその方法を説明します"
+  },
+  {
+    "title": "PowerShellの例外 | HouNeko",
+    "url": "/pages/pwsh/pwsh_260_exception.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "PowerShellの例外",
+      "エラーハンドリング"
+    ],
+    "description": "PowerShellで例外に対するエラーハンドリングを行う方法についてまとめています"
+  },
+  {
+    "title": "PowerShellのtry～catch～finallyによる例外処理 | HouNeko",
+    "url": "/pages/pwsh/pwsh_261_trycatchfinally.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "PowerShellの例外",
+      "エラーハンドリング",
+      "try～catch～finally"
+    ],
+    "description": "PowerShellで例外に対するtry～catch～finallyによる例外処理をサンプルを元にまとめています"
+  },
+  {
+    "title": "終了するエラーと終了しないエラー | HouNeko",
+    "url": "/pages/pwsh/pwsh_262_Terminating.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "終了するエラーと終了しないエラー"
+    ],
+    "description": "PowerShellの終了するエラーと終了しないエラーとは。例をも基に説明します"
+  },
+  {
+    "title": "PWSHの並列処理 | HouNeko",
+    "url": "/pages/pwsh/pwsh_280_parallel.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "PWSHの並列処理"
+    ],
+    "description": "PowerShell 7以降のバージョンでは並列処理が可能となっており、大量のデータを高速に処理できるようになっています。基本的な使い方から応用的な使い方までサンプル例を使って説明しています"
+  },
+  {
+    "title": "Everything | HouNeko",
+    "url": "/pages/pwsh/pwsh_281_everything.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "Everything",
+      "es.exe",
+      "高速なファイル検索"
+    ],
+    "description": "PowerShellでEverythingを使った高速な検索を行う方法です。EverythingにはCLIツール（es.exe）があるのでこれを使う事でコマンドベースでプログラムを作ることができます"
+  },
+  {
+    "title": "PWSHのモジュール化",
+    "url": "/pages/pwsh/pwsh_2a0_module.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "モジュール化",
+      "psm1",
+      "psd1"
+    ],
+    "description": "PowerShellのモジュール化とは何か？モジュール化すると何がうれしくなるのか？作り方と実行方法などをサンプル例をもとに説明しています"
+  },
+  {
+    "title": "PWSHのモジュール化",
+    "url": "/pages/pwsh/pwsh_2a1_psm1psd1.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "モジュール化",
+      "psm1",
+      "psd1",
+      "モジュールファイル",
+      "マニフェストファイル"
+    ],
+    "description": "PowerShellのモジュール化とは何か？モジュール化すると何がうれしくなるのか？作り方と実行方法などをサンプル例をもとに説明しています"
+  },
+  {
+    "title": "バージョン管理",
+    "url": "/pages/pwsh/pwsh_2a2_versionManagement.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "バージョン管理",
+      "メジャーバージョン",
+      "マイナーバージョン",
+      "マイクロバージョン"
+    ],
+    "description": "PowerShellのモジュール化でのバージョン管理について考えた章です。PowerShellのモジュール化の一環として書いたものですが、特定の言語によらず一般的なバージョン管理も同じかと思います"
+  },
+  {
+    "title": "モジュールのデバッグ",
+    "url": "/pages/pwsh/pwsh_2a3_debug.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "モジュールのデバッグ"
+    ],
+    "description": "PowerShellのモジュールファイルpsm1は、関数を列挙したファイルです。モジュールは何かのスクリプトにインポートして実行するので、モジュールのデバッグもこの中で行います"
+  },
+  {
+    "title": "新しいモジュール",
+    "url": "/pages/pwsh/pwsh_2a4_newmodule.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "新しいモジュール",
+      "新モジュールの作成手順"
+    ],
+    "description": "PowerShellの新モジュールを作成する手順をサンプル「Get-MyProcessorInfo」を例に説明します。自分の環境ベースなのでそのまま使えないかもしれませんが参考になるかと思います"
+  },
+  {
+    "title": "モジュール開発と配布",
+    "url": "/pages/pwsh/pwsh_2a5_devandrelease.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "モジュール開発",
+      "配布",
+      "パスの検討"
+    ],
+    "description": "モジュールを作り、それをスクリプト（例えばmain.ps1）にインポートすればモジュール内の関数を再利用できます。これを部内に公開する場合、モジュールのパスを考えておかないと動かないとかユーザ環境に手を加えないといけない事が起きたりしてしまいます。この章ではモジュールを含むプロジェクトの開発と配布をスムーズに進めるための方法を考えています"
+  },
+  {
+    "title": "モジュール開発と配布",
+    "url": "/pages/pwsh/pwsh_2a6_export.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "関数の公開",
+      "Export",
+      "psm1",
+      "psd1",
+      "Export-ModuleMember",
+      "FunctionsToExport",
+      "公開関数の確認方法"
+    ],
+    "description": "psm1ファイル内で「Export-ModuleMember」コマンドレットにて公開する関数を指定します。指定しない場合は全部の関数が公開扱いになるので注意が必要です。またpsd1ファイルにも公開する関数を指定するキー（配列）FunctionsToExportがあります。"
+  },
+  {
+    "title": "モジュール開発と配布",
+    "url": "/pages/pwsh/pwsh_2a7_import.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "公開した関数を使う",
+      "Import-Module",
+      "psm1"
+    ],
+    "description": "関数を公開したら、コマンドラインからコマンドのように使ったり、別のスクリプトにImport-Moduleして再利用することができます"
+  },
+  {
+    "title": "ArgumentとParameter | HouNeko",
+    "url": "/pages/pwsh/pwsh_300_Argument_Parameter.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "ArgumentとParameterの違い",
+      "実引数",
+      "仮引数"
+    ],
+    "description": "PowerShell固有の話ではないですが、ArgumentとParameterの違いは何？ということをまとめている章です"
+  },
+  {
+    "title": "Get-ChildItemのExecuteオプション | HouNeko",
+    "url": "/pages/pwsh/pwsh_400_getchilditem.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "Get-ChildItemのExecuteオプション"
+    ],
+    "description": "Get-ChildItemには多数のオプションがありますが、その中で「-Exclude」オプションは指定したものを取得しない（除外する）機能を持っていますが、これが意図した動作にならないことがあります。その事例と対処方法です"
+  },
+  {
+    "title": "Windows Powershellの[CmdletBinding()] | HouNeko",
+    "url": "/pages/pwsh/pwsh_401_writedebug.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "WindowsPowershell",
+      "CmdletBinding",
+      "Write-Debug"
+    ],
+    "description": "[CmdletBinding()]で関数を高度化した場合、-Debugが有効になり$DebugPreference変数に値が設定されます。この時、Windows PowerShellとPowerShell Coreでは設定される値が異なり、Windows Powershell環境ではWrite-Debugの度に「この操作を実行しますか？」という確認が出る問題。この問題の事例と対処方法です"
+  },
+  {
+    "title": "ZoneID | HouNeko",
+    "url": "/pages/pwsh/pwsh_402_zoneid.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "ZoneID",
+      "インターネットから入手"
+    ],
+    "description": "ZoneIDは、WindowsXp SP2以降に導入された概念で、ファイルにZoneIDというセキュリティ情報をもたせて、インターネットから入手したファイルかどうかを判断できるようにしている仕組みです"
+  },
+  {
+    "title": "Get-ContentとWrite-Host | HouNeko",
+    "url": "/pages/pwsh/pwsh_403_writehost.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "Get-ContentとWrite-Host"
+    ],
+    "description": "Get-Contentでファイルを読み込み、それをWrite-Hostで表示させると意図しない表示になる（1行で表示される）。ファイルの内容のまま表示させたい場合はどうするの？という話です"
+  },
+  {
+    "title": "PowerShellとバッチファイルの連携時の問題 | HouNeko",
+    "url": "/pages/pwsh/pwsh_404_withBat.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PowerShell",
+      "pwsh"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "バッチファイルとの連携"
+    ],
+    "description": "PowerShellとバッチファイルの連携時に起こった問題です"
+  },
+  {
+    "title": "配列や辞書をWrite-Debugで表示する",
+    "url": "/pages/pwsh/pwsh_405_writedebugarray.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "配列",
+      "辞書",
+      "コレクション",
+      "Write-Debug",
+      "デバッグ表示"
+    ],
+    "description": "配列や辞書、コレクションの内容を Write-Debugでデバッグ表示する場合、変数名を指定するだけでは要素の内容が表示されないです。要素内容を表示するにはどうするかの話です"
+  },
+  {
+    "title": "コマンドレットオプションの色",
+    "url": "/pages/pwsh/pwsh_406_colorprobrem.html",
+    "category": "プログラム",
+    "subcategory": [
+      "PWSH",
+      "PowerShell"
+    ],
+    "keywords": [
+      "pwsh",
+      "PowerShell",
+      "オプションの色",
+      "コマンドレットのオプション",
+      "見にくい",
+      "見やすいように色を変える",
+      "Get-PSReadLineOption"
+    ],
+    "description": "PowerShellを使い始めた時、一番いやだったものがこのオプションの色でした。コマンドラインであるコマンドレットにオプションをつけて指定する場合、このオプションの色がグレーなので全く見えず困っていました"
+  },
+  {
+    "title": "Python | HouNeko",
+    "url": "/pages/Python/py_000_index.html",
+    "category": "プログラム",
+    "subcategory": [
+      "Python"
+    ],
+    "keywords": [
+      "Python",
+      "トップページ"
+    ],
+    "description": "Pythonのトップページです"
+  },
+  {
+    "title": "サイト内検索",
+    "url": "/pages/search.html",
+    "category": "検索",
+    "subcategory": [],
+    "keywords": [
+      "検索"
+    ],
+    "description": "サイト内検索ページ"
+  },
+  {
+    "title": "VSCode",
+    "url": "/pages/vscode/vsc_000_index.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode"
+    ],
+    "keywords": [
+      "VSCode",
+      "トップページ",
+      "目次"
+    ],
+    "description": "VSCodeの目次ページです。VSCodeはエディタですが、ある言語向けの限定したものではなく拡張機能の追加によりその言語専用エディタのように使う事ができます。また、拡張機能によりIDEのようにデバッグを行うこともできます。１つのエディタでいろいろな言語開発ができるし、自分用にカスタマイズするのも楽しいです"
+  },
+  {
+    "title": "VSCのインストール",
+    "url": "/pages/vscode/vsc_100_install.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "インストール"
+    ],
+    "keywords": [
+      "VSCode",
+      "インストール",
+      "日本語化"
+    ],
+    "description": "VSCodeをインストール、日本語化し使えるところまでの説明ページです"
+  },
+  {
+    "title": "VSCの画面イメージ",
+    "url": "/pages/vscode/vsc_101_layout.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "UI"
+    ],
+    "keywords": [
+      "VSCode",
+      "UI",
+      "画面の構成"
+    ],
+    "description": "VSCodeを起動した時の画面の構成、UIについての説明ページです"
+  },
+  {
+    "title": "ウェルカムページを表示しない",
+    "url": "/pages/vscode/vsc_102_welcome.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "UI"
+    ],
+    "keywords": [
+      "VSCode",
+      "ウェルカムページ"
+    ],
+    "description": "VSCodeのウェルカムページを表示しないようにする話です"
+  },
+  {
+    "title": "VSCodeの更新",
+    "url": "/pages/vscode/vsc_103_update.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "更新"
+    ],
+    "keywords": [
+      "VSCode",
+      "更新",
+      "アップデート"
+    ],
+    "description": "VSCodeは、デフォルトで自動更新の設定になっており勝手に新しいバージョンになります。通常はこれでいいと思うけど、更新タイミングを自分でしたい場合は自動更新をやめることもできます"
+  },
+  {
+    "title": "フォルダ、ワークスペースを開く",
+    "url": "/pages/vscode/vsc_104_openFolder.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "フォルダ",
+      "ワークスペース"
+    ],
+    "keywords": [
+      "VSCode",
+      "フォルダ",
+      "ワークスペース"
+    ],
+    "description": "フォルダ、ワークスペースを開く方法。VSCodeで複数のフォルダを開くことはできますか？できます。という話です"
+  },
+  {
+    "title": "コマンドパレットとは",
+    "url": "/pages/vscode/vsc_120_cmdpalette.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "コマンドパレット"
+    ],
+    "keywords": [
+      "VSCode",
+      "コマンドパレット"
+    ],
+    "description": "VSCodeのコマンドパレッとは、起動方法などの話です"
+  },
+  {
+    "title": "VSCodeの設定",
+    "url": "/pages/vscode/vsc_121_setting.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "設定"
+    ],
+    "keywords": [
+      "VSCode",
+      "設定"
+    ],
+    "description": "VSCodeの設定アイコンをクリックして設定を行う方法、それ以外で設定を行う方法など"
+  },
+  {
+    "title": "Settings.json",
+    "url": "/pages/vscode/vsc_122_settingsjson.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "設定",
+      "Settings.json"
+    ],
+    "keywords": [
+      "VSCode",
+      "設定",
+      "Settings.json"
+    ],
+    "description": "Settings.jsonはVSCodeの設定内容が書かれている設定ファイルです"
+  },
+  {
+    "title": "Settings.json",
+    "url": "/pages/vscode/vsc_123_settingsjson2.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "設定",
+      "Settings.json"
+    ],
+    "keywords": [
+      "VSCode",
+      "設定",
+      "Settings.json"
+    ],
+    "description": "Settings.jsonはVSCodeの設定内容が書かれている設定ファイルです。実際に設定している内容を説明します"
+  },
+  {
+    "title": "Launch.json",
+    "url": "/pages/vscode/vsc_124_launchjson.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "設定",
+      "Launch.json"
+    ],
+    "keywords": [
+      "VSCode",
+      "設定",
+      "Launch.json"
+    ],
+    "description": "Launch.jsonはVSCodeでデバッグする時の動作を定義する設定ファイルです。それは知っているけど何を書けばいいの？という話を書いています"
+  },
+  {
+    "title": ".vscodeフォルダとは",
+    "url": "/pages/vscode/vsc_125_dotvscode.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "設定",
+      ".vscodeフォルダ"
+    ],
+    "keywords": [
+      "VSCode",
+      "設定",
+      ".vscodeフォルダ"
+    ],
+    "description": "VSCodeでフォルダを開くと、開いたフォルダの下にいつの間にか「.vscodeフォルダ」ができています。この.vscodeフォルダとは何ですか？"
+  },
+  {
+    "title": "Launch.json",
+    "url": "/pages/vscode/vsc_125_launchjson2.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "設定",
+      "Launch.json",
+      "複数言語のデバッグ設定"
+    ],
+    "keywords": [
+      "VSCode",
+      "設定",
+      "Launch.json"
+    ],
+    "description": "１つのLaunch.jsonに複数の言語のデバッグ設定を書いた時どうなるかの振る舞いについて書いた章です。launch.jsonは複数言語のデバッグ設定を書くことができますが、デバッグする言語に自動的に追従することはできません。それってどういう事？"
+  },
+  {
+    "title": "Tasks.json",
+    "url": "/pages/vscode/vsc_126_tasksjson.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "設定",
+      "Tasks.json"
+    ],
+    "keywords": [
+      "VSCode",
+      "設定",
+      "Tasks.json"
+    ],
+    "description": "Tasks.jsonはVSCodeでF5キーを押して実行する場合の実行の設定ファイルです。じゃ何を書けばいいの？という話を書いています"
+  },
+  {
+    "title": "Keybinding.json",
+    "url": "/pages/vscode/vsc_127_keybindingjson.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "設定",
+      "Keybinding.json"
+    ],
+    "keywords": [
+      "VSCode",
+      "設定",
+      "Keybinding.json"
+    ],
+    "description": "Keybinding.jsonはVSCodeのキー設定に関する設定ファイルです。自分の設定内容を例に説明します"
+  },
+  {
+    "title": "VSCの検索と置換",
+    "url": "/pages/vscode/vsc_200_FindReplace.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "検索",
+      "置換"
+    ],
+    "keywords": [
+      "VSCode",
+      "検索",
+      "置換",
+      "Ctrl+F",
+      "Ctrl+H"
+    ],
+    "description": "VSCodeの検索、置換の使い方です。特別な事はないのですが、置換候補のうち一部をスキップしたい場合どうしたらいいのかなと思い調べた結果です"
+  },
+  {
+    "title": "VSCodeのEmmet表記 | HouNeko",
+    "url": "/pages/vscode/vsc_210_emmet.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "Emmet表記"
+    ],
+    "keywords": [
+      "VSCode",
+      "VSCodeのEmmet表記",
+      "Emmet表記とは",
+      "スケルトンコード",
+      "タグの展開",
+      "タグのコンテンツ入力",
+      "タグの属性入力",
+      "複数回繰り返し入力",
+      "scriptタグのEmmet"
+    ],
+    "description": "VSCodeのEmmet表記についての章です。Emmetとは何か？Emmet表記で何が便利になるのかを書いています。自分はスクラッチで書くのが好きなのでEmmetがあるのと無いので全然違います。関西の人には通じると思いますが、「Emmetがある時ぃ～、Emmetが無い時ぃ～」って感じです"
+  },
+  {
+    "title": "VSCの拡張機能 | HouNeko",
+    "url": "/pages/vscode/vsc_220_Extensions.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode"
+    ],
+    "keywords": [
+      "VSCode",
+      "VSCodeの拡張機能"
+    ],
+    "description": "VSCodeは、それ単体でも十分高機能ですがサードパーティーが公開している拡張機能をインストールすることでより高機能になります。また、自分にあったエディタにカスタマイズできます"
+  },
+  {
+    "title": "VSCの便利な拡張機能 | HouNeko",
+    "url": "/pages/vscode/vsc_221_Extensions.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode"
+    ],
+    "keywords": [
+      "VSCode",
+      "VSCodeの拡張機能"
+    ],
+    "description": "自分が追加しているVSCodeのいろいろな拡張機能についてインストールから使い方までを説明している章です"
+  },
+  {
+    "title": "VSCのスニペット | HouNeko",
+    "url": "/pages/vscode/vsc_240_snippets.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode"
+    ],
+    "keywords": [
+      "VSCode",
+      "VSCodeのスニペット"
+    ],
+    "description": "スニペット（snippets）とは、元々は断片や切れ端といった意味のもので、プログラムの世界ではよく使う短いコードを示す。この短いコードに名前をつけて管理し、すぐにコードに挿入できるようにしたものです"
+  },
+  {
+    "title": "VSCのリンク集 | HouNeko",
+    "url": "/pages/vscode/vsc_300_link.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode"
+    ],
+    "keywords": [
+      "VSCode",
+      "VSCodeのリンク集"
+    ],
+    "description": "VSCのリンク集"
+  },
+  {
+    "title": "VSCのいろいろ | HouNeko",
+    "url": "/pages/vscode/vsc_301_iroiro.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode"
+    ],
+    "keywords": [
+      "VSCode",
+      "VSCのいろいろ"
+    ],
+    "description": "VSCodeのその他いろいろネタ"
+  },
+  {
+    "title": "Terminalへ移動するショートカットキー | HouNeko",
+    "url": "/pages/vscode/vsc_400_toTerminal.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "VSC"
+    ],
+    "keywords": [
+      "VSCode",
+      "Terminalへ移動するショートカットキー"
+    ],
+    "description": "VSCodeのエディタからターミナルへの移動するショートカットを作る方法です"
+  },
+  {
+    "title": "VSCショートカットキー | HouNeko",
+    "url": "/pages/vscode/vsc_401_shortcutkey.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "VSC"
+    ],
+    "keywords": [
+      "VSCode",
+      "VSCショートカットキー"
+    ],
+    "description": "VSCodeは、ショートカットキーを使う事で、より自分の手に馴染むと思います。良く使うショートカットキーをまとめた章です"
+  },
+  {
+    "title": "VSCショートカットキー | HouNeko",
+    "url": "/pages/vscode/vsc_402_shortcutkey.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "VSC"
+    ],
+    "keywords": [
+      "VSCode",
+      "VSCショートカットキー"
+    ],
+    "description": "VSCodeは、ショートカットキーを使う事で、より自分の手に馴染むと思います。良く使うショートカットキーをまとめた章です。この章は、自分が追加したVSCodeのショートカットキーの紹介です"
+  },
+  {
+    "title": "マルチカーソル | HouNeko",
+    "url": "/pages/vscode/vsc_420_multicursor.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "VSC"
+    ],
+    "keywords": [
+      "VSCode",
+      "マルチカーソル"
+    ],
+    "description": "VSCodeのマルチカーソル機能とは？マルチカーソルの使い方を説明している章です。マルチカーソルは使いこなすと結構便利と思いますし、VSCodeっぽい機能と思います"
+  },
+  {
+    "title": "ファイル名の横の数字 | HouNeko",
+    "url": "/pages/vscode/vsc_440_alertNumber.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "VSC"
+    ],
+    "keywords": [
+      "VSCode",
+      "ファイル名の横の数字",
+      "エラー"
+    ],
+    "description": "VSCodeのエクスプローラでファイルを表示させた時、ファイル名の横に数字が表示される場合があります。この数字は何を示しているのでしょうか？"
+  },
+  {
+    "title": "VSCodeのダウングレード",
+    "url": "/pages/vscode/vsc_520_oldversion.html",
+    "category": "アプリ",
+    "subcategory": [
+      "VSCode",
+      "更新"
+    ],
+    "keywords": [
+      "VSCode",
+      "更新",
+      "ダウングレード",
+      "旧バージョン"
+    ],
+    "description": "VSCodeを更新して新しいバージョンにした時に問題があれば、古いバージョンにダウングレードさせることができます。新しいバージョンの上に古いバージョンをインストールしなおせばいいです"
+  }
+]
