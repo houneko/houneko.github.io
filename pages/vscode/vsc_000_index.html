@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>VSCode | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeの目次ページです。VSCodeはエディタですが、ある言語向けの限定したものではなく拡張機能の追加によりその言語専用エディタのように使う事ができます。また、拡張機能によりIDEのようにデバッグを行うこともできます。１つのエディタでいろいろな言語開発ができるし、自分用にカスタマイズするのも楽しいです">
+<meta name="keywords" content="VSCode,トップページ,目次">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode">
+<meta name="breadcrumb" content="ホーム:/index.html >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        VSCode（Visuarl Studio Code）のページ
+      </h1>
+      <p>このページはVSCodeについていろいろな事を書いているページです</p>
+
+      <!-- VSC基本：100番台 -->
+      <button id="details-toggleAll">すべて閉じる</button>
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">VSCodeの基本</span>
+            <span class="desc">VSCodeのインストールから基本的な使い方までをまとめた章です</span>
+          </summary>
+          <!-- ページ #100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">インストールと日本語化</span>
+              <span class="desc">インストールとインストール後に日本語化しておくところまで書いているページです</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_100_install.html">VSCodeのインストール、起動、日本語化</a>
+                <p class="desc">VSCodeのインストールと日本語化</p>
+              </li>
+              <li><a href="vsc_101_layout.html">VSCodeの画面イメージ</a>
+                <p class="desc">VSCodeの画面イメージ、各名称などを説明したページです</p>
+              </li>
+              <li><a href="vsc_102_welcome.html">ウェルカムページを表示しない</a>
+                <p class="desc">VSCode起動時に表示されるウェルカムページを表示しないようにする</p>
+              </li>
+              <li><a href="vsc_103_update.html">VSCodeの更新</a>
+                <p class="desc">VSCodeの更新設定について</p>
+              </li>
+              <li><a href="vsc_104_openFolder.html">フォルダ、ワークスペースを開く</a>
+                <p class="desc">1つのフォルダを開く、複数のフォルダを開く方法</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ #120 -->
+          <details class="toc-card is-child tocall" id="toc120">
+            <summary>
+              <span class="title">設定</span>
+              <span
+                class="desc">設定はGUI（歯車アイコン）をクリックして行うまたはコマンドパレットから設定する方法とSettings.Jsonを編集する方法がある<br />また、設定に関する*.jsonファイルはSettings.jsonの他にもいくつかある（launch.json：デバッグ用の設定ファイル、tasks.json：ビルド用の設定ファイルなど）</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vsc_125_dotvscode.html">.vscodeフォルダ（ドットvscodeフォルダ）</a>
+                <p class="desc">VSCodeでフォルダを開くとそのフォルダの下に「.vscodeフォルダ」ができています。これは何？</p>
+              </li>
+              <li><a href="vsc_121_setting.html">設定</a>
+                <p class="desc">アクティビティバーの設定アイコン（歯車アイコン）をクリックして設定を行う方法</p>
+              </li>
+              <li><a href="vsc_120_cmdpalette.html">コマンドパレット</a>
+                <p class="desc">コマンドパレットとは、起動方法</p>
+              </li>
+              <li>
+                <a href="vsc_122_Settingsjson.html">Settings.jsonとは</a>
+                <p class="desc">設定内容が記述されている設定ファイルの本体。ここに設定内容があるので、このファイルを編集するのが最短</p>
+              </li>
+              <li>
+                <a href="vsc_123_settingsjson2.html">Settings.jsonの各設定</a>
+                <p class="desc">実際にSettings.jsonへの各設定を書いた時のページです</p>
+              </li>
+              <li>
+                <a href="vsc_124_launchjson.html">Launch.jsonとは</a>
+                <p class="desc">launch.jsonは、VSCodeでデバッグする時の動作を定義する設定ファイルです</p>
+              </li>
+              <li>
+                <a href="vsc_125_launchjson2.html">複数言語のデバッグ設定を含むLaunch.json</a>
+                <p class="desc">launch.jsonは、VSCodeでデバッグする時の動作を定義する設定ファイルです</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- VSCの現場の疑問：500番台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc500main">
+          <summary>
+            <span class="title">VSCodeの現場の疑問</span>
+            <span class="desc">VSCodeを使っていた感じた疑問を調べたものを載せています</span>
+          </summary>
+          <!-- ジャンル1 -->
+          <details class="toc-card is-child tocall" id="toc500">
+            <summary>
+              <span class="title">表示関係</span>
+              <span class="desc">VSCodeの表示や色に関する疑問をまとめた章です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_500_bracketpair.html">かっこのペア表示</a>
+                <p class="desc">htmlやプログラミング言語の多くは、()や{}で処理やスコープの範囲を示す構造になっている。このかっこのペアをわかるように表示する機能</p>
+              </li>
+              <li><a href="vsc_501_colortheme.html">配色テーマが勝手に変わった</a>
+                <p class="desc">VSCodeのバージョンアップのせい？か配色テーマが勝手に変わることがありました。どーやって戻したらいいん？という話です</p>
+              </li>
+              <li><a href="vsc_502_tabIndent.html">タブ数が指定した値にならない？</a>
+                <p class="desc">VSCodeのタブを「スペース：2」に設定しているはずなのに、タブキーを押すと4タブになっているという謎現象の話です</p>
+              </li>
+            </ol>
+          </details>
+          <!-- ジャンル2 -->
+          <details class="toc-card is-child tocall" id="toc520">
+            <summary>
+              <span class="title">バージョン関係</span>
+              <span class="desc">バージョンに関する疑問をまとめた章です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_520_oldversion.html">VSCodeを古いバージョンに戻したい</a>
+                <p class="desc">VSCodeの新しいバージョンに問題があればダウングレードすることができます</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+
+
+      <!-- VSC便利な使い方：400番台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc400main">
+          <summary>
+            <span class="title">VSCodeの便利な使い方</span>
+            <span class="desc">VSCodeはもともと便利ですが、使ってみて便利だなと思ったものを書いています</span>
+          </summary>
+
+          <details class="toc-card is-child tocall" id="toc400">
+            <summary>
+              <span class="title">ショートカットキー</span>
+              <span class="desc">ショートカットキーはGUIのようなめんどくささが無いのいい</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_400_toTerminal.html">便利機能：エディタからTerminalへ移動するショートカットキー</a>
+                <p class="desc">エディタからTerminalへ移動するショートカットキーは無い。。この状況だと使いにくいのでショートカットキーを作ってみようという話です</p>
+              </li>
+              <li><a href="vsc_401_shortcutkey.html">便利機能：VSCodeのショートカットキー（標準）</a>
+                <p class="desc">VSCodeには多数のショートカットキーがあります。キーボードに手を置いた状態のままで操作できるショートカットキーは便利</p>
+              </li>
+              <li><a href="vsc_402_shortcutkey.html">便利機能：VSCodeのショートカットキー（ユーザ追加）</a>
+                <p class="desc">VSCodeには多数のショートカットキーがありますが、自分にとってはこのショートカットキーが無いというケースもあります。自作したショートカットキーの紹介です</p>
+              </li>
+            </ol>
+          </details>
+          <!--  -->
+          <details class="toc-card is-child tocall" id="toc420">
+            <summary>
+              <span class="title">マルチカーソル</span>
+              <span class="desc">マルチカーソルは、複数個所を同時に編集できる機能です。他のエディタには無いVSCodeの機能です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_420_multicursor.html">マルチカーソル</a>
+                <p class="desc">マルチカーソルはあんまり使っている人を見ないので、ちょっとかっこいいかも（というか部内は事務職なのでVSCode自体使っていないし、VSCodeと言っても通じないかな）</p>
+              </li>
+            </ol>
+          </details>
+          <!--  -->
+          <details class="toc-card is-child tocall" id="toc440">
+            <summary>
+              <span class="title">デバッグ</span>
+              <span class="desc">デバッグを支援する仕組みについて</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_440_alertNumber.html">ファイル名の横の数字の意味</a>
+                <p class="desc">VSCodeのエクスプローラでファイルを表示させた時にファイル名の横に数字が付いている時がある。これは何？の話</p>
+              </li>
+            </ol>
+          </details>
+
+        </details>
+      </div>
+
+      <!-- VSC高度：200番台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc200main">
+          <summary>
+            <span class="title">VSCodeの高度な使い方</span>
+            <span class="desc">VSCodeには高度な機能がいっぱいある。気になった機能や使い方を都度まとめていきます</span>
+          </summary>
+          <!-- ページ #200 -->
+          <details class="toc-card is-child tocall" id="toc200">
+            <summary>
+              <span class="title">VSCodeの高度な使い方</span>
+              <span class="desc"></span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_200_FindReplace.html">VSCodeの検索と置換</a>
+                <p class="desc">検索と置換の使いかたをまとめたページです。置換する・しないの使いわけの方法も書いてます</p>
+              </li>
+              <li><a href="vsc_210_emmet.html">VSCodeのEmmet表記</a>
+                <p class="desc">Emmet表記を使うとHtmlコーディングが高速化します。また、この入力はちょっとかっこいい</p>
+              </li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ol>
+          </details>
+
+          <!-- ページ #220 -->
+          <details class="toc-card is-child tocall" id="toc220">
+            <summary>
+              <span class="title">拡張機能</span>
+              <span class="desc"></span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_220_Extensions.html">VSCodeの拡張機能</a>
+                <p class="desc">VSCodeには拡張機能がありVSCodeを拡張させることができます</p>
+              </li>
+              <li><a href="vsc_221_Extensions.html">VSCodeの便利な拡張機能たち</a>
+                <p class="desc">VSCodeにはめちゃくちゃ拡張機能がある。自分が気に入ったものを探して入れたらいいと思います</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ #240 -->
+          <details class="toc-card is-child tocall" id="toc240">
+            <summary>
+              <span class="title">スニペット</span>
+              <span class="desc">snippets（スニペット）は、断片や切れ端という意味。プログラムの世界ではよく使われる短いコードのような意味で使われている</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_240_snippets.html">VSCodeのスニペット</a>
+                <p class="desc">VSCodeでのスニペットの使い方や自作スニペットについて書いています</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- VSCその他：300番台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc300main">
+          <summary>
+            <span class="title">VSCodeのその他いろいろ</span>
+            <span class="desc">その他いろいろを書いている章です</span>
+          </summary>
+          <!-- ページ #300 -->
+          <details class="toc-card is-child tocall" id="toc300">
+            <summary>
+              <span class="title">VSCodeのどのジャンルにも当てはまらなかった話など</span>
+              <span class="desc"></span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="vsc_300_link.html">VSCodeのリンク集</a>
+                <p class="desc">色々調べている時にいいなと思ったページたち</p>
+              </li>
+              <li><a href="vsc_301_iroiro.html">VSCodeのいろいろネタ</a>
+                <p class="desc">VSCをやってきた中で、うまくジャンル分けできなかった諸々の話</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
