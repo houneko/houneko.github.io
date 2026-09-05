@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>VSCショートカットキー | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeは、ショートカットキーを使う事で、より自分の手に馴染むと思います。良く使うショートカットキーをまとめた章です">
+<meta name="keywords" content="VSCode,VSCショートカットキー">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,VSC">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/便利な使い方:/pages/vscode/vsc_000_index.html#toc400 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        便利機能: VSCodeのショートカットキー
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">VSCodeのショートカットキー</h2>
+          <p>VSCodeには多数のショートカットキーがある。コードを書いている時にマウスに持ち替えてGUI操作が頻繁にあると思考が中断するし、キーボードに手を置いた状態のままで操作できるショートカットキーは便利。</p>
+          <h3 id="toc11" class="h3chapter underline">ショートカットキーを調べる方法</h3>
+          <p>ショートカットキーの一覧を表示する方法は2つある。1つは現在のキーバインド設定を見る、もう1つはショートカットキー一覧ページを表示するというものである</p>
+          <ol>
+            <li>
+              <span>現在のキーバインド一覧（ショートカットキーの一覧）を表示する方法</span>
+              <p>
+                <spane class="marker"><strong>「CtrlK, Ctrl+S」</strong></spane>
+                このショートカットキーにより、エディタウィンドにキーボードショートカットの一覧タブが表示される。これはショートカットキーの一覧であるが現在バインドされているキーの一覧にもなっている
+              </p>
+              <img src="/assets/pic/vsc_genba142_01.png" alt="キーバインド一覧" />
+              <p></p>
+            </li>
+            <li>
+              <span>ショートカットキーの一覧ページを表jする方法</span>
+              <p><span class="marker"><strong><a href="vsc_120_cmdpalette.html">コマンドパレット</a>を開いて「Keyboard Shortcuts
+                    Reference」</strong></span>と入力するとブラウザにショートカットキーの一覧が表示される</p>
+              <img src="/assets/pic/vsc_genba142_02.png" alt="ショートカットキーの一覧" />
+            </li>
+          </ol>
+        </section>
+
+        <!-- toc20 -->
+        <section>
+          <h2 id="toc20" class="h3chapter underline">よく使うショートカットキー</h2>
+          <p>多数のショートカットキーがあるけどよく使うものだけ覚えておけばいい（と思います）</p>
+          <ul class="no-marker">
+            <li>
+              <span class="font-large" id="toc21">ショートカットキー一覧を表示するショートカットキー</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl+K, Ctrl+S</td>
+                  <td>ショートカットキー一覧を表示</td>
+                  <td>一覧が開くと検索っぽいこともできる。Ctrl+Kはキー操作の基点に使わることが多いみたい。K:キーのS:ショートカットキーって覚えてる</td>
+                </tr>
+              </table>
+            </li>
+            <li>
+              <span id="toc22" class="font-large">デバッグ系のショートカットキー</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>F5</td>
+                  <td>デバッグの開始</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Shift+F5</td>
+                  <td>デバッグ停止</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+F5</td>
+                  <td>デバッグ再起動</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>F9</td>
+                  <td>カレント行にブレークポイントの設定・解除</td>
+                  <td>よく使う</td>
+                </tr>
+                <tr>
+                  <td>F10</td>
+                  <td>ステップオーバ</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>F11</td>
+                  <td>ステップイン</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Shift+F11</td>
+                  <td>ステップアウト</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>ブレークポイント削除</td>
+                  <td>Ctrl+Shift+P（コマンドパレット） &gt; Remove All BreakPoints</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+            <li>
+              <span id="toc23" class="font-large">コメント</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl+/</td>
+                  <td>1行コメント</td>
+                  <td>トグルなので設定・解除になる。また言語にあわせたコメントが設定される</td>
+                </tr>
+                <tr>
+                  <td>Alt+Shift+a</td>
+                  <td>ブロックコメント（覚えなくてもいい）</td>
+                  <td>行範囲を選択して「Ctrl+/」の方が簡単</td>
+                </tr>
+              </table>
+            </li>
+            <li>
+              <span id="toc24" class="font-large">フォルダ操作・ファイル操作系のショートカットキー</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl+K, Ctrl+O</td>
+                  <td>フォルダを開く</td>
+                  <td>よく使う</td>
+                </tr>
+                <tr>
+                  <td>Ctrl+O</td>
+                  <td>ファイルを開く</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+P</td>
+                  <td>ファイルを開く（クイック）</td>
+                  <td>Ctrl+OとCtrl+Pは似ているが違う<br /><a href="#toc-ctrlp-01">「@シンボル名」</a>でシンボル名一覧を表示する機能は使える</td>
+                </tr>
+                <tr>
+                  <td>Ctrl+N</td>
+                  <td>新規ファイルを作成する</td>
+                  <td>コマンドパレットから「file: new File」でもファイル新規作成できるが、こっちのショートカットキーの方がはやい</td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+S</td>
+                  <td>名前を付けて保存（Ctrl+S で上書き保存）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+F4 / Ctrl+W</td>
+                  <td>ファイルを閉じる</td>
+                  <td>Alt+F4 はVSCode自体を閉じる</td>
+                </tr>
+                <tr>
+                  <td>Shift+Alt+F</td>
+                  <td>フォーマッタを起動する</td>
+                  <td>保存時の自動フォーマットは、"editor.formatOnSave": true</td>
+                </tr>
+              </table>
+              <p class="underline">Ctrl+O と Ctrl+P は違う</p>
+              <p>Ctrl+O と Ctrl+P はファイルを開くという動作については同じだけど、GUIを挟む・挟まないという点、ファイルを開くだけではないという点で違いがある</p>
+              <ul class="no-marker">
+                <li>
+                  <span style="font-weight: bold;">Ctrl+O</span>
+                  <p>Ctrl+Oの場合、以下のダイアログが表示されてGUIでファイルを選ぶ。またこのショートカットキーはファイルを開くだけの機能しかない</p>
+                  <img src="/assets/pic/vsc_401_ctrlo_01.png" alt="Ctrl+O" />
+                </li>
+                <li>
+                  <span style="font-weight: bold;">Ctrl+P</span>
+                  <p>Ctrl+Pは、エディタ上にファイル名を指定するウィンドウが開きそこにファイル名を入力して開く。キーボードで完結するし動作的にもサクサクしています</p>
+                  <img src="/assets/pic/vsc_401_ctrlp_01.png" alt="Ctrl+P" />
+                  <p>さらにカレントエディタに対してジャンプやコマンドを実行することができます（これは気になった場合に調べてください）。</p>
+                  <p id="toc-ctrlp-01">で、自分がこれはいいなと思ったのは「@シンボル名」</p>
+                  <p>使い方は「Ctrl+P」→「@シンボル名」です。@シンボル名は、検索に似た機能ですが、そのページでシンボルとして（意味として）使われているものがリストで表示されます</p>
+                  <img src="/assets/pic/vsc_401_ctrlp_02.png" alt="Ctrl+P" />
+                  <p><span
+                      class="emphasis is-underline">これは検索と似ているけど検索とは違います。@シンボル名は、シンボルとして使われているものだけがリストアップされます。</span>上記の例では、tocシンボルは7か所あるとリストアップされていますが、このページには文字列やコメント名にもtocがあるのですが、これらはリストアップされません。検索は、文字列としてtocを探すのでコメント文や文字列内でのtocも全部ヒットします。
+                  </p>
+                  <pre><code class="html">
+                  &lt;!-- 以下のtocは、リストアップされない --&gt;
+                  &lt;head&gt;
+                    ...
+                    &lt;meta name="breadcrumb" content="home:/index.html &gt; VSCode/便利:/pages/vscode/vsc_0ｓ00_index.html#toc400 &gt;"&gt;
+                    ...
+                  &lt;/head&gt;
+
+                  &lt;!-- 以下のtocも、リストアップされない --&gt;
+                  &lt;!-- toc20 --&gt;
+                  &lt;p&gt;hogeです。。。&lt;/p&gt;
+                  
+                  </code></pre>
+
+                  <p>この違いを理解していたら、この「@シンボル名」は結構使えると思います</p>
+                </li>
+                <li></li>
+              </ul>
+            </li>
+            <li>
+              <span id="toc25" class="font-large">エディタ内移動系のショートカットキー</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>HOME / END</td>
+                  <td>行頭・行末に移動</td>
+                  <td>Ctrl+← または Ctrl+→ と同じ</td>
+                </tr>
+                <tr>
+                  <td>Ctrl+HOME</td>
+                  <td>ファイルの先頭行に移動</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+END</td>
+                  <td>ファイルの末尾に移動</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+G</td>
+                  <td>☆指定行へジャンプ。ボックスが表示されコロンの後に行番号。コロンは削除不可</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+\</td>
+                  <td>★対応するかっこのペアへ移動、ジャンプする</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+            <li>
+              <span id="toc26" class="font-large">エディタ自体の操作系</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl+TAB</td>
+                  <td>★エディタタブ間の移動</td>
+                  <td>逆向きはCtrl+Shift+TAB（Ctrl+PageUp/PageDownでも可）</td>
+                </tr>
+                <tr>
+                  <td>Ctrl+\</td>
+                  <td>☆エディタを縦に分割</td>
+                  <td>コマンドパレットから「Close Editor Group」上下・左右のエディタグループを閉じる</td>
+                </tr>
+                <tr>
+                  <td>Ctrl+K, Ctrl+\</td>
+                  <td>☆エディタをよこに分割</td>
+                  <td>コマンドパレットから「Close Editor Group」上下・左右のエディタグループを閉じる</td>
+                </tr>
+                <tr>
+                  <td>Ctrl+数字</td>
+                  <td>☆分割エディタ間の移動 (1つのエディタ内でのタブ移動はCtrl+TAB)</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+W / Ctrl+F4</td>
+                  <td>★アクティブエディタタブを閉じる（全部のタブが閉じたらエディタが閉じる）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Alt+Z</td>
+                  <td>表示をウィンドウサイズで折り返す（1行が長いHTMLコード表示などでは使えると思う）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift++</td>
+                  <td>フォントサイズを拡大（Ctrl+Shift+- でフォントサイズを縮小）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+,（カンマ）</td>
+                  <td>設定を開く（GUIの設定。Settings.jsonではない）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+J</td>
+                  <td>パネルを開く。トグルなので開く・閉じるになる</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+U</td>
+                  <td>パネルの出力タブを開く。トグル</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td id="toc-editor-01"><a href="vsc_440_alertNumber.html">Ctrl+Shift+M</a></td>
+                  <td>パネルの問題タブを開く。トグル</td>
+                  <td style="color:red;">ファイル名の横に数字が出ている場合、それはワーニングやエラーがあることを示している。このショートカットキーでその一覧が表示される</td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+Y</td>
+                  <td>パネルののデバッグコンソールを開く。トグル</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+1（イチ）</td>
+                  <td>エディタグループ１を開く</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+数字</td>
+                  <td>エディタを縦に分割して開く</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+K, Ctrl+J</td>
+                  <td>グループ化されている行を全て開く</td>
+                  <td>逆は、Ctrl+K, Ctrl+0（全てのグループを閉じる（こっちはあんまり使わん）</td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+P</td>
+                  <td>コマンドパレットを開く</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+
+            <li>
+              <span id="toc27" class="font-large">サイドバー操作系</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl+0（ゼロ）</td>
+                  <td>サイドバーにフォーカス</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+B</td>
+                  <td>サイドバーの表示・非表示切替トグル</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+E</td>
+                  <td>サイドバーのエクスプローラを開く</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+D</td>
+                  <td>サイドバーのデバッグ画面を開く</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+G</td>
+                  <td>サイドバーのGitを開く</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+X</td>
+                  <td>サイドバーの拡張機能画面を開く</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+
+            <li>
+              <span id="toc28" class="font-large">アクティビティバー操作系</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+E</td>
+                  <td>アクティビティバーのエクスプローラービューを選択する</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+F</td>
+                  <td>アクティビティバーの検索を選択する。Ctrl+Fだとエディタ上の検索になる</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+G</td>
+                  <td>アクティビティバーのソース管理を選択する</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+D</td>
+                  <td>アクティビティバーの実行とデバッグを選択する</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+X</td>
+                  <td>アクティビティバーの拡張機能を選択する</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+
+            <li>
+              <span id="toc29" class="font-large">カレント行を基点とした操作</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl+ENTER</td>
+                  <td>カーソル行の下に1行空行を挿入する（Ctrl+Shift+ENTER でカーソル行の上に1行空行を挿入する）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+K </td>
+                  <td>カーソル行を削除（行を選んでDELキーよりも便利）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Alt+↑ / Alt+↓</td>
+                  <td>カーソル行を上または下に移動させる</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Alt+Shift+↑</td>
+                  <td>カーソル行を上にコピーする（行をコピーしてCtrl+Vするよりも便利）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+] / Ctrl+[</td>
+                  <td>カーソル行にインデントを入れる、カーソル行のインデントを削除する</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+C / Ctrl+X </td>
+                  <td>カーソル行をコピー または切り取る（★行範囲を指定しなくてもいい！）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+l（エル）</td>
+                  <td>カーソル行を選択する（選択しなくていいので便利）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+l,Ctrl+l,</td>
+                  <td>カーソル行以下を選択する（Shift+↓で選択するよりもクール）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+D（ディ） </td>
+                  <td>カーソル行の単語を選択。Ctrl+Dを連続してタイプすると同じ単語を選択する（置換時に便利）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>HOME / END</td>
+                  <td>行頭・行末に移動（Ctrl+← または Ctrl+→ と同じ）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+G</td>
+                  <td>☆指定行へジャンプ。ボックスが表示されコロンの後に行番号。コロンは削除不可</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+
+            <li>
+              <span id="toc2a" class="font-large">codeコマンド</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>code .</td>
+                  <td>VSCodeでカレントフォルダを開く</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>code .\hoge\file.txt</td>
+                  <td>VSCodeでhogeフォルダのfileを開く</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>code -d file1 file2</td>
+                  <td>VSCodeで file1 と file2 を比較表示する</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>code -v</td>
+                  <td>バージョン表示（GUIだと、三点リーダ -&gt; ヘルプ -&gt; バージョン情報）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>code -h</td>
+                  <td>コマンドヘルプ</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+
+            <li>
+              <span id="toc2b" class="font-large">コマンドパレット</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>コマンドパレットを開く</td>
+                  <td>Ctrl+Shift+P</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Settings.Jsonを開く</td>
+                  <td>Preferences: Open User Settings（Preferences:はジャンルを示す接頭語）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>全てのブレークポイントを閉じる</td>
+                  <td>Remove All Breakpoints（ジャンルを示す接頭語は無い）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>更新情報を確認する</td>
+                  <td>Code: Check for Updates</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+
+            <li>
+              <span id="toc2c" class="font-large">その他操作系</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl+T</td>
+                  <td>★ターミナルへ移動（自分のカスタマイズ環境のみ）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+1(イチ)</td>
+                  <td>★エディタへ移動</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+@</td>
+                  <td>パネルの表示・非表示（トグル）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+PgUp</td>
+                  <td>ターミナルの切替（複数ターミナル起動時）。トグル動作、Ctrl+PgDnも同様</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+
+            <li>
+              <span id="toc2d" class="font-large">検索、置換</span>
+              <table class="custom-table">
+                <tr>
+                  <th>ショートカットキー名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl+F</td>
+                  <td>エディタ内の検索</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+H</td>
+                  <td>エディタ内の置換</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+F</td>
+                  <td>フォルダ、ワークスペース全体の検索</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl+Shift+H</td>
+                  <td>フォルダ、ワークスペース全体の置換</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

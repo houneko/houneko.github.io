@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Launch.json | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Launch.jsonはVSCodeでデバッグする時の動作を定義する設定ファイルです。それは知っているけど何を書けばいいの？という話を書いています">
+<meta name="keywords" content="VSCode,設定,Launch.json">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,設定,Launch.json">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/設定:/pages/vscode/vsc_000_index.html#toc120 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        Launch.jsonとは
+      </h1>
+
+      <!-- HOUTBD article1 -->
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Launch.jsonとは</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">Launch.jsonとは</h3>
+          <p>launch.jsonは、VSCodeでデバッグする時の動作を定義する設定ファイルです。F5キーでRunする時に参照されます</p>
+          <p>launch.jsonは、ワークスペースのルート直下にある「.vscode」フォルダ内に作成されます</p>
+          <ul class="no-marker">
+            <li>
+              <span>作成手順</span>
+              <ol>
+                <li>VSCodeのサイドバーで実行とデバッグをクリック（or Ctrl+Shift+D）</li>
+                <li>launch.jsonファイルを作成をクリック</li>
+                <li>デバッグ環境を指定（C++、Node.js、Python、…）</li>
+              </ol>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">Launch.jsonの設定例</h3>
+          <p>configurations（複数形）がデバッグ設定のキー。キーの値は配列になっていて各配列要素が各言語の設定になっています。以下の例は、PowerShellとCのデバッグ設定です</p>
+          <p>
+            この例は1つのlaunch.json内で複数言語のデバッグ設定を定義していますが、開発言語がいっぱい増えてくるとlaunch.jsonも言語毎に分けた方がいいかもしれません（PowerShell開発フォルダ、C言語開発フォルダ、・・の下にそれぞれ用の<a
+              href="vsc_125_dotvscode.html">.vscodeフォルダ</a> を作成してそれぞれ用のlaunch.jsonを定義したほうがいい）</p>
+          <pre><code class="json">
+          {
+            "version": "0.2.0",
+            "configurations": [
+              {
+                /* こっちがPowerShellのデバッグ設定 */
+                "name": "PowerShell: Launch Current File",
+                "type": "PowerShell",
+                "request": "launch",
+                "script": "${file}",
+                "args": []
+              },
+              {
+                /* こっちがCのデバッグ設定 */
+                "name": "C Debug (gcc)",
+                "type": "cppdbg",
+                "request": "launch",
+                "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "cwd": "${fileDirname}",
+                "MIMode": "gdb",
+                "miDebuggerPath": "C:/Program Files/mingw64/bin/gdb.exe",
+                "externalConsole": false,
+                "preLaunchTask": "build c"
+              }
+            ]
+          }    
+          </code></pre>
+          <table class="custom-table">
+            <caption>launch.jsonの各設定キーと意味</caption>
+            <tr>
+              <th>キー名</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>デバッガラベル名（わかりやすい名前でいい）。F5を押下した時に表示される名前</td>
+            </tr>
+            <tr>
+              <td>type</td>
+              <td>デバッグアダプタ名</td>
+            </tr>
+            <tr>
+              <td>request</td>
+              <td>launchは、新しくデバッグ開始</td>
+            </tr>
+            <tr>
+              <td>program</td>
+              <td>実行モジュール名（exeファイル名とか）</td>
+            </tr>
+            <tr>
+              <td>cwd</td>
+              <td>実行時のカレントディレクトリ</td>
+            </tr>
+            <tr>
+              <td>MIMode</td>
+              <td>デバッガモード</td>
+            </tr>
+            <tr>
+              <td>miDebuggerPath</td>
+              <td>デバッガ本体へのフルパス</td>
+            </tr>
+            <tr>
+              <td>externalConsole</td>
+              <td>tureなら外部コンソール、falseならVSCodeのターミナル</td>
+            </tr>
+            <tr>
+              <td>preLaunchTask</td>
+              <td><a
+                  href="vsc_126_tasksjson.html">tasks.json</a>で定義している実行名（ラベル）。これを定義していた場合、tasks.jsonのlabelで指定しているタスクが実行される
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">type、MIModeの違い</h3>
+          <p>まず、「miDebuggerPath」キーは分かる。これはまさにデバッガ本体のフルパスを指定している。</p>
+          <p>最初分からなかったのは、「type」キーと「MIMode」キーの違いです。</p>
+          <p>
+            いろいろ調べてみると、VSCodeのデバッグは階層構造になっていて、デバッガ本体のフルパスを指定したらいいというものではないという事です（これは、VSCodeが特定の言語のエディタではなく、IDEのようデバッグ機能も持たないからだと思います。これらは拡張機能と設定で賄うようにして自由度がある設計になっているのだと思います）
+          </p>
+          <p class="underline">typeキー</p>
+          <p>typeが指定するのは、デバッグアダプタの種類です。デバッグアダプタは拡張機能としてVSCodeに組み込まれます（C言語の場合、C/C++
+            Extension拡張機能をインストールするとcppdbg、cppvsdbgが使えるようになる）。デバッグアダプタは、VSCode上のユーザデバッグ指示を、MIModeで指定されたプロトコルに変換してデバッガに渡すという役割を行っています
+          </p>
+          <p>typeは、デバッグ時にVSCodeが誰と話をするかを指定しているということです</p>
+          <p class="underline">MIModeキー</p>
+          <p>
+            デバッグの方式・プロトコルはいくつかあり、どれにするかを指定します。例えばGNU方式だとgdb、LLVM方式だとlldbがあります。これもデバッガ本体ではなくデバッグアダプタにどのプロトコルでデバッグ指示を翻訳（MI：Machine
+            IF。SW間でデバッグ指示をやり取りする）するかを指定する</p>
+        </section>
+        <pre><code class="txt">
+        イメージ例
+        ユーザがF10でステップ実行
+          ↓
+        VSCodeがデバッグアダプタに以下のような指示を渡す
+              {
+                "command": "next"
+              }
+          ↓
+        デバッグアダプタはMIモードのプロトコルで変換
+              -exec-next（これがMI：MachineIF。人間のデバッグとは違う）
+          ↓
+        デバッガ本体がデバッグ指示を実行
+        </code></pre>
+
+        <section>
+          <p>参考になるページ</p>
+          <ul>
+            <li>
+              <p>launch.jsonを特集した記事で詳細まで詳しく説明しているページ</p>
+              <a href="https://qiita.com/ktdatascience/items/b24108a5f09f70eb2a79"
+                target="_blank">VSCodeデバッグを劇的に効率化｜launch.jsonの正しい使い方</a>
+            </li>
+            <li>
+              <p>VSCode 開発の心臓部！「tasks.json」と「launch.json」の役割を世界一わかりやすく解説</p>
+              <a href="https://nakaterux.hatenablog.com/entry/2026/05/02/193939" target="_blank">なんちゃってプログラマーの日記</a>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

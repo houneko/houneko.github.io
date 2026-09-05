@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>VSCodeのEmmet表記 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeのEmmet表記についての章です。Emmetとは何か？Emmet表記で何が便利になるのかを書いています。自分はスクラッチで書くのが好きなのでEmmetがあるのと無いので全然違います。関西の人には通じると思いますが、「Emmetがある時ぃ～、Emmetが無い時ぃ～」って感じです">
+<meta name="keywords" content="VSCode,VSCodeのEmmet表記,Emmet表記とは,スケルトンコード,タグの展開,タグのコンテンツ入力,タグの属性入力,複数回繰り返し入力,scriptタグのEmmet">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,Emmet表記">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/設定:/pages/vscode/vsc_000_index.html#toc200 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        VSCodeのEmmet表記
+      </h1>
+      <!-- 目次 -->
+      <details class="toc-parent">
+        <summary>目次（Table-of-Contents）開/閉</summary>
+        <ol>
+          <li><a href="#toc10">VSCodeのEmmet表記</a></li>
+          <ol class="toc-child">
+            <li><a href="#toc11">Emmet表記とは</a></li>
+            <li><a href="#toc12">HTMLのスケルトンコード</a></li>
+            <li><a href="#toc13">タグの展開</a></li>
+            <ol class="toc-child">
+              <li><a href="#toc13a">タグの展開（class指定付き）</a></li>
+              <li><a href="#toc13b">タグの展開（id指定付き）</a></li>
+              <li><a href="#toc13c">タグの展開（class指定とid指定付き）</a></li>
+              <li><a href="#toc13d">タグの展開（タグの入れ子展開）</a></li>
+              <li><a href="#toc13e">タグの展開（タグの兄弟展開）</a></li>
+            </ol>
+            <li><a href="#toc14">タグのコンテンツ（テキスト）入力のEmmet</a></li>
+            <li><a href="#toc15">タグの属性入力のEmmet</a></li>
+            <li><a href="#toc16">複数個繰り返し入力のEmmet</a></li>
+            <li><a href="#toc17">scriptタグのEmmet</a></li>
+          </ol>
+        </ol>
+      </details>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">VSCodeのEmmet表記</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">Emmet表記とは</h3>
+          <p>
+            Emmet（エメット）とは、昔ZenCodingと呼ばれていた省略記法で、定義されている短いコードを入力すれば、本当のコードに展開される機能。VSCodeでは標準実装されており、例えばHtmlファイルの場合「!」を入力してリターンすると、Htmlの定型構造に展開されます（Emmetを初めて使ったのが「!」だったが、えぇーとなった記憶がある）
+          </p>
+          <p>Emmetは主にHTML用だが、CSSやJavaScriptでも対応している表記があるらしい（が割愛）。Emmetを使いこなすとHTMLコードは爆速でコーディングできるようになります</p>
+          <p>自分はスクラッチで書くのが好きなのでEmmetがあるのと無いので全然違います。関西の人には通じると思いますが「Emmetがある時ぃ～、Emmetが無い時ぃ～」って感じです</p>
+          <a href="https://emmet.io/" target="_blank">Emmet公式</a>
+        </section>
+        <section>
+          <!-- Htmlのスケルトン -->
+          <h3 id="toc12" class="h3chapter underline">HTMLのスケルトンコード</h3>
+          <p>Emmet表記: ! <br />HTMLファイル（*.html）で、「!」と入力してリターンすると以下のコードに展開される</p>
+          <pre><code class="html">
+          &lt;!DOCTYPE html&gt;
+          &lt;html lang="ja"&gt;
+          &lt;head&gt;
+          &lt;meta charset="UTF-8"&gt;
+          &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+          &lt;title&gt;Document&lt;/title&gt;
+          &lt;/head&gt;
+          &lt;body&gt;
+        </code></pre>
+          <p><span class="marker-underline">※lang="ja"の部分は、デフォルトだと「en」になっている。これを毎回手で修正するのは大変なので「ja」で展開されるようにする方法</span>
+          </p>
+          <p>コマンドパレット（Ctrl+Shift+P）から、Settings.json（Open User Settings）を開き以下の設定にする</p>
+          <pre><code class="json">
+        "emmet.variables": {"lang": "ja"},
+        </code></pre>
+        </section>
+        <section>
+          <!-- タグの展開1 -->
+          <h3 id="toc13" class="h3chapter underline">タグの展開</h3>
+          <p>Emmet表記: タグ名リターン <br />例えば、h2と入力してリターン。開始タグと閉じタグのコードに展開される</p>
+          <pre><code class="html">
+        &lt;h2&gt;&lt;/h2&gt;
+        </code></pre>
+        </section>
+        <section>
+          <!-- タグの展開2 div class="hoge" -->
+          <h3 id="toc13a" class="h3chapter underline">タグの展開（class指定付き）</h3>
+          <p>Emmet: タグ名.クラス名
+            リターン<br />「.」ドットでタグ名とクラス名をつないでEmmet入力する。つまりタグに対するクラス名を同時に指定する場合、タグ名ドットクラス名で指定する。例えば、divタグにmy-classクラスを指定するEmmetの場合、div.my-class
+            リターンすると以下のコードに展開される</p>
+          <pre><code class="html">
+        &lt;div class="my-class"&gt;&lt;/div&gt;
+        </code></pre>
+        </section>
+        <section>
+          <!-- タグの展開3 h4 id="hoge" -->
+          <h3 id="toc13b" class="h3chapter underline">タグの展開（id指定付き）</h3>
+          <p>Emmet: タグ名#id名 リターン<br />「#」でタグ名とid名をつないでEmmet入力する。例えば、divタグにmy-idを指定するEmmetの場合、div#my-id
+            リターンすると以下のコードに展開される</p>
+          <pre><code class="html">
+        &lt;div id="sample-id"&gt;&lt;/div&gt;
+        </code></pre>
+        </section>
+        <section>
+          <!-- タグの展開5 タグのクラスとid属性展開 -->
+          <h3 id="toc13c" class="h3chapter underline">タグの展開（class指定とid指定付き）</h3>
+          <p>Emmet: タグ名.クラス名#id名 リターン<br />ドットと#でタグ名にクラス属性とId属性をEmmet指定する。</p>
+          <pre><code class="html">
+        &lt;!-- 例）div.neko#usagi --&gt;
+        &lt;div class="neko" id="usagi"&gt;&lt;/div&gt;
+        </code></pre>
+        </section>
+        <section>
+          <!-- タグの展開6 タグの入れ子展開 -->
+          <h3 id="toc13d" class="h3chapter underline">タグの展開（タグの入れ子展開）</h3>
+          <p>Emmet: タグ1&gt;タグ2&gt;・・・タグ&gt;<br />タグを「&gt;」でつないで記述する。例）p&gt;div&gt;a</p>
+          <pre><code class="html">
+        &lt;p&gt;
+          &lt;div&gt;&lt;a href=""&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;/p&gt;
+        </code></pre>
+        </section>
+        <section>
+          <!-- タグの展開6 タグの兄弟展開 -->
+          <h3 id="toc13e" class="h3chapter underline">タグの展開（タグの兄弟展開）</h3>
+          <p>Emmet: タグ1+タグ2+・・・タグN <br />タグを「+」でつないで記述する。<br>例）p{ねこですよ}+img[src="neko.jpg" alt="picture"]</p>
+          <pre><code class="html">
+        &lt;p&gt;ねこですよ&lt;/p&gt;
+        &lt;img src="neko.jpg" alt="pic"&gt;
+        </code></pre>
+        </section>
+        <section>
+          <!-- テキスト入力 -->
+          <h3 id="toc14" class="h3chapter underline">タグのコンテンツ（テキスト）入力のEmmet</h3>
+          <p>Emmet: タグ{テキスト文字・・・}<br />「{}」波かっこでタグのコンテンツを囲んで指定する。例えば、pリターンで
+            &lt;p&gt;&lt;/p&gt;をEmmet展開してからpのコンテンツを入力してもいいが、書く内容が決まっていたらこちらの方が素早く記述できると思う。</p>
+          <p>例）p{猫ですよ}</p>
+          <pre><code>
+        &lt;p&gt;猫ですよ&lt;/p&gt;
+        </code></pre>
+        </section>
+        <section>
+          <!-- 属性入力 -->
+          <h3 id="toc15" class="h3chapter underline">タグの属性入力のEmmet</h3>
+          <p>Emmet: タグ[属性A ="hoge"] [属性B="fuga"]...</p>
+          <p>例）img [src="neko.jpg"][alt="ねこの写真"]</p>
+          <pre><code>
+        &lt;img src="neko.jpg" alt="ねこの写真"&gt;
+        </code></pre>
+          <p>Emmet: タグ[属性A 属性B ...]</p>
+          <p>例）button[type onclick]</p>
+          <pre><code>
+        &lt;!-- button[type onclick] と入力すると、以下にEmmet展開される --&gt;
+        &lt;button type="" onclick=""&gt;&lt;/button&gt;
+        </code></pre>
+        </section>
+        <section>
+          <!-- 複数個繰り返し入力 -->
+          <h3 id="toc16" class="h3chapter underline">複数個繰り返し入力のEmmet</h3>
+          <p>Emmet: タグ1&gt;タグ2*N</p>
+          <p>例）div.child-item*2</p>
+          <pre><code>
+        &lt;div class="child-item"&gt;&lt;/div&gt;
+        &lt;div class="child-item"&gt;&lt;/div&gt;
+        </code></pre>
+        </section>
+        <section>
+          <!-- scriptタグ -->
+          <h3 id="toc17" class="h3chapter underline">scriptタグのEmmet</h3>
+          <p>Emmet: script:src<br />「script」「:」コロン、「src」と入力してリターン</p>
+          <pre><code>
+        &lt;script src=""&gt;&lt;/script&gt;
+        </code></pre>
+        </section>
+        <section>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

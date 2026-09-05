@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>マルチカーソル | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeのマルチカーソル機能とは？マルチカーソルの使い方を説明している章です。マルチカーソルは使いこなすと結構便利と思いますし、VSCodeっぽい機能と思います">
+<meta name="keywords" content="VSCode,マルチカーソル">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,VSC">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/便利な使い方:/pages/vscode/vsc_000_index.html#toc400 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        便利機能: マルチカーソル
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">マルチカーソル</h2>
+          <h3 id="toc11" class="h3chapter underline">マルチカーソルとは</h3>
+          <p>マルチカーソルは、VSCodeの機能で複数箇所を同時に編集できる便利な機能。マルチカーソルを使うと（場合によっては）効率的なコーディングができると思います</p>
+          <p>
+            マルチカーソルは、任意の位置に複数のカーソルを作り同じ編集を一気に行うことができます。編集内容によっては、正規表現やキーマクロ（VSCodeには無いけど）でも同様な事ができると思いますが、使いこなせばマルチカーソルの方がいいかもしれません
+          </p>
+          <p>また、マルチカーソルを使う拡張機能の<a href="vsc_221_Extensions.html#toc40">Insert Numbers</a>を使えば連番を付けるのがすごく楽になります</p>
+          <h3 id="toc14" class="h3chapter underline">マルチカーソルの使い方</h3>
+          <p>マルチカーソルは編集対象によっていくつかの使い方があります</p>
+          <ul class="no-marker">
+            <li>
+              <span style="font-weight:bold;">方法1：「Alt+左クリック」</span>
+              <p>
+                規則性がない位置にマルチカーソルを付ける場合はこの方法になるかなと思います。マウスと一緒に操作するのでキーボードから手を離さないといけないのでちょっと不便。桁位置が揃っている場合は後述のCtrl+Alt+↓の方が素早くマルチカーソルをつけることができる
+              </p>
+              <p>以下の例は「|」カーソルが各行ばらばらの位置にできている</p>
+              <img src="/assets/pic/vsc_420_mc_01.png" alt="multicursor" />
+            </li>
+            <li>
+              <span style="font-weight:bold;">方法2：「Ctrl+Alt+↓」</span>
+              <p>この方法は桁位置がそろっている所にマルチカーソを付ける場合に向いています「Alt+左クリック」は1つずつ指定しないといけないけど、この方法はキーボードだけで連続して指定できるので速く設定できます</p>
+              <p>以下の例は「|」カーソルが各行で同じけた位置にできている</p>
+              <img src="/assets/pic/vsc_420_mc_02.png" alt="multicursor" />
+            </li>
+            <li>
+              <span style="font-weight:bold;">方法3：「Ctrl+→、Ctrl+←」</span>
+              <p>この方法は現在のマルチカーソル位置を行末（Ctrl+→ またはHOMEキー）、行頭（Ctrl+← またはENDキー）に移動させます</p>
+              <p>以下の例は「|」カーソルが各行末に移動している</p>
+              <img src="/assets/pic/vsc_420_mc_03.png" alt="multicursor" />
+            </li>
+            <li>
+              <span style="font-weight:bold;">方法4：「Ctrl+D」</span>
+              <p>「Ctrl+D」は今カーソル位置にある単語を選択するショートカットキー。例えば、$buffer
+                という単語上にカーソルがある状態で「Ctrl+D」をするとこの単語が選択された状態になる。この後でもう一度「Ctrl+D」とすると次の$bufferも選択されマルチカーソルが作られます</p>
+              <p>以下の例は「|」カーソルが$bufferというキーワードにのみついている</p>
+              <img src="/assets/pic/vsc_420_mc_04.png" alt="multicursor" />
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Launch.json | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="１つのLaunch.jsonに複数の言語のデバッグ設定を書いた時どうなるかの振る舞いについて書いた章です。launch.jsonは複数言語のデバッグ設定を書くことができますが、デバッグする言語に自動的に追従することはできません。それってどういう事？">
+<meta name="keywords" content="VSCode,設定,Launch.json">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,設定,Launch.json,複数言語のデバッグ設定">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/設定:/pages/vscode/vsc_000_index.html#toc120 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        複数の言語のデバッグ設定を書いたLaunch.json
+      </h1>
+
+      <!-- HOUTBD article1 -->
+      <article>
+        <h2 id="toc10" class="h2chapter-title">複数の言語のデバッグ設定を書いたLaunch.json</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">複数の言語のデバッグ設定を書いたLaunch.json</h3>
+          <p>
+            launch.jsonは、VSCodeでデバッグする時の動作を定義する設定ファイルです。この時、複数言語のデバッグ設定を1つのlaunch.jsonに書くごとができます（Configurationsキーの値を配列にして複数のバリューを設定したらいい）
+          </p>
+          <p>以下が開発環境として、この時の注意事項です</p>
+          <pre><code class="pwsh">
+          # 自分の開発環境
+          My
+          ├ .vscode
+          │   └ launch.json
+          ├ 01_SW_Code
+          │   ├ 10_Code
+          │   │   ├ C
+          │   │   ├ PowerShell
+          │   │   ├ other lang.・・・
+          </code></pre>
+          <p>また、launch.jsonは「C」と「Powershell」のデバッグ設定が書かれているとします</p>
+          <pre><code class="json">
+          {
+            "version": "0.2.0",
+            "configurations": [
+              {
+                "name": "PowerShell: Launch Current File",    // こっちがPowerShell
+                "type": "PowerShell",
+                "request": "launch",
+                "script": "${file}",
+                "args": []
+              },
+              {
+                "name": "C Debug (gcc)",                      // こっちがCのデバッグ設定
+                "type": "cppdbg",
+                "request": "launch",
+                "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "cwd": "${fileDirname}",
+                "MIMode": "gdb",
+                "miDebuggerPath": "C:/Program Files/mingw64/bin/gdb.exe",
+                "externalConsole": false,
+                "preLaunchTask": "build c"
+              }
+            ]
+          }          
+          </code></pre>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">発生した問題というか疑問、および対応</h3>
+          <p>今、Cの開発を行いF5キーでステップ実行しデバッグを行いました。無事デバッグが終わり次にPowerShellのモジュール開発を始めました</p>
+          <p>PowerShellのモジュールでF5キーで実行させたところ「Cのデバッガが始まってしまった」という問題です</p>
+          <p>これは何故か？<span class="emphasis">launch.jsonに複数言語のデバッグ設定を書いていても各言語の設定が自動的に選択されない</span>ということが原因です。<br />
+            当初、このlaunch.jsonに複数のデバッグ設定を書いておけばそこに書いている言語をデバッグ実行したら自動的に対応する言語のデバッグ設定が使われると思っていました
+          </p>
+          <p>
+            しかし、launch.jsonは今の開発言語に合わせてデバッグ設定を変えるという事はできません。そういう機能は無いということです。代わりにというわけではないですが、前のデバッグ設定は覚えているので「C言語のデバッグ設定」をPowerShellのモジュールのデバッグに使ってしまったというわけです。<br />じゃどうすんの？
+          </p>
+          <p>答え：以下のように、手動でデバッグ設定を変更すればいいです</p>
+          <ol class="two-digit">
+            <li>
+              <span>Ctrl+Shift+Dでデバッグ画面を開く</span>
+            </li>
+            <li>
+              <span>今の言語用のデバッグ設定を選択する</span>
+              <p>以下のようにデバッグ設定をプルダウンから、今デバッグしたい言語の設定に変更すればいいです</p>
+              <img src="/assets/pic/vsc_125_launchjson_01.webp" alt="デバッグ設定の変更" />
+            </li>
+          </ol>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

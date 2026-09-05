@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description"
+    content="VSCodeのタブキーのサイズ（スペースキー何個分）を指定しているのに、なぜかそのサイズと違うインデントが入るという謎現象が起きる場合があります。その原因と対応方法について記載しています">
+  <meta name="breadcrumb" content="ホーム:/index.html > VSCode/現場の疑問:/pages/vscode/vsc_000_index.html#toc500 >">
+  <title>Tabサイズ | HouNeko</title>
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        タブのインデント数が指定値と違う
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">タブのインデント数が指定値と違う</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">現象の概要</h3>
+          <p>この現象は、あるページ（A.html）ではタブキー押下時のインデントがスペース2個分だけど、別のページ（B.html）ではタブキー押下でスペース4個分のインデントが入るというような現象です</p>
+          <p>この時のSettings.jsonの設定は以下のようになっており、エディタのタブサイズは2となっています</p>
+          <p>当初、自分はこの設定が支配的な設定であり、tabSizeを2にしていたら絶対2になると思っていたので、しばらく「何でやねん」とぼやいていました</p>
+          <pre><code class="json">
+          "editor.tabSize": 2,  
+          </code></pre>
+          <h3 id="toc12" class="h3chapter underline">原因</h3>
+          <p>この原因は、別のページ（B.html）は以前作った時に4タブで書いていたことが原因でした。</p>
+          <p><span class="emphasis">VSCodeはインデントを自動検出する機能があり</span>、これによりB.htmlファイルのインデントを検出して「4」だから4タブで動作していたということです
+          </p>
+          <p>インデント自動検出の設定の方が、editor.tabSizeの設定より優先されるので、editor.tabSize:2 としていても自動検出したタブサイズ4が優先されていたということです</p>
+          <p>
+            インデント自動検出の設定は、「"editor.detectIndentation"」です。自分のSettings.jsonにはこのキーは設定していないのですが、このデフォルト値はTrueなので、暗黙的に自動検出オンになっているというのも気づきにくかった要因です
+          </p>
+          <pre><code class="json">
+          //インデント自動検出
+          "editor.detectIndentation": false,
+          </code></pre>
+
+          <h3 id="toc13" class="h3chapter underline">対応方法</h3>
+          <p>Settings.jsonに以下の設定を行うことで、タブの自動検出をディセーブルにして、タブサイズを一定にすることができます</p>
+          <pre><code class="json">
+          //インデント自動検出はしない
+          "editor.detectIndentation": false,
+          //タブキー押下はスペースを入力する（この設定もしておく）
+          "editor.insertSpaces": true,
+          //タブサイズはスペース2個分
+          "editor.tabSize": 2
+          ・・・
+          ・・・
+          //各言語毎に上書きすることもできる
+          "[python]": {
+            "editor.tabSize": 4
+          }
+          </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

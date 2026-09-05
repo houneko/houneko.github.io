@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Settings.json | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Settings.jsonはVSCodeの設定内容が書かれている設定ファイルです">
+<meta name="keywords" content="VSCode,設定,Settings.json">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,設定,Settings.json">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/設定:/pages/vscode/vsc_000_index.html#toc120 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        Settings.json
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Settings.json</h2>
+        <section>
+          <p>Settings.jsonは、VSCodeの設定内容が書かれている設定ファイルです。なのでGUIの<a href="vsc_121_setting.html">「設定」</a>
+            から行うよりこのファイルを直接編集した方がはやい</p>
+
+          <h3 id="toc11" class="h3chapter underline">まずはjsonって何から</h3>
+          <p>jsonは「JavaScript Object
+            Notation」の略で、設定を記述したりソフトウェア間でデータ交換したりするため構造化されたデータ形式のこと。名前の通りJavaScriptが起源でJavaScriptで使っている書き方を使っています。しかしJavaScriptだけではなくいろいろな言語でサポートされています（つまりそれだけ使いやすいし優れたフォーマットってことなんやろう）
+          </p>
+          <ol class="two-digit">
+            <li>
+              <span class="is-bold">キー：バリューのペアで記述する</span>
+              <p>"キー": バリュー, のペアで記述します。<span
+                  class="emphasis">キーは必ずダブルクォーテーションで囲みます。</span>キーとバリューは「:（コロン）」で区切り、このペアセットが複数ある場合は「,（カンマ）」で区切ります</p>
+            </li>
+            <li>
+              <span class="is-bold">軽量、シンプル</span>
+              <p>テキスト形式で記述されるデータで、軽くてシンプルな構造</p>
+            </li>
+            <li>
+              <span class="is-bold">人間にも機会にもやさしい</span>
+              <p>シンプルな構造のため人が見ても大体わかる（xmlだとぱっとわからん）、ソフトウェアが見てもパースしやすい</p>
+            </li>
+            <li>
+              <span class="is-bold">コメント不可</span>
+              <p>基本的に<span class="emphasis">コメント文は使えません</span>（データだから当たり前か）</p>
+            </li>
+            <li>
+              <p>サンプル例</p>
+              <pre><code class="json">
+                {
+                  "name": "HouNeko",                    // Stringデータ
+                  "age": 100,                           // Numberデータ
+                  "isHuman": false,                     // Booleanデータ
+                  "favorite": ["Programming", "Neko"],  // Arrayデータ（配列も使える）
+                  {                                     // Objectデータ（Json内にjsonも可能）
+                    "phone": "secret",
+                    "address": "secret"
+                  }
+                }
+                </code></pre>
+            </li>
+          </ol>
+          <p>自分の感覚では、XMLより簡単でCSVより自由度や表現力が高いって感じです（CSVは一番原始的な構造で軽いがデータの追加や削除に激弱）</p>
+
+
+          <h3 id="toc12" class="h3chapter underline">Settings.jsonの開き方</h3>
+          <ol>
+            <li><a href="vsc_120_cmdpalette.html">コマンドパレット（Ctrl+Shift+P）</a>を起動する</li>
+            <li>
+              <spane class="marker"><strong>「open user settings」</strong></spane>と入力して、Settings.jsonを検索して、開く
+            </li>
+          </ol>
+
+          <h3 id="toc14" class="h3chapter underline">Settings.jsonはどこにあるの？</h3>
+          <p>Settings.jsonは、%AppData%\Code\User\Settings.json にあります</p>
+          <p class="emphasis">※上記はVSCode全体のSettings.jsonファイル。フォルダ毎に<a
+              href="vsc_125_dotvscode.html">.vscodeフォルダ</a>がありその中にもSettings.jsonがあります。名前は同じですが別々の設定です。.vscode内のSettings.jsonはそのプロジェクト固有の設定、ユーザプロファイルにあるSettings.jsonはVSCode全体の設定です
+          </p>
+          <pre><code class="powershell">
+    PS&gt; Get-ChildItem $env:AppData\Code\User
+    Mode           LastWriteTime         Length Name
+    ----           -------------         ------ ----
+    ...            ...                   ...    ...
+    ...            ...                   ...    ...
+    -a---          yyyy/mm/dd hh:mm      xxxxx  settings.json   # ← これ    
+    </code></pre>
+
+          <h3 id="toc16" class="h3chapter underline">Settings.jsonのコメントのわな</h3>
+          <p>
+            <span
+              class="marker">Settings.jsonの設定は自分には分かりにくく、設定値の意味などをコメントを書いていました。この時、Jsonはコメントが無いデータ構造なので、VSCodeのsettings.jsonは特別なのかなとは思ったことがあったのですが、現状コメントが書けていたのでそれ以上は気にしていませんでした。</span>
+          </p>
+          <p>
+            この運用だと、例えばコマンドパレットで設定を変更して保存しようとする時に失敗してしまうことが起きることがあります。settings.jsonを見てもエラーや警告等は出ていないので気づきにくいですが、このコメントが悪影響を与えている可能性があります。
+          </p>
+          <p>
+            どういうことかというと、<span class="marker">settings.jsonは人間見えには「JSONIC」で書かれていて、内部でjsonファイルになっています（だからコメントが書ける）</span>
+            つまり、コマンドパレットで設定を変更して保存する時に、JSONICがjsonで保存されます。この時、変なところにコメント文があると、jsonへの変換が失敗して保存できないという現象になります。
+          </p>
+          <pre><code class="json">
+            ...
+    "window.activeBorder": "#fc11c1", // アクティブウィンドウ枠線の色   ← 行末にコメントがあると失敗する可能性がある
+    "window.inactiveBorder": "#9dee9d", // 非アクティブウィンドウの枠線の色   ← 〃
+            ...
+    "editor.fontsize": 14
+    //Tabサイズ             ← 設定の途中でコメントがあると失敗する可能性がある
+    "editor.tabsize": 2
+            ...
+          </code></pre>
+          <p>
+            このため、settings.json（JSONIC）にコメントを書く場合は、複数行にまたがるようなコメントブロックはファイルの先頭にまとめて、途中のコメントはそのブロックの前に1行程度で書くようにする。または、settings.jsonにはコメントを一切入れずに、別のテキストファイルを用意して、そのsettings.json内容を書いておくような運用にする（この場合、2つのファイルを管理するので整合性がずれてしまう可能性があるので、settings.jsonの先頭にコメントを集約する書き方の方がいいと思う）
+          </p>
+
+
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

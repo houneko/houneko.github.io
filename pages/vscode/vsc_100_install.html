@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>VSCのインストール | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeをインストール、日本語化し使えるところまでの説明ページです">
+<meta name="keywords" content="VSCode,インストール,日本語化">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,インストール">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/基本:/pages/vscode/vsc_000_index.html#toc100 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        VSCodeのインストールと日本語化
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">VSCodeのインストール</h2>
+          <p>VSCodeのインストールといっても他のアプリケーションのインストールと大きな違いはなく、インストーラをダウンロードしてウィザードに従ってステップを進めるだけ。<br /><a
+              href="https://code.visualstudio.com/" target="_blank">VSCodeのインストーラ</a></p>
+          <img src="/assets/pic/vsc_install_01.png" alt="インストール" />
+          <p>ダウンロードページはいくつかあるようで、<a href="https://code.visualstudio.com/download"
+              target="_blank">ここ</a>からダウンロードすると以下のように「User Install」と「System Install」を選ぶようになっています</p>
+          <img src="/assets/pic/vsc_install_03.png" alt="インストール2" />
+          <p>どっちをDLしたらいいの？と思ったので、一応違いをメモしておくと、以下のようになっています。</p>
+          <p>なので、1人でPCを占有するならどちらでもいいと思うけど、複数人でPCを共有しているような場合はUser Installの方がいいのかな</p>
+          <ul>
+            <li>User Install
+              <p>ユーザ毎のフォルダにインストールされる。<br />C:\Users\xxx\AppData\Local\Programs\Microsoft VS Code</p>
+            </li>
+            <li>System Install
+              <p>システムドライブのProgram Filesにインストールされる。<br />C:\Program Files\Microsoft VS Code</p>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2 id="toc20" class="h2chapter-title">VSCodeの日本語化</h2>
+          <p>インストール後は日本語化しておくと便利（そのまま使ってもいい。むしろ英語ができる人はこっちの方がいい）。日本語化は拡張機能としてMicrosoftが提供しているので、以下の手順で日本語化する</p>
+          <ol>
+            <li>拡張機能を開く（Ctrl+Shift+X）</li>
+            <li>Japaneseというキーワードで検索
+              <p>いくつか見つかった場合「Microsoft」のものを選び、インストールをクリックする</p>
+              <img src="/assets/pic/vsc_install_02.png" alt="日本語化" />
+            </li>
+          </ol>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

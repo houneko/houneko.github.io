@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ウェルカムページを表示しない | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeのウェルカムページを表示しないようにする話です">
+<meta name="keywords" content="VSCode,ウェルカムページ">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,UI">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/基本:/pages/vscode/vsc_000_index.html#toc100 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        ウェルカムページを表示しない
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">ウェルカムページを表示しない</h2>
+          <h3 id="toc12" class="h3chapter underline">GUIで設定する</h3>
+          <p>VSCodeを起動するとウェルカムページが表示されます。すぐコードを書きたいという時はうざいのでこの表示をしないように設定しておくという話です。といってもチェックボックスにチェックを外すだけですが。。</p>
+          <div class="text">
+            <img src="/assets/pic/vsc_welcome.png" alt="welcome page" class="image-float" />
+            <p><br />下部の「起動時にウェルカムページを表示する」のチェックを外す</p>
+            <p><br />非表示にしたウェルカムページをもう一度見たい時は、メニューのヘルプ→ようこそ で表示されます</p>
+          </div>
+        </section>
+        <section>
+          <h3 id="toc14" class="h3chapter underline">Settings.jsonで設定する</h3>
+          <ol>
+            <li><a href="vsc_120_cmdpalette.html">コマンドパレット（Ctrl+Shift+P）</a>を起動する</li>
+            <li><strong>「open user settings」</strong>と入力して、Settings.jsonを検索して、開く</li>
+            <li>Settings.json内で「Ctrl+F」で、<strong>「startupEditor」というキーワードを検索する</strong></li>
+          </ol>
+          <pre><code class="javascript">
+        //この「welcomepage」という値を変える（自分の今の設定は、noneにしている）
+        "workbench.startupEditor": "welcomepage"      
+        </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

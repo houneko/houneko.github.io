@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>VSCodeの更新 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeは、デフォルトで自動更新の設定になっており勝手に新しいバージョンになります。通常はこれでいいと思うけど、更新タイミングを自分でしたい場合は自動更新をやめることもできます">
+<meta name="keywords" content="VSCode,更新,アップデート">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,更新">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/基本:/pages/vscode/vsc_000_index.html#toc100 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        VSCodeの更新設定
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">VSCodeは自動更新</h2>
+          <p>VSCodeは、デフォルトで自動更新の設定になっており勝手に新しいバージョンになる。通常はこれでいいと思うけど、更新タイミングを自分でしたい場合は自動更新をやめることもできる</p>
+          <p>ちなみにVSCodeのバージョンは「code -v」でバージョンを表示することができる</p>
+          <p class="underline">自動更新をやめる</p>
+          <p>Settings.jsonで設定する</p>
+          <ol>
+            <li><a href="vsc_120_cmdpalette.html">コマンドパレット（Ctrl+Shift+P）</a>を開く</li>
+            <li><strong>「Open User Settigns」</strong>と入力して、Settings.json を開く</li>
+            <li>Ctrl+F で、Update.Mode を検索する</li>
+            <li>値を「manual」か「none」に設定する。つまり"update.mode": "manual"
+              <pre><code class="javascript">
+          "update.mode": "default"
+            /* 設定値
+              値           意味
+              "default"    自動更新が有効。バックグラウンドで更新チェックが行われる
+              "start"      起動時にのみ更新チェック
+              "manual"     自動チェックはせず、手動で「チェック」を実行するときだけ確認
+              "none"       更新チェックも通知も 完全に無効化
+            *
+          </code></pre>
+            </li>
+          </ol>
+          <p>これは以下のように「設定」から行うこともできる（というかこの設定が、Settings.Jsonに反映される）</p>
+          <p>「Ctrl+,」またはアクティビティバーの歯車アイコンをクリックして、設定の検索に「Update.Mode」と入れて検索して設定する</p>
+          <img src="/assets/pic/vsc_update..png" alt="更新" />
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

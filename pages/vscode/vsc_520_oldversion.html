@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>VSCodeのダウングレード | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeを更新して新しいバージョンにした時に問題があれば、古いバージョンにダウングレードさせることができます。新しいバージョンの上に古いバージョンをインストールしなおせばいいです">
+<meta name="keywords" content="VSCode,更新,ダウングレード,旧バージョン">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,更新">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/現場の疑問:/pages/vscode/vsc_000_index.html#toc520 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        VSCodeのダウングレード
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">VSCodeのダウングレード</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">VSCodeのダウングレードが必要となるケース</h3>
+          <p>
+            VSCodeを自動で更新していると新しいバージョンになるので便利ですが、たまに新しいバージョンにすると問題が起きる場合があります（自分のケースでは過去1回ありました。エクスプローラビューでファイルをコピーして貼り付けができなくなるという現象）。このような時は解決方法の1つとして、安定していた旧バージョンにダウングレードさせることができます
+          </p>
+          <p>方法は簡単で古いバージョンをダウンロードしてインスールしなおすだけです。この時、新しいバージョンをアンインストールしなくてもいいです。また、設定や拡張機能はそのまま引き継がれます</p>
+        </section>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">VSCodeのダウングレード方法</h3>
+          <ol>
+            <li>
+              <span>VSCodeの古いバージョンをDL</span>
+              <p><a href="https://code.visualstudio.com/updates/" target="_blank">ここ</a>から古いバージョンのVSCodeをダウンロード</p>
+              <p>左ペインの所で、古いバージョンが選べるので選択すると、右ペインにそのバージョンの説明やダウンロードのアンカが表示されるのでクリックしてダウンロード</p>
+              <img src="/assets/pic/vsc_503_oldversion_01.webp" alt="VSCダウングレードインストール" />
+            </li>
+            <li>
+              <span>ダウンロードしたモジュールを実行</span>
+              <p>現在のバージョンはそのままで上書きインストールで大丈夫です</p>
+            </li>
+            <li>
+              <span>ダウンロード結果の確認</span>
+              <p>コマンドラインから「code -v」でバージョンを表示するか、三点リーダ→ヘルプ→バージョンでダウングレードできたかを確認</p>
+            </li>
+          </ol>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

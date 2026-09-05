@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ファイル名の横の数字 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeのエクスプローラでファイルを表示させた時、ファイル名の横に数字が表示される場合があります。この数字は何を示しているのでしょうか？">
+<meta name="keywords" content="VSCode,ファイル名の横の数字,エラー">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,VSC">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/便利な使い方:/pages/vscode/vsc_000_index.html#toc400 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        Debug: ファイル名の横の数字
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">ファイル名の横の数字</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">ファイル名の横の数字は何を示しているの？</h3>
+          <p>ずばりこの数字はワーニングやエラーがあったことを示すものです。つまり、そのファイルにこの数分のワーニングやエラーがあるということです。</p>
+          <p>
+            これは知っていたのですが、自分が知らなかったのはこの該当箇所へのアクセスの仕方です。小さいファイルだとエディタ内を見て「なみ線」がついて箇所を目視で探せますが、大きなファイルだと目視で探すのは無理です。このためこの情報を活かせていませんでした
+          </p>
+          <ul class="no-marker">
+            <li>黄色の波線：ワーニング</li>
+            <li>赤色の波線：エラー</li>
+          </ul>
+
+          <h3 id="toc12" class="h3chapter underline">数字の箇所へのアクセス方法</h3>
+          <p>この数字はワーニングやエラーがあることを示すのはわかったけど、どうやってその箇所を見つけるか？</p>
+          <p>これは、ショートカットキーがあり <a
+              href="vsc_401_shortcutkey.html#toc-editor-01">「Ctrl+Shift+M」</a>です（自分は問題のMと覚えています）。このショートカットキーを押すとパネルの「問題」タブが開き、そこに問題のリストが表示されています。
+          </p>
+          <p>また、このリストはリンクになっておりクリックするとその箇所にジャンプします</p>
+          <p>例：あるファイル名の横に1と表示されており、この該当箇所を見つける</p>
+          <ol>
+            <li>
+              <span>ファイル名の横に数字がある例</span>
+              <p>以下のファイルには「１」が表示されており、1個の問題（ワーニングかエラー）があることが分かる</p>
+              <img src="/assets/pic/vsc_440_alertnumber_01.png" alt="問題イメージ" />
+            </li>
+            <li>
+              <span>Ctrl+Shift+M でパネルの問題タブを開く</span>
+              <p>問題のリストが表示され（例は1件なので1つだけ）、どういう問題かが示されている。これはaryDirsという変数が宣言されているけど一度も使われてないですよというワーニングであることがわかる</p>
+              <img src="/assets/pic/vsc_440_alertnumber_02.png" alt="問題タブ" />
+            </li>
+            <li>
+              <span>このリストをクリック</span>
+              <p>このリストはリンクになっているので、クリックすると該当箇所にジャンプする（または、[Ln104、Col3]と表示されているので、このファイルの104行目、3カラム目を見る）</p>
+              <p>104行目に黄色の波線がついている</p>
+              <img src="/assets/pic/vsc_440_alertnumber_03.png" alt="該当ワーニング箇所" />
+            </li>
+          </ol>
+
+          <h3 id="toc20" class="h3chapter underline">コーディング中のパネルを問題タブにしておく</h3>
+          <p>エディタで開発している時にパネルを問題タブ表示にしておくと、開発中の問題がリアルタイムに表示されて便利です</p>
+          <img src="/assets/pic/vsc_440_alertnumber_07.png" alt="開発中の問題タブ表示" />
+
+          <h3 id="toc13" class="h3chapter underline">その他の情報</h3>
+          <ul class="no-marker">
+            <li>
+              <span>ソース上でマウスオーバ</span>
+              <p>ソース上の問題個所にマウスオーバすると、問題内容が表示される（問題タブに表示されているものと同じ）</p>
+              <img src="/assets/pic/vsc_440_alertnumber_04.png" alt="mouse over" />
+            </li>
+            <li>
+              <span>ソース上の右のスクロールバーの表示</span>
+              <p>エディタの右端にスクロールバーがあり、そこにも該当箇所を示すマークが出ている</p>
+              <img src="/assets/pic/vsc_440_alertnumber_05.png" alt="scrollbar" />
+            </li>
+            <li>
+              <span>エクスプローラ上での表示</span>
+              <p>エクスプローラ上では階層的にエラーがある親フォルダ、子フォルダ、孫フォルダ、該当ファイルに色が付いて異常を知らせてくれている</p>
+              <img src="/assets/pic/vsc_440_alertnumber_06.png" alt="explorer bar" />
+            </li>
+          </ul>
+
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>VSCの検索と置換 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeの検索、置換の使い方です。特別な事はないのですが、置換候補のうち一部をスキップしたい場合どうしたらいいのかなと思い調べた結果です">
+<meta name="keywords" content="VSCode,検索,置換,Ctrl+F,Ctrl+H">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,検索,置換">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/設定:/pages/vscode/vsc_000_index.html#toc200 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        VSCodeの検索と置換の使い方
+      </h1>
+      <p>
+        VSCodeはエディタなので、基本的にはキーボードの上に両手がある状態で使う（自分は）。つまりマウスに持ちかえるのがうざいので、できるだけキーボード操作（ショートカットキー）でやるため、説明もショートカットキー操作のものが多いです。<br />検索は特に気にすることは無い。置換も対象を全て置換する場合はあまり気にせずリターンキーで次々と置換すればいい。一部置換したくないケースがある場合はちょっとだけ技がいる（と言うか知っているかどうかだけやけど）
+      </p>
+      <!-- 目次 -->
+      <details class="toc-parent">
+        <summary>目次（Table-of-Contents）開/閉</summary>
+        <ol>
+          <li><a href="#toc10">VSCodeの検索</a></li>
+          <li><a href="#toc20">VSCodeの置換</a></li>
+        </ol>
+      </details>
+      <!-- toc10 -->
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">VSCodeの検索</h2>
+          <h3 id="toc12" class="h3chapter underline">検索の使い方</h3>
+          <p>検索は特に気にするものはない。エディタ内の検索は、Ctrl+Fでキーワードを指定し、リターンキーやF3キーで次の候補を続けて検索。全体で検索する場合は、Ctrl+Shift+Fとなる違い位かな。</p>
+          <ul>VSCodeの検索機能のショートカットキー
+            <li>Ctrl + F ・・・エディタ内の検索</li>
+            <li>Ctrl + Shift + F ・・・プロジェクト全体の検索</li>
+            <li>次の候補は、リターンキーかF3キー。前の候補は、Shift + F3（Shift + リターンは無い）</li>
+          </ul>
+          <div class="text">
+            <img src="/assets/pic/vsc_find_01.jpg" alt="VSCodeの検索ウィンドの画像" class="image-float">
+            <p>Ctrl+Fで検索を行っている画面。検索文字のhogeが4つヒットしており、ハイライト表示されている。次の候補にフォーカスを移動するには、このままリターンキーで移れる。</p>
+          </div>
+          <h3 id="toc14" class="h3chapter underline">検索ウィンド内のショートカットキー</h3>
+          <p>
+            検索ウィンド内には3つの選択がありそれぞれにショートカットキーが割り当てられている。Alt+Cで大文字小文字区別する（しない。トグル）の検索をとなる。また、Alt+Wで単語単位の検索、Alt+Rで正規表現パタンでの検索となる
+          </p>
+          <p><a href="#toc24">このショートカットキーは置換ウィンドでも同じ</a></p>
+          <div class="text">
+            <img src="/assets/pic/vsc_200_find_01.png" alt="find/Replace時のショートカットキー" class="image-float" />
+            <br />
+            <ul class="no-marker">
+              <li>Alt+C ： 大文字小文字区別する・しない</li>
+              <li>Alt+W ： 単語単位で検索する・しない</li>
+              <li>Alt+R ： 正規表現で検索する・しない</li>
+            </ul>
+          </div>
+
+        </section>
+      </article>
+
+
+      <article>
+        <section>
+          <!-- toc20 -->
+          <h2 id="toc20" class="h2chapter-title">VSCodeの置換</h2>
+          <ol>
+            <li>
+              <h3 id="toc21" class="h3chapter underline">エディタ内で置換する場合</h3>
+              <p>候補を全部置換する場合は、あんまり気にすることは無い。一部の候補を置換しない（例えば、ある行のキーワードは置換しないようしたい）場合は、ちょっとだけ技が必要。</p>
+              <ul>VSCodeの置換機能のショートカットキー
+                <li>Ctrl + H ・・・エディタ内の置換</li>
+                <li>Ctrl + Shift + H ・・・プロジェクト全体の置換</li>
+              </ul>
+              <div class="text">
+                <img src="/assets/pic/vsc_replace_01.jpg" alt="VSCodeの置換ウィンドの画像" class="image-float">
+                <p>置換も検索と同じようなIF</p>
+              </div>
+              <p class="margin-top-1em">置換も検索と同じようなIFだが、ある行の
+                hogeは置換したくないという事がある。つまりそのhogeだけスキップして置換しないようにするユースケースがある。自分はこういう時、一旦置換を解除して置換したくない文字の次の行にカーソルを移動させてから再度、Ctrl+Hで置換を再開していたが、あまりもどんくさいやり方だった・・。
+              </p>
+              <p><span
+                  class="marker">置換中に置換したくないものをスキップする方法。</span>この方法は自分で発見した方法で（インターネットを探せばあるかもしれないが自分が探した時はいい方法は見つからず）、置換ウィンドのフォーカスを変えて検索と置換を変える。こうすると現在の候補を置換する
+                or 検索するを切り替えることができ、リターンキーでその操作が実行され、次の候補に移ることができる。</p>
+              <p class="margin-top-05em">例１）最初の置換候補は置換する</p>
+              <div class="text">
+                <img src="/assets/pic/vsc_replace_02.jpg" alt="VSCodeの置換ウィンドの画像2" class="image-float">
+                <p>置換ウィンドのフォーカスが「置換後文字」にある場合、リターンキーを入力すると最初の置換候補が置換され、その後次の候補に移る</p>
+              </div>
+              <p class="margin-top-05em">例２）次の硬派は、置換せずにスキップする</p>
+              <div class="text">
+                <img src="/assets/pic/vsc_replace_03.jpg" alt="VSCodeの置換ウィンドの画像3" class="image-float">
+                <p>次の置換候補は置換したくない場合、Shift+TABを入力する。置換ウィンドのフォーカスが「検索文字」の方に変わるので、この状態でリターンすると置換されずに次の候補に移る</p>
+              </div>
+              <p class="margin-top-05em">例３）その次の候補は、置換する</p>
+              <div class="text">
+                <img src="/assets/pic/vsc_replace_04.jpg" alt="VSCodeの置換ウィンドの画像4" class="image-float">
+                <p>その次の置換候補は置換したい場合、TABキーで置換ウィンドのフォーカスを「置換後文字」に変える。この状態でリターンすると置換され次の候補に移る</p>
+              </div>
+              <h3 id="toc24" class="h3chapter underline">置換ウィンド内のショートカットキー</h3>
+              <p>置換の場合の置換元ウィンドにもショートカットキーの設定があり、この設定、意味は<a href="#toc14">置換ウィンド内のショートカットキーと同じ</a></p>
+              <p>置換の場合、置換後ウィンドがありここにもショートカットキーがあるが、これは自分は使わないので覚える必要はないと思っています。これは元の文字列の大文字・小文字の状況にあわせて置換するという設定機能。</p>
+              <pre><code class="powershell">
+        # ① 大文字小文字区別はない設定が前提
+        # ② 置換後ウィンドで置換後文字を指定した後「Alt+P」で設定
+        #
+        # エディタ内    置換前文字指定（大文字小文字区別なし）  置換後文字列（Alt+P）             置換結果
+        # -------------------------------------------------------------------------------------------------------------------------
+        # Hoge           hoge（ここは小文字指定でもいい）        neko（ここは小文字指定でもいい）  Neko（先頭が大文字になっている）
+        # Hoge           hoge（〃）                              neko（〃）                        NEKO（大文字で置換されている）
+        </code></pre>
+            </li>
+            <li>
+              <h3 id="toc30" class="h3chapter underline">ワークスペース全てを対象に置換する場合</h3>
+              <p>ショートカットキーは「Ctrl+Shift+H」。この置換機能はちょっと使いにくい感じ。秀丸とかはもう少し直観的（慣れの問題か）。</p>
+              <ol>
+                <li>
+                  <span>置換ウィンドに置換前キーワード、置換後キーワードを指定する</span>
+                  <img src="/assets/pic/vsc_200_replace_01.png" alt="ワークスペースで置換" />
+                </li>
+                <li>置換候補が表示される</li>
+                <li>一気に置換する場合は、何も考えず「Ctrl+Alt+Enter」</li>
+                <li>
+                  <span>置換を確認しながらする場合、「F4」で次候補、「Ctrl+Shift+1」でその候補を置換</span>
+                  <img src="/assets/pic/vsc_200_replace_02.png" alt="ワークスペースで置換" />
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

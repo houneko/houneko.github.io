@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>VSCのスニペット | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="スニペット（snippets）とは、元々は断片や切れ端といった意味のもので、プログラムの世界ではよく使う短いコードを示す。この短いコードに名前をつけて管理し、すぐにコードに挿入できるようにしたものです">
+<meta name="keywords" content="VSCode,VSCodeのスニペット">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/高度:/pages/vscode/vsc_000_index.html#toc220 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        VSCodeのスニペット
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">VSCodeのスニペット</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">VSCodeのスニペットとは</h3>
+          <p>スニペット（snippets）は、元々は断片や切れ端といった意味のもので、プログラムの世界ではよく使う短いコードを示す。この短いコードに名前をつけて管理し、すぐにコードに挿入できるようにしたものです
+          </p>
+        </section>
+
+        <section>
+          <h3 id="toc12" class="h3chapter underline">サブルーチンやライブラリとの違い</h3>
+          <ul class="no-marker">
+            <li>
+              <span class="font-large">サブルーチン化</span>
+              <p>プログラムを書いていくと、同じコードを書くことがあります。同じコードが同じプログラムにあればそれをまとめて1つの処理とすれば便利です。これがサブルーチン化（関数化）で一般的によく使っていると思います</p>
+            </li>
+            <li>
+              <span class="font-large">ライブラリ化</span>
+              <p>次に、別のプログラムに自分が欲しい（今から書こうと思っている）コードがあれば、それを組み込めばいいです。このようなよく使う処理をまとめておき、他のプログラムから参照できるようにしたものがライブラリです
+              </p>
+            </li>
+            <li>
+              <span class="font-large">スニペット</span>
+              <p>
+                じゃ、サブルーチンやライブラリというのがあれば、全て事足りるかというと微妙な隙間がありどちらにも当てはまらないようなコードがあります。イメージ的には枠組みは同じだけど内容は異なるようなものです。引数で処理を変えるようにすればいいかもしれませんが、そこまで大きな処理ではなく、関数化する方が負担なコードです。
+              </p>
+              <p>今までは、そういうコードは定石集のようなものを作ってまとめておくしかなかったけど、これに対応したのがスニペットということです</p>
+              <p>例えば、<span class="marker">JavaScriptの関数のプロトタイプ宣言はどう書くんやったっけ？</span>などをスニペットにしておけば便利ということがイメージできると思います
+              </p>
+              <p>スニペットの例</p>
+              <div class="text">
+                <img src="/assets/pic/vsc_240_snippets_01.png" alt="snippets例" class="image-float" />
+                <br />
+                <p>Ctrl+N（新規ファイル） → Ctrl+Shift+S（名前を付けて保存） → hoge.js（JavaScriptじゃないとだめという事ではない） </p>
+                <p>ここで「fun」と入力。リターンキーはまだしない</p>
+                <p>fun候補の中で「…」と説明が続いているものを選びTABキー</p>
+              </div>
+              <div class="text">
+                <img src="/assets/pic/vsc_240_snippets_02.png" alt="snippets例" class="image-float" />
+                <br />
+                <p>←これがスニペット</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="toc14" class="h3chapter underline">スニペットの一覧</h3>
+          <p>ファイル → ユーザ設定 → ユーザスニペット でスニペットの一覧表示できる（ショートカットキーは無いみたい）</p>
+        </section>
+
+        <section>
+          <h3 id="toc15" class="h3chapter underline">スニペットの登録</h3>
+          <p>VSCodeには、多数のスニペットが登録されているが、新しいスニペットをインストールしたり既存のスニペットを変更したりできる。</p>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

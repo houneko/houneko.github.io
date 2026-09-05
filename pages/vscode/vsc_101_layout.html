@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>VSCの画面イメージ | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeを起動した時の画面の構成、UIについての説明ページです">
+<meta name="keywords" content="VSCode,UI,画面の構成">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,UI">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/基本:/pages/vscode/vsc_000_index.html#toc100 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        VSCodeの画面イメージ
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">VSCodeの画面イメージ</h2>
+          <p>VSCodeを起動するといくつがの画面に分割されていることがわかると思います。各画面には名前があり（覚えなくても困らんけど）それぞれの役割があります</p>
+          <div class="text">
+            <img src="/assets/pic/vsc_layout_01.png" alt="layout" class="image-float" />
+            <p><br /> 各部の名称</p>
+            <ul>
+              <li>①メニュー</li>
+              <li>②アクティビティバー</li>
+              <li>③サイドバー</li>
+              <li>④エディタ</li>
+              <li>⑤ステータスバー</li>
+              <li>⑥パネル</li>
+            </ul>
+          </div>
+          <p 各部の役割></p>
+          <ul>
+            <li>
+              <span class="underline">①メニュー</span>
+              <p>メニューはVSCodeのアプリケーションとしての機能を機能毎に整理したもの。自分はあまり使わないのでこれ位の説明で終わり</p>
+            </li>
+            <li>
+              <span class="underline">②アクティビティバー</span>
+              <p>よく使うアイコンが表示されている。ショートカットキーを使えばこのアイコンをクリックしなくてもアクセスできる</p>
+              <table class="custom-table">
+                <caption>アクティビティバーのショートカット</caption>
+                <tr>
+                  <th>ショートカットキー</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>Ctrl + Shift + E</td>
+                  <td>アクティビティバーのエクスプローラービューを表示する</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl + Shift + F</td>
+                  <td>アクティビティバー内の検索を表示する（Ctrl+Fだとエディタ内の検索になる）</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl + Shift + G</td>
+                  <td>アクティビティバーのソース管理を選択する</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl + Shift + D</td>
+                  <td>アクティビティバーの実行とデバッグを表示する</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Ctrl + Shift + X</td>
+                  <td>アクティビティバーの拡張機能を表示する</td>
+                  <td></td>
+                </tr>
+              </table>
+            </li>
+            <li>
+              <span class="underline">③サイドバー</span>
+              <p>選択したアクティビティバーに対する内容が表示される。<span
+                  class="marker">「サイドバーは、Ctrl+Bで表示・非表示が切替できる」</span>例えば、サイドバーにエクスプローラが表示されているときに、Ctrl+Bでエクスプローラが表示・非表示となる
+              </p>
+              <p>注意：<spane class="marker-red">ただし左ペインかエディタにフォーカスが当たっているときだけ</spane>
+                （パネル（ターミナル）にフォーカスがある時は、Ctrl+Bをしてもサイドバーは非表示にならない）</p>
+            </li>
+            <li>
+              <span class="underline">④エディタ</span>
+              <p>コードを書くところ。Ctrl+TABでエディタタブを切替できる</p>
+            </li>
+            <li>
+              <span class="underline">⑤ステータスバー</span>
+              <p>エディタの文字コードやファイル情報が表示されている。文字コードをここから変更することもできる</p>
+            </li>
+            <li>
+              <span class="underline">⑥パネル</span>
+              <p>エラー内容やデバッグ情報が表示されるエリア。ターミナルはPowerShell Coreになっている。Ctrl+Shift+@で複数開ける（使ってないけどこのメリットはあるのかな？）</p>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

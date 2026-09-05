@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Settings.json | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Settings.jsonはVSCodeの設定内容が書かれている設定ファイルです。実際に設定している内容を説明します">
+<meta name="keywords" content="VSCode,設定,Settings.json">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,設定,Settings.json">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/設定:/pages/vscode/vsc_000_index.html#toc120 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        Settings.jsonの各設定
+      </h1>
+
+      <!-- article1 -->
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Settings.jsonの各設定</h2>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">あるフォルダをエクスプローラから非表示にする</h3>
+          <ul class="no-marker">
+            <li>
+              <p class="is-bold">使用キー「"files.exclude"」</p>
+            </li>
+          </ul>
+          <p>VSCodeで言語A、言語B、…といろいろな開発を行っていくとあるフォルダは非表示にしたいというケースが出てくると思います。自分の場合で言うと、Webページを開発している時にこのケースがおきました</p>
+          <p>
+            例えば、MyWebというフォルダの下のsrcというフォルダで各htmlファイルを作成していたのですが、ある時から開発環境とリリース環境を分けて管理するようになり、リリースフォルダ「Release」へ開発結果をコピーする運用に変えました。そうするとエクスプローラ上にこのReleaseフォルダも表示されるのですが、誤って書き換える可能性があるので、これを非表示にしたいという状況になりました
+          </p>
+          <ul class="no-marker">
+            <li>設定例
+              <pre><code class="json">
+              {
+                "files.exclude": {
+                  "Release": true     //Releaseフォルダを表示から除外する（非表示）
+                },
+                "search.exclude": {
+                  "Release": true     //検索も対象外にする
+                },
+              }  
+              </code></pre>
+            </li>
+            <li></li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">VSCodeの色設定を変える</h3>
+          <ul class="no-marker">
+            <li>
+              <p class="is-bold">使用キー「"workbench.colorCustomizations"」</p>
+            </li>
+          </ul>
+          <p>VSCodeを使っていくと自分の好みや、ここはその色じゃないやろっていうのが出てくると思います。その時は色を変えることができます。</p>
+          <p>"workbench.colorCustomizations"キーで、値はObjectで変えたい色のキーと値を指定します</p>
+          <ul class="no-marker">
+            <li>設定例
+              <pre><code class="json">
+              "workbench.colorCustomizations": {                      //workbench全体の色設定キー。値は{}で指定
+                "terminal.foreground": "#00FD61",                     //terminal関係の色設定
+                "terminal.background": "#383838",
+                "terminalCursor.foreground": "#fc11c1",
+                "terminal.ansiBrightBlack": "#50C1FF",
+                "editorLineNumber.foreground": "#DDDDDD",             //editor関係の色設定
+                "editorLineNumber.activeForeground": "#fc11c1",
+                "editor.stackFrameHighlightBackground": "#383838",
+                "editorRuler.foreground": "#37445c80",
+                "editorCursor.foreground": "#f839ef",
+                "editorMultiCursor.secondary.foreground": "#ff0000",
+                "editor.findMatchBackground": "#dA1B9Af0",
+                "editor.findMatchHighlightBackground": "#1565C0f0",
+                "editorWhitespace.foreground": "#590be9",
+                "tab.activeBackground": "#36454F",                    //tabの色設定
+                "tab.activeForeground": "#FFFFFF",
+                "widget.shadow": "#00E000",                           //widgetの影色設定
+                "focusBorder": "#fc11c1",                             //borderをフォーカスした時の色設定
+                "scrollbarSlider.activeBackground": "#c2f4f5",        //scrollbar関係
+                "scrollbarSlider.background": "#404040",
+                "scrollbarSlider.hoverBackground": "#c2f4f5",
+                "window.activeBorder": "#fc11c1",                     //ウィンド関係
+                "window.inactiveBorder": "#9dee9d",
+                "diffEditor.insertedTextBackground": "#e94ddc30",     //diff時の色設定
+                "diffEditor.insertedTextForeground": "#000000",
+                "diffEditor.removedTextBackground": "#40ee5b30",
+                "diffEditor.removedTextForeground": "#000000",
+                "diffEditor.insertedLineBackground": "#00000000",
+                "diffEditor.removedLineBackground": "#00000000"
+              },
+              </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">検索時の色指定</span>
+              <ul class="no-marker">
+                <li>"editor.findMatchBackground": "#dA1B9Af0", ← 今フォーカスしているfind結果（ピンク系）</li>
+                <li>"editor.findMatchHighlightBackground": "#1565C0f0", ← 複数見つかっているfind候補（ブルー系）</li>
+                <li>
+                  <div class="text">
+                    <img src="/assets/pic/vsc_123_colorCustomizations_01.png" alt="colorCustomizations"
+                      class="image-float" />
+                    <p><br />editorを検索した画面</p>
+                    <p>今のカレントfind結果はピンク色で表示されている</p>
+                    <p>他のfind結果の候補はブルー色で表示され、複数ヒットがあることが分かる</p>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

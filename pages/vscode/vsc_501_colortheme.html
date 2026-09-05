@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description" content="VSCodeの配色テーマが勝手に変わってしまった場合の戻し方です">
+  <meta name="breadcrumb" content="ホーム:/index.html > VSCode/現場の疑問:/pages/vscode/vsc_000_index.html#toc500 >">
+  <title>配色テーマ | HouNeko</title>
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        配色テーマが勝手に変わってしまった場合の戻し方
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">VSCodeの配色テーマが勝手に変わってしまった・・</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">なぜ勝手に配色テーマが変わるの？</h3>
+          <p>
+            はっきりとはわかっていないのですが、VSCodeのバージョンアップをしたら自分が設定していた配色テーマが変わってしまうのかなと思っています。たかが色じゃんと思うかもしれないですが、自分に馴染んだエディタ設定でないと書きにくいです（例えば、自分はコメントは緑色系と大昔から決まっているので、それがグレーになったり、キートークンが緑で表示されると脳が混乱する）
+          </p>
+          <p>ここでは原因究明よりも元に戻す方法をまとめています</p>
+          <h3 id="toc12" class="h3chapter underline">設定方法</h3>
+          <ul>
+            <li>
+              <p>設定は、メニューのユーザ設定から行います（Settings.jsonの直編集でもいいです）</p>
+              <p>ファイル → ユーザ設定 → テーマ → 配色テーマ（この操作はショートカットキー：Ctrl+K, Ctrl+Tでも可能）</p>
+              <p>設定メニューから配色テーマを選ぶ場合、選択中のテーマイメージが即表示されイメージを確認しながら選べるので便利です</p>
+              <p>今は「Visual Studio 2019 Dark」を選んでいます</p>
+              <img src="/assets/pic/vsc_genba501_01.png" alt="theme" />
+            </li>
+            <li>
+              <p>Settings.jsonを編集する場合、<a
+                  href="vsc_120_cmdpalette.html">コマンドパレット（Ctrl+Shift+P）</a>を起動して、以下のキーと値を設定します（Visual Studio 2019
+                Darkの場合）</p>
+              <pre><code class="json">
+              "workbench.colorTheme": "Visual Studio 2019 Dark",
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

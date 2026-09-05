@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>.vscodeフォルダとは | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="VSCodeでフォルダを開くと、開いたフォルダの下にいつの間にか「.vscodeフォルダ」ができています。この.vscodeフォルダとは何ですか？">
+<meta name="keywords" content="VSCode,設定,.vscodeフォルダ">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="VSCode,設定,.vscodeフォルダ">
+<meta name="breadcrumb" content="ホーム:/index.html > VSCode/設定:/pages/vscode/vsc_000_index.html#toc120 >">
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+        .vscodeフォルダとは
+      </h1>
+
+      <article>
+        <h2 id="toc10" class="h2chapter-title">.vscodeフォルダとは</h2>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">.vscodeフォルダ</h3>
+          <ul class="no-marker">
+            <li>
+              <p>結論から言うとこの「.vscodeフォルダ」は、そのフォルダ（プロジェクト）に関する設定ファイルを格納するフォルダってことです。</p>
+              <p>
+                VSCodeは、フォルダを開くとそのフォルダ単位がプロジェクト単位となります。この時、そのフォルダ（プロジェクト）に対して個別の設定を行う場合、この「.vscodeフォルダ」にSettings.jsonやlaunch.json、tasks.jsonなどの設定ファイルを置きます
+              </p>
+            </li>
+            <pre><code class="txt">
+            例えば、C:\My\MyCode フォルダを開いた場合（このフォルダの下には、CフォルダやC#フォルダがあるとする）
+            C:\My\MyCode
+              ├ .vscodeフォルダ   ← これ
+              ├ CLang
+              ├ C#
+              ├ PowerShell
+            </code></pre>
+
+            <h4 id="toc21" class="underline">.vscodeフォルダ内の設定ファイル</h4>
+            <p>.vscodeフォルダは、そのプロジェクトの固有の設定を定義するフォルダです。この設定ファイルは、以下のようなファイルです</p>
+            <ul class="no-marker">
+              <li>
+                <span><a href="vsc_122_settingsjson.html">Settings.json</a></span>
+                <p>このSettings.jsonは、ユーザプロファイルにあるSettings.jsonとは別です。つまり、このプロジェクトでは.vscodeフォルダにあるSettings.jsonの設定が優先されます
+                </p>
+                <ul>
+                  <li>
+                    <span>そのフォルダの.vscodeフォルダ内のSettings.jsonファイル</span>
+                    <p>
+                      この設定が優先されます。例えば、このSettings.jsonでフォントサイズを14にしていたとして、ユーザプロファイルのSettings.jsonでは18だったすると、このプロジェクトにおいてはフォントサイズは「14」が使われます
+                    </p>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <span><a href="vsc_124_launchjson.html">launch.json</a></span>
+                <p>launch.jsonは、デバッグ用の設定ファイルです。Settings.jsonと同様に、このプロジェクトにおいてはこのフォルダ内のlaunch.jsonの設定が優先されます</p>
+              </li>
+              <li>
+                <span><a href="vsc_126_tasksjson.html">tasks.json</a></span>
+                <p>tasks.jsonは、Run（F5キー）時の設定ファイルです。Settings.jsonと同様に、このプロジェクトにおいてはこのフォルダ内のtasks.jsonの設定が優先されます</p>
+              </li>
+            </ul>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">ワークスペースを開いた場合の.vscodeフォルダ？</h3>
+          <p>VSCodeをフォルダで開くと、そのフォルダ単位がプロジェクトとなります。このため、開いたフォルダの下に「.vscodeフォルダ」ができるのは上述の通りです。では、<a
+              href="vsc_104_openFolder.html#toc30">ワークスペース</a>で開いた場合はどうなるのか？という話です</p>
+          <p>ワークスペースで開いた場合は、.vscodeフォルダは自動的には作られません（ワークスペースには複数のフォルダがあるので、VSCodeが勝手にできないんやろな）</p>
+          <pre><code class="txt">
+          例えば「MyWebPage」と「MyCode」という2つのフォルダがある、MyWorkSpaceというワークスペースを開く
+          ワークスペースの場合は、.vscodeフォルダは自動的に作成されない
+          MyWorkSpace
+            ├ MyWebPageフォルダ
+            └ MyCodeフォルダ
+          </code></pre>
+        <p>この場合、自分で各フォルダ（各プロジェクト）用に.vscodeフォルダを作成すればいいです。</p>
+        <p>上記の例は、Webページの開発フォルダと、コードの開発フォルダになっています。Webページの開発ではビルドやデバッグをしないので、.vscodeフォルダは作らなくてもいいです（作ってもいい）</p>
+        <p>MyCodeフォルダは、いろいろな言語フォルダがあるとするとMyCodeフォルダの下に.vscodeフォルダを作るか各言語フォルダの下に作るかはプロジェクト判断（各言語フォルダの下に作った方がいいかな）</p>
+        <pre><code class="txt">
+        1つのSettings.jsonやlaunch.jsonで各言語の設定を共有させる方法
+          MyCodeフォルダ
+            ├ .vscodeフォルダ   ← 1つのSettings.jsonやlaunch.jsonで各言語の設定を共有させる
+            ├ C言語フォルダ
+            ├ Python言語フォルダ
+            ├ ...
+
+        各言語フォルダにそれぞれのSettings.jsonやlaunch.jsonを作成する方法
+          MyCodeフォルダ
+            ├ C言語フォルダ
+            │  └ .vscodeフォルダ   ← C言語専用のSettings.jsonやlaunch.json
+            ├ Python言語フォルダ
+            │  └ .vscodeフォルダ   ← Python専用のSettings.jsonやlaunch.json
+            ├ ...
+          </code></pre>
+        </section>
+        <section>
+          <h3 id="toc31" class="h3chapter underline">ワークスペース自身の設定ファイル</h3>
+          <p>ワークスペースを作成した場合、ワークスペース用の設定ファイル「*.code-workspace」というファイルができます。</p>
+          <p>このファイルはどこに保存してもいいですが、中に書いてあることは「フォルダA」のパス「フォルダB」のパス・・・といったものです。このファイルには「.vscodeフォルダ」に関する記述は不要で、自分的には作成されたデフォルトでいいかなと思っています</p>
+          <pre><code class="txt">
+          1. *.code-workspaceファイルを開く（複数フォルダを含む状態でVSCodeが開く）
+              ↓
+          2. VSCodeがそれぞれの.vscode設定をみて、それぞれのフォルダ毎の設定で開く
+          なので、*.code-workspaceファイルには、.vscodeの記述は不要
+          </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

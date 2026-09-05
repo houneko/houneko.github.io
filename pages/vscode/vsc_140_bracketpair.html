@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/script/my-env.js"></script>
+<script src="/script/mylog.js"></script>
+<script src="/lib/highlight/highlight.js"></script>
+<script src="/lib/highlight/languages/acl.js"></script>
+<script src="/script/breadcrumb.js"></script>
+<script src="/script/details-openclose.js"></script>
+<script src="/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+
+<!-- Favicon -->
+<link rel="icon" href="/pic/ITG_favicon_white.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="VSCodeのかっこのペアを表示する便利機能">
+  <meta name="breadcrumb" content="ホーム:/index.html > VSCode/その他:/pages/vscode/vsc_000_index.html#toc140 >">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>()のペア | HouNeko</title>
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+  <nav id="breadcrumb"></nav>
+  <main>
+    <h1 id="toc00" class="h1chapter main-title">
+      <img src="../../pic/vsc_icon.png" alt="pwshicon" class="title-icon">
+      便利機能: かっこのペアを表示する
+    </h1>
+    <article>
+      <h2 id="toc10" class="h2chapter-title">かっこのペアを表示する</h2>
+    <section>
+      <h3 id="toc10a" class="h3chapter underline">かっこのペアを表示する</h3>
+      <p>かっこのペアを表示するとは？ htmlやプログラミング言語の多くは、()や{}で処理やスコープの範囲を示す構造になっている。このかっこのペアをわかるように表示する機能があるので、それを使う方法をまとめる</p>
+      <p>以前、拡張機能で同様なものを使っていたが更新が止まり別のものを探そうとしたところ、標準機能に同等機能が実装されたのでそちらを使うことにした</p>
+      <h3 id="toc11" class="h3chapter underline">設定方法</h3>
+      <p>設定は、Settings.jsonで行う</p>
+      <ol>
+        <li><a href="vsc_120_cmdpalette.html">コマンドパレット（Ctrl+Shift+P）</a>を起動する</li>
+        <li>
+          <spane class="marker"><strong>「open user settings」</strong></spane>と入力して、Settings.jsonを検索して、開く
+        </li>
+        <li>Settings.json内で「Bracket」というキーワードを探す</li>
+      </ol>
+      <pre><code class="javascript">
+      {
+        "editor.bracketPairColorization.enabled": true,   // ()や{}の色をペアでつける設定をtrueにする
+        "editor.guides.bracketPairs": true                // かっこにカーソルをあてると色が表示される設定をtrueにする
+      }
+      </code></pre>
+      <h3 id="toc12" class="h3chapter underline">表示イメージ</h3>
+      <p>以下の例では、if文の{}に紫の線が表示されかっこ範囲が見える化されている。<br />また、この機能は、htmlのタグでもペア表示してくれる（例えばsectionタグでは、&lt;section&gt;～&lt;/section&gt; をカラーライズしてくれる）</p>
+      <img src="../../pic/vsc_genba140_01.png" alt="bracket pair" />
+    </section>
+    <section>
+      <h3 id="toc20a" class="h3chapter underline">かっこのペアへ移動するショートカットキー</h3>
+      <p>対応するかっこのペアへ移動、ジャンプする。<a href="vsc_401_shortcutkey.html#toc25">「Ctrl+Shift+\」</a></p>
+    </section>
+    </article>
+  </main>
+    <footer>
+    <small>&copy HouNeko</small>
+  </footer>
+
+  </div>
+</body>
+</html>
