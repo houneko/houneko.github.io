@@ -3,16 +3,34 @@
 
 <head>
   <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
-  <title>__BUILD_ONLY__</title>
-  <!--#include file="/partials/common-head.html" -->
-  <!--#page-meta
-title=aboutMe
-category=about
-subcategory=私について
-keywords=aboutMe,私について
-description=このホームページはHouNekoが管理しています。HouNeko（私）についてです
-breadcrumb=ホーム:/index.html > 
-  -->
+  <title>aboutMe | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="このホームページはHouNekoが管理しています。HouNeko（私）についてです">
+<meta name="keywords" content="aboutMe,私について">
+<meta name="category" content="about">
+<meta name="subcategory" content="私について">
+<meta name="breadcrumb" content="ホーム:/index.html >">
 </head>
 
 <body>
@@ -31,7 +49,7 @@ breadcrumb=ホーム:/index.html >
         <section>
           <h3 id="toc20" class="h3chapter underline">What's</h3>
           <p>
-            トップページは我が家の最初の猫の「むぅ」です。むぅは猫のページにもあげていませんが、人が大好きで宇宙一いい子でした。人間の無知のせいで亡くしてしまった子です。このサイトを作ろうと思った時に絶対にむぅを表紙に使おうと思っていました。むぅは元々野良猫だったせいか、散歩が好きでベランダに出るのも大好きでした。ベランダの柵にぴょんと飛び乗った時は心臓がバクバクしましたが、むぅの凛とした凛々しい姿で、大好きな写真の1枚です<br />
+            トップページは我が家の最初の猫の「むぅ」です。むぅは猫のページにもあげていませんが、人が大好きで宇宙一いい子でした。人間の無知のせいで亡くしてしまった子です。このサイトを作ろうと思った時に絶対にむぅを表紙に使おうと思っていました。むぅは元々野良猫だったせいか、散歩が好きでベランダに出るのも大好きでした。ベランダの柵にぴょんと飛び乗った時は心臓がバクバクしましたが、むぅの凛とした凛々しい姿です<br />
           </p>
           <p>トップページの「Welcome to the FANTASY ZONE.Get
             ready.」は、スぺハリのオープニングのSEです。自分はあんまりゲームはしないのですが、アーケード（ゲーセン）でこのゲームを見た時は、うぉっとなった記憶があります</p>
@@ -49,7 +67,9 @@ breadcrumb=ホーム:/index.html >
 
       </article>
     </main>
-    <!--#include file="/partials/common-footer.html" -->
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
   </div>
 </body>
 
