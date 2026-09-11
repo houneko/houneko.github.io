@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>C言語 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="C言語とは何か？、C言語の環境構築について">
+<meta name="keywords" content="C,c,C言語,環境構築">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="C言語の概要,環境構築">
+<meta name="breadcrumb" content="ホーム:/index.html > C言語:/pages/c/c_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/c_icon.png" alt="c_icon" class="title-icon">
+        C言語の基本的な概念
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">C言語とは…</h2>
+          <h3 id="toc12" class="h3chapter underline">C言語って何</h3>
+          <p>C言語は、1970年代に AT&T Bell Labs で開発されたプログラミング言語で、多くの言語に影響を与えた言語です。</p>
+          <ul>
+            <li>
+              <span class="font-large" id="toc14">低レベルに近い記述ができる</span>
+              <p>C言語はマシン後に近い記述ができるため、実行速度が速いです。またアセンブラよりかは高級なのでわかりやすいです（アセンブラより）。UnixがCで書かれていることからもC言語のポテンシャルがわかると思います
+              </p>
+            </li>
+            <li>
+              <span class="font-large" id="toc16">ポインタによるメモリ操作</span>
+              <p>
+                ポインタという概念がありメモリのアドレスを使った処理が書けます。ポインタはC言語で最大の難関ですが、その分恩恵も大きいです（ちなみに自分はx86アセンブラがベース言語なのでポインタはすぐわかりました。が、違う所が難関でした）
+              </p>
+            </li>
+            <li>
+              <span class="font-large" id="toc18">コンパイル型の言語</span>
+              <p>
+                昨今、スクリプト型の言語が流行っていますが、昔はスクリプト型（当時はインタプリタ）は下に見られていました。これは処理速度が遅いためです。しかし今はH/Wの性能が高いのでコンパイル型であれスクリプト型であれ速度的な不満はあまりないかなと思います。
+              </p>
+              <p>でもコンパイル型の方が速いのは変わりません（もうバイナリになっているので当然やろ）</p>
+            </li>
+            <li>
+              <span class="font-large" id="toc1a">オブジェクト指向ではないです</span>
+              <p>C言語ができたのは1970年代! です。その頃はオブジェクト指向という概念自体が存在していないので、C言語もオブジェクト指向ではないです。</p>
+              <p>でも、C言語があったからオブジェクト指向が生まれたと思います（自分の考えですが。。構造体を先進的な使い方をしている人達がいてクラスができて、オブジェクト指向という考えが育ったと思います）</p>
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
