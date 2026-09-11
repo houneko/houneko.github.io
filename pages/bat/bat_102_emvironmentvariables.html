@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>環境変数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="batファイルで使う環境変数。環境変数はOSが定義しているものと、Cmd.exeが定義しているものがあります">
+<meta name="keywords" content="batファイルで使う環境変数,OS定義の環境変数,CMD定義の環境変数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="batファイルで使う環境変数">
+<meta name="breadcrumb" content="ホーム:/index.html > bat/基本:/pages/bat/bat_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/cmd_icon.png" alt="cmdicon" class="title-icon">
+        環境変数
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">環境変数</h2>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">batファイルでの環境変数</h3>
+          <p>環境変数を使えば、自分で定義したり、どこかの情報を取ってきて変数化したりしなくてもいいです。つまり、環境変数に格納されている値を参照するだけでいいので便利です</p>
+          <p>
+            また、環境変数はOSが定義しているものと、Cmd.exeが定義しているものがあります。通常、どちらの環境変数かは意識する必要はないですが、Cmd.exeが定義しているものは他のシェルからは見えない（当然）ですし、ユーザが同名の変数を定義すると上書きされるので注意がいるかもしれません
+          </p>
+          <ul class="no-marker">
+            <li>
+              <p>Cmd.exeが定義している環境変数は、他のシェルからは見えない</p>
+              <pre><code class="bat">
+rem 例：%DATE% は、Cmd.exeが定義しているので、PowerShellからは見えない
+&gt; Get-ChildItem $env:DATE    ← この結果は何も返ってこない
+&gt; Get-ChildItem $env:TEMP    ← %TEMP%のパスが返る（%TEMP%は、OS定義の環境変数だから）
+            </code></pre>
+            </li>
+            <li>
+              <p>Cmd.exeが定義している環境変数は、ユーザが同名の変数を定義すると上書きされます</p>
+              <pre><code class="bat">
+rem 例：%DATE% をユーザが定義する
+&gt; echo %DATE
+2000/01/12                ← Cmd.exeが定義しているので日付が返ってくる
+&gt; set "DATE=HouNeko"   ← ユーザが同名の変数に値をセット
+&gt; echo %DATE
+HouNeko                   ← 上書きされている
+            </code></pre>
+            </li>
+          </ul>
+          <p>じゃ、どの環境変数がOS定義なのか、Cmd.exe定義なのかはどうやって調べるの？</p>
+          <p>Cmdの「set」や、PowerShellの「Get-ChildItem
+            env:（env:ドライブ）」で環境変数の一覧を表示させることができますが、この環境変数はOSのものだけではなく、Cmdの定義、ユーザが定義したものも含まれます。このため厳密に調べようと思うと、レジストリを見ないといけないですが、1か所で管理されているものではなく、またログオン時に生成されるものもあり俯瞰するのは難しいです
+          </p>
+          <p>ということで、メジャーなものだけ知っていたらいいかなと自分は思っています</p>
+
+          <h3 id="toc40" class="h3chapter underline">OSの環境変数</h3>
+          <p>OSが定義している環境変数の例。OSが定義しているので、Cmd.exeからもPowerShellからも参照できます。この中だとUserProfileは結構使います</p>
+          <table class="custom-table">
+            <caption>OSの環境変数</caption>
+            <tr>
+              <th>環境変数名</th>
+              <th>意味</th>
+              <th>使用例</th>
+            </tr>
+            <tr>
+              <td>USERNAME</td>
+              <td>現在のログオンユーザ名</td>
+              <td>Neko</td>
+            </tr>
+            <tr>
+              <td>USERDOMAIN</td>
+              <td>ユーザが所属しているドメイン名（ローカルPCの場合はコンピュータ名）</td>
+              <td>MYPC</td>
+            </tr>
+            <tr>
+              <td>USERPROFILE</td>
+              <td>ユーザプロファイルのルートディレクトリ</td>
+              <td>C:\Users\Neko</td>
+            </tr>
+            <tr>
+              <td>HOMEDRIVE</td>
+              <td>ユーザのホームディレクトリのドライブ</td>
+              <td>C:</td>
+            </tr>
+            <tr>
+              <td>HOMEPATH</td>
+              <td>ユーザのホームディレクトリのパス（ドライブ除く）</td>
+              <td>\Users\Neko</td>
+            </tr>
+            <tr>
+              <td>APPDATA</td>
+              <td>ユーザの **Roaming AppData** フォルダ（ドメイン環境で移動可能）</td>
+              <td>C:\Users\Neko\AppData\Roaming</td>
+            </tr>
+            <tr>
+              <td>LOCALAPPDATA</td>
+              <td>ユーザの **Local AppData** フォルダ（そのPC専用）</td>
+              <td>C:\Users\Neko\AppData\Local</td>
+            </tr>
+            <tr>
+              <td>LOGONSERVER</td>
+              <td>ログオン処理を行ったサーバ名（ドメイン環境で使用）</td>
+              <td>\\DC01</td>
+            </tr>
+            <tr>
+              <td>SESSIONNAME</td>
+              <td>現在のログオンセッション名（コンソールかRDPかなど）</td>
+              <td>Console / RDP-Tcp#1</td>
+            </tr>
+          </table>
+
+          <h3 id="toc50" class="h3chapter underline">Cmd.exeの環境変数</h3>
+          <p>Cmd.exeが定義している環境変数の例。Cmd.exeからしか見えない環境変数です。%ERRORLEVEL%や、%CMDCMDLINE%（何で、CMDCMD？）は使う可能性があるのではと思います</p>
+          <table class="custom-table">
+            <caption>Cmd.exeの環境変数</caption>
+            <tr>
+              <th>環境変数名</th>
+              <th>意味</th>
+              <th>使用例</th>
+            </tr>
+            <tr>
+              <td>%CD%</td>
+              <td>現在の作業ディレクトリ</td>
+              <td>C:\Users\taro\Documents</td>
+            </tr>
+            <tr>
+              <td>%DATE%</td>
+              <td>現在の日付（ロケール依存）</td>
+              <td>2000/03/15（日本）</td>
+            </tr>
+            <tr>
+              <td>%TIME%</td>
+              <td>現在の時刻</td>
+              <td>14:35:12.34</td>
+            </tr>
+            <tr>
+              <td>%RANDOM%</td>
+              <td>0〜32767の疑似乱数</td>
+              <td>17234</td>
+            </tr>
+            <tr>
+              <td>%ERRORLEVEL%</td>
+              <td>直前に実行したコマンドの終了コード</td>
+              <td>0（成功）</td>
+            </tr>
+            <tr>
+              <td>%CMDCMDLINE%</td>
+              <td>コマンドライン情報</td>
+              <td>&gt; hoge.bat neko inu を実行した場合<br />C:\Windows\system32\cmd.exe /c hoge.bat neko inu</td>
+            </tr>
+            <tr>
+              <td>%CMDEXTVERSION%</td>
+              <td>Cmd.exeの拡張機能のバージョン番号</td>
+              <td>2</td>
+            </tr>
+          </table>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

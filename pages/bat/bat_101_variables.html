@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>batファイルの変数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="batファイルの変数。変数の設定と参照方法、ダブルクォーテーションの必要性。特殊な変数などをまとめたページです">
+<meta name="keywords" content="batファイルの変数,変数のスコープ,ダブルクォーテーション,特殊な変数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="batファイルの変数,特殊な変数,変数の参照,ダブルクォーテーション">
+<meta name="breadcrumb" content="ホーム:/index.html > bat/基本:/pages/bat/bat_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/cmd_icon.png" alt="cmdicon" class="title-icon">
+        batファイルの変数
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">batファイルの変数</h2>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">batファイルの変数の基本事項</h3>
+          <ul class="no-marker">
+            <li>
+              <span class="font-large">変数のスコープと寿命</span>
+              <p>バッチファイルの変数のスコープはそのCmdプロセスで、バッチファイルが終了すると変数も消滅します</p>
+              <p>callで別のバッチファイルから呼び出された場合、同じCmdプロセス内となるので名前衝突しないように注意がいります</p>
+            </li>
+            <li>
+              <span class="font-large marker">変数の設定</span>
+              <p>
+                何らかのプログラムであれば変数はあると思いますがbatファイルにも変数という概念があります。batファイルの変数の設定は「set」コマンドで行います。<br />しかしこの変数の設定は他の言語に比べて特殊なので間違いやすいと思います。0から始める場合はそういうもんなんやと覚えたらいいですけど、他の言語の知識があると「はぁ？」となるかと思います。なので注意が必要です
+              </p>
+              <ol class="">
+                <li>
+                  <span style="color:red;">スペースを含めたらだめ</span>
+                  <p>batファイルの世界は、スペースが区切り文字となっているのでスペースに意味があります。このため変数の宣言でもスペースを含めてしまうと違う意味になってしまいます</p>
+                  <p>以下の例は、変数名と＝の間にスペースがあり、また＝と値の間にもスペースがあるため、だめな例です</p>
+                  <pre><code class="bat">
+rem 「myVar」という変数に「Neko」を代入したい意図だけどこの指定はだめ
+set myVar = Neko
+echo %myVar%      ← 何も表示されない
+echo %myVar %     ← 表示される。「myVar 」後ろのスペースを含めて変数名が宣言されたことになってる
+                </code></pre>
+                  <p>これが何でだめかというと「myVar」という変数を宣言した意図に対して作成される変数は「myVar 」という変数名になる（myVarの後ろに半角スペースを含めた変数名）</p>
+                  <p>また代入される値も同様に「Neko」を意図しているのに「 Neko」が代入される</p>
+                </li>
+                <li>
+                  <span style="color:red;">ダブルクォーテーションで囲む</span>
+                  <p>変数の宣言と代入</p>
+                  <p>普通の言語で""で囲むと文字列になるけどbatの世界では文字列リテラルは無い。このため<span class="marker">batの世界では「""」で囲んでも文字列ではないです</span></p>
+                  <p>この例の場合、setに"myVar=Neko"が渡されると、「""」を取って、=の左が変数名と解釈されて、=の右が値と解釈されて代入されます</p>
+                  <pre><code class="bat">
+rem 変数の宣言と代入は「""」で囲むようにする
+set "myVar=Neko"
+                </code></pre>
+                  <p>"myVar=Neko"とするのは、スペースが含まれている場合の誤動作を防ぐための運用なので、例のようにスペースが無い事が明白であれば、普通に「set myVar=Neko」でも動作は同じです。</p>
+                  <p>だけど、実運用では全部「""」で囲むようにした方がいいです。「""」ありで宣言しているものや、無しで宣言しているものが混在すると間違いやすいし統一していた方が見やすくていいはずです</p>
+                </li>
+              </ol>
+            </li>
+          </ul>
+          <ul class="no-marker">
+            <li>
+              <span class="font-large" id="toc40">変数の参照方法</span>
+              <p>変数の参照方法も癖があり、変数名そのままでは参照できません。</p>
+              <p>batファイルの変数の参照は、<span class="marker">変数名の前後に「%」をつけて参照します</span></p>
+              <pre><code class="bat">
+set "myVar=Neko desu"
+echo myVar        ←このechoは、myVar変数に「%」がついていないので変数名と認識されない
+echo %myVar%
+
+rem 実行結果
+myVar             ← 変数名と解釈されていないので「myVar」というデータとして表示されている
+Neko desu         ← %myVar%で指定したので、変数内容が表示されている 
+            </code></pre>
+            </li>
+
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="toc50" class="h3chapter underline">特殊な変数</h3>
+          <p>特定の名称の変数は用途が決まっており、</p>
+          <table class="custom-table">
+            <caption>特殊な変数</caption>
+            <tr>
+              <th>No</th>
+              <th>変数名</th>
+              <th>意味</th>
+              <th>使用例</th>
+            </tr>
+            <tr>
+              <td>01</td>
+              <td>%~dp0</td>
+              <td>~はチルダ。このbatファイルがあるフルパス（<span class="emphasis">注: 実行時のパスではない</span> ）</td>
+              <td>cd %~dp0</td>
+            </tr>
+            <tr>
+              <td>02</td>
+              <td>Inu</td>
+              <td>犬である</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>03</td>
+              <td>Usagi</td>
+              <td>うさぎである</td>
+              <td></td>
+            </tr>
+          </table>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
