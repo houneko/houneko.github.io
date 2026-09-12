@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="集中管理方式と分散管理方式。バージョン管理には、集中管理方式と分散管理方式があります">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > Git・GitHub/基本:/pages/git/git_000_index.html#toc100 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>GitとGitHub | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        GitとGitHub
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">GitとGitHubとは</h2>
+          <h3 id="toc12" class="h3chapter underline">GitとGitHubの違い</h3>
+          <p>Gitは、ソースコードやファイルの分散型バージョン管理システム。Linuxの開発者リーナストーバルズによって2005年に開発された。GitHubは、Gitを使ったプロジェクトをオンラインで管理するWebサービス
+          </p>
+
+          <h3 id="toc14" class="h3chapter underline">集中管理方式と分散管理方式</h3>
+          <p>バージョン管理には、集中管理方式と分散管理方式があります</p>
+          <p>2つあれば、どっちがいいのか？という話になりますが、これらはどっちが優れているとかではなく、そのプロジェクト状況に応じてその時々の状況で使えばいいというものです。</p>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">集中管理方式</span>
+              <p>
+                1代のサーバで複数のPCのソースバージョンを管理する方式。サーバ内のリポジトリに全部の変更履歴が管理されている。各ユーザは、このサーバから「チェックアウト」によりファイルを取得して編集後に「コミット」してサーバのリポジトリを更新する
+              </p>
+              <p>
+                昔あるプロジェクトで大規模な開発をしていたのですが、その時のバージョン管理にこの方式を使ったことがあります。当時は使うだけだったので仕組みを意識することはなかったのですが、チェックアウトしてコミットしていました
+              </p>
+              <p><a
+                  href="https://ja.wikipedia.org/wiki/%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0"
+                  target="_blank">CVS</a>や、<a href="https://ja.wikipedia.org/wiki/Apache_Subversion"
+                  target="_blank">SubVersion</a>がこの方式をつかっています</p>
+            </li>
+            <li>
+              <span class="is-bold">分散管理方式</span>
+              <p>
+                サーバにあるリモートリポジトリと各PCにもローカルリポジトリがあるので分散管理方式と言われています。ローカルにもリポジトリがあるので、インターネット接続ができない状態になっても作業を継続できます（集中管理方式はサーバと切れてしまうと作業できない。ローカルにチェックアウトしている分はできるけど）
+              </p>
+            </li>
+          </ul>
+
+          <h3 id="toc16" class="h3chapter underline">Gitのインストール</h3>
+          <p><a href="https://qiita.com/takeru-hirai/items/4fbe6593d42f9a844b1c"
+              target="_blank">参考ページ</a>を参考に、インストーラに従ってインストールするだけ。<span class="emphasis">その後に設定がある</span></p>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
