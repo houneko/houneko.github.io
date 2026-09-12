@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ImageMagick | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="ImageMagickに関するページです。CLIツール（magick.exe）の使い方などを書いています">
+<meta name="keywords" content="ImageMagick,画像変換,webp,magick.exe">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="ImageMagick">
+<meta name="breadcrumb" content="ホーム:/index.html > ImageMagick/基本:/pages/ImageMagick/magick_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/magick_icon.webp" alt="magick" class="title-icon">
+        ImageMagickの基本的な概念
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">ImageMagickとは</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">ImageMagickって何</h3>
+          <p>
+            自分のWebページの画像は、最初pngで作っていたのですがwebpの方が軽くていいみたいなので変えようとしました。しかし、その時既に数千画像あり、これを1つずつwebpに変換しようとすると地獄になるという状況でした。このため何かないかなと探してみつけたものがImageMagick（kがつく）です。<br />
+            ImageMagickは、ビットマップ画像の作成、編集、合成、変換等のソフトウェアです。マルチプラットフォーム対応、CLI（magick.exe）で操作するのもの使い勝手が良くていい感じです。かなりいろいろできそうですが、自分の使ったものだけ書いています（フォーマット変換）
+          </p>
+          <p><a href="https://e-port.co.jp/column/webp/" target="_blank">WebPとは</a></p>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">ImageMagickのインストール</h3>
+          <p>ImageMagickの<a href="https://imagemagick.org/download/" target="_blank">公式ページ</a>などからインストーラをDLしてインスールします
+          </p>
+          <p>
+            インスールは、他のWindowsアプリと大きな差は無いかなと思いますのでウィザードに従ってインスールすればいいかなと思います（途中パスを追加するかというチェックが出てきますがこれはチェックを入れます（デフォルトでチェックオンだけど））
+          </p>
+        </section>
+
+        <section>
+          <h3 id="toc21" class="h3chapter underline">ImageMagickのインストール確認</h3>
+          <p>ImageMagickのインストールが終わったら、コマンドラインから以下を実行してインスールが成功したか確認しておきます。バージョンが表示されない場合等はパスが通ってない可能性があるので確認してパスを通します
+          </p>
+          <pre><code class="powershell">
+        &gt; magick -version
+        </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">png画像をwebp画像にフォーマット変換する</h3>
+          <p>当初したかった事で、png画像ファイルをwebpにフォーマット変換します</p>
+          <pre><code class="powershell">
+        # // コマンドラインから以下をタイプする
+        # // インターネットの説明ページでは、mogrifyコマンドでフォーマット変換する事が書かれているが
+        # // Windows環境では、magickのサブコマンドのように指定するみたい（magickから書く）
+        &gt; magick mogrity -format webp *.png
+
+        # // そこそこ時間かかるので、Measure-Commandで時間を測ってみた例
+        &gt; (Measure-Command {magick mogrity -format webp *.png}).TotalSeconds
+        </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

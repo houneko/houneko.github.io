@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ImageMagickでicoファイルに変換 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="magickで、pngファイルからicoファイルへ変換することができます">
+<meta name="keywords" content="ImageMagick,magick,png,ico,変換">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="ImageMagick,magick">
+<meta name="breadcrumb" content="ホーム:/index.html > ImageMagick/基本:/pages/ImageMagick/magick_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/magick_icon.webp" alt="magick" class="title-icon">
+        ImageMagickの使い方（faviconへの変換）
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">画像ファイルをfaviconへ変換</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">ImageMagickでfaviconへ変換する</h3>
+          <p>
+            cliツールの magick.exe を使って、pngファイルからicoファイルへを簡単に変換できます。
+            コマンドラインから以下のよう実行すればいいだけです
+          </p>
+          <pre><code class="pwsh">
+          # auto-resizeで各サイズを指定する。この例だと16～256サイズを含むiconファイルが作成される
+          &gt; magick SRC.png -define icon:auto-resize=16,24,32,64,128,256 DEST.ico
+          </code></pre>
+
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
