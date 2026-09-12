@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>cssの基本 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="CSS3の基本的な話">
+<meta name="keywords" content="css,基本事項">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="css3,css">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/基本:/pages/css/css_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        cssの基本的な書き方
+      </h1>
+      <p>このページは、CSS3の基本的な構造、書き方をまとめた章です。このページのCSSはCSS3のことです。<br />CSSは「Cascading Style
+        Sheets」の略で、Webページの見栄えを指定するもの。大昔はHTMLだけでデザインなどの見栄えも記述するようなことがあったが、htmlは人間の文章をマークアップしてWebページにする役割、CSSはページのデザインを担うというように役割分担が明確化された。
+      </p>
+
+      <article>
+        <!-- 0.1章 -->
+        <h2 id="toc01" class="h2chapter-title">CSSの基本の前の基本</h2>
+        <section>
+          <h3 id="toc02" class="h3chapter underline">親要素、子要素</h3>
+          <p>
+            htmlは、要素（開始タグから終了タグまでの一連のかたまり）は入れ子の構造となっている。これを親子で考えたものが親要素、子要素。CSSの設定をする場合、どこにCSSスタイルを適用するかを考えていくので親要素、子要素は理解しておく必要がある（複数の子要素や孫要素など指定方法がいろいろある）
+          </p>
+          <pre><code class="html">
+    &lt;div&gt;
+      &lt;p&gt;Hogeです&lt;/p&gt;
+    &lt;/div&gt;
+
+    結果）
+    この例だと、親は&lt;div&gt;、子は&lt;p&gt; ってこと（divの中にpがある）
+    </code></pre>
+        </section>
+      </article>
+
+      <!-- 1章 -->
+      <article>
+        <h2 id="toc10" class="h2chapter-title">CSSの基本</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">CSSの基本構造</h3>
+          <p>
+            CSSに記述している内容は「どこに」「何を」「設定する値」という形になっている。これをCSSの言葉に置き換えて宣言している。「どこに」に相当するのがセレクタ、「何を」に相当するのがプロパティ、「設定する値」が値となっている。
+          </p>
+          <pre><code class="plaintext">
+  CSSの書式
+  セレクタ {
+    プロパティ: 値;
+  }
+  </code></pre>
+          <pre><code class="css">
+  例）
+  p {                 /* どこに     -&gt; p要素に    */
+    color: red;       /* 何を       -&gt; 文字の色を */
+  }                   /* 設定する値 -&gt; 赤色にする */
+  </code></pre>
+        </section>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">CSSの記述場所</h3>
+          <p>
+            CSSの記述場所は3通りある。小さいページとか1ページだけとかの場合は、インラインスタイルやエンベディングスタイルでもいいが、何ページもあるような場合はリンキングスタイルじゃないときついと思う。全ページ同じ設定を記述したるわって根性がある場合でも、少し変えたいというような変更には柔軟に対応できないので、CSSは外部からリンクさせる方がいいと思う。
+          </p>
+          <ol>
+            <li>
+              <b id="toc14">インラインスタイル</b>
+              <p>HTML内の要素に直接、style属性でCSSを書く方法。</p>
+            </li>
+            <pre><code class="html">  
+      &lt;p style="color: red;"&gt;インラインスタイルでp要素を赤字に設定&lt;/p&gt;
+    </code></pre>
+            <li>
+              <b id="toc16">エンベディングスタイル</b>
+              <p>HTML内の&lt;head&gt;内に&lt;style&gt;要素を追加しCSSを書く方法</p>
+            </li>
+            <pre><code class="html">
+      &lt;head&gt;
+        &lt;style&gt;
+          p {
+            color: red;
+          }
+        &lt;/style&gt;
+      &lt;/head&gt;
+    </code></pre>
+            <li>
+              <b id="toc18">リンキングスタイル</b>
+              <p>CSSファイルを別に用意して、&lt;head&gt;内からリンクさせる書き方。href属性にCSSファイルのパスを指定する</p>
+              <p>各ページからこのファイルをリンクさせれば、各ページで同じ設定が適用される（当たり前）。</p>
+            </li>
+            <pre><code class="html">
+      &lt;head&gt;
+        &lt;link rel="stylesheet" href="../css/hoge.css"&gt;
+      &lt;/head&gt;
+    </code></pre>
+          </ol>
+        </section>
+      </article>
+      <!-- 6章 -->
+      <article>
+        <h2 id="toc60" class="h2chapter-title">コメント</h2>
+        <section>
+          <p>コメント文。「/* ～ */」で囲んだ部分はコメントとなり実行されない。<span class="marker-red">「//」はコメントとして使用できない</span></p>
+          <pre><code class="css">
+  /* コメント */
+  </code></pre>
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

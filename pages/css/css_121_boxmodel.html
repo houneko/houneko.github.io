@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ボックスモデルの余白 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="ボックスモデルにおける余白。余白は2種類あり要素の外側にあるのがmarginで、要素の内側にあるのがpaddingです">
+<meta name="keywords" content="ボックスモデルの余白">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/プロパティ:/pages/css/css_000_index.html#toc120 >">
+</head>
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="htmlicon" class="title-icon">
+        ボックスモデルの余白
+      </h1>
+      <article>
+        <h2 class="h2chapter-title" id="toc10">ボックスモデルの余白</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">余白は2種類ある</h3>
+          <p>
+            ボックスモデルにおける余白。余白は2種類あり要素の外側にあるのがmarginで、要素の内側にあるのがpaddingです（要素の外側、内側はborderを表示させるとわかりやすいです）<br />また、この余白には、-top（上）、-right（右）、-bottom（下）、-left（左）と4つ種類があります
+          </p>
+          <img src="/assets/pic/css_121_boxmodel_01.png" alt="ボックスモデルの余白" class="responsive-img" />
+          <p class="paragraph--break">サンプル例：marginは全部0px、paddingも全部0px</p>
+          <pre><code class="html">
+        &lt;head&gt;
+          &lt;style&gt;
+          p {
+            /* 上から時計回りで個別指定できる。以下は、上 右 下 左 で指定している */
+            margin: 0px 0px 0px 0px;
+            padding: 0px 0px 0px 0px;
+            background: pink;
+            /* 要素の境界線を4pxの赤線で表示させる */
+            border:solid 4px red;
+          }
+          &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+          &lt;p&gt;ねこです&lt;/p&gt;
+          &lt;p&gt;Hoge&lt;/p&gt;
+        &lt;/body&gt;
+      </code></pre>
+          <p class="paragraph--break">marginが0、paddingが0 のサンプル表示結果</p>
+          <div class="text">
+            <img src="/assets/pic/css_121_boxmodel_02.png" alt="margin/padding が0の表示例"
+              class="image-float responsive-img" />
+            <p><br />このp要素は線（border）を赤で4pxにしているので、この線で囲まれた部分がp要素</p>
+            <p>marginが0なので、次の要素とくっついている</p>
+            <p>paddingが0なので、線内には空白がない</p>
+          </div>
+          <p class="paragraph--break">marginが10px、paddingが10px のサンプル表示結果</p>
+          <div class="text">
+            <img src="/assets/pic/css_121_boxmodel_03.png" alt="margin/padding が0の表示例"
+              class="image-float responsive-img" />
+            <p><br />このp要素は線（border）を赤で4pxにしているので、この線で囲まれた部分がp要素</p>
+            <p>marginが10pxなので、次の要素との間（borderの外側）に空白ができている</p>
+            <p>paddingが10pxなので、線内には空白ができている</p>
+          </div>
+          <h3 id="toc12" class="h3chapter underline">marginは相殺される</h3>
+          <p>以下のサンプルは、p要素にmarginを40pxつけたものです。この例を見ると何か違和感がないでしょうか？</p>
+          <p>
+            p要素の「ねこです」には下marginが40px、次のp要素の「Hoge」には上marginが40px指定されているので、合計80pxになるのでは？と思いませんか？でも見る限り、p要素「ねこです」と次のp要素「Hoge」の間の空白は、他の空白と同じ位しか空いていないです。
+          </p>
+          <p>なぜか？これは、<span
+              class="marker-red">要素が前後に並びそれぞれのmarginが重なる時、どちら大きい方が使われる</span>というルールがあるので、40px＋40pxで80pxの余白にならないためです</p>
+          <div class="text">
+            <img src="/assets/pic/css_121_boxmodel_04.png" alt="marginは相殺される" class="image-float responsive-img" />
+            <p><br /> p要素の「ねこです」には下marginが40pxついている。また、次のp要素の「Hoge」には上marginが40pxついている</p>
+            <p>そうすると、40px + 40px で80px の空白ができるのでは？ なんで80pxにならないの？</p>
+          </div>
+          <div class="text">
+            <img src="/assets/pic/css_121_boxmodel_05.png" alt="marginの重なり" class="image-float responsive-img" />
+            <p><br />この図のようにmarginが重なっている場合、大きい方が使われる</p>
+            <p>「ねこです」の下marginと「Hoge」の上marginが重なっているので、和にならずどちらか大きい方が使われる（例はどちらも40pxなので結果40px分の空白があく）</p>
+          </div>
+        </section>
+      </article>
+
+      <article>
+        <h2 class="h2chapter-title" id="toc20">ボックスモデルの余白とWidth/Height</h2>
+        <section>
+          <h3 id="toc21" class="h3chapter underline">要素のWidth/Heightを指定した場合</h3>
+          <p>要素のwidthとheightを指定すると、そのサイズはどこを指定したことになるか？paddingはその指定にふくまれるか？という疑問が出たのですが、これはwidthやheightにはpaddingは含まれません。
+          </p>
+          <p>以下の例は、marginが40px、paddingが30px、widthが160、heightが80pxの設定です。またborderを4pxにしています</p>
+          <p>横幅は、= ボーダー 4 + padding 30 + width 160 + padding 30 + ボーダー 4 = 228px</p>
+          <p>縦は、= ボーダー 4 + padding 30 + height 80 + padding 30 + ボーダー 4 = 148px</p>
+          <pre><code class="html">
+        &lt;head&gt;
+          &lt;style&gt;
+          p {
+            /* 上から時計回りで個別指定できる。以下は、上 右 下 左 で指定している */
+            margin: 40px 40px 40px 40px;
+            padding: 30px 30px 30px 30px;
+            width: 160px;
+            height: 80px;
+            background: pink;
+            /* 要素の境界線を4pxの赤線で表示させる */
+            border:solid 4px red;
+          }
+          &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+          &lt;p&gt;ねこです&lt;/p&gt;
+          &lt;p&gt;Hoge&lt;/p&gt;
+        &lt;/body&gt;
+      </code></pre>
+          <img src="/assets/pic/css_121_boxmodel_06.png" alt="widht/heightにはpaddingは含まれない" class="responsive-img" />
+
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

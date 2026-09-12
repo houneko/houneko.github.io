@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>CSSの継承と非継承 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="CSSの継承プロパティと非継承プロパティについて違いを整理しました">
+<meta name="keywords" content="継承プロパティ,非継承プロパティ">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/基本:/pages/css/css_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        CSSの継承プロパティと非継承プロパティ
+      </h1>
+      <p>
+        htmlは、要素（開始タグから終了タグまでの一連のかたまり）は入れ子の構造となっている。CSSの設定をする場合、どこにCSSスタイルを適用するかを考えていくが、この時親要素に設定したCSSが子に継承されるものとされないものがあるという話です。<br />ここの理解があやふやだと意図したデザインにならなくて何で？と悩むことになるので、自分的には重要と思っていています
+      </p>
+
+      <!-- 4章 -->
+      <article>
+        <h2 id="toc40" class="h2chapter-title">継承プロパティ、非継承プロパティ</h2>
+        <section>
+          <h3 id="toc41" class="h3chapter underline">継承プロパティ</h3>
+          <p>継承プロパティは親要素が、あるプロパティに値を設定している時、子要素以降の要素がそのプロパティに値を指定していなければ、親要素が指定した値を継承するプロパティ。</p>
+          <pre><code class="html">
+  HTML側
+  &lt;body&gt;
+    &lt;p&gt;あなたは&lt;b&gt;猫&lt;/b&gt;ですか？&lt;/p&gt;
+  &lt;/body&gt
+  </code></pre>
+          <pre><code class="css">
+  body {
+    color: red;
+  }
+  </code></pre>
+          <img src="/assets/pic/css_110_001.jpg" alt="継承プロパティにより、bodyプロパティ値が子要素に継承される">
+          <p>cssで設定されているのは、bodyセレクタのみ。bodyの子要素であるp要素や、pの子要素のb要素（body親から見ると孫要素）は文字色の指定はしていないが、親要素body
+            の文字色指定が、継承されており赤字になっている。つまり、colorプロパティは継承プロパティってこと。</p>
+          <p>親要素がcolorプロパティを指定すると子要素や孫要素が自分でそのプロパティを設定していなければ、親要素の設定が継承される。</p>
+        </section>
+        <section>
+          <h3 id="toc42" class="h3chapter underline">非継承プロパティ</h3>
+          <p>非継承プロパティは親要素が、あるプロパティに値を設定している時、子要素以降の要素がそのプロパティに値を指定していなければ、そのプロパティが持っている初期値が使われるというもの。</p>
+          <pre><code class="html">
+  HTML側
+  &lt;body&gt;
+    &lt;p&gt;あなたは&lt;b&gt;猫&lt;/b&gt;ですか？&lt;/p&gt;
+    &lt;p&gt;わたしは&lt;b&gt;猫ではない&lt;/b&gt;です。うさぎです。&lt;/p&gt;
+  &lt;/body&gt
+  </code></pre>
+          <pre><code class="css">
+  body {
+    color: red;
+    border: solid;
+  }
+  </code></pre>
+          <img src="/assets/pic/css_110_002.jpg" alt="非継承プロパティは子要素に継承されない画面">
+          <p>cssでbodyセレクタに設定されているのは、colorプロパティと borderプロパティ。子、孫要素の p要素や
+            b要素は何も指定していない。<br />colorプロパティは、継承プロパティなので、p要素やb要素にも継承されている（赤字になっている）。一方、borderプロパティは非継承プロパティなので、p要素やb要素には継承されておらず、枠線が表示されているのはbody部分だけ。この時、p要素やb要素のborderプロパティは初期値「none」が設定されていることになる。なので、border枠線はbody要素にしか表示されていない。
+          </p>
+          <p>非継承プロパティを継承させることも可能。非継承プロパティを子要素や孫要素に継承させたい場合は、「inherit値」で明示的に指定することができる。</p>
+          <pre><code class="css">
+    p { border: inherit; }
+    b { border: inherit; }
+  </code></pre>
+          <img src="/assets/pic/css_110_003.jpg" alt="非継承プロパティを明示的に継承させる画面">
+          <p>非継承プロパティのborderを、p要素やb要素に継承させている。これにより、body要素についていた枠線が、p要素やb要素にも表示されていることがわかる。</p>
+        </section>
+      </article>
+
+      <article>
+        <section>
+          <h2 id="toc50" class="h2chapter-title">継承プロパティ、非継承プロパティのルール</h2>
+          <h3 id="toc51" class="h3chapter underline">継承プロパティのルール</h3>
+          <p>「文字・文章に関するもの」は基本的に継承される</p>
+          <p>よく考えると、日常世界でも文字や文章は親も子も同じ書式や同じフォントなどにするのが一般的な気がします。それを考えるとこのような整理になっているのはある意味納得</p>
+          <p>文字や文章に関するプロパティは、color、font-***、line-height、text-align・・・などがある</p>
+          <h3 id="toc52" class="h3chapter underline">非継承プロパティのルール</h3>
+          <p>「箱、レイアウト、見た目の形に関するもの」は基本的に継承されない</p>
+          <p>これもよく考えると、子の見た目は必ずしも親の見た目と同じにしないといけない事はない。子は子で自由なレイアウトにする方が自由度が高いように思う。なので、日常世界と同じような考えでの継承・非継承の整理に近いのかなと思う
+          </p>
+          <p>非継承プロパティは、width、minなどのサイズ系、marginやpaddinなどの見た目系、borderやbackground-**などの見た目系、displayやflexなどの見た目系・・などがある</p>
+
+        </section>
+      </article>
+
+
+      <article>
+        <section>
+          <h2 id="toc4a" class="h2chapter-title">継承プロパティ、非継承プロパティの失敗例</h2>
+          <h3 id="toc4b" class="h3chapter underline">失敗事象</h3>
+          <p><a href="css_123_animation.html">CSSだけでアニメーション</a>ができるのですが、そのサンプルを作っている時に間違った例です</p>
+          <p>まず現象ですが、以下のHTMLとCSSがあった場合、アニメーションはするが画像サイズが意図したサイズにならなかったという問題が起きました</p>
+          <pre><code class="html">
+      &lt;div class="my-animation"&gt;
+        &lt;img src="**.png" alt="" /&gt;     &lt;!-- このpngをアニメーションさせる意図 --&gt;
+      &lt;/div&gt;
+      </code></pre>
+          <pre><code class="css">
+      .my-animation {
+        width: 20%;                     /* 非継承プロパティなのでdivにしか効いてない */
+        animation-name: fadeInOpacity;
+        animation-duration: 5s;
+      }
+
+      @keyframes fadeInOpacity {
+        from { opacity: 0.35; }
+        to { opacity: 1; }
+      }
+      </code></pre>
+          <p>
+            width:20%で、画像のサイズを20%にする意図だったけどwidhtは非継承プロパティなので、このクラスがかかっている親divにしか効いてない。つまり、親divは幅が20%（ビューポートの20%幅）になっているが、子の画像には効いてない
+          </p>
+          <h3 id="toc4c" class="h3chapter underline">修正内容</h3>
+          <p>修正は「my-animation」の子孫「img」に対するデザインを追加しそこでサイズを指定するように修正</p>
+          <p><span class="marker">このような「親でレイアウト、子でサイズ調整」</span>というような設定は良く行われる。</p>
+          <pre><code class="css">
+      .my-animation {
+        width: 20%;                     /* 非継承プロパティなのでdivにしか効いてない */
+        animation-name: fadeInOpacity;
+        animation-duration: 5s;
+      }
+      /* このCSS設定を追加 */
+      .my-animation img {
+        width:100%;                     /* 親divが縮んでいるので親divに対して100%指定する */
+        height:auto
+      }
+      @keyframes fadeInOpacity {
+        from { opacity: 0.35; }
+        to { opacity: 1; }
+      }
+      </code></pre>
+          <p>原因は、divにかかっている my-animationクラス内のプロパティは非継承プロパティなので、子のimgには影響を与えていないからということであった。</p>
+          <table class="custom-table">
+            <tr>
+              <th>div.my-animation内のプロパティ</th>
+              <th>子imgへの影響</th>
+              <th>その他</th>
+            </tr>
+            <tr>
+              <td>width</td>
+              <td>影響しない</td>
+              <td>だから画像のサイズが変わらなかった</td>
+            </tr>
+            <tr>
+              <td>animation-name</td>
+              <td>影響しない</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>animation-duration</td>
+              <td>影響しない</td>
+              <td></td>
+            </tr>
+          </table>
+          <ol class="no-marker">
+            <li>
+              <span class="font-large">疑問１</span>
+              <p>これで修正はできたけど、疑問が出てきました。</p>
+              <p>widthは、divから子へは継承されないので、divの幅だけが20%になっている。これはわかる。で、imgはサイズ指定がないから元のサイズのままで表示されている。これもわかる。</p>
+              <p>じゃ、なんでアニメーションは動いたの？？</p>
+              <p class="underline">答え</p>
+              <p>
+                この例のアニメーションは、opacityの変化。opacityは特別で「継承はされない」けど見た目の変化はする。つまり、divだけがアニメーションしているが、opacityは親の描画結果が見た目imgにもかかり「親の見た目と一緒に変わる」ということ。
+              </p>
+              <p>だからimgもアニメーションしているように見えていた（opacityの変化だけ）</p>
+            </li>
+            <li>
+              <span class="font-large">疑問２</span>
+              <p>ということは、divには何も指定せず、imgの方にmy-animationをつけたらいいのでは？</p>
+              <p class="underline">答え</p>
+              <p>YESだが今のままの方がいい</p>
+              <p>
+                確かにimgがアニメーションの対象なので、こちらに全部設定をもってきてdivは何も指定しないことでも同じ結果は得られる。だけど、div親でレイアウト管理して、子でサイズ調整するやり方が将来の拡張をしやすいメリットがある。例えば、テキストもアニメーションしたい場合、div内にpタグを追加したらいい。html構造は変わらないので影響は少ない（CSSはテキストに対するアニメーションなどを指定しないといけないが）
+              </p>
+            </li>
+          </ol>
+
+        </section>
+
+
+      </article>
+
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

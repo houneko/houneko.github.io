@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>animationプロパティ | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="animationプロパティ">
+<meta name="keywords" content="animationプロパティ">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/プロパティ:/pages/css/css_000_index.html#toc120 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        CSSのプロパティ animation
+      </h1>
+      <!-- 目次 --
+    <details class="toc-parent">
+      <summary>目次（Table-of-Contents）開/閉</summary>
+      <ol>
+        <li><a href="#toc01">CSSの基本の前の基本</a>
+          <ol class="toc-child">
+            <li><a href="#toc02">親要素、子要素</a></li>
+          </ol>
+        </li>
+        <li><a href="#toc10">CSSの基本</a>
+          <ol class="toc-child">
+            <li><a href="#toc11">CSSの基本構造</a></li>
+            <li><a href="#toc12">CSSの記述場所</a></li>
+          </ol>
+        </li>
+        <li><a href="#toc20">CSSのセレクタいろいろ</a>
+          <ol class="toc-child">
+            <li><a href="#toc21">タイプセレクタ（要素セレクタ）</a></li>
+            <li><a href="#toc22">クラスセレクタ</a></li>
+            <li><a href="#toc23">idセレクタ</a></li>
+          </ol>
+        </li>
+        <li><a href="#toc30">スタイルの優先度</a>
+          <ol class="toc-child">
+            <li><a href="#toc31">CSSが適用される優先度は「セレクタの種類」で決まる</a></li>
+          </ol>
+        </li>
+        <li><a href="#toc40">継承プロパティ、非継承プロパティ</a>
+          <ol class="toc-child">
+            <li><a href="#toc41">継承プロパティ</a></li>
+            <li><a href="#toc42">非継承プロパティ</a></li>
+          </ol>
+        </li>
+        <li><a href="#toc40a">親の下の子への指定方法</a>
+          <ol class="toc-child">
+            <li><a href="#toc41a">セレクタを「親 子」で指定する</a></li>
+            <li><a href="#toc42a">セレクタを「親 > 子」で指定する</a></li>
+            <li><a href="#toc43a">セレクタを「A, B」で指定する</a></li>
+            <li><a href="#toc44a">セレクタを「A + B」で指定する</a></li>
+            <li><a href="#toc45a">セレクタを「A ~ B」で指定する</a></li>
+          </ol>
+        </li>
+        <li><a href="#toc50">疑似クラス</a></li>
+        <li><a href="#toc50a">疑似要素</a>
+          <ol class="toc-child">
+            <li><a href="#toc51a">疑似要素とは</a></li>
+            <li><a href="#toc52a">疑似要素 ::first-letter（要素の一文字目）</a></li>
+            <li><a href="#toc53a">疑似要素 ::before（要素の前）</a></li>
+          </ol>
+        </li>
+        <li><a href="#toc60">コメント</a></li>
+      </ol>
+    </details>
+    -->
+
+      <article>
+        <h2 id="toc01" class="h2chapter-title">animationプロパティ</h2>
+        <section>
+          <h3 id="toc02" class="h3chapter underline">animationプロパティとは</h3>
+          <p>動きのあるWebページを作る場合、JavaScriptを考えるかと思いますが、CSSだけでもアニメーションを実現することができます。このためのプロパティが用意されておりそれがanimationプロパティです</p>
+          <p>実際には「animation」はショートハンドなので、以下のものがアニメーションに関するプロパティです</p>
+          <p><span class="marker-red">アニメーションを行うには最低、animation-nameプロパティとanimation-durationプロパティが必要</span> </p>
+          <table class="custom-table">
+            <caption>animation関係のプロパティ</caption>
+            <tr>
+              <th>プロパティ名</th>
+              <th>意味</th>
+              <th>その他</th>
+            </tr>
+            <tr>
+              <td>animation-name</td>
+              <td>キーフレームの名前</td>
+              <td>アニメーションには最低限、animation-nameとanimation-durationが必要</td>
+            </tr>
+            <tr>
+              <td>animation-duration</td>
+              <td>アニメーション時間</td>
+              <td>アニメーションには最低限、animation-nameとanimation-durationが必要</td>
+            </tr>
+            <tr>
+              <td>animation-timing-function</td>
+              <td>アニメーション速度</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>animation-delay</td>
+              <td>アニメーション起動までの遅延時間</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>animation-iteration-count</td>
+              <td>アニメーション回数</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>animation-direction</td>
+              <td>ループ再生時のアニメーション方向</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>animation-fill-mode</td>
+              <td>アニメーション前後の状態</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>animation-play-state</td>
+              <td>アニメーションの再生・一時停止</td>
+              <td></td>
+            </tr>
+          </table>
+
+          <ul class="no-marker">
+            <li>
+              <div class="indent-title font-large" id="toc10">animation-nameプロパティ</div>
+              <div class="indent-content">
+                <p>animation-nameプロパティは「@keyframes」というアニメーションを定義する@ルール名を指定するプロパティ。<br />
+                  このため、animation-nameプロパティを指定しただけではだめで、@keyframes（複数形）を定義しないとアニメーションはかからない</p>
+                <p>また、animation-nameと@keyframesが指定されていても、animation-durationが指定されていないと0秒のアニメになって、見かけ何もアニメーションがされない</p>
+                <p>つまり最低限、animation-nameプロパティ（@keyframesも）とanimation-durationプロパティの指定が必要</p>
+              </div>
+            <li>
+              <div class="indent-title font-large" id="toc12">animation-durationプロパティ</div>
+              <div class="indent-content">
+                <p>
+                  animation-durationプロパティは、アニメーションが開始から終了までにかかる時間を指定します。つまり何秒間アニメーションするかを指定するということです。指定しない場合、デフォルト値の0秒が指定されるため0秒のアニメーションになります（実質アニメーションしない）
+                </p>
+              </div>
+            </li>
+            <pre><code class="html">
+        <img src=".hoge.jpg" alt="" />
+        </code></pre>
+            <pre><code class="css">
+        /* @keyframes名を指定するプロパティ */
+        .my-animation { 
+          animation-name: myFadeIn; 
+          animation-duration: 9s;
+        }   
+
+        /* @keyframe fromは開始状態、toが最終状態 */
+        /* この例だとopacity0.35から、opacity1（完全な不透明）にアニメーションする */
+        @keyframes fadeInOpacity {
+          from { opacity: 0.35; }
+          to { opacity: 1; }
+        }
+        </code></pre>
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

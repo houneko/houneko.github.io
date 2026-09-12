@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>疑似クラスと疑似要素 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="疑似クラスは「:」で始まる要素の状態を指定するセレクタ。マウスオーバすると・・の動きは疑似クラスによるものです。疑似要素は「::」で始まるHTML側には存在しない要素もどきに対してスタイルを指定するものです">
+<meta name="keywords" content="疑似クラス,疑似要素">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/基本:/pages/css/css_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        疑似クラスと疑似要素
+      </h1>
+      <p>疑似クラスは「:」で始まる要素の状態を指定するセレクタ。マウスオーバすると・・の動きは疑似クラスによるもの。<br />疑似要素は「::」で始まるHTML側には存在しない要素もどきに対してスタイルを指定する</p>
+
+      <!-- 5章 -->
+      <article>
+        <h2 id="toc50" class="h2chapter-title">疑似クラス</h2>
+        <section>
+          <h3 id="toc50b" class="h3chapter underline">疑似クラスとは </h3>
+          <p>疑似クラス（pseudo-class）は、要素の状態を指定できるセレクタのこと。コロン「：」でキーワードを指定する。</p>
+          <ul>
+            <li>疑似クラスはコロン「:」で始まるセレクタ
+              <pre><code class="css">
+        .my-table tr:hover {...}    /* 他の要素やclass、idに付けて定義したり */
+        :target {...}               /* 単独で定義したりできる */
+
+        tr:hover {                    /* テーブルのtr要素にマウスオーバするとその行が yellow になるというCSS設定 */
+          backgoround-color: yello;
+        }
+      </code></pre>
+            </li>
+            <li>疑似クラスは「ある状態になった時に」を定義する
+              <p>
+                疑似クラスにより、Webページ上の対象がある状態になった時に指定したデザインが適用される。結構便利。またある状態でなくなった場合はCSSのデザインが解除される。例えば、マウスオーバで文字を赤くするデザインがあったとして、マウスオーバが無くなると元の文字色に戻る
+              </p>
+            </li>
+            <li><span class="marker-red">疑似クラスに対応する定義はhtml上には無い</span>
+              <p>疑似クラスは状態を示すものなので、html上には疑似クラスに対応する定義はない。<span
+                  class="marker-red">つまり、HTML側では疑似クラスに対する何かを記述する必要はない</span></p>
+            </li>
+            <li>疑似クラスの「クラス」は、class属性とは無関係
+              <p>html要素の属性に「class」というのがあるが、読みが一緒なだけで疑似クラスの「クラス」とは無関係。疑似クラスは要素名、class、idに適用できる</p>
+            </li>
+            <li>いろいろな疑似クラス
+              <p>疑似クラスの一例。他にもいっぱいある</p>
+              <table>
+                <tr>
+                  <th>疑似クラス名</th>
+                  <th>意味</th>
+                  <th>その他</th>
+                </tr>
+                <tr>
+                  <td>:hover</td>
+                  <td>マウスオーバした時の状態</td>
+                  <td>タグ全般に適用可能</td>
+                </tr>
+                <tr>
+                  <td>:active</td>
+                  <td>対象要素をクリックした状態</td>
+                  <td>タグ全般に適用可能</td>
+                </tr>
+              </table>
+            </li>
+            <li>おまけ）疑似セレクタ？
+              <p>疑似セレクタは俗称でCSSの正式名ではない。疑似セレクタは「疑似クラス」「疑似要素」を総じて使われているなんちゃって用語</p>
+            </li>
+          </ul>
+          <p>マウスオーバで色を変える疑似クラスのサンプル例</p>
+          <pre class="margin-top-1em"><code class="html">
+  &lt;head&gt;
+    &lt;style&gt;
+      .hoge{
+          width: 80px;
+          height: 80px;
+          margin: 4px;
+          background-color: skyblue;
+      }
+
+      .hoge:hover {                           //疑似クラス hover 「.hogeクラスの要素にマウスオーバした」という状態
+          background-color: pink;             //「.hogeクラスの要素にマウスオーバした」という状態に対して色を変更している
+      }                                       //
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div class="hoge"&gt;hogeです&lt;/div&gt;
+  &lt;/body&gt;
+  </code></pre>
+          <style>
+            #id-hoge {
+              width: 280px;
+              height: 80px;
+              margin: 4px;
+              background-color: skyblue;
+            }
+
+            #id-hoge:hover {
+              background-color: pink;
+            }
+          </style>
+          <div id="id-hoge">hogeです<br />(マウスオーバすると色が変わる)</div>
+        </section>
+      </article>
+      <!-- 5.1章 -->
+      <article>
+        <h2 id="toc50a" class="h2chapter-title">疑似要素</h2>
+        <section>
+          <h3 id="toc51a" class="h3chapter underline">疑似要素とは </h3>
+          <p>疑似要素とは、HTMLには書かれていない「要素もどき」に対してスタイルを指定できるもの。疑似要素を使えば、<span
+              class="marker-underline">HTMLコードを変更することなくCSSで要素を追加したりデザインを変えることができる。</span>実際には存在しない「要素もどき」に対しての設定なのでHTML本体には影響を与えない。<br />疑似要素は各セレクタ（タグ名やid名、クラス名）の後に「::」タブルコロンで指定する。
+          </p>
+          <pre><code class="css">
+    h1::before {
+      content: "hogeです";
+      ・・
+    }
+    </code></pre>
+          <p>上記例は、h1要素の前に「before」という要素もどきがあるとして、beforeに対して設定を行う。beforeが疑似要素という事になる。</p>
+        </section>
+        <section>
+          <h3 id="toc52a" class="h3chapter underline">疑似要素いろいろ 疑似要素 ::first-letter（要素の一文字目を指定）</h3>
+          <p>
+            これはテキストの1文字目という要素もどきがあるとして、その要素もどきに対してのスタイル設定になる。例えば1文字目を赤色にしたいなどの用途などが実現できる。<br />これを疑似要素を使わないで実装すると以下のようにHTML側のp要素全てにspanタグで先頭一文字を囲み定義しないといけないので、変更があった場合などに保守しにくい。<span
+              class="marker-underline-red">というか疑似要素を使わなければ、HTML側を変更せずに実現することはできない</span></p>
+          <pre><code>
+    &lt;!-- 疑似要素を使わずにHtmlドキュメントの先頭文字を赤色にする --&gt;
+    &lt;style&gt;
+      p span { color: #FF0000; }
+    &lt;/style&gt;
+    &lt;p&gt;&lt;span&gt;先&lt;/span&gt;頭の文字だけ赤にする&lt;/p&gt;
+    </code></pre>
+          <p>
+            次に、疑似要素を使って「先頭の文字だけ赤にする」場合<br />HTML側はpタグで普通に文全部をマークアップするだけ。CSS側で「::first-letter」という疑似要素にて先頭文字だけを修飾する。HTMLには、first-letter
+            という要素は無いがこういう要素があったとして、それに対してCSSのデザインが適用される。</p>
+          <pre><code>
+    &lt;!-- 疑似要素を使ってHtmlドキュメントの先頭文字を赤色にする --&gt;
+    &lt;style&gt;
+      p::first-letter { color: #FF0000; }
+    &lt;/style&gt;
+
+    &lt;p&gt;先頭の文字だけ赤にする&lt;/p&gt;   &lt;!-- HTML側はマークアップするだけ。spanで先頭を切り出す必要は無い --&gt;
+    </code></pre>
+          <style>
+            #my-first-letter::first-letter {
+              color: #FF0000;
+            }
+          </style>
+          <p id="my-first-letter">先頭の文字だけ赤にする</p>
+        </section>
+        <section>
+          <h3 id="toc53a" class="h3chapter underline">疑似要素いろいろ 疑似要素 ::before（要素の前に追加する）</h3>
+          <p>HTMLには、before
+            という要素は無いがこういう要素があったとして、それに対してCSSのデザインが適用される。例はこのページで使っているHTML/CSSだが、CSSでh2のタイトルの前に「□」を追加させている。<br />::befor疑似要素のおかげで、h2タイトルのHTMLコードはそのままでタイトル「hogehoge」の前に「□」というコンテンツが追加されて表示される。
+          </p>
+          <pre><code class="css">
+    .h2chapter-title::before {
+      content: "□";               /* 先頭に表示するマーク */
+      color: black;                /* マークの色 */
+      font-size: 1.4em;            /* マークのサイズ */
+      margin-right: 8px;           /* 章タイトルとの間隔を調整 */
+    }
+    </code></pre>
+        </section>
+      </article>
+
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

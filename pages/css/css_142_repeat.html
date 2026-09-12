@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>repeat関数 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="repeat関数">
+<meta name="keywords" content="repeat関数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/関数:/pages/css/css_000_index.html#toc140 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        cssのrepeat関数
+      </h1>
+
+      <article>
+        <h2 id="toc01" class="h2chapter-title">repeat関数</h2>
+        <section>
+          <h3 id="toc02" class="h3chapter underline">repeat関数とは</h3>
+          <p>repeat関数は基本的にはグリッドレイアウトのWebページでグリッドの列数や行数の繰り返しを指定する時に使う関数です</p>
+          <p>
+            グリッドレイアウトの列数や行数は、grid-template-columnsプロパティや、grid-template-rowsプロパティで指定ができるが、いくつも書かないといけないなど面倒。この時、repeat関数が使える
+          </p>
+          <pre><code class="html">
+    &lt;style&gt;
+      .container {
+        &lt;!-- これでグリッドレイアウト設定になる --&gt;
+        display: grid;                    
+        &lt;!-- 横方向は4つ（4列）にする --&gt;
+        &lt;!-- repeat関数を使うと、1fr 1fr 1fr 1fr と指定するのと同じ --&gt;
+        &lt;!-- grid-template-columns: 1fr 1fr 1fr 1fr;    --&gt;
+        grid-template-columns: repeat(4, 1fr);   
+        &lt;!-- 子アイテム間のスペースを1emに指定 --&gt;
+        gap: 1em;                         
+      }      
+    &lt;/style&gt;
+    </code></pre>
+          <p><span class="is-bold">repeat関数(第1引数, 第2引数)</span></p>
+          <p></p>
+          <ul class="no-marker">
+            <li>
+              <p>第1引数は繰り返し回数を指定する</p>
+              <pre><code class="css">
+        /* 例１ */
+        repeat(3, 100px);   /* 100pxの箱を3つ */
+        /* 例２ */
+        /* 第1引数がauto-fillの場合、空き領域に指定したサイズの箱が入るだけ並ぶ */
+        repeat(auto-fill, 100px);   /* 100pxの箱を入るだけ */
+        </code></pre>
+            </li>
+            <li>
+              <p>第2引数はサイズを指定する</p>
+              <pre><code class="css">
+        /* 例１ */
+        repeat(3, 1fr);   /* 3分割した1つ分 */
+        /* 例２ */
+        /* minmax関数で最小値と最大値を指定する */
+        repeat(3, minmax(100px, 1fr));   /* 最小100px、最大1fr */
+        </code></pre>
+            </li>
+          </ul>
+
+
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

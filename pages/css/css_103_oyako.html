@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>親子の指定方法 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="親子の指定方法">
+<meta name="keywords" content="親子関係">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/基本:/pages/css/css_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        親子の指定方法
+      </h1>
+
+      <!-- 4.1章 -->
+      <article>
+        <h2 id="toc40a" class="h2chapter-title">親の下の子への指定方法</h2>
+        <section>
+          <h3 id="toc41a" class="h3chapter underline">セレクタを「親 子」で指定する </h3>
+          <p>親の下の子を指定する場合、「親　子」（親「スペース」子）で指定すると親配下の子へのスタイル設定となる。<span class="marker">注意点は、この子というのは子孫全部を指す。</span>つまり、親
+            子というセレクタ指定は、その親の配下の全子孫に対する指定となる</p>
+          <pre><code class="html">
+    &lt;style&gt;
+      .parent-a span {  &lt;!-- これは「.parent」の中の「span」に対する指定 --&gt;
+        color: red;     &lt;!-- 注意点として、「.parent」の中の全部の「span」に設定される --&gt;
+      }
+    &lt;/style&gt;
+  
+    &lt;div class="parent-a"&gt;
+      &lt;p&gt;私は&lt;span&gt;親ねこ&lt;/span&gt;です&lt;/p&gt;
+      &lt;div class="child"&gt;
+        &lt;p&gt;私は&lt;span&gt;子ねこ&lt;/span&gt;です&lt;/p&gt;
+        &lt;div class="grandchild"&gt;
+          &lt;p&gt;私は&lt;span&gt;孫ねこ&lt;/span&gt;です&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    </code></pre>
+          <p>このコードの実行例</p>
+          <style>
+            .parent-a span {
+              color: red;
+            }
+          </style>
+          <div class="parent-a">
+            <p>私は<span>親ねこ</span>です</p>
+            <div class="child">
+              <p>私は<span>子ねこ</span>です</p>
+              <div class="grandchild">
+                <p>私は<span>孫ねこ</span>です</p>
+              </div>
+            </div>
+          </div>
+          <p class="margin-top-05em">この結果から、<span
+              class="marker-underline-red">parent-aクラス配下の孫にもスタイル設定がかかる</span>という事がわかる。この点を理解しておかないと、意図した表示にならない可能性がある。
+          </p>
+        </section>
+        <section>
+          <h3 id="toc42a" class="h3chapter underline">セレクタを「親 &gt; 子」で指定する </h3>
+          <p>「親 子」の指定だと、親の下の子、孫・・・全てに設定がかかるので、そうではなく特定の子に対して設定したい場合は、この指定方法を使う</p>
+          <pre><code class="html">
+    &lt;style&gt;
+      .parent-b &gt; p &gt; span {  &lt;!-- 「.parent-b」の中の「p」の中の「span」に対する設定 --&gt;
+        color: red;
+      }
+    &lt;/style&gt;
+    &lt;div class="parent-b"&gt;
+      &lt;p&gt;私は&lt;span&gt;親ねこ&lt;/span&gt;です&lt;/p&gt;        &lt;!-- これはstyle設定がかかる --&gt;
+      &lt;div class="child"&gt;
+        &lt;p&gt;私は&lt;span&gt;子ねこ&lt;/span&gt;です&lt;/p&gt;      &lt;!-- これは設定がかからない --&gt;
+        &lt;div class="grandchild"&gt;                &lt;!-- ∵ .parent-b -&gt; .child -&gt; p -&gt; span要素だから --&gt;
+          &lt;p&gt;私は&lt;span&gt;孫ねこ&lt;/span&gt;です&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    </code></pre>
+          <style>
+            .parent-b>p>span {
+              color: red;
+            }
+          </style>
+          <div class="parent-b">
+            <p>私は<span>親ねこ</span>です</p>
+            <div class="child">
+              <p>私は<span>子ねこ</span>です</p>
+              <div class="grandchild">
+                <p>私は<span>孫ねこ</span>です</p>
+              </div>
+            </div>
+          </div>
+          <p class="margin-top-05em">この指定方法は、ちゃんとDOMツリーをイメージしておかないといけない。最初「parent-b &gt;
+            span」と指定していたらマッチするものがなくて色がかわらなかった。この例だと、<span class="marker-underline-red">divの直下のpの中のspan なので div &gt; p
+              &gt; span と指定しないといけない</span></p>
+        </section>
+        <section>
+          <h3 id="toc43a" class="h3chapter underline">セレクタを「A, B」で指定する </h3>
+          <p>「,」カンマで複数要素を区切って指定する方法。この方法はカンマで区切った複数の要素に対する指定という意味になる</p>
+          <p><span class="marker-under">この書き方で注意は「,」カンマで独立して解釈されるという点。</span>どういう事かと言うと以下の例は「.parent-c の中の .oyaneko と
+            .magoneko」に適用する意図で書いているが、これは <span class="marker-underline-red">「.parent-c の中の .oyaneko」
+              全ての「.magoneko」と解釈される。</span>つまり、「.magoneko」クラスはどこにある.magonekoクラスであれ赤色になる。<br />意図通りにしたい場合は、<span
+              class="marker-underline-red">「.parent-c .oyaneko, .parent-c
+              .magoneko」とセレクタを指定しないといけない。</span>自分のイメージとは違ったので最初は少し戸惑ったが、カンマで独立して解釈されるこの仕様の方がいいかな。</p>
+          <pre><code class="html">
+    &lt;style&gt;
+      .parent-c .oyaneko, .magoneko {   &lt;!-- 「.parent-c」の中の「.oyaneko」と「.magoneko」に対する設定 --&gt;
+        color: red;
+      }
+    &lt;/style&gt;
+    &lt;div class="parent-c"&gt;
+      &lt;p&gt;私は&lt;span class="oyaneko"&gt;親ねこ&lt;/span&gt;です&lt;/p&gt;
+      &lt;div class="child"&gt;
+        &lt;p&gt;私は&lt;span class="koneko"&gt;子ねこ&lt;/span&gt;です&lt;/p&gt;
+        &lt;div class="grandchild"&gt;
+          &lt;p&gt;私は&lt;span class="magoneko"&gt;孫ねこ&lt;/span&gt;です&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    </code></pre>
+          <style>
+            .parent-c .oyaneko,
+            .parent-c .magoneko {
+              color: red;
+            }
+          </style>
+          <div class="parent-c">
+            <p>私は<span class="oyaneko">親ねこ</span>です</p>
+            <div class="child">
+              <p>私は<span class="koneko">子ねこ</span>です</p>
+              <div class="grandchild">
+                <p>私は<span class="magoneko">孫ねこ</span>です</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h3 id="toc44a" class="h3chapter underline">セレクタを「A + B」で指定する </h3>
+          <p><del class="delete-text">「+」プラスで指定すると同じ階層のすぐ後の要素のみが指定される（ややこしいので自分はあんまり使わんかも。。）</del></p>
+          <p>当初、そんな感じで思っていたけど使います</p>
+          <pre><code class="html">
+    &lt;style&gt;
+    .parent-d &gt; p + p {
+      color: red;
+    }
+    &lt;/style&gt;
+    &lt;div class="parent-d"&gt;
+      &lt;p&gt;私は&lt;span class="oyaneko"&gt;親ねこ１&lt;/span&gt;です&lt;/p&gt;    &lt;!-- .parent-dの下のp --&gt;
+      &lt;p&gt;私は親ねこ２です&lt;/p&gt;   &lt;!-- の下のp。これのみ指定される --&gt;
+      &lt;div class="child"&gt;
+        &lt;p&gt;私は&lt;span class="koneko"&gt;子ねこ１&lt;/span&gt;です&lt;/p&gt;
+        &lt;p&gt;私は&lt;span class="koneko"&gt;子ねこ２&lt;/span&gt;です&lt;/p&gt;
+        &lt;div class="grandchild"&gt;
+          &lt;p&gt;私は&lt;span class="magoneko"&gt;孫ねこ&lt;/span&gt;です&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    </code></pre>
+          <style>
+            .parent-d>p+p {
+              color: red;
+            }
+          </style>
+          <div class="parent-d">
+            <p>私は<span class="oyaneko">親ねこ１</span>です</p>
+            <p>私は親ねこ２です</p>
+            <div class="child">
+              <p>私は<span class="koneko">子ねこ１</span>です</p>
+              <p>私は<span class="koneko">子ねこ２</span>です</p>
+              <div class="grandchild">
+                <p>私は<span class="magoneko">孫ねこ</span>です</p>
+              </div>
+            </div>
+          </div>
+          <p>当初使わないかなと思っていたのですが、これは章と章の間を空けたい時に簡潔に指定できるので便利です</p>
+          <p>以下の例のようにCSSを設定していたらsectionとsectionの間は2em空けて、最初のsectionは空けないというデザインができます</p>
+          <pre><code class="css">
+    section + section {
+      margin-top: 2em;
+    }      
+    </code></pre>
+          <p>イメージ</p>
+          <pre><code class="html">
+    &lt;article&gt;
+      &lt;section&gt;
+        &lt;!-- section A --&gt;      section Aの上にはマージンは空かない
+      &lt;/section&gt;
+      &lt;section&gt;
+        &lt;!-- section B --&gt;      section Bの上にはマージンが付く
+      &lt;/section&gt;
+      &lt;section&gt;
+        &lt;!-- section C --&gt;      section Bの上にはマージンが付く
+      &lt;/section&gt;
+    &lt;/article&gt;      
+    </code></pre>
+
+        </section>
+
+
+
+        <section>
+          <h3 id="toc45a" class="h3chapter underline">セレクタを「A ~ B」で指定する </h3>
+          <p>「~」チルダで指定すると同じ階層のすぐ後の要素のみが指定される（ややこしいので自分はあんまり使わんかも。。）</p>
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

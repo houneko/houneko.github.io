@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>box-shadowプロパティ | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="box-shadowプロパティ">
+<meta name="keywords" content="box-shadowプロパティ">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/プロパティ:/pages/css/css_000_index.html#toc120 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        cssのプロパティ box-shadow
+      </h1>
+
+      <article>
+        <h2 id="toc01" class="h2chapter-title">box-shadowプロパティ</h2>
+        <section>
+          <h3 id="toc02" class="h3chapter underline">box-shadowプロパティ</h3>
+          <p>box-shadowプロパティは、指定されたセレクタに影をつけるプロパティ</p>
+        </section>
+        <section>
+          <h3 id="toc03" class="h3chapter underline">box-shadowプロパティの書式</h3>
+          <div class="format-card">
+            <div class="format-prototype">セレクタ〇〇 { box-shadow: x方向 y方向 [ぼかし半径] [広がり] [色] [内側指定]; }</div>
+          </div>
+          <p>この書式カードは以下のCSSでデザインしている</p>
+          <pre><code class="css">
+    .format-card {
+      width: 85%;
+      max-width: 1200px;
+      margin-left: 1em;
+      margin-top: 0.5em;
+      padding: 1em;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 2px 2px 6px rgba(0,0,0, 0.1);   /* これでカードに影をつけている */
+      background-color: #e8f4fd;                  /* カードの背景色を薄い水色にしている */
+    }
+    </code></pre>
+          <ul>
+            <li>
+              <p class="font-large" id="toc10">値 x方向</p>
+              <p>
+                x方向は、box-shadowプロパティの必須な値で、影のx方向の向きと大きさを指定する。正の値だと右側に、負の値だと左側に影がつく。イメージで言うと正値の影は、対象要素の左上に光源があり右下に影がつくという感じ、負値だと右上に光源があり左下に影がつく
+              </p>
+              <div class="text">
+                <img src="/assets/pic/css_boxshadow_01.png" alt="box-shadow" class="image-float" />
+                <p><br />例1は、x方向に+10px（y方向は+2px）<br />例2は、x方向に-10px（y方向は+2px）</p>
+                <p>x値が正の場合は右下に影ができ、負の場合は左下に影ができている（y方向はどちらも+なので下に影ができる）</p>
+              </div>
+            </li>
+            <li>
+              <p class="font-large" id="toc20">値 y方向</p>
+              <p>y方向も、box-shadowプロパティの必須な値で、影のy方向の向きと大きさを指定する。正の値だと下に、負の値だと上に影がつく</p>
+            </li>
+            <li>
+              <p class="font-large" id="toc30">値 [ぼかし半径] [広がり] [色] [内側指定]</p>
+              <p>これらの値はオプションで指定しなくても可。影のぼかし具合や色、内側に影をつけるなどを指定する</p>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

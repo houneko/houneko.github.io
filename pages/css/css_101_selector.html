@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>CSSのセレクタ | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="CSSのセレクタ、CSSの優先順位">
+<meta name="keywords" content="css,CSSのセレクタ">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="css3,css">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/基本:/pages/css/css_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        CSSのセレクタ
+      </h1>
+      <p>CSSのセレクタにはいくつかの種類があり、このセレクタの種類によりCSSの優先順位も決まっています</p>
+
+      <!-- 2章 -->
+      <article>
+        <h2 id="toc20" class="h2chapter-title">CSSのセレクタいろいろ</h2>
+        <p>セレクタはCSSの設定を「どこに」適用させるかを示すもの。「どこに」を示す方法はいくつかある。</p>
+        <section>
+          <ol>
+            <li>
+              <h3 id="toc21" class="h3chapter underline">タイプセレクタ（要素セレクタ）</h3>
+              <p>「どこに」を要素名で指定する方法。なので、要素セレクタと言われることもある。</p>
+              <pre><code class="css">
+      p {
+        color: red;
+      }
+    </code></pre>
+            </li>
+            <li>
+              <h3 id="toc22" class="h3chapter underline">クラスセレクタ</h3>
+              <p>「どこに」を
+                class名で指定する方法。セレクタをclass名で指定するので、class名の前には「.」ドットが必要。HTML側でclass属性で名前を付けている要素があり、そのclass名を持つところにCSSが適用される。
+              </p>
+              <pre><code class="html">
+      HTML側
+      &lt;p class="color-red"&gt;hogeです&lt;/p&gt;
+    </code></pre>
+              <pre><code class="css">
+      CSS側
+      .color-red {      /* クラスを示す「.」が必要 */
+        color: red;
+      }
+    </code></pre>
+            </li>
+            <li>
+              <h3 id="toc23" class="h3chapter underline">idセレクタ</h3>
+              <p>「どこに」を id名で指定する方法。セレクタをid名で指定するので、id名の前には「#」が必要。</p>
+              <pre><code class="html">
+      HTML側
+      &lt;p id="apple-red"&gt;りんごの色は？&lt;/p&gt;
+    </code></pre>
+              <pre><code class="css">
+      CSS側
+      #apple-red {      /* idを示す「#」が必要 */
+        color: red;
+      }
+    </code></pre>
+            </li>
+            <li>
+              <h3 id="toc24" class="h3chapter underline">属性セレクタ</h3>
+              <p>
+                セレクタは「属性」で指定することもできる。例えば、aタグの属性で「href」があるがこのhrefをセレクタに指定できる。<br />またclass、idを丸ごと属性セレクタで指定できる（classやidも属性だから）。例）[id]。これはid名ではなく全部のid属性が対象。#myid1、#myid2、…全部。
+              </p>
+              <p>指定方法は、セレクタを角かっこ[] で囲んで指定すればいい。例）[href] {background-color: red;}</p>
+              <pre><code class="css">
+        [href] {background-color: pink;}
+      </code></pre>
+            </li>
+          </ol>
+        </section>
+      </article>
+
+      <!-- 3章 -->
+      <article>
+        <h2 id="toc30" class="h2chapter-title">スタイルの優先度</h2>
+        <section>
+          <h3 id="toc31" class="h3chapter underline">CSSが適用される優先度は「セレクタの種類」で決まる</h3>
+          <p>上記のようにいろいろなセレクタがあることが分かった。この<span class="marker-red">セレクタには優先度があり「idセレクタ ＞ クラスセレクタ ＞ タイプセレクタ」
+              となっている。</span>(ただし、!importantがついているものが一番強い、またはインラインが次に強い。それ以外はこのセレクタ順となる) </p>
+          <p>上記のようにいろいろなセレクタがあることが分かった。このセレクタには優先度があり「idセレクタ ＞ クラスセレクタ ＞ タイプセレクタ」 となっている。</p>
+          <p>
+            つまり、CSSが適用される優先度は、記述した順番ではなく「セレクタの種類」で決定される。例えば、ある要素にclassとidが設定されているHTMLがあるとして、CSS側はその要素のタイプセレクタ、クラスセレクタ、idセレクタそれぞれが定義されている場合、どのセレクタの設定が優先されるのって話。
+          </p>
+          <p>結論は、CSS側でタイプセレクタ、idセレクタ、クラスセレクタの順番で記述していても、idセレクタ ＞ クラスセレクタ ＞ タイプセレクタ
+            の順で優先される。つまり、CSSの記述順番ではなくセレクタで適用される優先度が変わる。なので、この例の場合、idセレクタで指定した色が適用される。はぁ。。。</p>
+          <pre><code class="html">
+  HTML側
+  &lt;p id="apple-color" class="my-green"&gt;&lt;りんこですわ&lt;/p&gt;
+  </code></pre>
+          <pre><code class="css">
+  CSS側
+  p {                       /* タイプセレクタで、p要素の文字色を yellow に指定している */
+    color: yellow;
+  }
+
+  #apple-color {            /* idセレクタで、apple-color というIDに割り当てた文字の色設定 */
+    color: red;
+  }
+
+  .my-green {               /* クラスセレクタで、my-green というクラスに割り当てた文字の色 */
+    color: green;
+  }
+  </code></pre>
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

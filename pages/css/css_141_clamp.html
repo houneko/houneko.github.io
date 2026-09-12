@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>clamp関数 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="clamp関数">
+<meta name="keywords" content="clamp関数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/関数:/pages/css/css_000_index.html#toc140 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        cssのclamp関数
+      </h1>
+
+      <article>
+        <h2 id="toc01" class="h2chapter-title">clamp関数</h2>
+        <section>
+          <h3 id="toc02" class="h3chapter underline">clamp関数とは</h3>
+          <p>clamp関数は、最小値、理想値、最大値を一気に設定できる関数。レスポンシブにしたいけど、そのままだと小さぎてしまう、あるいは大きすぎなどを割ける事ができる</p>
+          <pre><code class="css">
+    セレクタ {
+      プロパティ: clamp(最小値, 理想値, 最大値);
+    }
+
+    この意味は、以下のようになっている
+    例）
+        .my-class {
+          font-size: clamp(14px, 2vw, 24px);
+        }
+    1. 最小値は14px。これは、画面が小さい場合などで 2vwの値が14pxを下回ってしまう場合、下限として14pxのフォントが使われる
+    2. 理想値は2vw。2vwはビューポート幅の2%を示すもの。今の画面サイズでのフォントが14px～24pxに収まる状態であれば、2vwが使われる
+    3. 最大値は24px。画面が大きく、2vwが24pxを超えてしまう場合、上限として24pxが使われる
+    </code></pre>
+          <p>よく使われる使い方の例</p>
+          <pre><code class="css">
+    xx {font-size: clamp(20px, 4vw, 48px);}   /* フォントサイズの最小値～理想値～最大値 */
+    xx {padding: clamp(16px, 5vw, 64px);}     /* パディングの最小値～理想値～最大値 */
+    xx {width: clamp(300px, 80vw, 1200px);}   /* 幅の最小値～理想値～最大値 */    
+    </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

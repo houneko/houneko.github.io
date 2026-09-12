@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>CSSのクラス設計 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="CSSのクラス設計。CSSは普通に定義していくとどんどん増えていきます。この時一定の設計方針を決めておかないと何がしたかったのかわからなくなりますという話です">
+<meta name="keywords" content="CSSのクラス設計">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/基本:/pages/css/css_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        CSSのクラス設計
+      </h1>
+
+      <!-- toc10 -->
+      <article>
+        <h2 id="toc10" class="h2chapter-title">CSSのクラス設計</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">CSSの設計とは </h3>
+          <p>例えば、1か所だけだから<a href="css_100_syntax.html#toc14">インラインスタイル</a>でいいやと「&lt;span
+            style="color:red;&gt;」のように書いているところがありました。最初は1か所だったけど他の所も赤色で強調したいところが増えてきて2か所、3か所と増えてきました。そうするとインラインだときつくなってくるので<a
+              href="css_100_syntax.html#toc18">リンキングスタイル</a>でclassを定義していくと思いますが、その時どう設計するかという話です。</p>
+          <p>プロジェクトで開発しているなら、プロジェクト内のルールでやればいい。個人でやっている場合でも個人の中で設計方針を決めてやるということかなと思います。なのでこの章は「自分の」設計ということです</p>
+          <p>考え方の推移</p>
+          <ol>
+            <li>
+              <span>最初のクラス名 .text-red {color: red;} </span>
+              <p>最初、.text-red {color: red;} と作ってみた。HTMLは&lt;span class="text-red"&gt; とすればいいので、OKかなと思ったのですが、これはだめ</p>
+              <p>何でだめかというと、協調したい色は赤よりも青がいいとなった時、クラス名が合わなくなってしまう。つまり<span
+                  class="marker">見た目をクラス名にするのはあんまり良くない。</span>場合によっては見た目をクラスにしてもいいかもしれないですが、この例の場合は見た目をクラス名にすると変動に弱いということです
+              </p>
+            </li>
+            <li>
+              <span>じゃどういうクラス名がいいのか？</span>
+              <p>そもそもなんで赤色にしたかったのかを考えると、この部分は目立たせたい・強調したいというのが始まり。じゃ、意味ベースでクラス名をつけてみようということで.emphasis {color: red;}
+                にしたらしっくり行きそう。</p>
+              <p>「ここは強調するところです」という意味で作ったクラス名で限定していないので自由度が高い。協調の色を青にしたい場合でもhtml側はクラス名を修正する必要はなく、CSS内で青に定義したらいいだけ。</p>
+              <p>また、boldにするというのを追加したくなっても、協調という世界感は壊れない</p>
+              <p><span class="marker">意味ベースでクラス名を作る</span>という方法はうまくいきそう</p>
+            </li>
+          </ol>
+          <p>次の疑問</p>
+          <p>今、emphasisクラスを以下のように定義したとして、赤色だけを適用したい要素、ボールドだけを適用したい要素があったらどうするか？</p>
+          <pre><code class="css">
+  .emphasis {
+    color: red;
+    font-weight: bold;
+  }
+  </code></pre>
+          <p>考え方の推移</p>
+          <ol>
+            <li>
+              <span>emphasis-colorと、emphasis-boldに分けてみる</span>
+              <pre><code class="css">
+      .emphasis-color {color: red;}
+      .emphasis-bold {font-weight: bold;}
+      </code></pre>
+              <pre><code class="html">
+      &lt!-- 強調とは赤色にしたいのか？太字にしたいのか？ が分からなくなる --&gt;
+      &lt;span class="emphasis-color"&gt;赤色です&lt/span&gt;
+      &lt;span class="emphasis-bold"&gt;太字ですよ&lt/span&gt;
+      </code></pre>
+              <p>一見いいように見えるけど、これはあんまり良くない</p>
+              <p>将来的に、emphasis-xxxが増えていき元々の強調とはどれなのか？が分からなくなる。意味が発散してしまい強調というより、emphasis-というラベルが付いた装飾となってしまう。</p>
+            </li>
+            <li>
+              <span class="marker">意味ベースのクラスは1つに固定してしまう</span>
+              <p>このサイトでは「強調」は赤色だと1つに固定する。そうすると強調という意味のクラスは1つだけなので、意味が散らからない</p>
+              <p>太字のクラスは、状態を示すものとして定義する</p>
+              <pre><code class="css">
+      /* 意味としての強調を示すクラスは 1つだけ */
+      .emphasis {color: red;}
+
+      /* 太字や他のものは状態を示すものとして定義する */
+      .is-bold {font-weight: bold;}
+      .is-hidden {display: none;}
+      </code></pre>
+              <p>こうすると、is-xxのものがいっぱいできてしまいCSSが見にくくなるのでは？という考えができるが、これは気にしなくてもいい。状態となるものは多数あるのが当たり前で、これらはいろいろな所で再利用が前提。
+              </p>
+              <p>状態を定義したものは、意味を語らないので他の所でも汎用的に使える（はず）</p>
+              <p><span class="marker">意味ベースでクラス名を作る</span>という方法はうまくいきそう</p>
+            </li>
+          </ol>
+          <h3 id="toc14" class="h3chapter underline">結論 </h3>
+          <p>メインとなるクラスは「意味」ベースで考える。そして意味ベースのものは同じ意味のものを複数定義しないようにする。</p>
+          <p>状態を定義するものは複数あってもいい</p>
+
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

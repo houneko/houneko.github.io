@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>CSSの変数 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="CSSは変数を定義することができます">
+<meta name="keywords" content="CSSの変数">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/変数:/pages/css/css_000_index.html#toc160 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        CSSの変数
+      </h1>
+
+      <article>
+        <h2 id="toc01" class="h2chapter-title">CSSの変数</h2>
+        <section>
+          <h3 id="toc02" class="h3chapter underline">CSSの変数とは</h3>
+          <p>CSSは変数を持つことができます。変数はCSSカスタムプロパティで実現しており、CSS変数と言われることもある。</p>
+
+          <h3 id="toc03" class="h3chapter underline">変数の宣言と定義</h3>
+          <p>変数の宣言と定義は疑似クラス「:root」内で行います</p>
+          <pre><code class="css">
+    :root {
+      変数名 : 値;
+    }
+    </code></pre>
+
+          <h3 id="toc03a" class="h3chapter underline">変数を宣言する場所</h3>
+          <p>変数宣言はCSSの先頭（@charset "utf-8"; の後）に書きます</p>
+          <pre><code class="css">
+    /* 変数宣言は、CSSの先頭（charset "utf-8"; の後）に書く */
+    @charset "utf-8";
+    /* =========================
+        変数定義エリア
+      ========================= */
+    :root {
+      --breadcrumb-height: 24px;
+      --content-max-width: 2400px;
+      --content-padding: 16px;
+    }
+    </code></pre>
+
+          <h3 id="toc04" class="h3chapter underline">変数名のルール</h3>
+          <p>変数名は「--（ハイフン2個）」で始める</p>
+          <pre><code class="css">
+    /* 例：パンくずリストの高さの値を定義する変数： --breadclumb-height
+        変数にしておけば今後仕様が変わって高さが40pxになってもこの変数値だけ変えればいい */
+    :root {
+      --breadclumb-height : 24px;
+    }
+    </code></pre>
+
+          <h3 id="toc05" class="h3chapter underline">変数の参照方法</h3>
+          <p>変数の参照は「var(変数名)」で参照することができます。また第二引数を指定することで、変数の参照ができなかった場合に代替値を指定することもできます</p>
+          <pre><code class="css">
+    /* 例：定義部 */
+    :root {
+      --breadclumb-height : 24px;
+    }
+    /* 例：変数を使って値を指定する 
+        上パディングの値をリテラル値で指定せずに変数「--breadclumb-height」で指定している
+        また、第二引数が指定されているので、変数がロードできなかった場合は、この代替値が使われる
+    */
+    セレクタxx {
+      padding-top: var(--breadclumb-height, 24px);
+    }
+    </code></pre>
+
+          <h3 id="toc06" class="h3chapter underline">グローバル変数とローカル変数</h3>
+          <p>「:root」内で宣言した変数はグローバル変数、他のセレクタで宣言した変数はローカル変数となります</p>
+          <pre><code class="css">
+    /* 例：グローバル変数 */
+    :root {
+      --breadclumb-height : 24px;
+    }
+
+    /* 例：ローカル変数 */
+    section {
+      --main-color : red;
+      --main-fontsize : 32px;
+    }
+    </code></pre>
+
+          <h3 id="toc07" class="h3chapter underline">変数のスコープ</h3>
+          <p>グローバル変数とローカル変数では、変数が参照できる範囲（スコープ）が違います（当然やろな）。。</p>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">グローバル変数のスコープ</span>
+              <p>疑似クラス「:root」はhtml文書全体を示すので、グローバル変数のスコープはhtml全体になる。このためCSSファイルが複数あったとしても後から読み込むCSSにもこのグローバル変数は見える</p>
+              <pre><code class="html">
+        &lt;link rel="stylesheet" href="global.css"&gt;   &lt;!-- このCSSでグローバル変数が定義されている --&gt;
+        &lt;link rel="stylesheet" href="main.css"&gt;     &lt;!-- このCSSからもグローバル変数が見える --&gt;
+        </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">ローカル変数のスコープ</span>
+              <p>任意のセレクタ内で宣言したローカル変数は、その要素内でだけ参照できる</p>
+              <pre><code class="css">
+        /* このローカル変数は「section要素」内からだけ見える */
+        section {
+          --main-color : red;
+          --main-fontsize : 32px;
+        }
+        </code></pre>
+            </li>
+          </ul>
+
+          <h3 id="toc08" class="h3chapter underline">変数の使い方（自分）</h3>
+          <p>自分の変数の使い方は定数としてです。は？変数を定数ってどういうこと</p>
+          <p>
+            CSSはプログラムではないので、コード中に値を変更して使うよりも「定数」として定義されたものを参照するという使い方があうと思います。そう考えると変数定義しているだけの「variables.css」のようなファイルを作って、デザインを行う「style.css」と別に分けて使うのがいいのかなと思います。
+          </p>
+          <p>変数定義しているファイルが一目でわかりメンテナンスしやすい</p>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
