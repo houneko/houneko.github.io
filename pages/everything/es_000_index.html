@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Everythingのページ | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Everythingに関するページです。Everythingとは何か？Everythingの使い方、特にコマンドラインからの使い方を中心に書いています">
+<meta name="keywords" content="Everything,es.exe,index,トップページ">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="Everything">
+<meta name="breadcrumb" content="ホーム:/index.html >">
+</head>
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/es_icon.png" alt="esicon" class="title-icon">
+        Everythingのページ
+      </h1>
+      <p>このページはEverythingとは何か？主にコマンドラインでのEverythingの使い方を中心にサンプルを使って説明します</p>
+      <div class="toc-header">
+        <span class="toc-label">目次：</span>
+        <button id="details-toggleAll">すべて開く</button>
+      </div>
+
+      <div class="toc-container">
+        <!-- 基本の章 #100台 -->
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">Everythingの基本</span>
+            <span class="desc">Everythingの基本的な話の章。Everythingを使うための話を各章でまとめています</span>
+          </summary>
+          <!-- ページ100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">Everythingの基本的な概念</span>
+              <span class="desc">Everythingとは何か、変数と定数、演算子などの概念を整理した章です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="es_100_outline.html">Everythingとは</a>
+                <p class="desc">Everythingの基本概念などをまとめているページです</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
