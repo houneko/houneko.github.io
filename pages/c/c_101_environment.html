@@ -56,13 +56,13 @@
           <p>インストール、環境設定の確認</p>
           <p>インストール、環境設定が終われば設定等が正しいかを確認します（コンパイラにパスが通っており、コマンドラインからコンパイラを呼び出せるかを確認する）</p>
           <pre><code class="pwsh">
-          PS C:\&gt; gcc --version
-          
-          #コンパイラのインストール、設定が成功していたら以下のようなメッセージが出ます
-          gcc.exe (x86_64-win32-seh-rev0, Built by MinGW-Builds project) 14.2.0
-          Copyright (C) 2024 Free Software Foundation, Inc.
-          This is free software; see the source for copying conditions.  There is NO
-          warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&gt; gcc --version
+  PS C:\&gt; gcc --version
+  
+  #コンパイラのインストール、設定が成功していたら以下のようなメッセージが出ます
+  gcc.exe (x86_64-win32-seh-rev0, Built by MinGW-Builds project) 14.2.0
+  Copyright (C) 2024 Free Software Foundation, Inc.
+  This is free software; see the source for copying conditions.  There is NO
+  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&gt; gcc --version
           </code></pre>
         </section>
 
@@ -79,51 +79,55 @@
               <p><a href="/pages/vscode/vsc_120_cmdpalette.html">コマンドパレット（Ctrl+Shift+P）</a>で「C/C++ Edit
                 Configurations」を開き、コンパイラとインテリセンスの設定を行います </p>
               <img src="/assets/pic/c_101_cedit_settings.webp" alt="C/C++ Edit Configurations設定" />
-              <p>これで<a href="/pages/vscode/vsc_125_dotvscode.html">.vscodeフォルダ</a>に「c_cpp_properties.json」というCの設定ファイルができます</p>
+              <p>これで<a
+                  href="/pages/vscode/vsc_125_dotvscode.html">.vscodeフォルダ</a>に「c_cpp_properties.json」というCの設定ファイルができます
+              </p>
               <p>このjsonファイルの中に「compilerPath」というキーと「intelliSenseMode」というキーがあるのでそれぞれ以下のように設定します。</p>
               <p>コンパイラのパスは、<span class="emphasis">Where gcc.exe</span>で探して自分にあったパスを指定します</p>
               <pre><code class="json">
-              {
-                  "configurations": [
-                      {
-                          "name": "Win32",
-                          "includePath": [
-                              "${workspaceFolder}/**"
-                          ],
-                          "defines": [
-                              "_DEBUG",
-                              "UNICODE",
-                              "_UNICODE"
-                          ],
-                          "compilerPath": "C:/Program Files/mingw64/bin/gcc.exe",   /*コンパイラのパス*/
-                          "intelliSenseMode": "windows-gcc-x64"                     /*インテリセンスの設定*/
-                      }
-                  ],
-                  "version": 4
-              }                
+  {
+      "configurations": [
+          {
+              "name": "Win32",
+              "includePath": [
+                  "${workspaceFolder}/**"
+              ],
+              "defines": [
+                  "_DEBUG",
+                  "UNICODE",
+                  "_UNICODE"
+              ],
+              "compilerPath": "C:/Program Files/mingw64/bin/gcc.exe",   /*コンパイラのパス*/
+              "intelliSenseMode": "windows-gcc-x64"                     /*インテリセンスの設定*/
+          }
+      ],
+      "version": 4
+  }                
               </code></pre>
             </li>
             <li>VSCodeを再起動</li>
             <li>
               <span><a href="/pages/vscode/vsc_124_launchjson.html">launch.json</a>を作成</span>
-              <p>「c_cpp_properties.json」ファイルがある<a href="/pages/vscode/vsc_125_dotvscode.html">.vscodeフォルダ</a>にlaunch.jsonファイルを作成します（このファイルが無いとデバッグできない）</p>
+              <p>「c_cpp_properties.json」ファイルがある<a
+                  href="/pages/vscode/vsc_125_dotvscode.html">.vscodeフォルダ</a>にlaunch.jsonファイルを作成します（このファイルが無いとデバッグできない）
+              </p>
               <pre><code class="json">
-              {
-                "version": "0.2.0",
-                "configurations": [
-                  {
-                    "name": "C Debug (gcc)",
-                    "type": "cppdbg",
-                    "request": "launch",
-                    "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                    "cwd": "${fileDirname}",
-                    "MIMode": "gdb",
-                    "miDebuggerPath": "C:/Program Files/mingw64/bin/gdb.exe",
-                    "externalConsole": false,
-                    "preLaunchTask": "build c"
-                  }
-                ]
-              }                
+  {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "C Debug (gcc)",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+        "cwd": "${fileDirname}",
+        "MIMode": "gdb",
+        "miDebuggerPath": "C:/Program Files/mingw64/bin/gdb.exe",
+        "externalConsole": false,
+        "preLaunchTask": "build c"
+      }
+    ]
+  }                
               </code></pre>
             </li>
           </ol>
@@ -131,14 +135,16 @@
 
         <section>
           <h3 id="toc30" class="h3chapter underline">Cプログラムのビルドで実行</h3>
-          <p>その前に1点注意事項：<span class="emphasis">Mingw、gdb、VSCodeの環境では、パスに2バイト文字は使わない</span>方がいいです。最初パスに2バイト文字があり、F5で実行しようとしてもパスを見つけらずエラーになってしまいました。</p>
+          <p>その前に1点注意事項：<span
+              class="emphasis">Mingw、gdb、VSCodeの環境では、パスに2バイト文字は使わない</span>方がいいです。最初パスに2バイト文字があり、F5で実行しようとしてもパスを見つけらずエラーになってしまいました。
+          </p>
           <pre><code class="c">
-          #include &lt;stdio.h&gt;
-          int main(void)
-          {
-              printf("Hello, World_14\n");
-              return 0;
-          }            
+  #include &lt;stdio.h&gt;
+  int main(void)
+  {
+      printf("Hello, World_14\n");
+      return 0;
+  }            
           </code></pre>
         </section>
       </article>
