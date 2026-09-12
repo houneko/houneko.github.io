@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="クラスモジュール">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc360 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>クラスモジュール | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        クラスモジュールを使う
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">クラスモジュールを使う</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">クラスモジュールとは</h3>
+          <p>クラスモジュールは、標準モジュールと同様にVBAコードを書くところ（<a
+              href="vba_110_unit.html#toc30">モジュール</a>）で、挿入タグから標準モジュールではなくクラスモジュールを選択する。<br />Webページにはクラスモジュールを使えばオブジェクト指向になるというような説明があるけどこれは少し説明が不足していると思う、VBAはMicrosoftが作ったシートやセルのクラスをインスタンス化したシートオブジェクトやセルオブジェクトにプログラミングを行っているので、VBAはオブジェクト指向であると言える（と思います）。この環境に自分のクラスを作成し、よりオブジェクト指向のプログラミングができる（つまり、クラスモジュールを使わなくてもオブジェクト指向であるが、クラスを使う事でよりオブジェクト指向プログラミングができるってことだと思う）
+          </p>
+          <p>クラスの特徴</p>
+          <ul>
+            <li>クラスモジュールを挿入することでクラスができる（デフォルト名：class1というモジュールができる）</li>
+            <li>クラスモジュール内に「Sub」や「Function」プロシージャを書く</li>
+            <li>クラスモジュールでは、マクロの記録は使えない
+              <p>自分でプロパティやメソッドを定義していくから（元々マクロの記録は使ってないので関係ない）</p>
+            </li>
+            <li>クラスモジュールは1つで、1つのクラス定義
+              <p>つまり、<span class="marker-red">1つのクラスモジュールの中に複数のクラスを定義できない</span> </p>
+              <p>
+                VBAのクラスは、1つのクラスモジュールが1つのクラスなので、他の言語のようなクラス定義をして、プロパティやメソッドを書いていくのではなく、クラスモジュールに標準モジュールと同じようにSubプロシージャやFunctionプロシージャを書いていく（Class
+                xxのような記述は書かなくてもいい）</p>
+              <pre><code class="vb">
+            Option Explicit
+            Private dvdName    As String        '// Dimで宣言しない
+            Private dvdPrice   As String        '//
+
+            Public Function GetDvdName() As String
+              GetDvdName = dvdName
+            End Function
+            </code></pre>
+            </li>
+            <li>クラスには、プロパティとメソッドがある
+              <p>当たり前やな。プロパティは値、メソッドが処理</p>
+            </li>
+            <li>命名規則（慣習的なもので、明確なきまりは無い）
+              <table class="custom-table">
+                <caption>クラスの命名規則</caption>
+                <tr>
+                  <th>項目</th>
+                  <th>命名タイプ</th>
+                  <th>備考</th>
+                  <th>例</th>
+                </tr>
+                <tr>
+                  <td>クラス名</td>
+                  <td>パスカルケース</td>
+                  <td>ハンガリアン記法はあんまり使わんらしいが「Cクラス名」にするか</td>
+                  <td>CMyClass</td>
+                </tr>
+                <tr>
+                  <td>メソッド名</td>
+                  <td>パスカルケース</td>
+                  <td>PowerShellライクで動詞名詞の構成にする</td>
+                  <td>CalculateNumber</td>
+                </tr>
+                <tr>
+                  <td>コレクション名</td>
+                  <td>パスカルケース</td>
+                  <td>末尾に「s」をつけて複数形にする</td>
+                  <td>MyPages</td>
+                </tr>
+                <tr>
+                  <td>プロパティ名</td>
+                  <td>キャメルケース</td>
+                  <td></td>
+                  <td>myName</td>
+                </tr>
+                <tr>
+                  <td>プライベートメンバ名</td>
+                  <td>キャメルケース</td>
+                  <td>「m_」接頭語をつける</td>
+                  <td>m_localValueｘ</td>
+                </tr>
+              </table>
+            </li>
+            <li>クラスモジュールの拡張子は「.cls」
+              <p>クラスモジュールをエクスポートするときの拡張子は「.cls」になる（標準モジュールは、.bas）</p>
+            </li>
+            <li><span class="marker-red">VBAのクラスは継承をサポートしていない</span>
+              <p>
+                ということは、例えば車クラスを定義して、別にスポーツカークラスを作ろうした場合、スポーツカークラスにも車クラスの機能を１から書く必要がある（車クラスを継承できないから）。クラスを使うメリットが半減してしまうなぁ
+              </p>
+            </li>
+            <li><span class="marker-red">VBAのクラスは多様性もサポートしていない</span>
+              <p>
+                オブジェクト指向では「カプセル化」「継承」「多様性」というのが大きな要素である。この中の「継承」「多様性」をサポートしていないということなので、VBAのクラスはオブジェクト指向だけど限定的なということになりそう。つまり、高度なオブジェクト指向プログラミングはできないのかなと思います。
+              </p>
+            </li>
+          </ul>
+          <h3 id="toc13" class="h3chapter underline">Public と Private</h3>
+          <p>プロパティ、メソッドには、Public/Privateの設定があり、Public修飾したメンバだけがクラス外からも見えるようになる</p>
+
+          <!-- HOUTBD -->
+          <h1>本章は作成中で、ここから再開</h1>
+          <p><a href="https://excel-ubara.com/vba_class/VBA_CLASS_01.html">参考になりそうなクラス説明があるWebページ</a></p>
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

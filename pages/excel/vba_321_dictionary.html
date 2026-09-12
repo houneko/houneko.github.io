@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="VBAの機能を拡張する外部ライブラリ達。連想配列、辞書">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc320 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>連想配列、辞書 | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        連想配列、辞書
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">VBAのライブラリ：連想配列、辞書</h2>
+          <h3 id="toc12" class="h3chapter underline">連想配列、辞書とは</h3>
+          <p>連想配列、または辞書とは他の言語でも同様にキーとバリューのペアを登録した配列。通常の配列とは違いインデックスで配列要素を紐づけるのでは無く、キーでバリューを紐づけている。</p>
+          <h3 id="toc13" class="h3chapter underline">Scripting.Dictionary</h3>
+          <p>
+            Scripting.Dictionaryは、VBAで辞書（連想配列）を使えるようにしてくれるライブラリ。<br>辞書はキーとバリュー（VBAではアイテムというみたい）をセットで格納するデータ構造。配列がインデックスに対して要素を格納しているのに対して辞書はキーをもとにバリューを格納する。キーに関連づけたデータなので連想配列ともいう。また、他の辞書と同じくキーの重複は認められないのでキーは必ずユニークになる。バリューはデータなので重複というか同じデータを別のキーで格納することは可能
+          </p>
+          <h3 id="toc14" class="h3chapter underline">辞書インスタンスの生成</h3>
+          <pre><code class="vb">
+          Option Explicit
+          Dim myDict                  As Object
+          Dim myDictB                 As Object
+          
+          '//---------------------------------------------------------------
+          '//辞書インスタンスの生成
+          Set myDict = CreateObject("Scripting.Dictionary")
+          Set myDictB = CreateObject("Scripting.Dictionary")
+        </code></pre>
+          <h3 id="toc20" class="h3chapter underline">辞書にキーとバリューを登録する</h3>
+          <p>辞書にキーとバリューを登録するには、辞書オブジェクトのAddメソッドで登録する方法と、キー = バリューの形で登録する方法の2つがある</p>
+          <ul>
+            <li>Addメソッドの書き方） dictObj.Add キー, バリュー</li>
+            <li>キー = バリューの書き方） dictObj(キー) = バリュー</li>
+          </ul>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//.Addメソッドを使って辞書にキーとバリューを追加
+          myDict.Add 100, "test"          '//キーは数値
+          myDict.Add "myBlue", 15773696   '//キーは文字列
+          
+          '//---------------------------------------------------------------
+          '//.Addメソッドを使わずにキーとバリューを追加
+          myDict(200) = "num"
+          myDict("apple") = "fruits"
+        </code></pre>
+          <h3 id="toc30" class="h3chapter underline">辞書内容の取得（キーでバリューを引いてくる）</h3>
+          <p>辞書(キー)で、キーに登録している値が取得できる</p>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//キーに対するバリューの取得
+          Debug.Print myDict(100)
+          Debug.Print myDict("myBlue")
+          Debug.Print myDict(200)
+          Debug.Print myDict("apple")
+          
+          結果）
+            test          ← それぞれのキーに対するバリューが取得できている
+            15773696 
+            num
+            fruits
+        </code></pre>
+          <h3 id="toc40" class="h3chapter underline">データの個数を調べる</h3>
+          <p>辞書オブジェクトのCountプロパティで辞書に登録されている要素数が取得できる</p>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//データの個数を調べる
+          Debug.Print ("データ数 = " &amp; myDict.Count)
+
+          結果）
+            データ数 = 4
+        </code></pre>
+          <h3 id="toc50" class="h3chapter underline">キーの一覧を取得する</h3>
+          <p>obj.Keysでキーの一覧の配列が返ってくるので、For Eachで1つずつ取得する</p>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//キーの一覧を取得する
+          Dim myKey   As Variant
+          For Each myKey In myDict.Keys
+              Debug.Print ("キー : " &amp; myKey)
+          Next
+
+          結果）
+            キー : 100
+            キー : myBlue
+            キー : 200
+            キー : apple
+        </code></pre>
+          <h3 id="toc60" class="h3chapter underline">バリューの一覧を取得する</h3>
+          <p><span class="marker">バリューの一覧は、ValuesではなくてItemsなので注意。</span>obj.Itemsでバリュー一覧の配列が返ってくので、こちらもFor Eachで1つずつ取得する
+          </p>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//バリューの一覧を取得する（バリューは、.Itemsプロパティになるので注意）
+          Dim myValue   As Variant
+          For Each myValue In myDict.Items
+              Debug.Print ("バリュー : " &amp; myValue)
+          Next
+
+          結果）
+            バリュー : test
+            バリュー : 15773696
+            バリュー : num
+            バリュー : fruits
+        </code></pre>
+          <h3 id="toc70" class="h3chapter underline">辞書にキーが存在するか調べる方法</h3>
+          <p>Existsメソッド(キー)でTrueが返ってきたらキーは存在する。ちなみに特定のバリューが存在するかを調べるメソッドは無いので、バリューを調べる場合は、ForEachで実際にキーで引いて調べる</p>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//辞書にキーが存在するか調べる（バリューの存在確認のメソッドはない）
+          If myDict.Exists("myBlue") Then Debug.Print ("キーは存在します")
+          If myDict.Exists(300) Then
+              Debug.Print ("キーは存在します")
+          Else
+              Debug.Print ("キーは存在しません")
+          End If
+        </code></pre>
+          <h3 id="toc80" class="h3chapter underline">辞書のバリューを変更する</h3>
+          <p>辞書Obj(key) = 新バリュー の書き方で、バリューを変更することができる</p>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//辞書のバリューを変更する
+          myDict("apple") = "animal"
+          Debug.Print myDict("apple")
+
+          結果）
+            animal  ← appleキーに対するバリューが「animal」に変わっている
+        </code></pre>
+          <h3 id="toc90" class="h3chapter underline">辞書のコピー</h3>
+          <p><span class="marker-red">辞書のコピーは注意</span>が必要。感覚的には辞書B =
+            辞書Aとしたら辞書Bに辞書Aがコピーされるイメージがあると思うがこれは参照先がコピーされただけで辞書Bも辞書Aも同じオブジェクトを見ていることになる。<br>なので、辞書のコピーを作ろうと思う場合は、ForEachループでコピー元のキーとバリューを取得してそれをコピー先の辞書に登録するという形で行う必要がある
+          </p>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//辞書のコピー１
+          '// この方法は一見コピーできたように見えるが、実際はmyDictBも myDictも 同じメモリを参照している
+          '// （なので、この後にコピー元の方の要素を削除するとコピー先のmyDictBの方も要素が削除されたように見える）
+          Set myDictB = myDict
+
+          '//---------------------------------------------------------------
+          '//辞書のコピー２
+          '// この方法は完全に別のオブジェクトとしてコピーができる。myDictとmyDictCは内容は同じだが別のオブジェクト
+          Dim workKey     As Variant
+          Dim myDictC     As Object
+          Set myDictC = CreateObject("Scripting.Dictionary")
+          For Each workKey In myDict.Keys
+              '//myDictのキーを取得し、そのキーとバリューを新しい辞書にコピーする
+              myDictC.Add workKey, myDict(workKey)
+          Next
+        </code></pre>
+          <p>2つのコピーが終わった後のデバッグ画面</p>
+          <div class="text">
+            <img src="/assets/pic/vba_dict_copy03.jpg" alt="辞書Objのコピー後画像" class="image-float">
+            <p>一見、myDictB辞書も myDictC辞書も
+              myDict辞書の内容と同じになっておりどちらも同じようにコピーができているように見える。しかしB辞書の方はコピー元辞書と同じアドレスを参照しているだけでコピーの実体はない（この後元の辞書の要素を削除すると差が2つのコピーの違いがわかる）
+            </p>
+          </div>
+          <p>辞書の要素を削除する</p>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//辞書の1つの要素（キーとバリューの1ペア）の削除
+          myDict.Remove "myBlue"
+          Debug.Print myDict.Exists("myBlue") '//この結果はFalseになる
+        </code></pre>
+          <p>元の辞書の要素を削除した後のデバッグ画面</p>
+          <div class="text">
+            <img src="/assets/pic/vba_dict_copy04.jpg" alt="辞書がら１つの要素を削除した後のデバッグ画面" class="image-float">
+            <p>
+              元の辞書からキーmyBlueを削除した結果、元の辞書からはmyBlueの要素が削除されれる（当たり前）、しかしコピーした辞書myDictBの方のmyBlue要素も消えてしまっている。これはmyDictBは「Set
+              myDictB =
+              myDict」でコピーされたものだから、アドレスだけがコピーされているため。同じメモリ先を見ているので一方の辞書の要素を削除するとコピー先の辞書も同じ要素が削除されたように見えるということ<br>次に、1つずつ要素をコピーした辞書myDictCは、別のオブジェクトなので、元の辞書の要素を削除しても関係はない。なので、myDictCには、myBlue要素が削除されずに残っている
+            </p>
+          </div>
+        </section>
+        <section>
+          <h3 id="tocA0" class="h3chapter underline"><span class="marker-red">辞書ではまった事例、間違いやすいと思うので注意</span></h3>
+          <p>セルの内容を辞書に登録する場合（例えば、Cells(lp, myCol)
+            の内容をキーにバリューを登録する。これはループ処理でよく使いそうなシーン）、一見問題なさそうな以下のコードだとだめ。<br />辞書にデータを登録する時はエラー等の問題は発生しないが、<span
+              class="marker-red">辞書を引く時にエラーになる。</span>さらにVBEでデバッグ画面を確認し辞書に登録された内容を見ても問題なさそうに見えるため気が付かないと？？？となり修正方法が見つからなくなる<br />なので、辞書で問題が発生したら最初にこの点を確認した方がいい
+          </p>
+          <pre><code class="vb">
+          '//---------------------------------------------------------------
+          '//ループ中にセルの内容を見て存在しなければキーとして登録する
+          If Nod dict.Exists( CStr(Cells(lp, myCol))) Then
+            dict.Add Cstr(Cells(lp, myCol)), CStr(lp, myCol+1)              '//ここが間違っているがエラーにはならない
+          EndIf
+
+            '// ↓正しくは以下のように、.Valueで指定しないといけない
+            dict.Add Cstr(Cells(lp, myCol).Value), CStr(lp, myCol+1).Value  '//これが正しい書き方
+
+            ....
+
+            辞書を登録した後でこの辞書を引こうとするとエラーになりマクロが止まる
+            If (dict.Exists(myKey)) Then
+              '//これはTrueが返ってくるので、タチが悪い
+              myVal = dict(myKey)   '//←ここでエラーになる!!（何かオブジェクトが必要ですみたいなエラー）
+            EndIf            
+        </code></pre>
+          <p>じゃ、何が辞書に登録されていたのか？<br />.Valueで指定しないと「Range」オブジェクトがキーやバリューとして登録されるので、例えば文字列型のmyKeyで辞書を引こうとしてもエラーになってしまう。
+          </p>
+          <p>自分は、typenameで型を見て気づいたが、うまく解説してくれている<a href="https://excel-ubara.com/excelvba4/EXCEL216.html"
+              target="_blank">ページ</a>があり、参考になると思います。</p>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

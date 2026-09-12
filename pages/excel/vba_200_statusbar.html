@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="Application.Statusbarによるステータス表示方法">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/便利機能:/pages/excel/excel_000_index.html#toc200 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>Application.Statusbar | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        Application.Statusbarによるステータス表示方法
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">VBA実行中のステータス表示</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">VBA実行中のステータスを表示するには</h3>
+          <p>
+            VBA実行中の状況をプログレスバーなどで表示することはできないが、Excelアプリケーションのステータスバーに何かの文字列を出力することはできる。Excelアプリケーションのインスタンスは「Application」名で生成されており、このプロパティ「StatusBar」でステータス値が定義されている。このため、このプロパティを使って、ステータス表示が可能である
+          </p>
+          <h3 id="toc13" class="h3chapter underline">サンプルコード</h3>
+          <p>以下のコードは、ループカウンタを10000番台単位でint型にキャストして配列のインデックス値を作成し、その配列要素を「Application.Statusbar」でステータス表示している。</p>
+          <pre><code class="vb">
+        Const NAME = "nekodesu, inudes, usagidesu, toridesu, kusadesu,allanimaldesu"
+        Dim lp          As Long
+        Dim myArray     As Variant
+        
+        myArray = Split(NAME, ",")
+        For lp = 1 To 50000
+            Application.StatusBar = myArray(Int(lp / 10000))  '// この配列要素がステータス表示される
+        Next
+        </code></pre>
+          <div class="text">
+            <img src="/assets/pic/vba_statusbar_01.png" alt="VBAのステータスバー表示" class="image-float">
+            <p>
+              この例では、ループカウントが10000になるまでは、配列インデックス値が0なので「nekodesu」がステータスバーに表示されている。その後、カウンタが50000になると（最後まで行くと）、最後の要素「allanimaldesu」が表示されている。<br />この仕組みを使ってカウント値や
+              進捗数 / 全体数 などを表示したら、簡易なステータスバー表示ができる</p>
+          </div>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

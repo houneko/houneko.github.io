@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description" content="VBAでファイルシステムオブジェクトを使う場合は、Scripting.FileSystemObjectライブラリを使います">
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc320 > ">
+  <title>ファイルシステムオブジェクト | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        ファイルシステムオブジェクト
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">ファイルシステムオブジェクト</h2>
+          <h3 id="toc12" class="h3chapter underline">ファイルシステムオブジェクト</h3>
+          <p>
+            VBAでは、CreateObject("Scripting.FileSystemObject")を実行することでファイルシステムオブジェクトを生成して、そのオブジェクトが持っているプロパティやメソッドでファイル操作を行う事ができます
+          </p>
+        </section>
+
+        <section>
+          <pre><code class="vb">
+          '/////////////////////////////////////////////////////////////////////
+          '// ファイルシステムオブジェクトの生成
+          '/////////////////////////////////////////////////////////////////////
+          Dim fso     As Object
+          Set fso = CreateObject("Scripting.FileSystemObject")
+          
+          '/////////////////////////////////////////////////////////////////////
+          '// fsoを使ってフォルダの存在を調べる方法
+          '/////////////////////////////////////////////////////////////////////
+          If fso.FolderExists(調べるフォルダ名) Then
+          'フォルダが存在していた場合の処理
+          Else
+          'フォルダが無かった場合の処理'
+          EndIf
+          
+          '/////////////////////////////////////////////////////////////////////
+          '// fsoを使ってフォルダ内のファイルを取得する
+          '/////////////////////////////////////////////////////////////////////
+          Set Folder = fso.GetFolder(フォルダ名)
+          For Each file In Foloder.Files
+          'フォルダ内のファイル fileに対する処理
+          Next
+          </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

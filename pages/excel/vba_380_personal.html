@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="Excel環境を自分用にカスタマイズすることができます。その方法を例をもとに説明します">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc380 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>自分用にカスタマイズ | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        Excelを自分用にカスタマイズする
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Personal.xlsbで自分用マクロを作る</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">Personal.xlsbによる自分用マクロ、自分用関数の登録</h3>
+          <p>
+            Excelのマクロは「xlsm」拡張子のマクロブックに記述しないといけないようになっている。このため、マクロを実行しようとするとそのマクロブックを開かないといけない。<br />しかし、日常的に使いたいようなマクロの場合、この仕組みは面倒（いちいち別のxlsmブックを開かなあかんから）。
+          </p>
+          <p>この課題を解消してくれる仕組みがあり、それが「Personal.xlsb」。Personal.xlsbは、自分が汎用的に使うようなマクロを記述した言わば自分専用のマクロブック。<span
+              class="marker">Personal.xlsbの拡張子はxlsmではないがマクロを格納しており、Excelを起動すると自動的に開かれる。今、開いているブックが通常の「xlsx」であってもPersonal.xlsbが裏で開いており、ここにあるマクロを実行することができる。</span>（これは他のブックのマクロ呼出しを行っている）
+          </p>
+          <ul>
+            <li>
+              <p class="font-large">Personal.xlsbは、Excelを起動する時にバックグラウンドで開かれる「隠しマクロブック」</p>
+              <p>
+                Personal.xlsbは、Excelを起動する時に自動で起動している隠しマクロブック。隠しという通りユーザには見えない状態で起動している。本当に起動しているかは、VBEのプロジェクトエクスプローラで見るとわかる
+              </p>
+              <div class="text">
+                <img src="/assets/pic/vba_personal_01.png" alt="personal01" class="image-float" />
+              </div>
+            </li>
+            <li>
+              <p class="font-large">Personal.xlsbの実体はどこにある？</p>
+              <p>Personal.xlsbの実体は、「 C:\Users\xxx\Appdata\Roaming\Microsoft\Excel\XLSTART
+                」にある。一番最初はここには、Personal.xlsbは存在していないが、作ったマクロの保存先を個人用マクロブックに指定すると、Personal.xlsbが作成される</p>
+            </li>
+            <li>
+              <p class="font-large">Personal.xlsbの作り方</p>
+              <ol>
+                <li>初めて作成する場合
+                  <p>初めて作る場合は、Excelを開き [開発タブ] ＞ [マクロの記録] ＞ 保存先を[個人用マクロブック] にしていすればいい。これで所定のフォルダに Personal.xlsb
+                    ファイルが作成される</p>
+                </li>
+                <li>既にPersonal.xlsbがある場合
+                  <p>VBEのプロジェクトエクスプローラに「VBAProject（PERSONAL.XLSB）があるので、この中の標準モジュールに追加すればいい</p>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <p class="font-large">Personal.xlsb内のマクロを呼び出す</p>
+              <p>
+                Excelを起動したら、バックグラウンドでPersonal.xlsbが起動しているので、任意のExcelブックからこのマクロを実行することができる。方法はSubプロシージャとFunctionプロシージャの呼び出しを行えばいい（基本的には他ブックのマクロ呼出し）
+              </p>
+              <ol>
+                <li>Subプロシージャの場合
+                  <p><span class="marker">Alt+F8 ＞
+                      マクロ一覧からマクロを選ぶ</span>（Personal.xlsb!マクロ名で表示されており、Personal.xlsb!ブックから呼び出していることが分かる）</p>
+                </li>
+                <li>Functionプロシージャの場合
+                  <p>通常のシート関数を呼び出す場合と同様に、対象セルに「=hoge」のように入力すればいいが、別ブック（別プロジェクト）にある関数なので、フルパスで「Personal.xlsb!関数名」で指定する
+                  </p>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <p class="font-large">Personal.xlsbの実行例</p>
+              <p>このPersonal.xlsbのマクロは、色情報を表示するマクロ</p>
+              <div class="text">
+                <img src="/assets/pic/vba_personal_02.png" alt="personal02" class="image-float" />
+                <p>
+                  この例は、シート上に色を付けたセルがあり、それのセルを選択した状態で、Alt+F8でマクロ一覧を表示させる。一覧から「Personal.xlsb!GetCurrentCellColor」を指定して実行。実行結果はメッセージボックスで表示される
+                </p>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </article>
+
+      <article>
+        <h2 id="toc20" class="h2chapter-title">ユーザ定義関数（UDF）とアドイン化</h2>
+        <section>
+          <h3 id="toc21" class="h3chapter underline">ユーザ定義関数（UDF）とアドイン化とは</h3>
+          <p>
+            ユーザ定義関数（UDF）とは、Excelに内蔵されている「SUM」や「VLOOKUP」などの関数とは別に自分で作る関数のこと。VBAで作成するが、実行は組込関数と同様に「=関数名(引数,,,)」のように呼び出す事ができる。<br />ユーザ定義関数（UDF）は、作成したExcelブックでしか使えないが、Excelアドインとして保存すれば、どのExcelブックからでも利用することができる。
+          </p>
+        </section>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+
+</body>
+
+</html>

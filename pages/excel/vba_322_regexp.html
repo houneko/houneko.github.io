@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description" content="VBAで正規表現を使う場合は、VBScript.RegExpライブラリを使います">
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc320 > ">
+  <title>正規表現ライブラリ | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        連想配列、辞書
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">VBAのライブラリ：正規表現</h2>
+          <h3 id="toc12" class="h3chapter underline">正規表現とは</h3>
+          <p>特定の文字列で検索するとその文字列しか探せないですが、正規表現パタンで検索するとそのパタンにマッチする複数の文字列を検索することができます</p>
+          <p>正規表現はVBAの機能ではなくコンピュータを使った検索・置換方法です。<a
+              href="http://127.0.0.1:5500/pages/regex/regex_000_index.html">正規表現</a></p>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">VBScript.RegExp</h3>
+          <p>VBAには標準で正規表現を持っていないので、CreateObject("VBScript.RegExp")で正規表現クラスのインスタンを生成することで使えるようになります</p>
+          <h3 id="toc21" class="h3chapter underline">正規表現インスタンスの生成</h3>
+          <pre><code class="vb">
+          Option Explicit
+          Dim regEx                   As Object
+          
+          '//---------------------------------------------------------------
+          '//正規表現インスタンスの生成
+          Set regEx = CreateObject("VBScript.RegExp")
+        </code></pre>
+        </section>
+        <section>
+          <h3 id="toc30" class="h3chapter underline">正規表現のパタンマッチ結果</h3>
+          <p>正規表現結果はコレクションに格納されます</p>
+          <pre><code class="vb">
+          Option Explicit
+          Dim regEx                   As Object   '//正規表現インスタンス
+          Dim Matches                 As Object   '//パタンマッチ結果を受け取る変数
+          Const TEST_STRING           As String = "123-ABC 456-DEF"
+          
+          '//正規表現インスタンスの生成
+          Set regEx = CreateObject("VBScript.RegExp")
+          '//パタン定義
+          regEx.Pattern = "(\d+)-([A-Z]+)"        '//数字が1つ以上 - 英字が1つ以上のパタン
+          regEx.Global = True                     '//全ての一致にマッチさせる（Falseの場合は最初にマッチしたものだけ）
+          regEx.IgnoreCase = False                '//大文字小文字を区別する（False：無視しない）
+          '//正規表現パタンマッチの実行
+          Set Matches = regEx.Execute(TEST_STRING)
+          If Matches.Count &gt; 0 Then            '//マッチがあればカウントがある
+            Debug.Print Matches(0).Value
+          EndIf
+
+          '//Matchesへの格納結果イメージ
+          Matches(0)
+            ├ .Value      ... 123-ABC
+            ├ .SubMatches
+                ├ (0)     ... 123
+                ├ (1)     ... ABC
+          
+          Matches(1)
+            ├ .Value      ... 456-DEF
+            ├ .SubMatches
+                ├ (0)     ... 456
+                ├ (1)     ... DEF
+        </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

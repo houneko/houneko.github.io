@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="Application.Run">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc340 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>Application.Run | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        Application.Run による関数コール
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">Application.Run による関数コール</h2>
+          <h3 id="toc12" class="h3chapter underline">Application.Run とは</h3>
+          <p>
+            Application.Runは、関数名を名前（文字列）で指定して、その関数をコールする方法。仕事で関数名を直接指定しない呼び出しのマクロを作る必要があり、Cの関数ポインタみたいな使い方ができないかとWebを調べている時に見つけた方法。
+          </p>
+          <p>
+            自分の感想としては、ブック間のマクロコールはそんなに必要性は感じない（複数のブックを維持しないといけないのが煩雑。それだったら、その処理を、このプロジェクトに別モジュールとして追加した方が管理しやすい）、だけどこの方法で関数の固有名を使わずにコールできるので、このコール部分を汎用的なコードにすることができる点はいいと思う
+          </p>
+          <p>Application.runの書式、注意点など</p>
+          <ul>
+            <li>書式： Application.Run("マクロ名・関数名", 引数1, 引数2,…)</li>
+            <li>注意点： 第一引数がコールされるマクロ名・関数名。これを「文字列」で指定する</li>
+            <li>注意点： 他のブック内のマクロや関数をコールできるが、その場合は「ブック名!プロシージャ名」で指定する</li>
+            <li>注意点： <span class="marker-red">引数には構造体は指定できない！</span>最初知らずに何で？と悩んだ（早よ言え!）</li>
+            <li>注意点： <span class="marker-red">引数はByValでしか渡せない</span>（ByRefで渡せない）</li>
+            <li>注意点： コールされる関数は、Publicで宣言しておく</li>
+          </ul>
+          <h3 id="toc13" class="h3chapter underline">Application.Runのサンプル例</h3>
+          <p>同一モジュール内の関数も、別モジュールにある関数もPublicであれば別モジュールから見えるので、呼び出し方は同じ</p>
+          <p><a href="https://excel-ubara.com/excelvba1/EXCELVBA427.html" target="_blank">別ブック（別プロジェクト）の関数をコールする場合</a>
+          </p>
+          <pre><code class="vb">
+        '/////////////////////////////////////////////////////////////////////
+        '// Application.Runでコールされる関数
+        '/////////////////////////////////////////////////////////////////////
+        Function myApplicationRunFunc(myVal As String) As Boolean
+            Debug.Print ("Enter myApplicationRunFunc()")
+            Debug.Print ("myVal = " & myVal)
+            myVal = "changed in myApplicationRunFunc()"
+            Debug.Print ("Exit myApplicationRunFunc()")
+            myApplicationRunFunc = True
+        End Function
+
+
+        '/////////////////////////////////////////////////////////////////////
+        '// Main
+        '/////////////////////////////////////////////////////////////////////
+        Sub myMain()
+            Dim showMsg         As String
+            Dim funcName        As String
+            
+            showMsg = "Neko desu"
+            funcName = "myApplicationRunFunc"
+
+            '// Application.Runでコールする（同一モジュール内）
+            If Not Application.Run(CStr(funcName), showMsg) Then Exit Sub
+            Debug.Print ("after call : " & showMsg & " : Application.Run TEST OK!")
+
+            '// Application.Runでコールする（別モジュール）
+            funcName = "OuterModuleWithParameter"
+            If Not Application.Run(CStr(funcName), showMsg) Then Exit Sub
+        End Sub
+
+        結果（イミディエイトウィンドウへの出力結果）
+          Enter myApplicationRunFunc()  '// Application.Runでコールした関数に入った
+          myVal = Neko desu             '// 渡された引数を表示
+          Exit myApplicationRunFunc()   '// Application.Runでコールした関数からリターン
+          after call : Neko desu : Application.Run TEST OK!   '// 引数は ByVal で渡すので関数側ので変更しても変わらない
+          Exit Main        
+        </code></pre>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">実務での実装イメージ</h3>
+          <p>
+            この業務では、ユーザに「資材結果ファイル」とオプションファイル（明細ファイル、発注データファイル、作業報告書ファイル）を指定してもらい「資材結果ファイル」内の情報、オプションファイルの情報を取得してレポートを作成する。<br />オプションファイルは指定されたり、場合によっては指定されないがある。また、オプションファイルに関する仕様は変動することが想定されている（オプションファイルを追加、または削除などがある）
+          </p>
+          <p>
+            このため、オプションファイルをコールする処理を汎用化したいという想いがあった（普通に固有関数名でコールする方法だと、仕様変更時に既存処理へif文を追加したりして、既存部分への影響がある。これを避けるために関数名を指定せずにコールする方法を検討したもの）
+          </p>
+          <ol>
+            <li>
+              ユーザにファイルを指定してもらう
+              <div class="text">
+                <img src="/assets/pic/vba_applicationRun_01.png" alt="Application.Run" class="image-float" />
+                この例では、ユーザが指定したオプションファイルは「明細フォイル」と「作業報告書ファイル」。「発注データファイル」は指定なし
+              </div>
+            </li>
+            <li>
+              ユーザ設定を辞書に登録しておく
+              <div class="text">
+                <img src="/assets/pic/vba_applicationRun_02.png" alt="Application.Run" class="image-float" />
+                キーがオプションファイルに対する関数名、バリューが有効か無効を示すBool値
+              </div>
+            </li>
+            <li>
+              資材ブックを調査する関数内で、オプションファイルがあればApplication.Runをコールする（ディスパッチするラッパー関数をコール）
+              <p>以下の黄色の部分がディスパッチ用の関数をコールしている所（このディスパッチ関数内でApplication.Runをコールする）</p>
+              <div class="text">
+                <img src="/assets/pic/vba_applicationRun_03.png" alt="Application.Run" class="image-float" />
+              </div>
+            </li>
+            <li>
+              Application.Runでコールする
+              <p>
+                オプションファイルが追加されたら、そのオプションファイル用に関数を新規に作成が必要だけど、コール部分は固有名でコールしていないので変更しなくていい（辞書は追加が必要）なので、仕様変更があっても新規関数を追加すれば動くコードになるはず。
+              </p>
+              <div class="text">
+                <img src="/assets/pic/vba_applicationRun_04.png" alt="Application.Run" class="image-float" />
+              </div>
+            </li>
+          </ol>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

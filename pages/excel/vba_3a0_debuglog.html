@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>ExcelのDebugLog | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="開発中やデバッグ中は、コードにDebug.Printを入れて途中の状況をイミディエイトウィンドウに出したりしていると思いますが、リリース時にこれをオフにしないといけないです。実際はDebug.Printにはオフの機能は無いのでコメントアウトするのですが面倒だし、またログを出したい時はコメントアウトを外す必要があります。このためログ機能を関数することで、ログ出力をOn/Offしたりログレベルで出力を調整したりできます">
+<meta name="keywords" content="Excel,VBA,デバッグ,DebugLog">
+<meta name="category" content="Excel,VBA,マクロ,関数">
+<meta name="subcategory" content="デバッグ,DebugLog">
+<meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc3a0 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="excelicon" class="title-icon">
+        Debug.Printの自分ライブラリ
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Debug.Printの自分ライブラリ「libCommonLogライブラリ」</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">Debug.Printをライブラリ化する背景</h3>
+          <p>まず、自分のDebug.Printの使い方は、開発中のコードの各処理の所にDebug.Printを入れてその時の変数値や構造体のメンバの値などをイミディエイトウィンドウに表示させるという使い方です。</p>
+          <p>
+            開発中はこれでいいのですが、リリースする時はログをオフにしないといけないので、コメントアウトしていたのですがこの方法だとめんどくさいです。例えば、リリース後問題があり調査する時にまたコメントアウトを外してログ出力するようにして終わればもう一度コメントアウトするなどです
+          </p>
+          <h3 id="toc14" class="h3chapter underline">Debug.Printをライブラリ化の前に・・</h3>
+          <p>
+            Debug.Printでログ出力する・しないをコントロールする場合、ログ出力を決めるフラグを作ってフラグがTrueならDebug.Printする、Falseならしないというような方法を思いつくと思いますがこれだとだめです。
+          </p>
+          <p>しかし、<span class="marker">Debug.Printをライブラリ化（関数化）しておけば、ログ出力をOn/Offしたりログレベルに応じて出力をしないなどの制御ができる</span>ようになります。
+          </p>
+          <p class="paragraph--break">例1 : 普通のIF文でログOn/Offする方法。これはだめ</p>
+          <pre><code class="vb">
+        '// グローバルなDEBUG_FLAGフラグを作り、True/Falseを切り替える方法（だめ）
+        Private Const DEBUG_FLAG As Boolean = True
+
+        Private Function MyHoge(name As String) As Boolean
+          Dim ...
+          ...
+          何かの処理
+          If DEBUG_FLAG Then Debug.Print ("変数x = " & 変数x)   '// IF文でログ出力はOn/Offできる
+          ...                                                   '// しかしリリース版でもIF文自体は処理される（処理時間が長くなる）
+          何かの処理
+          If DEBUG_FLAG Then Debug.Print ("変数z = " & 変数z)   '// 同上。Debug.Printがいっぱいあればその分IF文処理が走る
+          ...
+        End Function
+        </code></pre>
+          <p>じゃ、ライブラリ化（関数化）しても結局リリース版にIF文処理が残り（FalseになるだけのIF文）それはCPU処理を使ってしまうので、だめじゃんとなるのですが、<span class="font-large"
+              style="color:red;">VBAにはコンパイルスイッチがあります。</span>はぁ？VBAはインタプリタじゃないの？という疑問が出ますが、実は前段にコンパイル処理がありそこで中間言語に落ちてそれがインタプリタとして実行されているようです
+          </p>
+          <p>参考にさせてもらったページ：<a href="https://addinbox.sakura.ne.jp/Excel_Tips13.htm" target="_blank">VBA は、インタープリタか？
+              コンパイラか？</a></p>
+          <p class="paragraph--break">例2 ： 以下は成功方法の例（ただしもう少し工夫が必要）</p>
+          <p>これは一応成功している例ですが、Debug.Printを#if～#endifディレクティブで囲って書いているので通常の処理にこれを書いていくのはしんどいし可読性も下がる。</p>
+          <pre><code class="vb">
+        '//「#」がついているのはディレクティブでコンパイラに対する指示
+        #Const DEBUG_MODE = False
+
+        Sub MyTestDebug()
+
+          #IF DEBUG_MODE Then               '// 今、DEBUG_MODEがFalseになっているので、この#IFディレクティブで
+            Debug.Print ("Enter Test")      '// 囲ったブロックはコンパイルされない
+          #END IF                           '// リリース時もこのIF文が判定されることはない（コード自体が存在しない）
+          ...
+          Debug.Pring("Exit Test")
+        
+        End Sub
+
+        '// この実行結果は、イミディエイトウィンドウに「Exit Test」だけ表示される
+        </code></pre>
+          <p>例1と例2は何が違うか？</p>
+          <p>例1と例2は一見同じ動作なので違いは無いように見えますが全然違います</p>
+          <p><span style="color:red;">例1は、if文は必ず実行されます。</span>
+            つまりログをオフにしてもif文の判定は必ず行われ、FalseなのでDebug.Printが実行されないという事になります。このため無駄な処理時間がかかります</p>
+          <p><span style="color:red;"
+              class="font-large">例2は、if文は実行されません。というかこのif文が存在しません。</span>例2のif文は「#if」となっており、実際にはif文ではなくディレクティブでコンパイラに対する指示になっています。今、DEBUG_MODEがFalseなのでこのブロックはコンパイルされません。中間言語が生成されないので、VBAインタプリタ上は存在しない事になります。<span
+              style="color:red;">この判定自体が無いので実行時の処理時間に影響を与えないという大きなメリットがあります</span> </p>
+
+          <p class="paragraph--break">例3 : 呼び出し側から#ifを取る（ライブラリ側でやる）</p>
+          <p>例2で一旦できているけど、#ifもライブラリ側に入れて、メインのコードでの呼び出しは関数名だけにする</p>
+          <p>
+            この方法だとコール側は「MyLog("ログメッセージ")」だけ書けばよく、#ifとかは書かなくてもいい。また、ライブラリ側のコンパイルスイッチでOn/Offできるので、コール側はMyLog()をコメントアウトしたりする必要はない
+          </p>
+          <pre><code class="vb">
+        '// ライブラリ側
+        #Const DEBUG_MODE = False
+
+        Public Sub MyLOG(msg As String)
+          #IF DEBUG_MODE Then
+            Debug.Print(msg)
+          #ENF IF
+        End Sub
+
+        '// コール側
+        Sub MyTestDebug()
+
+          '// この処理部分をやめてライブラリの MyLog() に変える
+          '#IF DEBUG_MODE Then               '// 今、DEBUG_MODEがFalseになっているので、この#IFディレクティブで
+          '  Debug.Print ("Enter Test")      '// 囲ったブロックはコンパイルされない
+          '#END IF                           '// リリース時もこのIF文が判定されることはない（コード自体が存在しない）
+
+          '// MyLog()に変えたもの
+          MyLog ("Enter Test")                '//コール側は#ifとか指定せずに関数名だけでログを指定する
+                                              '//ライブラリ側のコンパイルスイッチがOnならログ出力され、Offならログは出ない
+          ...
+          Debug.Pring("Exit Test")
+        
+        End Sub
+        </code></pre>
+
+          <h3 id="toc13" class="h3chapter underline">サンプルコード</h3>
+          <p>実際に使っているサンプルコードです。標準モジュールとして「libCommonLog」を作って、そこに以下のコードを書いています。</p>
+          <p>サンプルコードでは、ログレベルや出力先をファイルに変更できなどの追加の処理がありますが、コンパイルスイッチを使ってログ出力を制御している仕組みは同じです</p>
+          <pre><code class="vb">
+        Option Explicit
+        '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        '//
+        '// 概要：  スイッチでOn/Offできるログ機能ライブラリ
+        '//         開発・デバッグ時はOnでログ出力を行い、完了時はOffでログ出力無しにしてリリースする
+        '//
+        '// ログレベル：
+        '//         ログレベルは、情報用のログ、ワーニング用のログ、エラー用のログの3つを定義
+        '//
+        '// コンパイルスイッチ：
+        '//         コンパイルスイッチは、情報用ログOn/Off、ワーニング用ログOn/Off、エラー用ログOn/Offを個別に設定する
+        '//
+        '//         *************************************************************
+        '//         ***リリース時にはこれらのスイッチはOff（False）にすること ***
+        '//         *************************************************************
+        '//
+        '// リターン：なし
+        '//
+        '// 外部IF：
+        '//         関数名 / 変数名                     処理概要
+        '//         -------------------------------------------------------------------------------------------------
+        '//         Public Function InitalizeDebugLog   初期化処理、ファイル出力しない場合はコールしなくても可
+        '//         Public Sub DebugLog                 ログ本体処理
+        '//         -------------------------------------------------------------------------------------------------
+        '//         Public Const LOGINFO                ログレベルINFO のラベル名 " [INFO] "
+        '//         Public Const LOGINFO2               ログレベルINFO2 のラベル名 " [INFO2]"
+        '//         Public Const LOGWARN                ログレベルWARN のラベル名 " [WARN] "
+        '//         Public Const LOGERROR               ログレベルERRORのラベル名 " [ERROR]"
+        '//         Public logToFileFlag                ログをファイル出力する場合の切替フラグ
+        '//         Public logFilePath                  ログをファイルする場合のフルパス
+        '//
+        '// 使い方： ログをコールする側で以下のように呼び出す
+        '//     書式）DebugLog ログメッセージ [, ログレベル]
+        '//     例）
+        '//         DebugLog "Hogdeです"
+        '//         DebugLog myErrorMsg, LOGERROR
+        '//
+        '// Ver：
+        '//     Version     date        pg              description
+        '//     -------------------------------------------------------------------------------------------------
+        '//     v1.00.00    
+        '//
+        '//
+        '// モジュール名、モジュールバージョン
+        Private Const MYNAME = "libCommonLog"
+        Private Const MYVERSION = "v1.00.00"
+
+        '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        '// コンパイルスイッチ：コンパイルする/しないを決めるスイッチで個別に設定する
+        '//   名前          値          意味
+        '//   ---------------------------------------------------------------------------------------------------------
+        '//   INFO_LOG_ON   Boolean     Trueの場合「INFO系」ログの出力を許可する、False：ログ出力しない
+        '//   INFO2_LOG_ON  Boolean     Trueの場合「INFO2系」ログの出力を許可する、False：ログ出力しない
+        '//                             ※INFOは汎用的なログ全部だけど、INFO2はもう少し絞って出したいもの
+        '//   WARN_LOG_ON   Boolean     Trueの場合「WARN系」ログの出力を許可する、False：ログ出力しない
+        '//   ERROR_LOG_ON  Boolean     Trueの場合「ERROR系」ログの出力を許可する、False：ログ出力しない
+        '//
+        #Const INFO_LOG_ON = False
+        #Const INFO2_LOG_ON = False
+        #Const WARN_LOG_ON = False
+        #Const ERROR_LOG_ON = False
+
+        '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        '// ログレベル：どの種類のログかを示す定義値
+        '//   名前          値          意味
+        '//   ---------------------------------------------------------------------------------------------------------
+        '//   LOGINFO       String      情報レベルのログを示す。ログに[INFO]がつく
+        '//   LOGINFO2      String      INFOよりも絞ったログ用、ログに[INFO2]がつく
+        '//   LOGWARN       String      ワーニングレベルのログを示す。ログに[WARN]がつく
+        '//   LOGERROR      String      エラーレベルのログを示す。ログに[ERROR]がつく
+        '//
+        Public Const LOGINFO    As String = " [INFO] "
+        Public Const LOGINFO2   As String = " [INFO2]"
+        Public Const LOGWARN    As String = " [WARN] "
+        Public Const LOGERROR   As String = " [ERROR]"
+
+        '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        '// ファイル出力用定義：ログをファイルに出力する場合の切替フラグと出力ファイルのパス
+        '//   名前          値          意味
+        '//   ---------------------------------------------------------------------------------------------------------
+        '//   logToFileFlag Boolean     ログをファイル出力するかどうかを示すフラグ。True：ファイルへ出力する
+        '//   logFilePath   String      ログをファイル出力するパス
+        '//
+        Public logToFileFlag As Boolean
+        Public logFilePath As String
+
+        '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        '// Public Function InitializeDebugLog
+        '//
+        '// 概要：DebugLogの初期化処理
+        '//         ログをファイル出力する場合はコールが必要
+        '//         ログをイミディエイトウィンドウに出す場合はコールしなくてもいい
+        '//
+        '// 引数：
+        '//   I/O   型              引数名              意味
+        '//   ---------------------------------------------------------------------------------------------------------
+        '//   I     Boolean         flag                ファイル出力する・しないのフラグ。True：ファイル出力
+        '//   I     String          filePath            ファイル出力するフルパス
+        '//   O     Boolean         logToFileFlag       グローバル変数logToFileFlag に Bool値を設定する
+        '//   O     String          logFilePath         グローバル変数logToFilePath に filePathを設定する
+        '//
+        '// リターン：True
+        '//
+        Public Function InitializeDebugLog(Optional ByVal flag As Boolean = False, Optional ByVal filePath As String = "") As Boolean
+            logToFileFlag = flag
+            If flag = True And logFilePath = "" Then
+                logFilePath = Environ("USERPROFILE") & "\DebugLog_" & Format(Now, "yyyy_mm_dd_hh_mm_ss") & ".txt"
+            Else
+                logFilePath = filePath
+            End If
+            InitializeDebugLog = True
+        End Function
+
+        '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        '// Public Sub DebugLog
+        '//
+        '// 概要：ログをイミディエイトウィンドウまたはファイルに表示（出力）する
+        '//       ログ出力は、グローバル変数INFO_LOG_ON、WARN_LOG_ON、ERROR_LOG_ON でOn/Off制御されている
+        '//
+        '// 引数：
+        '//   I/O   型              引数名              意味
+        '//   ---------------------------------------------------------------------------------------------------------
+        '//   I     Boolean         flag                ファイル出力する・しないのフラグ。True：ファイル出力
+        '//   I     String          filePath            ファイル出力するパス（ファイル名は含めないフルパス）
+        '//   O     Boolean         logToFileFlag       グローバル変数logToFileFlag に Bool値を設定する
+        '//   O     String          logFilePath         グローバル変数logToFilePath に filePathを設定する
+        '//
+        '// リターン：なし（Subやろ）
+        '//
+        Public Sub DebugLog(ByVal msg As String, Optional ByVal level As String = LOGINFO)
+            Dim logText As String
+            logText = Format(Now, "yy/mm/dd hh:mm:ss") & level & msg
+            
+            '// ファイルへログ出力
+            If logToFileFlag Then
+                Select Case level
+                    Case LOGINFO
+                        #If INFO_LOG_ON Then
+                            Call OutputToFile(logText, logFilePath)
+                        #End If
+            
+                    Case LOGINFO2
+                        #If INFO2_LOG_ON Then
+                            Call OutputToFile(logText, logFilePath)
+                        #End If
+            
+                    Case LOGWARN
+                        #If WARN_LOG_ON Then
+                            Call OutputToFile(logText, logFilePath)
+                        #End If
+            
+                    Case LOGERROR
+                        #If ERROR_LOG_ON Then
+                            Call OutputToFile(logText, logFilePath)
+                        #End If
+            
+                    Case Else
+                        #If INFO_LOG_ON Then
+                            Call OutputToFile(logText, logFilePath)
+                        #End If
+                End Select
+            Else
+                '// コンソールへログ出力
+                Select Case level
+                    Case LOGINFO
+                        #If INFO_LOG_ON Then
+                            Debug.Print logText
+                        #End If
+            
+                    Case LOGINFO2
+                        #If INFO2_LOG_ON Then
+                            Debug.Print logText
+                        #End If
+            
+                    Case LOGWARN
+                        #If WARN_LOG_ON Then
+                            Debug.Print logText
+                        #End If
+            
+                    Case LOGERROR
+                        #If ERROR_LOG_ON Then
+                            Debug.Print logText
+                        #End If
+            
+                    Case Else
+                        #If INFO_LOG_ON Then
+                            Debug.Print logText
+                        #End If
+                End Select
+            End If
+        End Sub
+
+        '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        '// Private Function OutputToFile
+        '//
+        '// 概要：ログをイミディエイトウィンドウではなく、ファイルに表示（出力）する
+        '//
+        '// 引数：
+        '//   I/O   型              引数名              意味
+        '//   ---------------------------------------------------------------------------------------------------------
+        '//   I     Boolean         flag                ファイル出力する・しないのフラグ。True：ファイル出力
+        '//   I     String          filePath            ファイル出力するパス（ファイル名は含めないフルパス）
+        '//   O     Boolean         logToFileFlag       グローバル変数logToFileFlag に Bool値を設定する
+        '//   O     String          logFilePath         グローバル変数logToFilePath に filePathを設定する
+        '//
+        '// リターン：なし（Subやろ）
+        '//
+        Private Function OutputToFile(ByVal logText As String, Optional logFilePath As String) As Boolean
+            Dim fNum As Integer
+            fNum = FreeFile
+            Open logFilePath For Append As #fNum
+            Print #fNum, logText
+            Close #fNum
+            OutputToFile = True
+        End Function
+        </code></pre>
+
+          <h3 id="toc16" class="h3chapter underline">使い方</h3>
+          <p>
+            サンプルコードをコピーして、自分のVBAプロジェクトの標準モジュールに追加する（標準モジュール名は何でもいいけど「libCommonLog」としています）。これでライブラリをインポートした状態になるので、自分の処理の中に「DebugLog("メッセージ")
+            [,ログレベル]」で呼び出しできます</p>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

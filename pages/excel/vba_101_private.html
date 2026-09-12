@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="VBAのPrivateスコープとPublicスコープ">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/基本:/pages/excel/excel_000_index.html#toc100 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>PrivateとPublic | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        VBAのPrivateスコープ と Publicスコープ
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Private と Public</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">Privateスコープ</h3>
+          <p>
+            Privateは、宣言したモジュール内（ファイル内）がスコープとなる。つまりモジュール内（ファイル内）でグローバルなスコープってこと<br />宣言はプロシージャ（関数）の外で行う、プロシージャ内ではPrivate宣言できない
+          </p>
+          <h3 id="toc13" class="h3chapter underline">Publicスコープ</h3>
+          <p>
+            Publicは、Privateスコープよりも大きくてプロジェクト全体（フォルダ内）がスコープとなる。つまりそのプロジェクト（フォルダ）内の各モジュール間でグローバルとなる<br />宣言はプロシージャ（関数）の外で行う、プロシージャ内ではPublic宣言できない
+          </p>
+          <h3 id="toc14" class="h3chapter underline">Privateスコープ、Publicスコープのサンプル例</h3>
+          <p>例）標準モジュールに「myMainモジュール」と「myOuterSubモジュール」があり、PrivateとPublicの違いを見てみる</p>
+          <p>
+            この例では、Private変数およびPublic変数は「myMainモジュール」内で宣言されている。また、myMain()も、InnerModuleFunc()も「myMainモジュール」内で記述されている。よって、myMain()内からもInnerModuleFunc()内からも、Private変数やPublic変数は見える
+          </p>
+          <pre><code class="vb">
+        ' //グローバル定数・変数
+        Private Const MY_PRIVATE                As String = "MY_PRIVATE_STRING"
+        Public Const MY_PUBLIC                  As String = "MY_PUBLIC_STRING"
+
+        '/////////////////////////////////////////////////////////////////////
+        '// InnerModuleFunc（これは、「myMainモジュール」内にある）
+        '/////////////////////////////////////////////////////////////////////
+        Private Function InnerModuleFunc() As Boolean
+            
+            Debug.Print ("Enter InnerModule")
+            Debug.Print ("Private in InnerModuleFunc() = " & MY_PRIVATE)
+            Debug.Print ("Poblic in InnerModuleFunc()  = " & MY_PUBLIC)
+            Debug.Print ("Exit InnerModule")
+            InnerModuleFunc = True
+        End Function
+
+        '/////////////////////////////////////////////////////////////////////
+        '// Main （これは、「myMainモジュール」内にある）
+        '/////////////////////////////////////////////////////////////////////
+        Sub myMain()
+            Debug.Print ("Enter Main")
+            Debug.Print ("Private in MyMain() = " & MY_PRIVATE)
+            Debug.Print ("Poblic in MyMain()  = " & MY_PUBLIC)
+            
+            '// モジュール内の関数をコール
+            If Not InnerModuleFunc Then Exit Sub
+
+            Debug.Print ("Exit Main")
+        End Sub
+
+        実行結果）
+        Enter Main
+        Private in MyMain() = MY_PRIVATE_STRING               // myMain()は、同じモジュール内なので Private変数
+        Poblic in MyMain()  = MY_PUBLIC_STRING                // Public変数ともに見える
+        Enter InnerModule
+        Private in InnerModuleFunc() = MY_PRIVATE_STRING      // InnerModuleFunc()も同じモジュール内なのでPrivate変数も
+        Poblic in InnerModuleFunc()  = MY_PUBLIC_STRING       // Public変数も見える
+        Exit InnerModule
+        Exit Main
+        </code></pre>
+          <p>次に「myOuterSubモジュール」内の関数をコールしてみる。「myOuterSubモジュール」内の関数からは「myMainモジュール」内で宣言したPrivate変数は見えない（Public変数は見える）</p>
+          <pre><code class="vb">
+        '-------------------------------------------
+        '「myOuterSubモジュール」
+        '/////////////////////////////////////////////////////////////////////
+        '// OuterModule （これは「myOuterSubモジュール」内で作成）
+        '/////////////////////////////////////////////////////////////////////
+        Public Function OuterModuleFunc() As Boolean
+            
+            Debug.Print ("Enter OuterModuleFunc")
+            '// &lt;- Private宣言されている変数は別モジュールからは見えないので、コメントアウトしないとエラーになる
+            '// Debug.Print ("Private in OuterModuleFunc() = " & MY_PRIVATE)        
+            Debug.Print ("Poblic in OuterModuleFunc()  = " & MY_PUBLIC)
+            Debug.Print ("Exit OuterModuleFunc")
+            OuterModuleFunc = True
+        End Function
+
+        '-------------------------------------------
+        '「myMainモジュール」        
+        ' //グローバル定数・変数
+        Private Const MY_PRIVATE                As String = "MY_PRIVATE_STRING"
+        Public Const MY_PUBLIC                  As String = "MY_PUBLIC_STRING"
+        ...
+        '/////////////////////////////////////////////////////////////////////
+        '// Main （これは、「myMainモジュール」内にある）
+        '/////////////////////////////////////////////////////////////////////
+        Sub myMain()
+            Debug.Print ("Enter Main")
+            Debug.Print ("Private in MyMain() = " & MY_PRIVATE)
+            Debug.Print ("Poblic in MyMain()  = " & MY_PUBLIC)
+            
+            '// モジュール内の関数をコール
+            If Not InnerModuleFunc Then Exit Sub
+
+            '// モジュール外の関数をコール                          '// &lt;- 別モジュールの関数をコール
+            If Not myOuterSub.OuterModuleFunc Then Exit Sub         '// 別モジュールの場合は、「モジュール名.関数名」でコールする
+
+            Debug.Print ("Exit Main")
+        End Sub
+
+        実行結果）
+        Enter Main
+        ...
+        Enter OuterModuleFunc
+        Poblic in OuterModuleFunc()  = MY_PUBLIC_STRING             '// &lt;- Public変数は、別モジュールからも見えている
+        Exit OuterModuleFunc
+        Exit Main
+        </code></pre>
+          <h3 id="toc15" class="h3chapter underline">Private変数は外部モジュールから見えないが引数で渡すことはできる</h3>
+          <p>
+            Private変数は、モジュール内（ファイル内）がスコープなので、別モジュールからは見えない（当たり前）。でも別モジュールにPrivate変数を引数で渡すことはできる。VBAの関数コールにおける引数はデフォルト参照渡し（ポインタ）なので、Private宣言された変数でもアドレスを渡せばどうとでもなるってことかな
+          </p>
+          <pre><code class="vb">
+        '-------------------------------------------
+        '「myOuterSubモジュール」
+        '/////////////////////////////////////////////////////////////////////
+        '// OuterModuleWithParameter
+        '/////////////////////////////////////////////////////////////////////
+        Public Function OuterModuleWithParameter(str As String) As Boolean
+            
+            Debug.Print ("Enter OuterModuleWithParameter")
+            Debug.Print ("Parameter = " & str)
+            str = "changed in OuterModuleWithParameter()"
+            Debug.Print ("Exit OuterModuleWithParameter")
+            OuterModuleWithParameter = True
+        End Function
+
+        '-------------------------------------------
+        '「myMainモジュール」        
+        ' //グローバル定数・変数
+        Private myVal                           As String
+        ...
+        '/////////////////////////////////////////////////////////////////////
+        '// Main
+        '/////////////////////////////////////////////////////////////////////
+        Sub myMain()
+            ...
+            Debug.Print ("Enter Main")
+            ...
+            '// モジュール外の関数に Private変数を渡す
+            myVal = "Pre-Call"
+            Debug.Print ("pre private val = " & myVal)
+            If Not myOuterSub.OuterModuleWithParameter(myVal) Then Exit Sub   '// &lt;- 引数にPrivate変数を渡している
+            Debug.Print ("after private val = " & myVal)
+            ...
+
+        実行結果）
+        pre private val = Pre-Call            '// &lt;- 関数コール前のPrivete変数内容
+        Enter OuterModuleWithParameter
+        Parameter = Pre-Call                  '// &lt;- 外部モジュールから引数で渡されたPrivete変数が見えている
+        Exit OuterModuleWithParameter
+        after private val = changed in OuterModuleWithParameter()   '// &lt;- 外部モジュールでPrivete変数が更新されている
+        </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

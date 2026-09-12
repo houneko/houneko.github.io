@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="VBAの機能を拡張する外部ライブラリ達">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc320 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>VBAのライブラリ | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        VBAのライブラリ
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">VBAのライブラリ</h2>
+          <h3 id="toc12" class="h3chapter underline">VBAのライブラリとは</h3>
+          <p>VBA本体には含まれていないもので、外部から追加して利用できるライブラリ。外部ライブラリを使う事でVBAの機能を拡張したり使いやすくできる</p>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">事前バインドと実行時バインド</h3>
+          <p>VBAで外部ライブラリを使う場合、外部ライブラリのバインド方法は「事前バインド」と「実行時バインド」の2つがある。</p>
+          <ul>
+            <li>方法1: 事前バインド（参照設定）
+              <p>
+                事前バインドは、外部ライブラリを使う前に「参照設定」でバインドしておく方法。参照設定はVBEで「ツール」-「参照設定」で対象のオブジェクトにチェックを入れておけばいい（これが事前バインド、参照設定という方法）
+              </p>
+              <img src="/assets/pic/vba_library01a.jpg" alt="VBEの参照設定画像">
+              <p>この方法のメリットとデメリットは以下の通り</p>
+              <ul>
+                <li>メリット
+                  <p>事前にバインドしているので、マクロ開発コーディング時に外部ライブラリの各メンバの候補が出る（自分の環境ではインテリセンスが効かなかったが・・）</p>
+                </li>
+                <li>デメリット
+                  <p>
+                    デメリットは大きい。作成したマクロをユーザに提供する場合、ユーザ環境も事前に参照設定を行っておく必要がある。ITリテラシのばらつきがあるのでユーザによっては対応ができない可能性がある。そうするとVBAはインタプリタなので外部ライブラリ処理のところでエラーになる。
+                  </p>
+                </li>
+              </ul>
+              <pre><code class="vba">
+              '//事前バインド（参照設定）していた場合の コード例
+              Dim fso   As Object
+              Set fso = New FileSystemObject  '事前バインド済なので、New「オブジェクト名」でインスタンス生成できる
+            </code></pre>
+            </li>
+            <li>方法2: 実行時バインド
+              <p>この方法は、VBEの参照設定は触らずに、コード内で外部ライブラリをバインドする方法。この方法のメリットはマクロを実行するユーザ側では何も設定しなくてもいいという点</p>
+              <pre><code class="vba">
+              '//実行時バインドの コード例
+              Dim fso   As Object
+              Set fso = CreateObject("Scripting.FileSystemObject")  'CreateObject()で外部ライブラリをバインドする
+            </code></pre>
+            </li>
+          </ul>
+          <p>つまり、開発側からみると補完が効くので事前バインドしている方がいい。一方、ユーザ側からみると何か設定しないといけないのはいやとなる。じゃ、どうすればいいの？<br><span
+              class="marker">実際のやり方は、開発側では参照設定を行い事前バインドするが、コードは実行時バインドの方法で書く。</span>そうすると、開発側は補完のメリットを受けながらコード作成できるし、コード自体は実行時バインドで書くのでユーザ側からは何も設定せずにマクロを実行できるメリットがあってWin-Win
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

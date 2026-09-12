@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description"
+    content="ユーザ入力エリアに入力された情報を取得する方法です。ユーザの指定値をある範囲のセルに入力してもらいそれを処理するマクロがあった場合、この範囲にユーザ入力された値を取得する処理です">
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/便利機能:/pages/excel/excel_000_index.html#toc200 > ">
+  <title>ユーザ入力エリアに入力された情報を取得する | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        ユーザ入力エリアに入力された情報を取得する
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">ユーザ入力エリアに入力された情報を取得する</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">「ユーザ入力エリアに入力された情報を取得する」とは</h3>
+          <p>
+            自分が以前書いていた方法は、対象の複数セルを定数定義しておき、その先頭行アドレスから最後の指定セルの最終行アドレスをループで回していたのですが、あんまり使い勝手が良くないことで、もっといい書き方無いかなと思っていました。
+          </p>
+          <h3 id="toc13" class="h3chapter underline">サンプルコード</h3>
+          <pre><code class="vb">
+        '// セルのイメージ
+        '// A列には説明文があり、B列にユーザの設定を入力してもらう仕様
+        '// B1セルからB4セルがユーザの入力するセル
+              A                                 B                                 C
+        -------------------------------------------------------------------------------
+        1     猫フォルダ名を入力してください    ***   ← ***がユーザ入力値
+        2     犬フォルダ名を入力してください    ***  
+        3     鳥フォルダ名を入力してください    ***  
+        4     兎フォルダ名を入力してください    ***  
+        
+        '//
+        '// 以前の書き方
+        '//   この書き方だと定義が増えていくので、面倒だし最後の定義が変わったらループの終了値の
+        '//   指定も変えないといけないので、変更に弱い
+        '//
+        Const USER_INPUT_CAT_FOLDER       As String = "B1"
+        Const USER_INPUT_DOG_FOLDER       As String = "B2"
+        Const USER_INPUT_BIRD_FOLDER      As String = "B3"
+        Const USER_INPUT_RABBIT_FOLDER    As String = "B4"
+        Dim lp                            As Long
+
+        For lp = Range(USER_INPUT_CAT_FOLDER).Row To Range(USER_INPUT_RABBIT_FOLDER).Row
+          ...
+        Next
+      </code></pre>
+
+          <h3 id="toc20" class="h3chapter underline">セル範囲を指定してループを回す方法</h3>
+          <p>このテクでは、ユーザ入力するセル範囲をString型で指定し（例えば、USER_INPUT定数に「B1:B4」）、Range(USER_INPUT)の範囲を、For
+            Eachで取り出すという処理です。<br />この書き方だったら、変更があってもループ処理は変えなくてよく、定数定義の範囲を変えるだけでいい</p>
+          <pre><code class="vb">
+      '/////////////////////////////////////////////////////////////////////////////////////////
+      '// このテクニックを使った書き方
+      '// この書き方はセル範囲を定義しループはその範囲で回す。
+      '// 変更があれば範囲定義だけ変えればいいので変動にも強いし可読性もいい
+      '/////////////////////////////////////////////////////////////////////////////////////////
+      Const USER_INPUT As String = "B1:B4"
+      Dim myCell As Range
+
+      For Each myCell In ws.Range(USER_INPUT)
+      If myCell.Value &lt;&gt; "" Then
+        '// ここにユーザが何か入力していた場合の処理を書く
+      EndIf
+      Next
+        </code></pre>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

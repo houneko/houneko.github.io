@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="VBAの配列">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc300 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>配列 | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        VBAの配列
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">VBAの配列</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">配列とは</h3>
+          <p>
+            配列は、複数の値を1つの変数で扱えるようにしたもので、各値をインデックス番号で指定するもの。VBA特有の概念ではなく他の言語にもある基本機能。VBAにも当然だが配列がある。基本的な概念は他の言語と同様と思うが、Excelを扱うということからシート内容を配列に格納するなどの使い方があり必須な知識。
+          </p>
+          <h3 id="toc13" class="h3chapter underline">VBAの配列変数の宣言</h3>
+          <p>変数名()で宣言する。※2次元配列の場合は()はつけない</p>
+          <p>VBAの配列は要素数を指定せずに宣言すると動的配列となり、宣言後に要素を増やしたりできる。</p>
+          <pre><code class="vb">
+          '//配列変数の宣言
+          Dim myArray1()              As Variant    '//Variant型の配列。要素数の指定は無く動的配列となっている
+          Dim myArray2(10)            As Integer    '//インデックス0 ～ 10 の11個のInt型配列
+          Dim myArray3(1 To 5)        As String     '//インデックス1 ～ 5 の5個のString型配列
+        </code></pre>
+          <div class="text">
+            <img src="/assets/pic/vba_array_01.png" alt="配列の宣言" class="image-float">
+            <p>myArray1は空の配列として宣言しているので、要素は何もない。myArray2は要素10として宣言している。よって<span
+                class="marker">[0]～[10]の11個の要素</span>が確保されている。<span
+                class="marker-red">()内の数字は要素数ではなくインデックスの最大の値</span>を示す。配列は0オリジンなので[0]～[10]の11個の要素がある配列となっている。myArray3は、[1]～[5]の5個の要素の配列が作られる
+            </p>
+          </div>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">静的配列と動的配列</h3>
+          <p>VBAの配列は動的配列だが、変数宣言時に要素数を指定すると静的配列となり要素の拡張はできなくなる（静的配列）。逆に宣言時に要素数を指定しない場合は、後で要素数を拡張できる（動的配列）<br>動的配列の再定義
+            Redim<br>動的配列は要素数を再定義できる（だから動的）。この時、再定義はRedimまたはRedim Preserveで行う。また、再定義は何度でも行うことができる</p>
+          <h3 id="toc21" class="h3chapter underline">動的配列の再定義 Redim </h3>
+          <pre><code class="vba">
+          Dim myArray1()              As Variant
+          Dim Count                   As Long
+          
+          Count = 1
+          ReDim myArray1(Count)     '//Redim 1回目
+          myArray1(Count) = "neko"
+          Count = Count + 1
+          ReDim myArray1(Count)     '//Redim 2回目
+          myArray1(Count) = "usagi"
+        </code></pre>
+          <div class="text">
+            <p>Redim 1回目</p>
+            <img src="/assets/pic/vba_array_02.jpg" alt="動的配列のRedim1回目のデバッグ画面" class="image-float">
+            <p>Redim
+              を1回行った時のデバッグ画面。Count=1として、myArray1をCount数でRedimした結果。配列要素は[0]～[1]になっている。その後、myArray1(Count)="neko"として、要素を設定している。
+            </p>
+          </div>
+          <div class="text">
+            <p>Redim 2回目</p>
+            <img src="/assets/pic/vba_array_03.jpg" alt="動的配列のRedim2回目のデバッグ画面" class="image-float">
+            <p>Redim を2回行った時のデバッグ画面。Count=Count+1として、myArray1をCount数でRedimした結果。配列要素は[0]～[2]になっていることがわかる。また、<span
+                class="marker-underline-red">先にmyArray1[1]="neko"を代入していたが、消えてしまっている。</span><br />つまりRedimは配列要素を再定義するが、それまでの要素は保証しないという動きになる
+            </p>
+          </div>
+          <h3 id="toc22" class="h3chapter underline">動的配列の再定義 Redim Preserve</h3>
+          <p>動的配列を Redimで再定義すると格納しているデータは消えてしまう。過去に格納したデータは保持しつつ配列を拡張したい場合は、Redim Preserve を使って行う。</p>
+          <pre><code class="vba">
+          Dim myArray1()              As Variant
+          Dim Count                   As Long
+          
+          Count = 1
+          ReDim myArray1(Count)             '//Redim 1回目
+          myArray1(Count) = "neko"
+          Count = Count + 1
+          ReDim Preserve myArray1(Count)    '//Redim Preserveしているので既存データは残して拡張される
+          myArray1(Count) = "usagi"
+        </code></pre>
+          <div class="text">
+            <p>Redim Preserve</p>
+            <img src="/assets/pic/vba_array_04.jpg" alt="動的配列のRedim Preserveのデバッグ画面" class="image-float">
+            <p>Redim Preserveで動的配列を拡張した場合、既存のデータを残したまま拡張できる。このためindex[1]の要素の neko は残ったままとなっていることがわかる。<span
+                class="marker-underline-red">Redim Preserveは、既存データを残したまま拡張できるが、要素数を減らすような再定義はできない
+                （小さいindexのデータを残すのだから当然）</span></p>
+          </div>
+        </section>
+        <section>
+          <h3 id="toc30" class="h3chapter underline">配列要素数の最大値と最小値を調べる方法</h3>
+          <p>動的配列の場合、配列の要素数が変わるので、配列要素数の最大値や最小値を知りたいケースが出てくる。そういう時は、UBound()や LBound() で調べることができる。<span
+              class="marker-underline-red">UBound()やLBound()は配列のサイズを返すのではなく、最大要素、最小要素のIndexを返す。</span></p>
+          <pre><code class="vb">
+          Dim myArray2(10)            As Variant  '//[0]～[10]の静的配列。Redimはできない
+          Dim myArray3(1 To 5)        As Variant  '//[1]～[5]の静的配列、Redimはできない
+      
+          Debug.Print ("UBound(myArray2) = " & UBound(myArray2))    '//結果 -&gt; 10 (配列の大きさは0～10なので、11）
+          Debug.Print ("LBound(myArray2) = " & LBound(myArray2))    '//結果 -&gt; 0
+          Debug.Print ("UBound(myArray3) = " & UBound(myArray3))    '//結果 -&gt; 5
+          Debug.Print ("LBound(myArray3) = " & LBound(myArray3))    '//結果 -&gt; 1
+        </code></pre>
+        </section>
+        <section>
+          <!-- toc50 -->
+          <h3 id="toc40" class="h3chapter underline">配列への代入</h3>
+          <p>配列への代入は、静的配列と動的配列では少し異なる。1つずつの要素を代入するのは両方とも同じだが、動的配列はArray()で代入することもできる（静的配列は1つずつの代入しかできない）</p>
+          <pre><code class="vb">
+          Dim myArray1()              As Variant  '//空の配列
+          Dim myArray3(1 To 5)        As Variant  '//[1]～[5]の静的配列、Redimはできない
+    
+          '//静的配列は、Array()による配列要素の代入はできないので１つずつ代入する
+          myArray3(1) = "aa"
+          myArray3(2) = "bb"
+          myArray3(3) = "cc"
+          myArray3(4) = "dd"
+          myArray3(5) = "ee"
+          
+          '//動的配列は、Array()で代入できる。Array()の要素分で再定義され、値が代入されるので事前にRedimしなくてもいい
+          myArray1 = Array("neko", "inu", "usagi")
+          
+          '//静的配列に配列をコピーできないが、コピー先が動的配列ならコピーできる
+          'myArray3 = myArray1    '//← 静的配列に配列をコピーしようとするとエラーになる
+          myArray1 = myArray3     '//← コピー先が動的配列の場合はサイズにかかわらず代入できる      
+        </code></pre>
+        </section>
+        <section>
+          <h3 id="toc50" class="h3chapter underline">配列内容をDebug.Printで表示する方法</h3>
+          <p>自分がVBAを書く時は、配列内容をDebug.Print 配列名で書いてしまいよく間違う。VBAの配列は「Debug.Print 配列名」では表示されない（エラーになる）</p>
+          <pre><code class="vb">
+          Dim myArray() As  Variant
+          ...
+          Debug.Print myArray       '//myArray配列の内容を表示したい意図だが、このコードはエラーになる
+        </code></pre>
+          <p>配列の内容をDebug.Printで表示する場合のサンプルコード（For Each、For文、Join() のやり方がある）</p>
+          <pre><code class="vb">
+          '//1) For Eachで各要素を表示する、2) Forループで各要素を表示する、3) Join()で全要素を表示する方法がある
+          '//配列の内容を表示する (For Eachで各要素を表示する方法）
+          For Each work In myArray1
+              Debug.Print work
+          Next
+          
+          '//配列の内容を表示する (Forループで各要素を表示する方法）
+          '//Forループでやる場合、Index範囲を注意しないとエラーで止まってしまう
+          For lp = 1 To UBound(myArray1)
+              Debug.Print myArray1(lp)
+          Next
+          
+          '//配列の内容を表示する (Join で各要素を連結して一気に表示する方法）
+          Debug.Print Join(myArray1, ", ")
+    
+          結果）
+          For Each、Forループで表示するケースはどちらも同じ表示
+            aa
+            bb
+            cc
+            dd
+            ee
+          Joinで各要素をカンマで結合して表示した場合
+            aa, bb, cc, dd, ee
+        </code></pre>
+        </section>
+        <section>
+          <h3 id="toc60" class="h3chapter underline"><span class="marker">2次元配列：大量なセルを高速に処理するには配列化!</span></h3>
+          <p>
+            大量なセル（例えば100万行のデータ）を処理する場合、そのセル範囲やシート全体を配列に入れて配列で処理する方が高速。この場合、配列は2次元配列になる。<br />2次元配列を使うシーンで多分一番多いのは（自分の場合）、シートの全セルを配列に格納する方法。この方法のメリットは、シートのセルを参照するのではなく配列要素を参照することで100倍位高速化されるという点。シートが小さい場合は差が出にくいが、1シートに何十万行もあるような場合、ループでセルを参照するような方法に比べて配列に入れてやる方法は100倍速くなる。
+          </p>
+          <p><span class="marker-underline">2次元配列の変数は()をつけずに宣言する</span></p>
+          <pre><code class="vb">
+          Dim tableArray      As Variant    '//()をつけずに宣言する
+          Dim lastRow         As Long
+          Dim lastCol         As Long
+          
+          '//SHEET_NAMEシートのデータがあるエリアをtableArray配列に格納する（2次元配列として格納される）
+          tableArray = Sheets(SHEET_NAME).UsedRange
+          
+          '//行と列の最大値を取得する
+          lastRow = UBound(tableArray, 1)   '//Uboundの第二引数は次元なので、この場合は行の最大値を取得している
+          lastCol = UBound(tableArray, 2)   '//Ubound(配列名, 2)は、列の最大値を取得
+        </code></pre>
+          <p>以下はテストで使ったシート。シートを配列に格納すると、2次元配列として格納される。行が1次元で列が2次元となる</p>
+          <div class="text">
+            <img src="/assets/pic/vba_array_05.jpg" alt="シートを配列に格納する例のサンプルシートの画像" class="image-float">
+          </div>
+          <p>tableArray配列にUserRange領域を格納し、lastRowとlastColを取得した後のデバッグ画面</p>
+          <div class="text">
+            <img src="/assets/pic/vba_array_06.jpg" alt="シートを配列に格納した時のVBE画面" class="image-float">
+            <p>1次元が行になっており、2次元が列となっていることがわかる。<span
+                class="marker-red">シートを配列に格納する場合、1オリジンなので注意</span>（セルが1行、1列始まりやからやろうな）<br>lastRowは行の最大値で4、lastColが列の最大値で11となっていることがわかる。この値を元のシートと比べると4行11列のデータと一致している。
+            </p>
+          </div>
+        </section>
+        <section>
+          <h3 id="toc61" class="h3chapter underline">2次元配列：配列で列名を探す処理</h3>
+          <p>配列にすると超高速になるが、セルを参照する時に使えた.Findメソッドなどは使えないので、検索はForループで行うしかない</p>
+          <pre><code class="vb">
+        '// 事業部名 という列を探す（E列にある）
+        For lp = 1 To lastCol
+          If tableArray(1, lp) = "事業部名" Then
+            Debug.Print ("find col = " &amp; lp)  '//この結果は5となる（E列が事業部名）
+            jCodeCol = lp
+            Exit For
+          End If
+        Next
+        </code></pre>
+        </section>
+        <section>
+          <h3 id="toc62" class="h3chapter underline">2次元配列：配列で重複データの削除を行う処理</h3>
+          <p>Findメソッド同様に、.RemoveDuplicatesメソッドも使うことができない（当たり前）。なので、重複の削除もマニュアルでForループと辞書を使って行う</p>
+          <pre><code class="vb">
+          '//重複を判断するための辞書を生成する
+          Set myDict = CreateObject("Scripting.Dictionary")
+      
+          '//タイトル行の次の行から最終行までループ
+          For lp = 1 + 1 To lastRow
+              '//各行の事業部名列を見ていき、重複しない事業部名を辞書に登録する
+              If Not myDict.Exists(tableArray(lp, jCodeCol)) Then
+                  '//myDict辞書に登録されていない事業部名だった場合は、新規の事業部名なので
+                  '//辞書のキーに登録する。バリューは何でもいいが今回は登録しない
+                  myDict.Add tableArray(lp, jCodeCol), Nothing
+              End If
+          Next
+                  
+          '//辞書のキー一覧（事業部名）を表示
+          '//辞書Obj.Keysは、キーの配列を返すので、Forループで1つずつ表示させる
+          For Each work In myDict.Keys
+              Debug.Print ("事業部名 : " &amp; work)
+          Next
+      
+        結果）
+          事業部名 : "pandaneko部"
+          事業部名 : "neko開発部"
+        </code></pre>
+        </section>
+        <section>
+          <h3 id="toc63" class="h3chapter underline">2次元配列：配列でフィルタを行う処理</h3>
+          <p>
+            例として、事業部名の列を「pandaneko部」でフィルタする<br>2次元配列はRedimできないので、フィルタ結果を格納する配列は最初にサイズを見切って定義しておく必要がある。その後、フィルタした行をフィルタ結果の配列に行ごとで格納する
+          </p>
+          <pre><code class="vb">
+          '//-------------------------------------------------
+          '//フィルタ処理を行う（事業部名が、pandaneko部でフィルタ）
+          Dim resultArray     As Variant      '//フィルタ結果用の配列
+          Dim senteiCount     As Long
+          Dim lp2             As Long
+          Dim senteiRow       As Long
+          
+          ' //2次元配列は、後でRedim Preserveで再定義できないので最初にサイズを見切っておく必要がある
+          For lp = 1 + 1 To lastRow
+              If (tableArray(lp, jCodeCol)) = "pandaneko部" Then
+                  senteiCount = senteiCount + 1
+              End If
+          Next
+                    
+          ' //選定数分の2次元配列を作る。+1はタイトル行分
+          ReDim resultArray(1 To senteiCount + 1, 1 To lastCol)
+          ' //結果配列に元の配列のタイトル行をコピーする
+          For lp2 = 1 To lastCol
+              resultArray(1, lp2) = tableArray(1, lp2)
+          Next
+          senteiRow = 2
+          ' //事業部名が「pandaneko部」となっている行を結果配列にコピーする
+          For lp = 2 To lastRow
+              If tableArray(lp, jCodeCol) = "pandaneko部" Then
+                  For lp2 = 1 To lastCol
+                      resultArray(senteiRow, lp2) = tableArray(lp, lp2)
+                  Next
+                  senteiRow = senteiRow + 1
+              End If
+          Next
+        </code></pre>
+          <p>結果を格納する配列サイズを確保した直後のデバッグ画面</p>
+          <div class="text">
+            <img src="/assets/pic/vba_array_07.jpg" alt="フィルタ結果のサイズを見切った後のデバッグ画面" class="image-float">
+            <p><span
+                class="marker-underline-red">2次元配列はRedimできないので、事前にフィルタした結果のサイズ分の配列を作成しておく。</span>左の配列はフィルタ結果を格納するresultArray配列で、タイトル行と「pandaneko部」がヒットした2行分の配列（3行11列）が確保されている。
+            </p>
+          </div>
+          <p>結果配列にフィルタ結果を格納した後のデバッグ画面</p>
+          <div class="text">
+            <img src="/assets/pic/vba_array_08.jpg" alt="フィルタ結果を結果配列に格納した後のデバッグ画面" class="image-float">
+            <p>フィルタ結果を、結果配列 resultArray に格納した後のデバッグ画面。pandaneko部だけの配列となっている</p>
+          </div>
+        </section>
+        <section>
+          <h3 id="toc64" class="h3chapter underline">2次元配列：処理結果の配列をブックとして保存する方法</h3>
+          <p>配列結果をブックに保存する（書き戻す）。この時、せっかく高速化しているのでForループを使って書き戻したらだめ</p>
+          <pre><code class="vb">
+          '//-------------------------------------------------
+          '//フィルタ結果配列をブックに保存する
+          Dim wb      As Workbook
+          Set wb = Workbooks.Add
+          
+          '//結果配列の行数と列数を取得する
+          lastRow = UBound(resultArray, 1)
+          lastCol = UBound(resultArray, 2)
+          
+          '//結果Arrayサイズと同じサイズのRange領域を指定し、そこにコピーすればいい（Forループは使ったらだめ）
+          With wb.Worksheets(1)
+              .Range(Cells(1, 1), Cells(lastRow, lastCol)).Value = resultArray
+          End With
+          wb.SaveAs Filename:=ThisWorkbook.Path &amp; "\hoge.xlsx"
+          wb.Close
+        </code></pre>
+          <div class="text">
+            <img class="image-float" src="/assets/pic/vba_array_09.jpg" alt="配列でフィルタし、結果を保存したブックの画像">
+            <p>配列をフィルタし、その結果を保存したブック。<br>ちゃんと「pandaneko部」でフィルタされた結果となっている。</p>
+          </div>
+        </section>
+        <section>
+          <h3 id="toc70" class="h3chapter underline">配列で気をつけること</h3>
+          <p>
+            配列は基本的には0オリジンなので、インデックスは[0]からだが、シートをコピーする場合は1オリジンになる。また、配列は[0]から始まっていても、処理で実際のデータは[1]から格納した方が使い勝手がよかったりする事もある。つまり、<span
+              class="marker-underline-red">自分が今使っている配列の最初のデータは[0]に入っているのか、[1]に入っているのかをちゃんと認識しておかないといけない。</span>
+            小さなプログラムだと配列は1つ位しか使わないかもしれないが、ある程度複雑な処理をする場合、複数の配列を使うので、配列によって[0]なのか[1]なのか違う場合がある。</p>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

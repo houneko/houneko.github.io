@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description" content="VBAのエラーハンドリング">
+  <meta name="breadcrumb" content="ホーム:/index.html > VBA/高度:/pages/excel/excel_000_index.html#toc300 > ">
+  <title>エラーハンドリング | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="pwshicon" class="title-icon">
+        VBAのエラーハンドリング
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">VBAのエラーハンドリング</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">エラーハンドリング</h3>
+          <p>Functionプロシージャ毎にErrorHandler等のラベルを作り、On Error Goto ErrorHandler のようにエラー処理をする</p>
+          <p>なんでエラーハンドリングした方がいいか？例えば、ある処理を行う前に「Application.Calculation =
+            xlCalculationManual」で再計算を止めて何らかの処理を実行し、終われば「Application.Calculation =
+            xlCalculationAutomatic」に戻すようなケースで途中の何等かの処理中にエラーが起きてマクロが停止したら、Excelが手動計算になってしまっているので、ユーザはExcelが壊れたと思ってしまう</p>
+          <p>エラーハンドリングを入れていた方が良いと思われるケース</p>
+          <ul>
+            <li>ブックオープン処理があるようなマクロ</li>
+            <li>ファイル保存などがあるようなマクロ</li>
+            <li>Calculation設定変更があるようなマクロ</li>
+            <li>EnableEvents変更があるようなマクロ</li>
+            <li>画面のScreenUpdating変更があるようなマクロ</li>
+          </ul>
+        </section>
+        <section>
+          <h3 id="toc13" class="h3chapter underline">一般形</h3>
+          <pre><code class="vbs">
+          Private Function DoSomethingFunc(...) As Boolean
+            '// ここがtryブロックみたいなもの
+            On Error Goto ErrorHandler 
+            
+            ...メイン処理
+            ...
+            DoSomethingFunc = True
+            Goto Finally
+
+          ErrorHandler：
+            '// ここがcatch相当のブロック
+            ...エラー処理（オープンしたブックのクローズとかの後始末）
+            DoSomethingFunc = False
+
+          Finally:
+            '// 正常処理でも通るブロック。Finallyブロック相当
+            ...正常形でも行う後始末
+          End Function
+          </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
