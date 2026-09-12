@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+<title>HTML5のページ | HouNeko</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+
+<meta name="description" content="HTML5の解説ページのトップ目次です">
+<meta name="keywords" content="html,html5,目次">
+<meta name="category" content="HTML">
+<meta name="subcategory" content="HTML5の目次トップ">
+<meta name="breadcrumb" content="ホーム:/index.html >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/html5icon.png" alt="htmlicon" class="title-icon">
+        HTMLのページ
+      </h1>
+      <div class="toc-header">
+        <span class="toc-label">目次：</span>
+        <button id="details-toggleAll">すべて開く</button>
+      </div>
+      <div class="toc-container">
+        <!-- 基本の章 #100台 -->
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">HTMLの基本的な話</span>
+            <span class="desc">HTMLの基本的な話</span>
+          </summary>
+
+          <!-- ページ100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">HTMLの基本的な話</span>
+              <span class="desc">HTMLの基本的な話</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="html_100_basic.html">HTMLの基本的な話</a>
+                <p class="desc">HTMLの基本的な話</p>
+              </li>
+              <li>
+                <a href="html_102_browser.html">Webブラウザ</a>
+                <p class="desc">htmlドキュメントを表示するアプリケーションであるWebブラウザについてのあれこれです</p>
+              </li>
+              <li>
+                <a href="html_101_path.html">HTMLのパス指定</a>
+                <p class="desc">HTMLのパスの指定方法は、絶対パス、相対パス、ルート相対パスがあります。それぞれの違いやメリットをまとめています</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ120 -->
+          <details class="toc-card is-child tocall" id="toc120">
+            <summary>
+              <span class="title">HTMLのいろいろなタグ</span>
+              <span class="desc">HTMLのいろいろなタグ</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="html_120_articlesection.html">articleとsection</a>
+                <p class="desc">articleとsection</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ140 -->
+          <details class="toc-card is-child tocall" id="toc140">
+            <summary>
+              <span class="title">いろいろな属性</span>
+              <span class="desc">いろいろな属性</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="html_140_custom.html">カスタムデータ属性</a>
+                <p class="desc">カスタムデータ属性</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- アップロードの章 #200番台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc200main">
+          <summary>
+            <span class="title">ホームページの公開</span>
+            <span class="desc">作ったHTML/CSS/JSをアップルロードして、インターネットに公開する方法をまとめています</span>
+          </summary>
+          <!-- ページ200 -->
+          <details class="toc-card is-child tocall" id="toc200">
+            <summary>
+              <span class="title">ホームページの公開</span>
+              <span class="desc">ホームページの公開に関する話</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="html_202_homepage.html">ホームページの公開</a>
+                <p class="desc">ホームページの公開方法についての章です</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
