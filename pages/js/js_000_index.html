@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="JavaScriptに関するページです。">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>JavaScriptのindexページ | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptのページ
+      </h1>
+      <p>このページは自分がJavaScriptを触った時に思った事や悩んだ事などをまとめています。</p>
+      <button id="details-toggleAll">すべて開く</button>
+
+      <!-- 目次ブロック１：基本事項 idは toc100main-->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">JavaScriptの基本</span>
+            <span class="desc">JavaScriptの基本的な特徴を書いている章</span>
+          </summary>
+          <!-- ページ #100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">JavaScriptの基本的な事項いろいろ</span>
+              <span class="desc">HelloWorldを書いてみるから、基本的な事項や特徴</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="js_100_outline.html">JavaScriptとは</a>
+                <p class="desc">JavaScriptの基本概念や歴史などをまとめているページです</p>
+              </li>
+              <li><a href="js_105_Interactive.html">JSによるインタラクティブな動作</a>
+                <p class="desc">JavaScriptを使えば、ユーザの操作に応じたインタラクティブな動作を実現できます</p>
+              </li>
+              <li><a href="js_101_basic2.html">JavaScriptの基本的な特徴</a>
+                <p class="desc">JavaScriptの基本的な特徴</p>
+              </li>
+              <li><a href="js_102_reftype.html">基本型と参照型</a>
+                <p class="desc">JSは、動的型付け言語だけどデータ型として「基本型（プリミティブ型）」と「参照型」がある</p>
+              </li>
+              <li><a href="js_102a_object.html">オブジェクト</a>
+                <p class="desc">JavaScriptのオブジェクトが持つプロパティやメソッドをどうやって調べるかをまとめた章です</p>
+              </li>
+              <li><a href="js_103_const.html">JavaScriptの変数と定数</a>
+                <p class="desc">JavaScriptの変数と定数</p>
+              </li>
+              <li><a href="js_106_letvarconst.html">varとletとconst</a>
+                <p class="desc">varとletとconstでの宣言</p>
+              </li>
+              <li><a href="js_104_templateLiteral.html">テンプレートリテラル</a>
+                <p class="desc">テンプレートリテラル</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ #120 -->
+          <details class="toc-card is-child tocall" id="toc120">
+            <summary>
+              <span class="title">JavaScriptの基本構文</span>
+              <span class="desc">JavaScriptの基本構文</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="js_123_consolelog.html">console.log</a>
+                <p class="desc">console.logで「変数名＝値」を表示させる時の注意点</p>
+              </li>
+              <li><a href="js_120_if.html">JavaScriptのif文</a>
+                <p class="desc">JavaScriptのif文</p>
+              </li>
+              <li><a href="js_121_switch.html">JavaScriptのswitch文</a>
+                <p class="desc">JavaScriptのswitch文</p>
+              </li>
+              <li><a href="js_122_for.html">JavaScriptのfor文</a>
+              <p class="desc">JavaScriptのfor文は、for in文や、for of文などの種類があります。for in文は、他の言語のForEach文のような動作をしますが、コレクションから取り出すのは「index」です</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ #140 -->
+          <details class="toc-card is-child tocall" id="toc140">
+            <summary>
+              <span class="title">JavaScriptの関数</span>
+              <span class="desc">JavaScriptの関数は、複数の書き方があります</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="js_140_function.html">JavaScriptの関数：funnctionキーワードを使った関数宣言</a>
+                <p class="desc">funnctionキーワードを使ったJavaScriptの関数宣言と使い方、ホイスティングの話など</p>
+              </li>
+              <li><a href="js_141_function‗expression.html">JavaScriptの関数：関数式、関数リテラル</a>
+                <p class="desc">JavaScriptでは関数を定数や変数に代入して使うことができますという話です</p>
+              </li>
+              <li><a href="js_142_arrowFunction.html">JavaScriptの関数：アロー関数</a>
+                <p class="desc">JavaScriptのES6から、アロー関数という書き方ができるようになりました。アロー関数は何がいいのかを考えてみた章です</p>
+              </li>
+            </ol>
+          </details>
+
+        </details>
+      </div>
+
+      <!-- 目次ブロック２：Webページの操作 idは toc200main-->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc200main">
+          <summary>
+            <span class="title">JavaScriptによるWebページの操作</span>
+            <span class="desc">JavaScriptの真価の1つはWebページを動的に操作できる点だと思います</span>
+          </summary>
+          <!-- ページ #220 -->
+          <details class="toc-card is-child tocall" id="toc220">
+            <summary>
+              <span class="title">Webページに表示する</span>
+              <span
+                class="desc">JavaScriptの処理結果をブラウザに表示してみる</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="js_220_write.html">JavaScriptの処理結果をブラウザに表示する</a>
+                <p class="desc">JavaScriptが勉強しにくいのは、その処理結果を表示する先がブラウザであることだと思います。なので、ブラウザにJavaScriptの処理結果を表示させることでJavaScriptの処理を見ることができます</p>
+              </li>
+              <li>
+                <a href="js_221_for.html">forループで表を作る</a>
+                <p>Webページで表を作る場合は、tableタグ内にtrやtdで行やセルデータをマークアップして作りますが、大きな表をたくさん作る場合、いちいちtr、tdを書くのは面倒です。そう言う場合はこの方法が便利です</p>
+              </li>
+              <li>
+                <a href="js_222_if.html">if文で表の値を分岐させる</a>
+                <p>if文はWebページの操作にも使えます（当たり前？）。forで作った表を使ってif文のサンプルを作ってみます</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ #200 -->
+          <details class="toc-card is-child tocall" id="toc200">
+            <summary>
+              <span class="title">Webページを操作するメソッドたち</span>
+              <span class="desc">Webページを操作するいろいろなメソッド</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="js_200_getElementById.html">getElementByIdメソッド</a>
+                <p class="desc">getElementByIdメソッドは、htmlの要素をidで認識し、その要素をオブジェクトとして操作できるようにするメソッドです</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+
+</body>
+
+</html>
