@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>CSS3のページ | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="CSS3に関するページです">
+<meta name="keywords" content="css,トップページ">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="css3,css">
+<meta name="breadcrumb" content="ホーム:/index.html >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="css3icon" class="title-icon">
+        CSS3のページ
+      </h1>
+      <p>このページはCSS3に関するページです。CSSは「Cascading Style
+        Sheets」の略で、Webページの見栄えを指定するもの。大昔はHTMLだけでデザインなどの見栄えも記述するようなことがあったが、htmlは人間の文章をマークアップしてWebページにする役割、CSSはページのデザインを担うというように役割分担が明確化された。CSSが無かったら昨今の綺麗なページはできないので、CSSの功績は大きいと思います。
+      </p>
+
+      <!--- toc-header と すべて開く・閉じるボタン --------------------------------------->
+      <div class="toc-header">
+        <span class="toc-label">目次：</span>
+        <button id="details-toggleAll">すべて開く</button>
+      </div>
+
+      <!---------------------------------------------------------------------------------->
+      <!--- toc-container が１つの大きなブロック   --------------------------------------->
+      <!--- この中に、details目次があり、toc-cardクラスと toc-allクラスがつく ------------>
+      <!--                                                                              -->
+      <!--  toc-container                                                               -->
+      <!--      details目次（親）                                                       -->
+      <!--       ├─ details目次（子） toc-card、is-child、tocallクラス idがtoc100     -->
+      <!--              ├─ ページ #100                                                -->
+      <!--              ├─ ページ #101                                                -->
+      <!--              ├─ ページ …                                                  -->
+      <!--                                                                              -->
+      <!--       ├─ details目次（子） toc-card、is-child、tocallクラス idがtoc120     -->
+      <!--              ├─ ページ #120                                                -->
+      <!--              ├─ ページ #121                                                -->
+      <!--              ├─ ページ …                                                  -->
+      <!--                                                                              -->
+      <!--  toc-container                                                               -->
+      <!--      details目次（親）                                                       -->
+      <!--       ├─ details目次（子） toc-card、is-child、tocallクラス idがtoc200     -->
+      <!--              ├─ ページ #200                                                -->
+      <!--              ├─ ページ #201                                                -->
+      <!--              ├─ ページ …                                                  -->
+      <!--                                                                              -->
+      <!--       ├─ details目次（子） toc-card、is-child、tocallクラス idがtoc220     -->
+      <!--              ├─ ページ #220                                                -->
+      <!--              ├─ ページ #221                                                -->
+      <!--              ├─ ページ …                                                  -->
+      <!---------------------------------------------------------------------------------->
+
+      <!---------------------------------------------------------------------------------->
+      <!--- toc-container が１つの大きなブロック   --------------------------------------->
+      <!--- #100番台                                                          ------------>
+      <!---------------------------------------------------------------------------------->
+      <div class="toc-container">
+        <!-- 基本の章 #100台 -->
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">CSSの基本</span>
+            <span class="desc">CSSの基本事項などを書いている章です</span>
+          </summary>
+
+          <!-- ページ100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">CSSの基本事項</span>
+              <span class="desc">基本事項</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="css_100_syntax.html">CSSの基本事項</a>
+                <p class="desc">CSSの基本的な構成や、どこに書くのなどの話</p>
+              </li>
+              <li><a href="css_101_selector.html">CSSのセレクタ</a>
+                <p class="desc">CSSのセレクタにはいくつかの種類があり、CSSの優先度もこのセレクタの種類によって決まる</p>
+              </li>
+              <li><a href="css_102_inherit.html">CSSの継承プロパティと非継承プロパティ</a>
+                <p class="desc">CSSの設定は、親に書けた設定が子に継承されるものと継承されないものがあるという話</p>
+              </li>
+              <li><a href="css_103_oyako.html">親子の指定方法</a>
+                <p class="desc">親子の指定方法</p>
+              </li>
+              <li><a href="css_104_pseudo.html">疑似クラスと疑似要素</a>
+                <p class="desc">
+                  疑似クラスは「:」で始まる要素の状態を指定するセレクタ。マウスオーバすると・・の動きは疑似クラスによるもの。<br />疑似要素は「::」で始まるHTML側には存在しない要素もどきに対してスタイルを指定する
+                </p>
+              </li>
+              <li>
+                <a href="css_105_classdesign.html">CSSのクラス設計</a>
+                <p class="desc">CSSのクラス設計</p>
+              </li>
+              <li>
+                <a href="css_106_shorthand.html">CSSのショートハンド記法</a>
+                <p class="desc">ショートハンド記法とは？ショートハンド記法を使うと複数のプロパティ、値をまとめて書くことができます。</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ120 -->
+          <details class="toc-card is-child tocall" id="toc120">
+            <summary>
+              <span class="title">CSSのプロパティ</span>
+              <span class="desc">CSSのプロパティ</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="css_121_boxmodel.html">ボックスモデルの余白を示すプロパティ</a>
+                <p class="desc">余白はmarginとpaddingの2種類があります。要素の外側の余白がmarginで、要素の中側の余白がpaddingです</p>
+              </li>
+              <li>
+                <a href="css_121_display.html">displayプロパティ</a>
+                <p class="desc">displayプロパティ</p>
+              </li>
+              <li>
+                <a href="css_124_flex.html">flexプロパティ</a>
+                <p class="desc">親にflexボックスを指定した場合、子アイテムにはflexプロパティで伸び縮みを設定できる</p>
+              </li>
+              <li>
+                <a href="css_122_boxshadow.html">box-shadowプロパティ</a>
+                <p class="desc">box-shadowプロパティはボックス要素に影をつける効果のデザインです</p>
+              </li>
+              <li>
+                <a href="css_123_animation.html">animationプロパティ</a>
+                <p class="desc">CSSだけでもアニメーションを行うことができます</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ140 -->
+          <details class="toc-card is-child tocall" id="toc140">
+            <summary>
+              <span class="title">CSSの関数</span>
+              <span class="desc">CSSの関数</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="css_141_clamp.html">clamp関数</a>
+                <p class="desc">clamp関数の使い方</p>
+              </li>
+              <li>
+                <a href="css_142_repeat.html">repeat関数</a>
+                <p class="desc">repeat関数の使い方</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ160 -->
+          <details class="toc-card is-child tocall" id="toc160">
+            <summary>
+              <span class="title">CSSの変数</span>
+              <span class="desc">CSSの変数</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="css_160_variable.html">CSSの変数</a>
+                <p class="desc">CSSは変数を持つことができます。変数に値を持たせて使用時は変数を使って定義する。そうすると変更があった際に変数定義だけ変えればいいので便利です</p>
+              </li>
+            </ol>
+          </details>
+
+        </details>
+      </div>
+
+
+      <!---------------------------------------------------------------------------------->
+      <!--- toc-container が１つの大きなブロック   --------------------------------------->
+      <!--- #100番台                                                          ------------>
+      <!---------------------------------------------------------------------------------->
+      <!-- 高度の章 #200番台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc200main">
+          <summary>
+            <span class="title">親の目次名２ #toc200main</span>
+            <span class="desc">親の目次名２の説明文</span>
+          </summary>
+
+          <!-- ページ200 -->
+          <details class="toc-card is-child tocall" id="toc200">
+            <summary>
+              <span class="title">子の目次名１ #toc200</span>
+              <span class="desc">子の目次名１の説明文</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="#">ページ#200</a>
+                <p class="desc">ページ#200の説明文</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ220 -->
+          <details class="toc-card is-child tocall" id="toc220">
+            <summary>
+              <span class="title">子の目次名２ #toc220</span>
+              <span class="desc">.子の目次名２の説明文</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="#">ページ#220</a>
+                <p class="desc">.ページ#220の説明文</p>
+              </li>
+              <li><a href="#">ページ#221</a>
+                <p class="desc">.ページ#221の説明文</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- ここまでがテンプレート部 -->
+      <!-- -------------------------- -->
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
