@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="HTMLのパスの指定方法は、絶対パス、相対パス、ルート相対パスがあります。それぞれの違いやメリットをまとめています">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > html/基本:/pages/html/html_000_index.html#toc100 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>HTMLのパス指定 | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/html5icon.png" alt="htmlicon" class="title-icon">
+        HTMLのパス指定
+      </h1>
+
+      <article>
+        <h2 class="h2chapter-title" id="toc01">相対パス（予備知識）</h2>
+        <section>
+          <h3 id="toc02" class="h3chapter underline">フォルダの相対パス</h3>
+          <p>PCのフォルダもパス指定があり、絶対パスや相対パスの概念があります（どちらから言うとこっちが先の話）</p>
+          <p>相対パスは、<a href="#toc30"><span class="marker is-bold">「今いる階層」</span></a>と、<a href="#toc40"><span
+                class="marker is-bold">「今いる階層から下のフォルダを指定する方法」</span></a>と、<a href="#toc50"><span
+                class="marker is-bold">「今いる階層から下のフォルダを指定する方法」</span></a>の３つを理解しておけばいい</p>
+          <div class="text">
+            <img src="/assets/pic/html_101_tree_01.png" alt="パスツリー" class="image-float" />
+            <p><br />サンプルとして左記のフォルダ構造があったとして、ここでのパス移動やパス参照を例に説明します（C:.は、C:\TEMP\MyWeb\src）</p>
+          </div>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">パスのセパレータ</span>
+              <p>Windowsでは、パスのセパレータは「\（バックスラッシュ）」を使っているのでパスを表示させると以下のようになっている</p>
+              <pre><code class="powershell">
+            &gt; $pwd
+            C:\TEMP\MyWeb\src     # パスのセパレータは「\（バックスラッシュ）」になっている
+            </code></pre>
+              <p>しかし、<span class="emphasis">Webの世界ではパスのセパレータは「/（スラッシュ）」を使うので、この点は違う</span> （だけどパス指定の概念は同じ）</p>
+              <ul class="no-marker">
+                <li>
+                  <span>（おまけの話）</span>
+                  <p>おまけの話として、PowerShellはセパレータに「/」も「\」も使える</p>
+                  <pre><code class="powershell">
+                C:\TEMP\MyWeb\src &lt; ls pic\xx.png    # PowerShellだと、バックスラッシュでパス指定もできる
+                C:\TEMP\MyWeb\src &lt; ls pic/xx.png    # PowerShellだと、スラッシュでパス指定もできる
+                </code></pre>
+                  <p>Cmdは、バックスラッシュしか使えない</p>
+                  <pre><code class="batch">
+                rem Cmdは、バックスラッシュでのパス指定のみ可
+                C:\TEMP\MyWeb\src &lt; dir pic\xx.png
+                rem Cmdは、スラッシュでのパス指定はエラーになる
+                C:\TEMP\MyWeb\src &lt; dir pic/xx.png
+                </code></pre>
+                  <p>Cmd.exeは、MS-DOSのCmd.comを継承しているので「/」はオプション指定に使っている。このため「/」をパス指定に使えないのでしょうね</p>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <span class="is-bold" id="toc30">同じ階層（今いる所）とは</span>
+              <p>あるフォルダにいる時、そこから見えるものは同じ階層にあるという。同じ階層にいるファイルやフォルダは、<span class="emphasis">パス指定なしで</span>直接指定できる </p>
+              <ul class="no-marker">
+                <li>
+                  <pre><code class="powershell">
+                &gt; ls
+                Mode    LastWriteTime       Length  Name
+                ----    -------------       ------  ----
+                dar--   2000/03/01  15:18           css
+                dar--   2000/03/01  15:18           lib
+                dar--   2000/03/02   7:24           pages
+                dar--   2000/03/01  15:20           pic
+                dar--   2000/03/01  15:20           script
+                dar--   2000/03/01  15:20           参考資料とか
+                -a---   2000/02/28   6:07     3895  index.html
+                -a---   2000/03/02   7:25       33  readMe.txt                
+                # 今見えている以下のフォルダやファイルは同じ階層にいるもの
+                </code></pre>
+                </li>
+                <li>
+                  <p class="underline" id="toc40">同じ階層にあるフォルダの指定方法は以下の方法で可能</p>
+                  <ul class="no-marker">
+                    <li>
+                      <span>「サブフォルダ名」から初めてパスを指定する</span>
+                    </li>
+                    <li>
+                      <span>「./」でカレントフォルダの下 を示してパスを指定する</span>
+                    </li>
+                    <li>
+                      <span>「/」で始めるとだめ。これはルートからのパスになるため</span>
+                    </li>
+                    <li>
+                      <pre><code class="powershell">
+                    &gt; ls pages/manga/pic/1.png       #「サブフォルダ名」から初めてパスを指定する
+                    Mode                 LastWriteTime         Length Name
+                    ----                 -------------         ------ ----
+                    -ar--          2000/07/12    18:34          19789 1.png
+
+                    &gt; ls ./pages/manga/pic/1.png     #「./」でカレントフォルダの下 を示してパスを指定する
+                    Mode                 LastWriteTime         Length Name
+                    ----                 -------------         ------ ----
+                    -ar--          2000/07/12    18:34          19789 1.png
+
+                    &gt; ls /pages/manga/pic/1.png      #「/」で始めるとルートからのパスになる
+                    Get-ChildItem: Cannot find path...  # ← ルートからのパスにはこのフォルダ無い。エラー
+                    </code></pre>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <span class="is-bold" id="toc50">親の階層に上がるには</span>
+              <p>1つ上の階層は親の階層といったりする。この階層に上がるには「../」で指定する。さらに上は「../../」と指定する。つまり「../」が1つ上を示している。</p>
+              <pre><code class="powershell">
+            &gt; cd ../       #1つ上に上がる
+            &gt; cd ../../    #2つ上に上がる
+            </code></pre>
+              <p>例）今、manga/picフォルダにいるとして、そこからscriptフォルダ内を見る場合</p>
+              <pre><code class="powershell">
+            PS C:\TEMP\MyWeb\src\pages\manga\pic&gt; ls ..\..\..\script\
+            Mode                 LastWriteTime         Length Name
+            ----                 -------------         ------ ----
+            -ar--          2000/03/20    17:00            507 hoge.js
+            -ar--          2000/03/16     2:32             80 fuga.js            
+            </code></pre>
+              <div class="text">
+                <img src="/assets/pic/html_101_tree_02.png" alt="tree" class="image-float" />
+                <p><br />① 今いる所は、manga/pic</p>
+                <p>② 1つ上は、manga階層</p>
+                <p>③ 2つ上は、pages階層</p>
+                <p>④ 3つ上は、ルート</p>
+                <p>⑤ その下にscriptフォルダがある</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </article>
+
+      <article>
+        <h2 class="h2chapter-title" id="toc10">HTMLのパス指定</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">HTMLのパス指定</h3>
+          <p>HTMLのパスの指定方法は、絶対パス、相対パス、ルート相対パスがあります</p>
+          <p>基本的な考え方は、フォルダのパス指定と同じです（パスのセパレータが違うなどの差はあるが概念は同じ）。なので、<a
+              href="https://ja.wikipedia.org/wiki/%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%95%E3%82%A7%E3%83%BC%E3%82%B9"
+              target="_blank">CUI</a> になれている人はすぐイメージできると思います。GUIの人でも分かってしまえば難しくないです</p>
+          <ul class="no-marker">
+            <li>
+              <span class="is-bold">絶対パス</span>
+              <p>絶対パスはフルパスの事。Webの場合は、「http://」や「https://」のプロトコルで始まりファイル名hoge.htmlまでの全部のパス。</p>
+              <p>
+                絶対パス指定は、自分のページ中でも使う事は可能だけど、自分のページ内のリンク等では相対パスやルート相対パスを使うのが一般的と思います。絶対パス指定は外部のページへのリンクなどで使うのが多いと思います（自分は外部ページのリンクにしか使ってない）。
+              </p>
+              <pre><code class="html">
+            &lt;a href="https://hoge.com/pages/neko/pic/neko.jpg" target="_blank"&gt;neko&lt;/a&gt;
+            </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">相対パス</span>
+              <p>相対パスは、<span class="is-bold emphasis">今のページから</span>の相対位置を示すもの</p>
+              <p>つまり、今コーディングしているhtmlページからの位置を指定する。なので、ある階層のページAから画像フォルダへのパスと、別の階層のページBから画像フォルダへのパスは異なる（当たり前）</p>
+              <p>ページ数が多い構造で、相対パス指定を使っている場合、パスが変わると影響が大きい。（ルート相対パスを使う場合も同じような影響がありますが、ルート相対パスの場合はまだ影響が少ないです）</p>
+            </li>
+            <li>
+              <span class="is-bold">ルート相対パス</span>
+              <p>サーバをルート（基準）とする相対パス指定。今いる所を基準とする相対パスよりも変化に強い</p>
+              <p>ルート相対パスは、今のページを基準とした相対パスではなく、サーバルートを基準とした相対パスってこと</p>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+        </section>
+
+        <section>
+        </section>
+
+        <section>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

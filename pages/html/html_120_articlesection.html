@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="いろいろなtag">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > html/基本:/pages/html/html_000_index.html#toc120 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>タグ | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/html5icon.png" alt="htmlicon" class="title-icon">
+        HTMLのいろいろなタグ
+      </h1>
+      <p>このページは、HTMLのいろいろなタグを自分目線でまとめたものです（順不同）</p>
+      <article>
+        <h2 class="h2chapter-title" id="toc10">articleとsection</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter">articleとsection</h3>
+          <p>
+            articleとsectionは同じようなものなのでどういう住み分けなんかなと思ってまとめたものです。<br />articleもsectionも「セクショニングコンテンツ」だけど、意味あいが少し違う。articleは「独立した1つのコンテンツ」的な意味を持つので、このブロックで1つの完結した記事になる。sectionは、コンテンツ内の1つの章的な位置つけになる。
+          </p>
+        </section>
+        <section>
+          <p class="underline">例1: articleの中で、複数の章を複数のsectionで作る</p>
+          <p>
+            これは、articleが1つの大きな節で、その中にこの説の章1、章2、・・・と書くような感じ。人の報告書やレポートもこの形式が多いのでなじみやすい形と思う。この例は「CSSの書き方」という大きな話題の中にCSSの「セレクタとは」という話、「プロパティと値」という話、・・・となっている。
+          </p>
+          <pre><code>
+        &lt;h1&gt;CSSの書き方&lt;/h1&gt;
+        &lt;article&gt;
+
+          &lt;section&gt;
+          &lt;h2&gt;セレクタとは&lt;/h2&gt;    &lt;!-- ここが「セレクタ」の章 のイメージ --&gt;
+          &lt;p&gt;説明・・・&lt;/p&gt;
+          &lt;/section&gt;
+
+          &lt;section&gt;
+          &lt;h2&gt;プロパティと値&lt;/h2&gt;   &lt;!-- ここが「プロパティと値」の章 イメージ --&gt;
+          &lt;p&gt;説明・・・&lt;/p&gt;
+          &lt;/section&gt;
+          ・・・
+
+        &lt;/article&gt;
+        </code></pre>
+        </section>
+
+        <section>
+          <p class="underline">例2: articleとsectionのセットで、1つずつ完結した内容で作る</p>
+          <p>これは、articleとsectionを1つのセット「CSSのセレクタ」、articleとsectionのセットで「プロパティと値」の話題を書く書き方</p>
+          <pre><code>
+        &lt;h1&gt;CSSの書き方&lt;/h1&gt;
+        &lt;article&gt;                       &lt;!-- ここが 独立したCSSの「セレクタ」の話 --&gt;
+          &lt;section&gt;
+          &lt;h2&gt;セレクタとは&lt;/h2&gt;    
+          &lt;p&gt;説明・・・&lt;/p&gt;
+          &lt;/section&gt;
+        &lt;/article&gt;
+
+        &lt;article&gt;                       &lt;!-- ここが 独立したCSSの「プロパティと値」の話 --&gt;
+          &lt;section&gt;
+          &lt;h2&gt;プロパティと値&lt;/h2&gt;   
+          &lt;p&gt;説明・・・&lt;/p&gt;
+          &lt;/section&gt;
+        &lt;/article&gt;
+          ・・・
+        </code></pre>
+        </section>
+        <p>じゃ、どっちがいいの？<br />これはどっちがいいか悪いかの話ではなく、書き手がどういう書き方にしたいかだけの差。なので検索エンジンもこの書き方を見て書き手の意図を認識する。</p>
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

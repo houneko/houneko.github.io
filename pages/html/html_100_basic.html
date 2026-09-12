@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="HTML5に関するページです。">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > html/基本:/pages/html/html_000_index.html#toc100 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>HTMLの基本 | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/html5icon.png" alt="htmlicon" class="title-icon">
+        HTMLの基本事項
+      </h1>
+      <article>
+        <h2 class="h2chapter-title" id="toc10">HTMLの基本的な構造</h2>
+        <section>
+          <h3 id="toc11" class="h3chapter underline">開始タグと終了タグでマークアップする</h3>
+          <p>HTMLは、&lt;xx&gt;～&lt;/xx&gt; のタグのペアで表示したい情報を囲んで表現している。この時、&lt;xx&gt; を開始タグ、&lt;/xx&gt;
+            を終了タグと言う。表示したいテキスト等を開始タグと終了タグで囲んで文字を表現していくことをマークアップという</p>
+        </section>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">要素とコンテンツ</h3>
+          <p>
+            表示したいテキストを開始タグと終了タグで囲んでマークアップしていくことがhtmlでのソースコード作成になるけど、この開始タグと終了タグで囲んでものを「タグも含めて要素」という<br />以下の例は、pタグで囲んだ要素なので、p要素と言ったりする
+          </p>
+          <p>また、開始タグと終了タグを除いた中身をコンテンツという</p>
+          <pre><code class="html">
+          &lt;p&gt;HelloWorld&lt;/p&gt;   
+          &lt;!--  &lt;p&gt;HelloWorld&lt;/p&gt; 全体を要素という--&gt;
+        </code></pre>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">DOCTYPE宣言</h3>
+          <p>HTMLコードの1行目は、このDOCTYPE宣言を書く。DOCTYPE宣言は、HTMLのバージョンを示すもので、HTML5や HTML4.x、XHTML1.0などがある</p>
+          <p>
+            以下の例のように、HTML5はすごくシンプルになっている。逆にHTML4.01はこの時点え書くのがいやになりそうなめんどくささ。新規で書く場合はHTML5にすればいいので気にしなくてもいいけど、HTML5をきれいに整理してくれた人たちに感謝
+          </p>
+          <pre><code class="html">
+          &lt;!-- HTML5のDOCTYPE宣言 --&gt;
+          &lt;!DOCTYPE&gt;
+
+          &lt;!-- HTML4.01のDOCTYPE宣言 --&gt;
+          &lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+            "http://www.w3.org/TR/html4/loose.dtd"&gt;
+        </code></pre>
+          <p>おまけ）VSCodeで開発する場合は、<a href="../vscode/vsc_210_emmet.html#toc12"> Emmet
+            </a>が効くので手で入力しなくてもDOCTYPE宣言（他の全体構造も含めて）のコードができる</p>
+        </section>
+        <section>
+          <h3 id="toc30" class="h3chapter underline">基本構造</h3>
+          <p>
+            htmlファイルには、必ず「html要素」「head要素」「body要素」が含まれる。html要素が全体を包んだ状態になっておりhtmlドキュメントを示している。html要素の中にhead要素とbody要素があり、head要素にはそのhtmlファイルの情報（メタデータ）を書き、bodyにブラウザに表示されるコンテンツを書く
+          </p>
+          <pre><code class="html">
+          &lt;!-- htmlが全体を包んでいる --&gt;
+          &lt;html lang="ja"&gt;
+                              
+            &lt;!-- htmlの中にheadがある。headはメタ情報を書く要素でブラウザには表示されない --&gt;
+            &lt;head&gt;                
+                ...                     
+            &lt;/head&gt;
+          
+            &lt;!-- htmlの中にbodyがある。bodyの内容がブラウザに表示される --&gt;
+            &lt;body&gt;
+                ...
+            &lt;/body&gt;
+
+        &lt;html&gt;
+      </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">html要素</h3>
+          <p>html要素は、htmlタグで囲まれた部分でDOCTYPE宣言の後に書く。htmlタグはhead要素やbody要素を格納する土台的なコンテナの役割になっている</p>
+          <p>lang属性をつけるのが推奨となっている（なのでEmmetでもlang属性がついているのかな）。この属性が指定されていると読み上げソフトがこの言語にあった音声で読み上げてくれる。</p>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
