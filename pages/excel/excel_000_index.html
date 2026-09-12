@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Excelのindexページ | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Excelの関数、VBAに関するページです">
+<meta name="keywords" content="Excel,VBA,目次,インデックス">
+<meta name="category" content="Excel,VBA,マクロ,関数">
+<meta name="subcategory" content="目次,トップページ">
+<meta name="breadcrumb" content="ホーム:/index.html >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/excel_icon.png" alt="xlsicon" class="title-icon">
+        Excelのページ
+      </h1>
+      <p>このページはExcel関数、VBAについて書いているページです。</p>
+      <div class="toc-header">
+        <span class="toc-label">目次：</span>
+        <button id="details-toggleAll">すべて開く</button>
+      </div>
+
+      <!-- 基本の章 #100台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">VBAの基本</span>
+            <span class="desc">VBAの基本</span>
+          </summary>
+          <!-- ページ100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">VBAの基本</span>
+              <span class="desc">VBAの基本</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vba_100_unit.html">VBAのプロジェクト、モジュール、プロシージャ</a>
+                <p class="desc">VBAのプロジェクト、モジュール、プロシージャの違い</p>
+              </li>
+              <li>
+                <a href="vba_101_private.html">VBAのPrivateスコープ と Publicスコープ</a>
+                <p class="desc">Private宣言した時のスコープ、Public宣言した時のスコープ範囲について</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- 便利な使い方の章 #200台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc200main">
+          <summary>
+            <span class="title">VBAの便利な使い方</span>
+            <span class="desc">VBAの便利な使い方というか、VBAマクロで使うテクニック集みたいなものです</span>
+          </summary>
+          <!-- ページ200 -->
+          <details class="toc-card is-child tocall" id="toc200">
+            <summary>
+              <span class="title">表示に関する便利なテクニック</span>
+              <span class="desc">表示に関する便利な技たち</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vba_200_statusbar.html">VBA実行中のステータス表示</a>
+                <p class="desc">ステータスバーに実行状況を表示する</p>
+              </li>
+              <li>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ220 -->
+          <details class="toc-card is-child tocall" id="toc220">
+            <summary>
+              <span class="title">セル範囲内の値を取得するテクニック</span>
+              <span class="desc"></span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vba_220_userinput.html">ユーザ入力エリアに入力された情報を取得する</a>
+                <p class="desc">この入力エリアを見切るテクです</p>
+              </li>
+              <li>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- 高度な使い方の章 #300台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc300main">
+          <summary>
+            <span class="title">VBAの高度な使い方</span>
+            <span class="desc">VBAの高度な使い方</span>
+          </summary>
+          <!-- 高度ページ300 -->
+          <details class="toc-card is-child tocall" id="toc300">
+            <summary>
+              <span class="title">VBAの高度な使い方</span>
+              <span class="desc">VBAの高度な使い方</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vba_300_array.html">配列</a>
+                <p class="desc">配列自体は基本的なデータ構造だけど、シート内のセルを2次元配列に代入して高速処理する高度な方法がある</p>
+              </li>
+              <li>
+                <a href="vba_301_errorhandling.html">VBAのエラーハンドリング</a>
+                <p class="desc">VBAマクロでもtry-catch-finallyのようなエラーハンドリングライクな事ができます</p>
+              </li>
+            </ol>
+          </details>
+          <!-- 高度ページ320 -->
+          <details class="toc-card is-child tocall" id="toc320">
+            <summary>
+              <span class="title">VBAのライブラリ</span>
+              <span class="desc">VBAのライブラリの呼び出し方や使い方</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vba_320_library.html">ライブラリ</a>
+                <p class="desc">外部ライブラリの使い方。事前バインドと実行時バインドとは</p>
+              </li>
+              <li>
+                <a href="vba_321_dictionary.html">連想配列、辞書</a>
+                <p class="desc">外部ライブラリの連想配列（辞書）の使い方、辞書を使って存在をチェックする方法など</p>
+              </li>
+              <li>
+                <a href="vba_322_regexp.html">正規表現</a>
+                <p class="desc">VBAでは、CreateObject("VBScript.RegExp")で正規表現のインスタンスを生成し、正規表現を使う事ができます</p>
+              </li>
+              <li>
+                <a href="vba_323_fso.html">ファイルシステムオブジェクトFSO</a>
+                <p class="desc">
+                  VBAでは、CreateObject("Scripting.FileSystemObject")でファイルシステムオブジェクトのインスタンスを生成し、ファイル操作を行う事ができます</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- 高度ページ3a0 -->
+          <details class="toc-card is-child tocall" id="toc3a0">
+            <summary>
+              <span class="title">自分のライブラリ</span>
+              <span class="desc">汎用的な処理を整理して自分のライブラリを作って呼び出す</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vba_3a0_debuglog.html">libCommonLogライブラリ</a>
+                <p class="desc">Debug.Printのログ出力を関数（ライブラリ）にすることで、ログの出力On/Offやログレベルの制御ができるようにする</p>
+              </li>
+            </ol>
+          </details>
+
+
+          <!-- 高度ページ340 -->
+          <details class="toc-card is-child tocall" id="toc340">
+            <summary>
+              <span class="title">Applicationクラス</span>
+              <span class="desc">Applicationクラスのメソッドやプロパティの使い方</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vba_340_applicationRun.html">Application.Run による関数コール</a>
+                <p class="desc">外部ライブラリの連想配列（辞書）の使い方、辞書を使って存在をチェックする方法など</p>
+              </li>
+            </ol>
+          </details>
+          <!-- 高度ページ360 -->
+          <details class="toc-card is-child tocall" id="toc360">
+            <summary>
+              <span class="title">クラスモジュール</span>
+              <span class="desc">クラスモジュールとは、使い方。VBAでは構造体よりもクラスモジュールがいいみたい</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vba_360_classModule.html">クラスモジュールを使う</a>
+                <p class="desc">クラスモジュールとは、使い方。VBAでは構造体よりもクラスモジュールがいいみたい</p>
+              </li>
+            </ol>
+          </details>
+          <!-- 高度ページ380 -->
+          <details class="toc-card is-child tocall" id="toc380">
+            <summary>
+              <span class="title">カスタマイズ</span>
+              <span class="desc">自分用のカスタマイズ</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="vba_380_personal.html">Excelを自分用にカスタマイズする</a>
+                <p class="desc">Personal.xlsbによる自分用マクロ、自分用関数の登録</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- 現場の事例の章 #400台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc400main">
+          <summary>
+            <span class="title">VBAの現場での失敗事例</span>
+            <span class="desc">VBAの現場での失敗事例</span>
+          </summary>
+          <!-- ページ400番台 -->
+          <details class="toc-card is-child tocall" id="toc400">
+            <summary>
+              <span class="title">VBAの現場での失敗事例</span>
+              <span class="desc">VBAの現場での失敗事例</span>
+            </summary>
+            <ol class="two-digit">
+              <!-- ページ400 -->
+              <li>
+                <a href="vba_400_howtocall.html">値を受け取らない場合のFunctionプロシージャコール</a>
+                <p class="desc">Functionプロシージャは値を返す関数ですが、コール元は値を受け取らなくてもいいです。ですが・・</p>
+              </li>
+              <!-- ページ401 -->
+              <li>
+                <a href="vba_401_escape.html">ダブルクォーテーションのエスケープ</a>
+                <p class="desc">Excelの世界では「"」をエスケーブする時は「\"」ではなく「""」となります。文字列の開始・終了も「"」なのでカオス</p>
+              </li>
+            </ol>
+          </details>
+
+
+        </details>
+      </div>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+
+</body>
+
+</html>
