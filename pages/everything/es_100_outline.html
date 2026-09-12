@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Everything | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Everythingに関するページです。主にEverythingのCLIツール（es.exe）の使い方などを書いています">
+<meta name="keywords" content="Everything,es.exe">
+<meta name="category" content="アプリ">
+<meta name="subcategory" content="Everything">
+<meta name="breadcrumb" content="ホーム:/index.html > es/基本:/pages/Everything/es_000_index.html#toc100 >">
+</head>
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/es_icon.png" alt="esicon" class="title-icon">
+        Everythingの基本的な概念
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">Everythingとは</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">Everythingって何</h3>
+          <p>
+            Everythingは、Windowsプラットフォームでファイルやフォルダを超高速で検索することができるソフトウェアです。Windowsには標準で検索する機能がありますが、使い勝手はそれほど高くなく特に大量のファイル検索やドライブ丸ごとの検索はかなり時間がかかります。しかし、このEverythingを使うと数百倍速く検索が完了します。また、CLI（コマンドラインIF）で使うためのes.exeもありコマンドとして使う事もできます
+          </p>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">Everythingのインストール</h3>
+          <p>Everythingの<a href="https://www.voidtools.com/downloads/"
+              target="_blank">公式ページ</a>などからインストーラをDLしてインスールします。CLIツール（es.exe）はどこからDLするのか探したことがありますが、<a
+              href="https://www.voidtools.com/downloads/#cli" target="_blank">CLIツール</a>からDLできます</p>
+          <p>インスールは、他のWindowsアプリと大きな差は無いかなと思いますのでウィザードに従ってインスールすればいいかなと思います</p>
+          <p class="emphasis">インストール後はパスを通しておくこと</p>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">Everythingが超高速な理由</h3>
+          <p>Everythingは、Windows専用のソフトウェアで「NTFS」ファイルシステムでのみ真価を発揮します（NTFS以外でも動作するが普通の検索なのであんまり意味ない）。</p>
+          <p>
+            なぜ高速なのかは上記の環境依存に理由があります。EverythingはOSを経由せず直接NTFSファイルシステムにアクセスするので、超高速な検索できるようなっています（ということは、OSのオーバヘッドは結構大きいということか・・）
+          </p>
+          <pre><code class="powershell">
+        # esを使った場合
+        &gt; (Measure-Command { es -s *.ps1 | where {$_ -like "*myfunc*"}}).TotalSeconds
+        0.2916329
+
+        # PowerShellだけでやった場合 （300倍以上速い結果になっている!）
+        &gt; (Measure-Command {ls -file *.ps1 -path c:\ -recurse | where {$_.name -like "*myfunc*"}}).TotalSeconds
+        102.4216
+        </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">Everythingが使える環境</h3>
+          <p>EverythingはNTFSファイルシステムを直接見るため実行できるのは、以下のような環境となります</p>
+          <ul>
+            <li>Windows</li>
+            <li>NTFSでフォーマットしたローカルドライブ（ネットワークドライブは不可）</li>
+            <li>CLIツール（es.exe）を使う場合は、Everythingが起動していること</li>
+          </ul>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
