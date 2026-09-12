@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>jsのfor文 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptのfor文は、いつくか種類があります。for inは、他の言語ForEach文のような動作をしますが、取り出しているのは「index」です">
+<meta name="keywords" content="for文、for in文、for of文、各for文の違い">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JavaScript,js">
+<meta name="breadcrumb" content="ホーム:/index.html > 構文:/pages/js/js_000_index.html#toc120 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptのfor文
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">JavaScriptのfor文</h2>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">for文</h3>
+          <p>for文は、普通のループ文で、VBAのような指定の仕方になっています</p>
+          <p>以下の例は、numbers[]配列の要素をインデクス0から順番に表示しています。numbers[index] で要素を指定しておりイメージ通りかと思います</p>
+          <pre><code class="javascript">
+          //for文
+          const numbers = [10, 20, 30, 40];
+          // 初期値; forが回る条件; 増分 で指定する
+          for (let index = 0; index &lt; 4; index++) {
+            console.log(numbers[index]);
+          }
+          //実行結果（&gt; node .\hoge.js）
+          10
+          20
+          30
+          40
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">for in文</h3>
+          <p>
+            これは最初知った時に「え？」となったfor文。最初は他の言語のForEach文と同じようなものと思っていました、また他の言語のForEach文と同じような動作をします。つまり、インデクスを指定せずに配列などのコレクションから１つずつ取り出すという動作ですが、違うのは<span
+              class="emphasis">「取り出すのは要素ではなくindex番号」</span>です</p>
+          <p>以下の例を見ると、動作はForEachだけど取り出しているのが要素ではなく、index値となっていることがわかります</p>
+          <pre><code class="js">
+          // person[]配列には、name,age,cityの各プロパティを持つオブジェクトが要素
+          const person = [
+            { name: "HouNeko", age: 100, city: "Kobe" },
+            { name: "HouUsagi", age: 120, city: "Osaka" }
+          ];
+
+          // for in 文で、person[]配列から1つずつデータをkeyに取り出している
+          // このkey変数に読み込まれるのは「index値」
+          for (let key in person) {
+            console.log(
+              "key = " + key + "\n",
+              "person[key].name = " + person[key].name + "\n",
+              "person[key].age = " + person[key].age + "\n",
+              "person[key].city = " + person[key].city + "\n"
+            );
+          }          
+          //実行結果（&gt; node .\hoge.js）
+          kye = 0   //← keyに読み込まれた値は、indexになっていることがわかる
+          person[key].name = HouNeko    //keyはindexなので、person[]配列をkey値で参照できる
+          person[key].age = 100
+          person[key].city = Kobe
+
+          kye = 1
+          person[key].name = HouUsagi
+          person[key].age = 120
+          person[key].city = Osaka
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">for of文</h3>
+          <p>for of文が、ForEach文に近いもの。for in文はindex値が取り出されるけど、for of文は要素が取り出されます</p>
+          <pre><code class="js">
+          // person[]配列には、name,age,cityの各プロパティを持つオブジェクトが要素
+          const person = [
+            { name: "HouNeko", age: 100, city: "Kobe" },
+            { name: "HouUsagi", age: 120, city: "Osaka" }
+          ];
+
+          // for of文は、ForEach文みたいなもの
+          // val変数には、person[]配列の要素が1つずつ読み出される
+          for (let val of person) {
+            console.log(
+              "val = ", val,
+              "\nval.name = ", val.name,
+              "\nval.age = ", val.age,
+              "\nval.city = ", val.city
+            );
+          }
+
+          //この実行結果
+          &gt; node .\hoge.js
+          val =  { name: 'HouNeko', age: 100, city: 'Kobe' }    ← val変数にはperson[]配列の要素が読み出されている
+          val.name =  HouNeko
+          val.age =  100
+          val.city =  Kobe
+          val =  { name: 'HouUsagi', age: 120, city: 'Osaka' }
+          val.name =  HouUsagi
+          val.age =  120
+          val.city =  Osaka          
+          </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

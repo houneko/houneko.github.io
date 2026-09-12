@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>getElementByIdメソッド | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Webページを操作するJavaScriptのメソッドたち。この章では、getElementByIdメソッドに関しての説明を行っています">
+<meta name="keywords" content="Webページ操作,getElementById,要素を取得">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JavaScript,js">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/メソッド:/pages/js/js_000_index.html#toc200 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        getElementByIdメソッド
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">getElementByIdメソッド</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">getElementByIdメソッド</h3>
+          <p>getElementByIdメソッドは、htmlの要素をidで認識して取得し、その要素をオブジェクトとして操作できるようにするメソッドです</p>
+          <p>getElementByIdメソッドは、引数でid（このIDはHtmlのタグに付けられている文字列）を指定し、戻り値はそのidがついているhtml要素</p>
+          <pre><code class="html">
+            &lt;body&gt;
+              &lt;p id="myTest"&gt;HouNeko!&lt;/p&gt;
+              &lt;script&gt;
+                console.log(document.getElementById("myTest"));
+              &lt;/script&gt;
+            &lt;/body&gt;
+          </code></pre>
+          <p>この結果は、コンソールに以下の出力が表示される</p>
+          <pre><code class="pwsh">
+              &lt;p id="myTest"&gt;HouNeko!&lt;/p&gt;   #//このp要素全体がgetされていることが分かる
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">getElementByIdで取得したオブジェクトを書き換える</h3>
+          <p>getElementByIdメソッドで取得したものはオブジェクトなので、そのプロパティを変える事で見た目を変えることができます。こういうことができるのがJavaScriptのメリットだと思います</p>
+          <p>まず、getElementByIdメソッドで取得したオブジェクトがどういうプロパティやメソッドを持っているかを<a
+              href="js_102a_object.html#toc20">MDNで調べてみる</a>と「innerHTML」というプロパティにそのオブジェクトのコンテンツが格納されていることがわかります。</p>
+          <img src="/assets/pic/js_200_getelementbyid_01.webp" alt="innerHTMLプロパティ" />
+          <p>innerHTMLプロパティの値を変更してみる</p>
+          <h1 class="emphasis">TBD</h1>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

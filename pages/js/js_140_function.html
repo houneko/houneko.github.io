@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>funnctionキーワードで宣言するjsの関数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptの関数について、funnctionキーワードを使った宣言方法や使い方をまとめた章です">
+<meta name="keywords" content="関数, function, ホイスティング, 関数の書き方">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="js, JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/関数:/pages/js/js_000_index.html#toc140 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptの関数
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">JavaScriptの関数：functionキーワード</h2>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">functionキーワードで関数宣言</h3>
+          <!-- <h1 style="color: red;">TBD</h1> -->
+          <p>JavaScriptの関数はいくつかの書き方があります。まずはfunctionキーワードで関数を定義する方法です</p>
+          <pre><code class="javascript">
+          // functionキーワードを使って関数を宣言する
+          funnction 関数名 (引数1, 引数2,…) {
+            関数の処理内容;
+            ・・・
+          }
+
+          // 関数のコール
+          console.log(関数名(arg1, arg2));
+          </code></pre>
+          <p>以下のtest.jsサンプルは、functionで myAdd関数を 定義している例です</p>
+          <pre><code class="js">
+          // 関数定義
+          function myAdd(a, b) {
+            return(a+b);
+          }
+          // 関数コール
+          console.log(myAdd(10, 200));
+
+          //node.jsで実行してみる
+          &gt; node .\test.js               // WindoesTerminalでnode.jsを使って、test.jsを実行
+          210                               // 10, 200を渡した結果が表示されている
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 class="h3chapter" id="toc21">おまけ：ホイスティング（Hoisting）</h3>
+          <p>JavaScriptの関数は、関数コールが関数宣言部より前にあっても問題ないです（例だと、console.log(myAdd(10,200));が先にあり、その後に、function 関数名(){...}
+            があってもいいという事です）
+          </p>
+          <p>この順番は、なんでかというとホイスティング（巻上げ）により、宣言部が前に巻上げされるからです。つまり「コール」「宣言」が、「宣言」「コール」になり、関数コール時に関数は認識済になるからです</p>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

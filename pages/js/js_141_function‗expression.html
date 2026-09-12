@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>jsの関数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptの関数式、関数リテラルの書き方や呼び出し方法、注意事項についてまとめた章です">
+<meta name="keywords" content="関数, function, 関数式, 関数リテラル, 関数の書き方">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="js, JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/関数:/pages/js/js_000_index.html#toc140 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptの関数
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">JavaScriptの関数：関数式（関数リテラル）</h2>
+
+        <section>
+          <h3 id="toc30" class="hechapter underline">関数リテラル（関数式）とは</h3>
+          <p>関数リテラル（または関数式）は、関数を変数や定数に代入して使うものです。JavaScriptは、関数もデータ型の1つなので、関数を変数や定数に代入することができます</p>
+          <pre><code class="js">
+          //関数リテラルの宣言
+          //代入する関数名は不要（function Hoge(a,b) {...} と書かなくていい。Hogeを書いてもいい）
+          const myAddFunction = function (a,b) {
+            let c = a + b;
+            console.log('結果 = ' + c);
+            return c;
+          };                  //関数を式として代入しているので、最後にセミコロンが必要
+
+          //関数リテラルを実行（関数コール）
+          console.log(myAddFunction(10,20));
+          
+          //実行結果
+          &gt; node .\test.js
+          結果 = 30
+          30
+          </code></pre>
+
+          <p>関数式（関数リテラル）の注意事項</p>
+          <ul>
+            <li>
+              <span>constで関数式に関数を代入する場合、定数名はキャメルケースにする</span>
+              <p><a href="js_100_outline.html#toc40">定数はスネークケースが一般的だけど、</a>関数式の定数名は、アッパースネークではなくキャメルケースを使う</p>
+              <p>JavaScriptでは、変数はキャメルケースで定数は、アッパースネークケースで書くのが一般的ですが、関数式（定数に関数を定義する）では、キャメルケースの定数名にします</p>
+            </li>
+            <li>
+              <span>引数が無い場合もコールには「()」が必要</span>
+              <p>関数式をコールする場合の注意点ですが、定数に関数を代入していてもコール時は「()」を付けて指定する。</p>
+              <pre><code class="js">
+              const hoge = function () {
+                console.log("Hello");
+              };
+    
+              hoge;     // この呼び出しは「間違い」
+              hoge();   // これは正しい。引数が無くても「()」をつけて呼び出す
+              </code></pre>
+            </li>
+            <li>
+              <span>関数式は、<a href="js_140_function.html#toc21">ホイスティング</a>されない</span>
+              <p>関数式は、ホイスティングされないので、関数式をコールするよりも前に関数定義（constに代入）しておかないといけないです</p>
+            </li>
+          </ul>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

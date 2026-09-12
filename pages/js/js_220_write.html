@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>writeメソッド | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptが勉強しにくいのは、その処理結果を表示する先がブラウザであることだと思います。なので、ブラウザにJavaScriptの処理結果を表示させることでJavaScriptの処理を見ることができます">
+<meta name="keywords" content="Webページ操作,write,ブラウザに表示する">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JavaScript,js">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/Webページ操作:/pages/js/js_000_index.html#toc220 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        writeメソッド
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">writeメソッド</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">writeメソッド</h3>
+          <p>writeメソッドは、ブラウザに表示するためのメソッドです。</p>
+          <p>JavaScriptが勉強しにくいのは、その処理結果を表示する先がブラウザであることだと思います。なので、ブラウザにJavaScriptの処理結果を表示させることでJavaScriptの処理を見ることができます
+          </p>
+          <pre><code class="js">
+          //JavaScriptは、ブラウザ上で実行されるので、JsコードもHtml内に書く
+          &lt;body&gt;
+            //document.writeの引数で「Htmlのコード」を直に書くことができる
+            &lt;script&gt
+              let myHello = 'Hello, World';
+              document.write('&lt;h3 style="color: red;"&gt;myHello&lt;/h3&gt;');
+              documnet.write('typeof myHello = ' + typeof(myHello));
+            &lt;/script&gt;
+          &lt/body&gt;
+          </code></pre>
+          <p>上記サンプルコードの結果。Webページに赤字の「Hello, World」が表示されていますが、これはJavaScriptが書いた文字列です。また、typeofでmyHello変数の型を表示させています</p>
+          <script>
+            let myHello = 'Hello, World2';
+            document.write('<h3 style="color: red;">myHello</h3>');
+            document.write('typeof myHello = ', typeof (myHello));
+          </script>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

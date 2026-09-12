@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="JavaScriptのif文">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > 構文:/pages/js/js_000_index.html#toc120 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>jsのif文 | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptのif文
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">JavaScriptのif文</h2>
+          <h3 id="toc20" class="h3chapter underline">if文</h3>
+          <!-- <h1 style="color: red;">TBD</h1> -->
+          <p>JavaScriptのifの構造は、他の言語のif文と同様で特別変わっている点は無いです（比較演算子が一部特殊）</p>
+          <pre><code class="javascript">
+          //if文の構造
+          if (条件式1) {
+            条件式1がtrueの場合の処理;
+            …;
+          } else if (条件式2) {
+            条件式2がtrueの場合の処理;
+            …;
+          } else {
+            条件式1 も 条件式2 も falseの場合の処理;
+          }
+        </code></pre>
+
+          <h3 id="toc30" class="h3chapter underline">if文の条件式</h3>
+          <ul>
+            <li>
+              <span class="is-bold">比較演算子</span>
+              <p>a &lt; b a が b より小さい場合は、true</p>
+              <p>a &lt;= b a が b 以下の場合は、true</p>
+              <p>a &gt; b a が b より大きい場合は、true</p>
+              <p>a &gt;= b a が b 以上の場合は、true</p>
+            </li>
+            <li>
+              <span class="is-bold">等価演算子</span>
+              <p>JavaScriptの等価の比較は<span class="emphasispan emphasis">「等価演算子==」</span> と<span
+                  class="emphasis">「厳密等価演算子===」</span>
+                の2つがあります。この違いは型を意識する比較かどうかです。<br />「等価演算子==」は、型を見ずに比較を行うので、例えば「数値の12」と「文字の12」を比較すると、trueになります。一方「厳密等価演算子===」は型も含めての比較なので、「数値の12」と「文字の12」の比較は
+                falseです
+              </p>
+              <p>a == b a が b と等しい場合は、true</p>
+              <p>a != b a が b と等しくない場合は、true</p>
+              <pre><code class="Javascript">
+            let intNumber = 12;
+            let strNumber = "12";
+            console.log( intNumber == strNumber );    //この結果は「true」となる
+            </code></pre>
+            </li>
+            <li>
+              <span class="is-bold">厳密等価演算子</span>
+              <p>JavaScriptで普通の比較（他の言語で言う比較）は、<span class="emphasis">「厳密等価演算子===」</span> を使うようにする</p>
+              <p>a === b a が b と等しい場合は、true</p>
+              <p>a !== b a が b と等しくない場合は、true</p>
+            </li>
+          </ul>
+
+          <h3 id="toc40" class="h3chapter underline">if文の複数の条件式（かつ、または）</h3>
+          <p>条件式「()」の中に、&&かつ、||または で複数の条件をANDやORで指定することができる</p>
+          <pre><code class="Javascript">
+        if (age &gt;=10 && age &lt;= 100) {
+          console.log ("範囲内です");
+        }
+        </code></pre>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

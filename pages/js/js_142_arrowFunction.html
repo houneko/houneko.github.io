@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>jsの関数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptのアロー関数の書き方や呼び出し方法、注意事項についてまとめた章です">
+<meta name="keywords" content="関数, function, アロー関数, =>, 関数の書き方">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="js, JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/関数:/pages/js/js_000_index.html#toc140 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptの関数
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">JavaScriptの関数：アロー関数</h2>
+
+        <section>
+          <h3 id="toc30" class="hechapter underline">アロー関数とは</h3>
+          <p>アロー関数は、ES6で追加された関数の書き方、表現方法です。アロー関数を使えばJavaScriptらしい書き方ができます</p>
+          <p>()で引数を示し、=&gt; でアロー関数を示し、その右側に返す値を書くという書式です（=&gt;の右側は関数ブロックも可）。これは、functionで書いていたものを「() =&gt; {...}」と短く書いたものと言えるので、呼び出し方などは何も変わりません</p>
+          <p>また、アロー関数は、構文上関数名を定義できないので他の言語で言う「無名関数」や「ラムダ式」と同じです。つまり、アロー関数≒無名関数とイメージしたらいいと思います</p>
+
+          <pre><code class="js">
+          // funnctionキーワードで定義した関数
+          function myAdd(a, b) {
+            return a + b;
+          }
+
+          // これをアロー関数で書くと
+          const myAdd = (a, b) =&gt; a + b;
+          // この意味は、
+          // a, b を引数で受け取り、a + b を返すと読むことができ直観的な表現となっている
+          // このアロー関数をコールする
+          console.log(myAdd(10, 20));
+
+          // 引数が無い場合のアロー関数
+          const hoge = () =&gt; console.log("Hello");
+          // コール
+          hoge();
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">アロー関数で関数ブロックを定義</h3>
+          <p>先ほどの例では、=&gt;の右側には関数がリターンする値を書いていましたが、ここに関数ブロックを定義することもできます</p>
+          <pre><code class="js">
+          // アロー関数で関数ブロックを定義
+          const myFunc = (a, b) =&gt; {   //関数ブロックを定義している
+            const result = a + b;
+            return result;                //関数ブロックの場合、自分でreturnを書く
+          };
+          </code></pre>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

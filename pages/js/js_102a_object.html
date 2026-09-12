@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>JavaScriptのオブジェクト | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptのオブジェクトが持つプロパティやメソッドを調べる方法をまとめた章です">
+<meta name="keywords" content="参照型,オブジェクト,オブジェクトが持つプロパティやメソッド,調べ方,MDNで調べる,console.dirで調べる,Object.getOwnPropertyNamesで調べる">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JS,JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/基本:/pages/js/js_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptのオブジェクト
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">JavaScriptのオブジェクト</h2>
+          <h3 id="toc12" class="h3chapter underline">JavaScriptのオブジェクト</h3>
+          <p>JavaScriptはオブジェクト指向なので、多数のものが<a
+              href="js_102_reftype.html#toc13">オブジェクト（参照型）</a>として扱われています。オブジェクトをうまく使うには、そのオブジェクトがどういうものかを知る必要があります。つまり、どんなプロパティやメソッドを持っているかを知ることは、オブジェクトを上手に使えることだと思います
+          </p>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">MDNドキュメントで調べる方法</h3>
+          <p>JavaScriptのドキュメントは、<a href="https://developer.mozilla.org/ja/" target="_blank">MDN（Mozilla Developer
+              Network）</a> です</p>
+          <p>
+            例えば、getElementByIdメソッドが返すオブジェクトが持つプロパティやメソッドは何かを調べたい場合、MDNのページからこのメソッドを検索して、何オブジェクトが返ってくるかなどを調べます。マニュアル内には「Element」オブジェクトが返ってくると説明されているので、次に「Element」オブジェクトを検索してこのオブジェクトが持つプロパティやメソッドを調べたらいいと思います
+          </p>
+          <p></p>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">console.dirで調べる方法</h3>
+          <p>console.dirは、引数で指定したオブジェクトが持つプロパティやメソッドを表示するメソッドです。この結果をブラウザの開発者ツール（F12）で確認するということです</p>
+          <pre><code class="html">
+            &lt;body&gt;
+              &lt;p id="myTest"&gt;HouNeko!&lt;/p&gt;
+              &lt;script&gt;
+                // getElementById()の取得結果オブジェクトをmyObjに代入
+                const myObj = document.getElementById("myTest");
+                // console.dirでそのオブジェクトの持つプロパティやメソッドをコンソールに表示
+                console.dir(myObj);
+              &lt;script&gt;
+            &lt;/body&gt;
+          </code></pre>
+          <p>F12で開発者ツールを開いて、コンソールタブの内容を確認すると、このオブジェクトが持つプロパティやメソッドが確認できます</p>
+          <p>この例では、コンソールタブを開くと以下のように「p#myTest」があり、それを展開するとこのオブジェクトが持つプロパティやメソッドが表示されます（いっぱいある）</p>
+          <img src="/assets/pic/js_102a_object_consoledir_01.webp" alt="console.dirの結果" />
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">Object.getOwnPropertyNamesで調べる方法</h3>
+          <p>Object.getOwnPropertyNamesは、MDNを見ると引数で指定されたオブジェクトが持つプロパティやメソッドを配列で返すスタティックメソッドであることがわかります</p>
+          <pre><code class="html">
+            &lt;body&gt;
+              &lt;p id="myTest"&gt;HouNeko!&lt;/p&gt;
+              &lt;script&gt;
+                // getElementById()の取得結果オブジェクトをmyObjに代入
+                const myObj = document.getElementById("myTest");
+                // Object.getOwnPropertyNamesでそのオブジェクトの持つプロパティやメソッドをコンソールに表示
+                console.log(Object.getOwnPropertyNames(myObj));
+              &lt;script&gt;
+            &lt;/body&gt;
+          </code></pre>
+          <p>F12で開発者ツールを開いて、コンソールタブの内容を確認すると、このオブジェクトが持つプロパティやメソッドが確認できます</p>
+          <p>この例では、コンソールタブを開くと以下のように「Array」があり、配列要素を見るとこのオブジェクトが持つプロパティやメソッドが表示されます（いっぱいある）</p>
+          <img src="/assets/pic/js_102a_object_getownpropertynames_01.webp" alt="Object.getOwnPropertyNamesの結果" />
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

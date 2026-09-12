@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>変数と定数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptの変数、定数の話です">
+<meta name="keywords" content="変数,定数,再代入,動的型付け言語">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="js, JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/基本:/pages/js/js_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptの基本
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">JavaScriptの変数と定数</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">JavaScriptの変数</h3>
+          <p>JavaScriptの変数は代入する値により型類推されるので型を指定する必要はない（動的型付け言語）。また、宣言時は文字列を代入していたけど、その後の処理で数値を代入することも可能</p>
+          <ul>
+            <li>型指定は不要（動的型付け言語）</li>
+            <li>違う型のデータの再代入が可能</li>
+            <li>変数名命名は「キャメルケース」</li>
+          </ul>
+          <p>再代入時のメモリイメージ</p>
+          <div class="text">
+            <img src="/assets/pic/js_115_01.png" alt="再代入イメージ" class="image-float" />
+            <p>左図のように変数a に「10」を代入し、その後「Neko」を再代入した場合、変数aはもう一度メモリ上で確保しなおされてアドレスが変わる</p>
+          </div>
+          <p>
+            最初、変数aに数値10が代入される。この時、メモリ上に（例えば1000番地）変数aの領域が確保され、そこに10が格納される。次にこの変数aに文字列Nekoを再代入する時に別のアドレス（例えば1500番地）が確報され、そこに文字列Nekoが格納される。<span
+              class="marker-underline">ある変数に別の型の値が再代入できるのは、このようにアドレスが変わるからやろうな。（C言語のような静的型付け言語の場合は、int a = 10で宣言した後に、a =
+              20; と再代入しても変数aのアドレスは変わらない）</span></p>
+          <pre><code class="javascript">
+        let myVar = "Neko";   //文字列を代入。変数myVarはキャメルケースで命名
+        ...
+        myVar = 1200;         //数値型データを再代入
+        </code></pre>
+          <p>動的型付け言語の注意点：JavaScriptに限らず動的型付け言語は、型指定しないので使いやすいけど意図しないバグを発生させてしまう可能性があるので注意が必要</p>
+          <pre><code class="javascript">
+        let myVar = "40";     //文字列で40を代入
+        ...
+        myVar += 5;           //数値の5をプラスしようとしているけど、文字列が連結されて "405" となる
+        </code></pre>
+          <h3 id="toc13" class="h3chapter underline">JavaScriptの変数の宣言方法</h3>
+          <p>変数の宣言は以下の３つの方法があります。<a href="js_106_letvarconst.html">こちらで再整理しました</a></p>
+          <ul>
+            <li>var ：これは古い書き方で、今はあまり使われない（なのでとりあえず無視）</li>
+            <li>let ：現在の宣言方法。再代入可能</li>
+            <li><span class="marker-underline">const：再代入不可の変数宣言（なので実質、定数の宣言）</span></li>
+          </ul>
+
+          <h3 id="toc14" class="h3chapter underline">変数の型</h3>
+          <p>JavaScriptは、動的型付け言語なので、プログラマは変数宣言時に型を指定する必要はありませんが、この変数には内部的に型が存在しています。つまりJavaScriptは内部で変数の型を認識しています</p>
+          <table class="custom-table">
+            <caption>変数の型</caption>
+            <tr>
+              <th>名前</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>number</td>
+              <td>数値</td>
+            </tr>
+            <tr>
+              <td>string</td>
+              <td>テキスト</td>
+            </tr>
+            <tr>
+              <td>boolean</td>
+              <td>真偽値（true、false）</td>
+            </tr>
+            <tr>
+              <td>undefined</td>
+              <td>未定義</td>
+            </tr>
+            <tr>
+              <td>null</td>
+              <td>存在しない事を示す値</td>
+            </tr>
+          </table>
+          <p>数値はnumber型ですが、これは他の言語のようにint型やlong形、float型のように分かれていません。つまり、整数や小数を１つで扱えるようになっています</p>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">JavaScriptの定数</h3>
+          <p>定数は、constで宣言する。constは再代入不可の宣言で実質、定数の宣言になる。</p>
+          <pre><code class="javascript">
+          const myVar = 10;
+          ...
+          myVar = 20;   // ← この処理は「エラー」になる。∵constは再代入不可のため
+        </code></pre>
+          <h3 id="toc21" class="h3chapter underline">const宣言した定数は変更できる？</h3>
+          <p>最初にJavaScriptを見てた時に驚いたのがこれ。<span class="marker-red">JavaScriptのconstは、再代入はできないが値を変更することは可能</span> </p>
+          <p>どういうことかというと、constは他の言語と同様に再代入はできないが、const宣言する定数が<a
+              href="./js_115_reftype.html#toc13">参照型</a>の場合、そのアドレス内のデータは変更できるってこと</p>
+          <pre><code class="Javascript">
+          const myVar = ["Neko", "Inu", "Usagi"];   //constで宣言している配列。constなので再代入はできない
+          console.log('myVar[1] = ' + myVar[1]);
+          myVar[1] = "Komainu";                     //再代入はできないが、このアドレス内の要素は変更できる
+          console.log('myVar[1] = ' + myVar[1]);
+        </code></pre>
+          <div class="text">
+            <img src="/assets/pic/js_130_02.png" alt="デバッグ画面" class="image-float" />
+            <p>const宣言した定数であるmyVar配列。この配列のインデックス[1]の値が変更できていることが分かる</p>
+          </div>
+          <p>以下は、メモリイメージでみた絵</p>
+          <div class="text">
+            <img src="/assets/pic/js_130_01.png" alt="constイメージ" class="image-float" />
+            <p>このイメージ図では、myVar配列は2000番地に配置されているので、myVarにはアドレス2000が格納されている</p>
+            <ul class="li-shift2em">
+              <li>myVarはconstなので再代入は許可されないので再代入はできない。</li>
+              <li>myVarのアドレスは変えれないが、内部の[1]インデックスの値は変更できる</li>
+            </ul>
+          </div>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

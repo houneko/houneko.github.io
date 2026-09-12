@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>console.log | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptの開発では、console.logで「変数名＝値」を表示させたりしますが、この時の注意点を書いています">
+<meta name="keywords" content="console.logの注意点,+演算子,変数名と値の表示">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JavaScript,js">
+<meta name="breadcrumb" content="ホーム:/index.html > 構文:/pages/js/js_000_index.html#toc120 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        console.log
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">console.log</h2>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">console.logの注意点</h3>
+          <p>JavaScriptの開発では、console.logで「変数名＝値」を表示させたりしますが、この時の注意点です（というほどのものではない？）</p>
+          <pre><code class="js">
+          const myName ="Nkko";
+          console.log('myName = ' + myName);
+
+          //表示結果、見かけ上意図した表示になっている
+          myName = Nkko 
+          </code></pre>
+          <p>この例は、変数名＝その変数の値 という形で表示され、見かけ上は意図した表示ができています</p>
+          <p>意図した結果は表示されますが、これは「'myName='」という文字列と「myNameの値（つまり文字列）」が連結されて１つの文字列となり、それをconsole.logで表示していることになります</p>
+        </section>
+        <section>
+          <p>次にオブジェクトの場合はどうなるかを見てみます</p>
+          <pre><code class="js">
+          // myInfoはオブジェクト
+          const myInfo = { name: "Neko", age: 1000, city: "KOBE" };
+          // 'myInfo = ' + myInfo は意図した表示にならない
+          console.log('myInfo = ' + myInfo);          
+
+          &gt; node .\hoge.js の結果
+          myInfo = [object Object]
+          </code></pre>
+          <p>この結果は、myInfo = オブジェクト内容 が表示されることを期待していますが、実際は上記の通り、myInfo = [object Object] と表示されます</p>
+          <p>これは何故かというと、<span
+              class="emphasis">JavaScriptは、文字列と何かを「＋」で連結すると文字列に置換してから連結する</span>という動作をするからです。少しもやもや感が残りますが、これがJavaScriptの性質です。文字列と＋で何かを連結すると、その何かは文字列にしてから「文字連結」します
+          </p>
+        </section>
+        <section id="toc22">
+          <p>じゃ、どうするか「＋」演算子だと文字連結になるので、「,カンマ」で別の引数としてconsole.logに渡せばいいです</p>
+          <pre><code class="js">
+          // myInfoはオブジェクト
+          const myInfo = { name: "Neko", age: 1000, city: "KOBE" };
+          // +演算子は使わず、「,カンマ」で次の引数を指定する
+          console.log('myInfo = ', myInfo);          
+
+          &gt; node .\hoge.js の結果
+          // myInfoに代入されたオブジェクトがそのまま表示されている
+          myInfo = { name: "Neko", age: 1000, city: "KOBE" }
+          </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

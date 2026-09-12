@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="JavaScriptのDebug">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > JS:/pages/js/js_000_index.html#toc100 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>jsのデバッグ | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptのデバッグ
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">JavaScriptのデバッグ</h2>
+          <h3 id="toc12" class="h3chapter underline">開発者ツールを使ったデバッグ</h3>
+          <p>ブラウザ上で動かすJavaScriptのデバッグはブラウザについている開発者ツールで行う事ができる。</p>
+          <img src="/assets/pic/js_116_debug_01.png" alt="開発者ツールでのデバッグ" class="responsive-img" />
+        </section>
+        <section>
+          <h2 id="toc20" class="h2chapter-title">console.logの有効な使い方</h2>
+          <h3 id="toc22" class="h3chapter underline">console.log</h3>
+          <p>
+            JavaScriptをコーディング中は、他の言語と同様、都度修正したり設定を確認したりすると思います。各設定値などをログ出力して確認するけど、本番リリースではログを取らないとだめと思います。この場合、「console.log」をコメントアウトするのは非効率
+          </p>
+          <p>ログをオン・オフするスイッチを作り、これで出力を制御するようにすればいい</p>
+          <pre><code class="javascript">
+        // ---------------------------------------------------------------------------
+        // ログ処理
+        //  フラグ： ログ出力を制御用、trueでログ出力。本番リリース時には falseにする
+        //  関数  ： args引数の型と値を表示する
+        const MYDEBUG = true;                 // このフラグでオン・オフを切り替える
+        function debugLog(...args) {
+          if (!MYDEBUG) return;               // オフの場合も関数にはロ入るがリターンするだけ
+                                              // 数千程度のコールであれば微小なので、速度低下は気にしなくていい
+          args.forEach((arg, index) =&gt; {
+            let type = typeof arg;
+            let display = arg;
+
+            if (Array.isArray(arg)) type = 'array';
+            if (arg === null) type = 'null';
+
+            console.log(`[arg${index}] type: ${type}, value:`, display);
+          });
+        }        
+
+        // ---------------------------------------------------------------------------
+        // ログ処理をコールする各関数
+        function hoge() {
+          ...
+          debugLog("ログ１です");     // デバッグ中も本番リリース時も子のコードはそのままでいい
+          ...                         // MYDEBUG定数を、trueにするかfalseにするがでログ出力を出したり
+          ...                         // 出さなかったりできる
+          debugLog("ログ２です");
+          ...
+          ...
+          debugLog("ログ３です");
+          ...
+        }
+        </code></pre>
+          <p>ログ出力のサンプル例</p>
+          <p>
+            この例は、detailsタグをネストさせた目次（の中にも目次がある）に対して、一度に全部のdetailsタグを開く・閉じるのボタンを作った時のものです。一度に開・閉する時のJavaScriptの関数の引数で、渡されたdetailsタグが全部あるかを確認した画面です
+          </p>
+          <p>以下はログ処理部分です</p>
+          <pre><code class="javascript">
+        // ---------------------------------------------------------------------------
+        // ログ処理
+        //  フラグ： ログ出力を制御用、trueでログ出力。本番リリース時には falseにする
+        //  関数  ： args引数の型と値を表示する
+        const MYDEBUG = true; 
+        function debugLog(...args) {
+          if (!MYDEBUG) return;
+
+          args.forEach((arg, index) =&gt; {
+            let type = typeof arg;
+            let display = arg;
+
+            if (Array.isArray(arg)) type = 'array';
+            if (arg === null) type = 'null';
+
+            console.log(`[arg${index}] type: ${type}, value:`, display);
+          });
+        }
+        </code></pre>
+          <p>以下は関数側の処理です</p>
+          <pre><code class="javascript">
+        function initDetailsOpenClose() {
+          const detailsList = document.querySelectorAll(".tocall");
+          const openBtn = document.getElementById("details-openAll");
+          const closeBtn = document.getElementById("details-closeAll");
+          debugLog('details-openclose loaded', detailsList);    // ← ログコール、文字と配列データを渡している
+
+          if (!detailsList.length || !openBtn || !closeBtn) return;
+
+          openBtn.addEventListener("click", () =&gt; {
+            detailsList.forEach(details =&gt; {
+              details.open = true;
+              debugLog('All details opened');     // ログコール、文字だけ渡している
+            });
+          });
+
+          closeBtn.addEventListener("click", () =&gt; {
+            detailsList.forEach(details =&gt; {
+              details.open = false;
+              debugLog('All details closed');     // ログコール、文字だけ渡している
+            });
+          });
+        }
+        </code></pre>
+          <p>この結果、開発者ツールのコンソールにログが出ている</p>
+          <img src="/assets/pic/js_116_debug_04.png" alt="ログ画面" />
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

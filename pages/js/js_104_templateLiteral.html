@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="テンプレートリテラルとは">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > JS:/pages/js/js_000_index.html#toc100 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>テンプレートリテラル | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptの基本
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">テンプレートリテラル</h2>
+          <h3 id="toc12" class="h3chapter underline">テンプレートリテラルとは</h3>
+          <p>文字列の中に変数や定数を埋め込むことができるしくみ。${変数名} を文字列に埋め込んでおけば、その部分はその変数の値に展開される。ただし、テンプレートリテラルは文字列全体をバッククオートで囲まないといけない</p>
+          <ul>
+            <li>文字列全体をバッククオートで囲む（`文字列`）</li>
+            <li>変数名や定数名は「${}」で文字列内に指定する</li>
+          </ul>
+          <pre><code class="javascript">
+          const name = "Neko";
+          const age = 18;
+          //templateLiteralを使った場合
+          console.log (`名前は ${name} です。年齢は ${age} です`);
+          
+          //templateLiteralを使わない場合
+          console.log("名前は " + name + " です。年齢は " + age + " です");
+        </code></pre>
+          <p>結果は以下</p>
+          <div class="text">
+            <img src="/assets/pic/js_140_01.png" alt="templateLiteral" class="image-float" />
+            <p>
+              テンプレートリテラルを使って書いた文字列も、テンプレートリテラルを使わず書いた文字列も結果は同じ。だけど、テンプレートリテラルを使って書いた方が、何回も文字列の連結をしないでいいので簡潔に書けると思う（PowerShellのWrite-Hostなどで$変数を指定するのと同じような感じ）
+            </p>
+          </div>
+        </section>
+        <section>
+          <h3 id="toc20" class="h3chapter underline">おまけ）リテラルとは</h3>
+          <p>
+            リテラル（Literal）は、プログラム上に埋め込まれた直値のこと。文字リテラルや数値リテラルがある。基本的に何度も出てくるような値は変数や定数で定義した方がいいと思っている（∵あちこちに同じ意味の値があると修正する時に修正箇所が多くなってしまう）。<br />じゃ、リテラルを使うメリットって何か？これは一度しか使わないような値はリテラルの方がいい。変数に入れると変数宣言や定義がありその値を参照するコードとなるが1回しか使わないのであれば、これは冗長。また変数などに入れると変数名から何かを類推しないといけないがぱっと分からないこともある。でも直値であればそのものなのでわかりやすい
+          </p>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

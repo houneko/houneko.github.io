@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>if文 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="forループ作った表を使って、if文の分岐を入れてみるサンプルです">
+<meta name="keywords" content="Webページ操作,if文">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JavaScript,js">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/Webページ操作:/pages/js/js_000_index.html#toc220 >">
+  <style>
+    table {
+      border: solid 1px red;
+    }
+
+    th,
+    td {
+      border: solid 1px red;
+    }
+
+    /* ストック表をデザインするCSS設定 */
+    .nostock {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        if文で分岐
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">if文で分岐</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">if文で分岐</h3>
+          <p>if文は、条件分岐を表現する構文ですが、これはWeb上でも使えます（当たり前）</p>
+          <p>以下のサンプルは、if文で表の要素の値を判定して0だったら在庫なしと表示するものです</p>
+          <pre><code class="html">
+          &lt;head&gt;
+            ...
+            &lt;style&gt;
+              table { border: solid 1px red; }
+              th, td { border: solid 1px red; }
+              /* ストック表をデザインするCSS設定 */
+              .nostock { color: red; font-weight: bold; }
+            &lt;/style&gt;
+          &lt;/head&gt;
+
+          &lt;body&gt;
+            &lt;table&gt;
+              &lt;thead&gt;
+                &lt;tr&gt;
+                  &lt;th&gt;名前&lt;/th&gt;
+                  &lt;th&gt;バリュー&lt;/th&gt;
+                  &lt;th&gt;在庫&lt;/th&gt;
+                &lt;/tr&gt;
+              &lt;/thead&gt;
+              &lt;tbody&gt;
+                &lt;script&gt;
+                  let myDatas = [
+                    { name: "りんご3", val: 8000, stock: 10 },
+                    { name: "ばなな3", val: 4000, stock: 20 },
+                    { name: "みかん3", val: 2000, stock: 0 },
+                  ]
+                  for (let lp = 0; lp &lt; 3; lp++) {
+                    document.write('&lt;tr&gt;');
+                    document.write('&lt;td&gt;' + myDatas[lp].name + '&lt;/td&gt;');
+                    document.write('&lt;td&gt;' + myDatas[lp].val + '&lt;/td &gt;');
+                    //if文で在庫による表示を変更する
+                    if (myDatas[lp].stock &gt; 0) {
+                      document.write('&lt;td&gt;' + myDatas[lp].stock + '&lt;/td &gt;');
+                    } else {
+                //else側に来るのは在庫が0の場合。なので表をnostockクラスにして、
+                //tdに在庫なしをマークアップすれば、在庫なしが表示された表になる
+                      document.write('&lt;td class="nostock"&gt;在庫なし&lt;/td &gt;');
+                    }
+                    document.write('&lt;/tr&gt;');
+                  }
+                &lt;/script&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/body&gt;
+          </code></pre>
+          <p>以下はこのコードで作った表です</p>
+          <table>
+            <thead>
+              <tr>
+                <th>名前</th>
+                <th>バリュー</th>
+                <th>在庫</th>
+              </tr>
+            </thead>
+            <tbody>
+              <script>
+                let myDatas = [
+                  { name: "りんご3", val: 8000, stock: 10 },
+                  { name: "ばなな3", val: 4000, stock: 20 },
+                  { name: "みかん3", val: 2000, stock: 0 },   //みかん3は在庫が0。これをif文で分岐して表示させる
+                ]
+                for (let lp = 0; lp < 3; lp++) {
+                  document.write('<tr>');
+                  document.write('<td>' + myDatas[lp].name + '</td>');
+                  document.write('<td>' + myDatas[lp].val + '</td >');
+                  //if文で在庫による表示を変更する
+                  if (myDatas[lp].stock > 0) {
+                    document.write('<td>' + myDatas[lp].stock + '</td >');
+                  } else {
+                    document.write('<td class="nostock">在庫なし</td >');
+                  }
+                  document.write('</tr>');
+                }
+              </script>
+            </tbody>
+
+          </table>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

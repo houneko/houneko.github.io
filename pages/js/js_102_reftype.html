@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="JavaScriptの基本型（プリミティブ型）、参照型（オブジェクト）">
+  <!-- ■パンくずリスト -->
+  <meta name="breadcrumb" content="ホーム:/index.html > JS:/pages/js/js_000_index.html#toc100 > ">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>基本型と参照型 | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptの基本
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">JavaScriptの基本型と参照型</h2>
+          <h3 id="toc12" class="h3chapter underline">基本型（プリミティブ型）</h3>
+          <p>JavaScriptは動的型付け言語なので、型指定を気にせず使えるが、データ型として「基本型（プリミティブ型）」と「参照型」という２つの型があるので、この違いを認識しておかないといけない</p>
+          <p>基本型（プリミティブ型）</p>
+          <table class="custom-table">
+            <tr>
+              <th>タイプ</th>
+              <th>概要</th>
+              <th>その他</th>
+            </tr>
+            <tr>
+              <td>number（数値）</td>
+              <td>数値全体。整数、小数等の区別なし</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>string（文字列）</td>
+              <td>文字列。シングルかダブルクォーテーションで囲む</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>boolean（真偽値）</td>
+              <td>trueが真、falseが偽</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>symbol（シンボル）</td>
+              <td>シンボル</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>null（ヌル値）</td>
+              <td>値が空</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>underlined（未定義）</td>
+              <td>値が未定義</td>
+              <td></td>
+            </tr>
+          </table>
+          <p>基本型（プリミティブ型）の変数には、値そのものが変数に代入される。なので基本型（プリミティブ型）は変数定義した時に変数a用にメモリアドレスが確保されてそこに値が代入される</p>
+          <pre><code class="Javascript">
+          &lt;script&gt;
+            //変数aに10を代入する時にメモリ上に変数aのアドレスが確保されてそこに10が格納される
+            let a = 10;
+            ...
+            //変数aに文字列型の値を再代入。この時、再度メモリ上に変数aのアドレスが格納されてそこに文字列Nekoが格納される
+            a = "Neko";
+          &lt;/script&gt;
+        </code></pre>
+
+          <h3 id="toc13" class="h3chapter underline">参照型（オブジェクト）</h3>
+          <p><span class="marker-underline">参照型は、その実際の値が格納されるメモリアドレスが代入される。</span>これが基本型（プリミティブ型）と参照型の違い</p>
+          <p>参照型はオブジェクトでもあります</p>
+          <p>
+            参照型の変数aに別の参照型変数bを代入すると、変数aには変数bのオブジェクトが格納されているアドレスが代入される。なので、変数aも変数bも同じアドレスを参照することになる。また、変数aに基本型のデータ（例えば、数値10）を代入すると値そのものが格納される
+          </p>
+          <p>※C言語のポインタ変数に似ているけど、<span
+              class="emphasis">アドレス操作はできない（実際にはアドレスは見えない）。</span>こういう操作はある意味危険なので、JavaScriptではできないようになっている（つまりポインタ変数と同じようなものだけど安全になるようにラップされている）
+          </p>
+          <table class="custom-table">
+            <tr>
+              <th>タイプ</th>
+              <th>概要</th>
+              <th>その他</th>
+            </tr>
+            <tr>
+              <td>配列(array)</td>
+              <td>配列への参照</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>オブジェクト(object)</td>
+              <td>オブジェクトへの参照</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>関数(function)</td>
+              <td>巻数への参照</td>
+              <td></td>
+            </tr>
+          </table>
+          <pre><code class="javascript">
+        const myArray = [10, 20, 30];
+        console.log("myArray type = " + typeof(myArray));   // 型はobject。         結果： myArray type = object
+        console.log("myArray value= " + myArray);           // 値はアドレスではない 結果： myArray value= 10,20,30
+        </code></pre>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

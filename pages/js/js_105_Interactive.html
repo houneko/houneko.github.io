@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>jsでインタラクティブな動作を行う | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptを使うと、Webページを動的にできます。例えば、ボタンをクリックしたら何かを行うなどのインタラクティブな動作が実現できます">
+<meta name="keywords" content="インタラクティブな動作,Interactive">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JavaScript,js">
+<meta name="breadcrumb" content="ホーム:/index.html > js/基本:/pages/js/js_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptによるインタラクティブな動作
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">JavaScriptによるインタラクティブな動作</h2>
+          <h3 id="toc12" class="h3chapter underline">インタラクティブな動作とは</h3>
+          <p>
+            インタラクティブ（Interactive）とは、ユーザの操作に応じて動的な応答を行う機能のことで、JavaScriptを使えばこの機能を実現できます（CSSでもインタラクティブな動作を表現できると思いますが、Webページに動きを付けるということではJavaScriptです）
+          </p>
+          <p>以下のサンプルコードは、Webページに「クリックしたらalert表示します」というボタンを表示し、それをクリックしたらメッセージボックスで「ボタンを押したらにゃー」と表示されるというものです</p>
+          <p>buttonタグのonclick属性に「関数名」を指定し、ボタンがクリックされるとその関数がコールされてメッセージが表示されるというものです（注："showMessage()"
+            のように「()」まで書かないといけない）</p>
+          <pre><code class="html">
+            &lt;body&gt;
+              &lt;!-- ボタンをクリックしてjs関数をコールする --&gt;
+              &lt;button onclick="showMessage()"&gt;クリックしたらalert表示します&lt;/button&gt;
+              &lt;script&gt;
+                function showMessage() {
+                  alert("ボタンを押したらにゃー");
+                }
+              &lt;/script&gt;
+            &lt;/body&gt;
+          </code></pre>
+
+          <p>参考：よりJavaScriptらしい書き方だと以下になります</p>
+          <pre><code class="html">
+            &lt;body&gt;
+              &lt;!-- ボタンをクリックしてjs関数をコールする --&gt;
+              &lt;button id="myButton"&gt;クリックしたらalert表示します&lt;/button&gt;
+              &lt;script&gt;
+                function showMessage() {
+                  alert("ボタンを押したらにゃー");
+                }
+                document.getElementById("myButton").addEventListener("click", showMessage);
+              &lt;/script&gt;
+            &lt;/body&gt;
+          </code></pre>
+
+          <p>以下は、インタラクティブな動作を体験するボタンです。クリックするとalertでメッセージが表示されます</p>
+          <button id="myButton">ボタンを押すとalert表示します</button>
+          <script>
+            function showMessage() {
+              alert("ボタンを押したらにゃー");
+            }
+            document.getElementById("myButton").addEventListener("click", showMessage);
+          </script>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

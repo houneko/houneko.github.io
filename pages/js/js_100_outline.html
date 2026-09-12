@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>JavaScriptとは | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptの基本的な話や、どこに記述するのかなどを書いた章です。また、JavaScriptのコーディングルールについても書いています">
+<meta name="keywords" content="JavaScriptの有効化,JavaScriptを書く場所,どこに書くのか,インラインスクリプト,外部スクリプト,Hello World,コーディングスタイル,コーディングルール,キャメルケース,パスカルケース,アッパースネークケース">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="js, JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/基本:/pages/js/js_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptの基本
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">JavaScriptの基本概念</h2>
+          <h3 id="toc12" class="h3chapter underline">JavaScriptとは</h3>
+          <p>ブラウザに実装されているスクリプト言語。Javaとは違う。ブラウザに実装されている言語なので、基本的にはブラウザ上で実行する。このため、HTMLやCSSなどの知識もある程度必要となる</p>
+          <ul class="no-marker">
+            <li>
+              <span class="font-large">JavaScriptの歴史</span>
+              <p>
+                JavaScriptはネットスケープ社が開発したもので、JavaScriptが生まれたころはJavaが非常に注目されていた。その頃ネットスケープ社はオラクルと提携しており、Javaをリスペクトしていたので、オラクルさんの作ったJavaという言葉を取り入れてJavaScriptと名付けられた。
+                （なので、JavaとJavaScriptは全然別物）<br />※スクリプトとは、ソースコードを記述したそのまま動くような言語の総称 </p>
+              <p>
+                JavaScriptはもともとNetsacple用に作られたが当時のIEも対抗として同じようなプログラミング言語を作って対抗していた。その結果、NSでは動くがIEでは動かないなどの違いができて、国際的な団体のEcma
+                International（欧州電子計算機工業会、ECMA: European Computer Manufacturers Association) が仲立ちし規格を制定した。これで、ECMAScript
+                (ECMA-262)とも呼ばれるようになった。<br />現在、ECMA は Ecma International に名称が変更されている。</p>
+            </li>
+            <li>
+              <span class="font-large">JavaScriptのバージョン</span>
+              <p><a href="https://www.tohoho-web.com/js/what.htm" target="_blank">とほほのJavaScript入門 へのリンク</a></p>
+              <table class="custom-table">
+                <caption>ECMAScriptのバージョン</caption>
+                <tr>
+                  <th>バージョン</th>
+                  <th>略称</th>
+                  <th>公開日</th>
+                </tr>
+                <tr>
+                  <td>ECMAScript 1st Edition</td>
+                  <td>ES</td>
+                  <td>1997年6月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 2nd Edition</td>
+                  <td>ES2</td>
+                  <td>1998年6月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 3rd Edition</td>
+                  <td>ES3</td>
+                  <td>1999年12月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 4th Edition</td>
+                  <td>ES4</td>
+                  <td>(放棄)</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 5th Edition</td>
+                  <td>ES5</td>
+                  <td>2009年12月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 5.1th Edition</td>
+                  <td>ES5.1</td>
+                  <td>2009年12月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 2015 ES2015</td>
+                  <td>ES6</td>
+                  <td>2011年6月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 2016 ES2016</td>
+                  <td>ES7</td>
+                  <td>2016年6月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 2017 ES2017</td>
+                  <td>ES8</td>
+                  <td>2017年6月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 2018 ES2018</td>
+                  <td>ES9</td>
+                  <td>2018年6月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 2019 ES2019</td>
+                  <td>ES10</td>
+                  <td>2019年6月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 2020 ES2020</td>
+                  <td>ES11</td>
+                  <td>2020年6月</td>
+                </tr>
+                <tr>
+                  <td>ECMAScript 2021 ES2021</td>
+                  <td>ES12</td>
+                  <td>2021年6月</td>
+                </tr>
+              </table>
+            </li>
+          </ul>
+          <h3 id="toc14" class="h3chapter underline">JavaScriptの有効化</h3>
+          <p>ブラウザでJavaScriptが有効になっているかどうかの確認方法（というか有効にしない使い方はあるのかな）</p>
+          <ul class="no-marker">
+            <li>
+              <span>Chromeの場合</span>
+              <p>右上の三点リーダ → 設定 → プライバシーとセキュリティ → サイトの設定 → JavaScript</p>
+              <img src="/assets/pic/js_100_js_chrome.png" alt="ChromeでのJsの設定" class="responsive-img" />
+            </li>
+            <li>
+              <span>Edgeの場合</span>
+              <p>三点リーダ → 設定 → プライバシー → サイトのアクセス許可 → すべてのアクセス許可 → JavaScript</p>
+              <img src="/assets/pic/js_100_js_msedge.png" alt="EdgeでのJsの設定" class="responsive-img" />
+            </li>
+            <li>
+              <span>Firefoxの場合</span>
+              <p>Firefoxは少し違っていて、アドレスバーに「about:config」と入力して「JavaScript.enabled」の値を確認する</p>
+              <img src="/assets/pic/js_100_js_firefox.png" alt="FirefoxsでのJsの設定" class="responsive-img" />
+            </li>
+            <li></li>
+          </ul>
+
+          <h2 id="toc20" class="h2chapter-title">JavaScriptを書く場所</h2>
+          <h3 id="toc22" class="h3chapter underline">JavaScriptはどこに書くのか</h3>
+          <p>JavaScriptは基本的にブラウザ上で動く言語（として始まったけどブラウザ上以外でも動く）。なので最初やる時はどこに書くのかなという壁があります。</p>
+          <ul class="no-marker">
+            <li>
+              <span class="font-large">インラインスクリプト</span>
+              <p>
+                インラインスクリプトは、HTMLコードの中に直接JavaScriptのコードを埋め込む方法。&lt;body&gt;要素に&lt;script&gt;～&lt;/script&gt;タグでscript要素として直接JavaScriptを書く
+              </p>
+              <pre><code class="html">
+            &lt;body&gt;
+              &lt;script&gt;
+                document.write('Hello World!');
+              &lt/script&gt; 
+            &lt;/body&gt;
+            </code></pre>
+            </li>
+            <li>
+              <span class="font-large">外部スクリプト</span>
+              <p>外部スクリプトは、JavaScriptを別ファイルで作成しHtmlコード内に取り込む方法。&lt;head&gt;タグ内に&lt;script&gt;タグを書いて取り込むファイル名を指定する</p>
+              <pre><code class="html">
+            &lt;head&gt;
+              &lt;meta charset="UTF-8" /&gt;
+              &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+              &lt;title&gt;Document&lt;/title&gt;
+              &lt;script src="../neko-script.js"&gt;&lt;/script&gt;			&lt;!-- jsファイル --&gt;
+              &lt;script src="../inu-script.js"&gt;&lt;/script&gt;			&lt;!-- jsファイル --&gt;
+            &lt;/head&gt;
+            </code></pre>
+            </li>
+          </ul>
+
+          <h2 id="toc30" class="h2chapter-title">Hello, World</h2>
+          <h3 id="toc32" class="h3chapter underline">とりあえず Hello, World をやってみる</h3>
+          <p>プログラミング言語を始める時は、最初にHelloWorldを表示させるってのをよくやる。なので、最初の一歩はJavaScriptでHelloWorldを表示させる<br />JavaScriptのHello,
+            Worldは、表示させる場所によりいろいろな方法がある</p>
+          <ol class="">
+            <li>
+              <h3 id="toc13" class="h3chapter">コンソールにHelloWorld表示する）</h3>
+              <p>この例は、コンソールにHello, Worldを表示するもの。コンソールはブラウザ画面とは違うので一見何も表示されていないけど、コンソールを見ると、Hello, Worldが出力されている</p>
+              <pre><code class="html">
+              &lt;script&gt;
+                console.log("HelloWorld");
+              &lt;/script&gt;
+            </code></pre>
+              <p>この結果を見るには、F12キーでブラウザの開発者ツールを起動して、コンソールタブを開いて表示されている内容を確認する</p>
+              <img src="/assets/pic/js_120_01.png" alt="helloworld" />
+            </li>
+
+            <li>
+              <h3 id="toc34" class="h3chapter">alertでHelloWorld表示する）</h3>
+              <pre><code class="html">
+              &lt;script&gt;
+                alert("HelloWorld");
+              &lt;/script&gt;
+            </code></pre>
+              <p>alertは、MsgBoxみたいなものなので、実行するとブラウザ上にポップアップが表示される。この内容にHelloWorldを表示させている</p>
+              <img src="/assets/pic/js_120_02.png" alt="helloworld" />
+            </li>
+
+            <li>
+              <h3 id="toc35" class="h3chapter ">ブラウザ画面にHelloWorld表示する</h3>
+              <p>ブラウザ上に書くにはいくつかの方法がある</p>
+              <ul>
+                <li>writeメソッド（<span class="marker-underline-red">今は推奨されない</span>）
+                  <pre><code class="html">
+                  &lt;script&gt;
+                  document.write("HelloWorld");
+                  &lt;/script&gt;
+                </code></pre>
+                  <div class="text">
+                    <img src="/assets/pic/js_120_03.png" alt="helloworld" class="image-float" />
+                    <p>document.writeメソッドでブラウザ上にHelloWorldを表示させている</p>
+                  </div>
+                </li>
+                <li>JavaScriptでWebページに書き込む
+                  <pre><code class="html">
+                &lt;!-- divはid属性を指定しているだけで中身は空 --&gt;
+                &lt;div&gt; id="output"&lt/div&gt;
+
+                &lt;!-- 
+                  JavaScriptで
+                  ・表示する定数messageを定義（これがHelloWorld）
+                  ・getElementById(it名)で、id名がつけられている要素を取得
+                  ・取得したオブジェクトの.textContentプロパティにmessageを代入して表示
+                  --&gt;
+                &lt;script&gt;
+                  const message = "HelloWorld";
+                  document.getElementById("output").textContent = message;
+                &lt;/script&gt;
+                </code></pre>
+                  <div class="text">
+                    <img src="/assets/pic/js_120_03.png" alt="helloworld" class="image-float" />
+                    <p>
+                      document.getElementById("output")メソッドで、idが「output」と付けらている要素を取得し、そのtextContentプロパティに表示した文字を代入して、ブラウザ上にHelloWorldを表示させている
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ol>
+
+          <h2 id="toc40" class="h2chapter-title">JavaScriptのコーディングルール</h2>
+          <h3 id="toc42" class="h3chapter underline">JavaScriptのコーディングルール</h3>
+          <p>
+            JavaScriptのコーディングルールは以下のようになっています。この通りに書かなくても動作はしますが、作法に沿ったコーディングの方がきれいで読みやすいです（これ以外にプロジェクトで決めたルールがあればそれに従う）
+          </p>
+          <table class="custom-table">
+            <caption>JavaScriptのコーディングルール</caption>
+            <tr>
+              <th>対象</th>
+              <th>コーディングルール</th>
+              <th>サンプル例</th>
+            </tr>
+            <tr>
+              <td>変数名</td>
+              <td>キャメルケース</td>
+              <td>myVariable</td>
+            </tr>
+            <tr>
+              <td>定数</td>
+              <td>アッパースネーク</td>
+              <td>MY_CONSTANT</td>
+            </tr>
+            <tr>
+              <td>オブジェクト</td>
+              <td>キャメルケース</td>
+              <td>myObject</td>
+            </tr>
+            <tr>
+              <td>Enum型</td>
+              <td>アッパーキャメル（パスカル）</td>
+              <td>MyEnum</td>
+            </tr>
+            <tr>
+              <td>名前空間</td>
+              <td>キャメルケース</td>
+              <td>hoge.myNamespace.foo</td>
+            </tr>
+            <tr>
+              <td>関数名</td>
+              <td>キャメルケース</td>
+              <td>myFunction</td>
+            </tr>
+            <tr>
+              <td>クラス</td>
+              <td>アッパーキャメル（パスカル）</td>
+              <td>MyClass</td>
+            </tr>
+            <tr>
+              <td>メソッド</td>
+              <td>キャメルケース</td>
+              <td>myMethod</td>
+            </tr>
+            <tr>
+              <td>ファイル名</td>
+              <td>チェインケース</td>
+              <td>my-filename.js</td>
+            </tr>
+          </table>
+          <pre><code class="js">
+          //if文などの波カッコの形式
+          if (hoge) {
+            ...
+          } else {
+            ...
+          }
+          </code></pre>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

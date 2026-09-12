@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>JavaScriptの基本的な特徴 | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptの基本的な特徴を書いたページです">
+<meta name="keywords" content="JavaScriptの基本的な特徴,動的型付け言語,大文字小文字を区別する,インタプリタ,セミコロンで文が終了,DOM">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JS,JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/基本:/pages/js/js_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        JavaScriptの基本的な特徴
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">JavaScriptの基本的な特徴</h2>
+          <h3 id="toc12" class="h3chapter underline">JavaScriptで動的なページが可能となる</h3>
+          <p>
+            JavaScriptは、それ以前にあったような静的なWebページを動的、インタラクティブなものにするために作られた。このためJavaScriptから見たらWebページもオブジェクトであり、全てオブジェクトとして扱う事ができる。
+          </p>
+          <ul>
+            <li>Webブラウザのウィンドは、windowオブジェクト</li>
+            <li>HTMLドキュメントは、documentオブジェクト</li>
+            <li>画像は、Imageオブジェクト</li>
+          </ul>
+          <pre><code class="html">
+          &lt;script&gt;
+            //documentオブジェクトは、windowオブジェクトのメンバ。以下の2つは同じ内容である
+            //documentオブジェクは、windowオブジェクトの子供なので正確に書くと以下のようになるが、
+            //自分のウィンドウの要素の場合は、windowオブジェクトは省略できるので、通常はdocumentから書く
+            document.write("Hogeです");
+            window.document.write("Hogeです");
+            
+            //alert()メソッドもwindowオブジェクトのメソッドなので、正確に書くとwindow.alert()になる
+            //同様にwindowは省略して、alert()から書く方が多い
+            window.alert("Nekoです");
+          &lt;/script&gt;
+          </code></pre>
+
+          <h3 id="toc16" class="h3chapter underline">JavaScriptは動的型付け言語</h3>
+          <p>JavaScriptは動的型付け言語なので、変数の型指定をしなくてもいい。また数値型として作成した変数に途中で文字列型のデータを代入しなおすこともできる</p>
+          <pre><code class="JavaScript">
+          let x = 10;       // x は今は数値(Number)
+          x = "hello";      // x は今度は文字列(String)
+          x = true;         // x は今度は真偽値(Boolean) 
+          </code></pre>
+
+          <h3 id="toc13" class="h3chapter underline">JavaScriptは大文字小文字を区別する</h3>
+          <p>
+            JavaScriptは、HTML内にscriptタグを使って記述することができるが、HTMLは大文字小文字を区別しないので間違って大文字小文字を意識せずに書いてしまう可能性がある（VSCodeを使っていたらインテリセンスが効くので、インテリセンスで補完すれば間違いにくいが）。
+          </p>
+          <pre><code class="htm">
+          &lt;body&gt;
+            &lt;script&gt;
+              Alert("Hogeです");    //このJSコードはエラー。JSは大文字小文字区別ありのため、メソッド名は「alert」で記述しないといけない
+            &lt;/script&gt;
+          &lt;/body&gt;
+          </code></pre>
+
+          <h3 id="toc14" class="h3chapter underline">JavaScriptはインタプリタ</h3>
+          <p>
+            JavaScriptは、スクリプトなのでインタプリタ型の言語である。そうするとインタプリタはどこにあるの？という疑問が出るかと思うが、インタプリタはWebブラウザ内にある。という事は、WindowsでもMacでもOS毎にインタプリタをインストールするなどは不要で、ブラウザがあればいい。つまり、ユーザは意識せずにJavaScriptを使う事ができる。
+          </p>
+
+          <h3 id="toc17" class="h3chapter underline">JavaScriptの文の終わりは「;」セミコロン</h3>
+          <p>
+            JavaScriptの文の終わりは「；」セミコロンをつける。これはC言語と同じだけど、JavaScriptはこのセミコロンを省略することができる。Webの記事とかを見るとつける派とつけない派みたいなのがあるようだけど、自分は「つける」に統一している。というか言語でつけるに統一した方がわかりやすいのでは？
+          </p>
+
+          <h3 id="toc15" class="h3chapter underline">DOMのおかげ</h3>
+          <p>初期のJavaScriptは扱えるHTML要素は多くなかったが、DOM（Document Object
+            Model）により、HTMLドキュメントの全てのタグや属性、CSSのプロパティを動的に変更することができるようになっている。</p>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

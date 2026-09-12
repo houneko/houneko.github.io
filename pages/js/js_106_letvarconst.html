@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>varとletとconst | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptの変数の宣言はvarとletがあります。今は変数宣言は全部letでいいと思いますが、以前はvarでの宣言もありました。constは定数の宣言です">
+<meta name="keywords" content="var,let,const,再代入,再定義,スコープの違い">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="js, JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/基本:/pages/js/js_000_index.html#toc100 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        var、let、const
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">varとlet、constによる宣言</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">varとlet、constについて</h3>
+          <p>JavaScriptは動的型付け言語なので、型の指定は不要ですが変数の宣言自体は必要です（他の動的型付け言語も同様と思います）。つまり、型の指定と変数の宣言は別という事です</p>
+          <p>varとletは変数を宣言する時のキーワード。昔はvarだったけど今はletだけ使えばいいと思います</p>
+          <p>constは、定数を宣言するキーワード。JavaScriptでは他の言語よりもconstをよく使うと思います</p>
+
+          <table class="custom-table">
+            <caption>変数宣言のvarとlet、定数宣言のconst</caption>
+            <tr>
+              <th>名称</th>
+              <th>再代入</th>
+              <th>再宣言</th>
+              <th>スコープ</th>
+            </tr>
+            <tr>
+              <td>var</td>
+              <td>〇</td>
+              <td>〇</td>
+              <td>関数</td>
+            </tr>
+            <tr>
+              <td>let</td>
+              <td>〇</td>
+              <td>×</td>
+              <td>ブロック（{}内がスコープ）</td>
+            </tr>
+            <tr>
+              <td>const</td>
+              <td>×</td>
+              <td>×</td>
+              <td>ブロック（{}内がスコープ）</td>
+            </tr>
+          </table>
+        </section>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">再代入と再宣言</h3>
+          <p>上記の表を見ると、varとletで再宣言の所が違うのが分かると思います。では再宣言や再代入は何でしょうか？</p>
+          <p>なお、定数は当然再代入も再宣言も不可です</p>
+          <ul>
+            <li>
+              <h3 class="h3chapter">再代入</h3>
+              <p>これは変数の値を代入しなおすことで、普通のプログラムでは日常的にあるものです。varもletも変数に対する宣言なので、当然宣言されたものは変数ですから、再代入は可能です（だから両方とも〇）</p>
+              <pre><code class="js">
+              //varによる変数宣言と再代入
+              var varValue = 100;
+              varValue = "varNeko";     //最初100を代入したvar変数に文字列を再代入している
+              console.log('varValue = ' + varValue);
+
+              //letによる変数宣言と再代入
+              let letValue = 100;
+              letValue = "letNeko";     //let変数でも再代入は可能
+              console.log('letValue = ' + letValue);
+
+              //実行結果
+              varValue = varNeko
+              letValue = letNeko
+              </code></pre>
+            </li>
+            <li>
+              <h3 class="h3chapter">再宣言</h3>
+              <p>
+                再宣言はvarに特有な仕様です。言葉通り宣言しなおす事が可能ということです（再宣言ってメリットあるん？）。昔のJavaScriptでは、letが無くvarでの宣言しかなかったのでvarを使っていましたが、varは再宣言ができるので逆にわかりにくかったかもしれません（なので、letだけ使えばいい）
+              </p>
+              <p>以下のコードはvarはエラーにならないですが、letは再宣言不可なのでエラーになります</p>
+              <pre><code class="js">
+              //varによる再宣言
+              var varValue = 100;
+              var varValue = "varNeko";   //varで宣言した後、またvarで宣言しているがエラーにならない
+
+              //letによる再宣言
+              let letValue = 100;
+              let letValue = "letNeko";   //letで再宣言するとエラーになる
+              // letは再宣言でエラーになる（既に宣言済やというエラーになってる）
+              SyntaxError: Identifier 'letValue' has already been declared
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">varとletのスコープによる差分</h3>
+          <p>varとletでは再宣言の違いがありましたが、スコープも違います。どちらかというこのスコープの違いがvarを使わない方がいい理由のようです</p>
+          <p>
+            どういう事かと言うと、varは関数スコープなので意図しない動作になる可能性があるということです。以下のサンプルは、関数内のif文のtrueケースブロック内でvar宣言していますが、false側になった場合、宣言が無いのでundefinedになります。しかし、これはエラーではないので処理は続き意図しない動作を誘発するおそれがあります
+          </p>
+          <pre><code class="js">
+          function hoge(condition) {
+            if(condition) {
+              var result = "trueです";    //if文のtrueのケース内でvar宣言
+            }
+            //false側に来た場合、result変数は宣言されていないためundefinedになる
+            //しかしスコープは関数なので、関数内からは見えるのでエラーではない
+            //という挙動になります
+            console.log(result);          
+          }
+
+          hoge(true);   //trueでhoge()をコール
+          hoge(false);  //falseでhoge()をコール
+
+          //実行結果
+          &gt; node .\test.js
+          trueです      //trueでコールした結果
+          undefined     //falseでコールした結果
+          </code></pre>
+
+          <p>これをlet宣言にした場合はどうなるかというと、false側ではresult変数が見えないのでエラーになります</p>
+          <p>エラーになったらあかんじゃんと思うかもしれませんが、明示的にエラーで止まってくれるので、予期せぬ状態で処理が進むよりも何倍もいいということです</p>
+          <pre><code class="js">
+          function hoge(condition) {
+            if(condition) {
+              let result = "trueです";    //if文のtrueのケース内でlet宣言
+            }                             //let宣言の変数はブロックスコープなのでresult変数が見えるのはこの中だけ
+
+            //false側に来た場合、result変数は見えないので未定義のエラーとなる
+            console.log(result);          
+          }
+
+          hoge(true);   //trueでhoge()をコール
+          hoge(false);  //falseでhoge()をコール
+
+          //実行結果
+          &gt; node .\test.js
+          ReferenceError: result is not defined   // resultが未定義というエラーで止まっている
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">varとletのスコープによる差分２</h3>
+          <p>var宣言の変数の場合、スコープ内で名前がぶつかる可能性があるという問題もあります。var宣言の変数は再宣言も可能なのでこのような問題が起き得るということです</p>
+          <pre><code class="js">
+          function hoge() {
+            var myValue = "外側で設定した値";   // myValueに「外側で設定した値」を代入
+            if(...) {
+              var myValue = "内側で設定";       // myValueに「内側で設定」を再宣言
+              ... 
+            }
+            console.log(myValue);
+          }
+
+          //実行結果
+          &gt; node .\test.js
+          内側で設定  // myValueは関数スコープで、var宣言の変数なので再宣言も可能なため上書きされている
+          </code></pre>
+          <p>これがlet宣言の場合はスコープが違うので名前がぶつかることはありません</p>
+          <pre><code class="js">
+          function hoge() {
+            let myValue = "外側で設定した値";   // let myValueに「外側で設定した値」を代入
+                                                // このmyValue変数のスコープは関数の{}ブロック内
+            if(...) {
+              let myValue = "内側で設定";       // ifブロック内で let myValueに「内側で設定」を宣言
+              ...                               // このmyValueはスコープが違うので再宣言ではなく名前も
+            }                                   // ぶつからない
+            console.log(myValue);               // if文の外からはif文内の変数は見えない
+          }
+
+          //実行結果
+          &gt; node .\test.js
+          外側で設定した値  // if文の外から見えるmyValue変数は、if文の外で宣言したmyValue変数
+          </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>for文 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="forループで表を作ることができます">
+<meta name="keywords" content="Webページ操作,for,表を作る,配列,オブジェクトの配列">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JavaScript,js">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/Webページ操作:/pages/js/js_000_index.html#toc220 >">
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        forループで表を作る
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">forループで表を作る</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">forループで表を作る</h3>
+          <p>Webページで表を作る場合は、tableタグ内にtrやtdで行やセルデータをマークアップして作りますが、大きな表をたくさん作る場合、いちいちtr、tdを書くのは面倒です。そう言う場合はこの方法が便利です</p>
+          <pre><code class="html">
+          &lt!-- htmlで普通に表を書く場合 --&gt;
+          &lt;table&gt;
+            &lt;tr&gt;
+              &lt;th&gt;No&lt;/th&gt;
+              &lt;th&gt;名前&lt;/th&gt;
+              &lt;th&gt;意味&lt;/th&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;01&lt;/td&gt;
+              &lt;td&gt;Neko&lt;/td&gt;
+              &lt;td&gt;猫である&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;02&lt;/td&gt;
+              &lt;td&gt;Inu&lt;/td&gt;
+              &lt;td&gt;犬である&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;03&lt;/td&gt;
+              &lt;td&gt;Usagi&lt;/td&gt;
+              &lt;td&gt;うさぎである&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+          </code></pre>
+          <p>これをJavaScriptのforループで書くと以下のようになります。表のデータを配列で持ち、forループで配列要素を表のデータとして書くようになっています</p>
+          <pre><code class="js">
+          &lt;table&gt;
+            &lt;thead&gt;
+              &lt;tr&gt;
+                &lt;th&gt;No&lt;/th&gt;
+                &lt;th&gt;名前&lt;/th&gt;
+                &lt;th&gt;意味&lt;/th&gt;
+              &lt;/tr&gt;
+            &lt;/thead&gt;
+
+            &lt;script&gt;
+              let nums = ['01', '02', '03'];                              //Noの配列データ
+              let names = ['Neko2', 'Inu2', 'Usagi2'];                    //名前の配列データ
+              let means = ['猫である２', '犬である２', 'うさぎである２']; //意味の配列データ
+              for (let lp = 0; lp &lt; 3; lp++) {
+                document.write('&lt;tr&gt;');
+                document.write('&lt;td&gt;' + nums[lp] + '&lt;/td&gt;');  //tdタグのコンテンツとして配列要素を書く
+                document.write('&lt;td&gt;' + names[lp] + '&lt;/td&gt;');
+                document.write('&lt;td&gt;' + means[lp] + '&lt;/td &gt;');
+                document.write('&lt;/tr&gt;');
+              }
+            &lt;/script&gt;
+          &lt;/table&gt;
+          </code></pre>
+
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>名前</th>
+                <th>意味</th>
+              </tr>
+            </thead>
+
+            <!-- <tbody> -->
+            <script>
+              let nums = ['01', '02', '03'];
+              let names = ['Neko2', 'Inu2', 'Usagi2'];
+              let means = ['猫である２', '犬である２', 'うさぎである２'];
+              for (let lp = 0; lp < 3; lp++) {
+                document.write('<tr>');
+                document.write('<td>' + nums[lp] + '</td>');
+                document.write('<td>' + names[lp] + '</td>');
+                document.write('<td>' + means[lp] + '</td >');
+                document.write('</tr>');
+              }
+            </script>
+            <!-- </tbody> -->
+          </table>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">配列要素をオブジェクトにする</h3>
+          <p>上の例では、配列を別々に定義していたけど、これらは関連するデータなので、オブジェクトにしてそれを配列要素として扱った方が後々便利になります（りんごは8000 というデータとセットで一緒に扱う）</p>
+          <p>なので、同じように配列をforループで表にする場合は、こちらの方がいいです</p>
+          <pre><code class="js">
+          &lt;script&gt;
+            let myDatas = [
+              // 配列要素は、{name:値, mean:値} のオブジェクト
+              { name: "Neko3", mean: "猫である" },
+              { name: "Inu3", mean: "犬である" },
+              { name: "Usagi3", mean: "うさぎである" },
+            ];
+            for (let lp = 0; lp &lt; 3; lp++) {
+              document.write('&lt;tr&gt;');
+              document.write('&lt;td&gt;' + myDatas[lp].name + '&lt;/td&gt;');
+              document.write('&lt;td&gt;' + myDatas[lp].mean + '&lt;/td &gt;');
+              document.write('&lt;/tr&gt;');
+            }
+          &lt;/script&gt;
+          </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
