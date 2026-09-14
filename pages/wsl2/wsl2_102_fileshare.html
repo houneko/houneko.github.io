@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description" content="WindowsとWSL2間でのファイルの共有">
+  <meta name="breadcrumb" content="ホーム:/index.html > wsl2/基本:/pages/wsl2/wsl2_000_index.html#toc100 > ">
+  <title>WindowsとWSL2のファイル共有 | HouNeko</title>
+</head>
+
+<body id="page-top">
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/wsl_icon.png" alt="wslicon" class="title-icon">
+        WindowsとWSL2間でファイルをやりとりする
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">WindowsとWSL2間のファイルのやりとり</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">WindowsとWSL2間のファイル</h3>
+          <p>WindowsとWSL2（例はUbuntu）では、ファイルシステムが違うので異なるOSで使用していたHDDを別のOSにつないでもファイルは読めない。WSLでは、Windowsとファイルをやり取りする仕組みがある
+          </p>
+          <ul class="nomarker">
+            <li>
+              <span class="font-large">Windows側からWSL2ファイルを見る</span>
+              <p>エクスプローラのアドレスバーに「\\wsl$」を入力</p>
+              <p>WSL2上にインストールしたlinux（ここではUbuntu）が見える。これでWindowsからUbuntu側のファイルを読むことができる</p>
+            </li>
+            <li>
+              <span class="font-large">Ubuntu側からWindowsのファイルを見る</span>
+              <p>bashで以下のコマンドを実行</p>
+              <pre><code class="bash">
+            % df -h
+            #これで、Ubuntu上の記憶領域の一覧が表示される
+            #この中で
+            # /mnt/c とか、/mnt/d が Windows上の CドライブやDドライブにあたる
+            % cd /mnt/cd
+            % ls
+            </code></pre>
+            </li>
+          </ul>
+
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
