@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description" content="WSL2のいろいろ">
+  <meta name="breadcrumb" content="ホーム:/index.html > ">
+  <title>WSL2 | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/wsl_icon.png" alt="wslicon" class="title-icon">
+        WSL2のページ
+      </h1>
+      <p>このページはWSL2についていろいろな事を書いているページです</p>
+
+      <!-- VSC基本：100番台 -->
+      <button id="details-toggleAll">すべて開く</button>
+      <!-- <button id="details-openAll">全開</button>
+    <button id="details-closeAll">全閉</button>      -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">wsl2とは</span>
+            <span class="desc">wsl2とは</span>
+          </summary>
+          <!-- ページ #100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">wsl2とは</span>
+              <span class="desc">wsl2とは</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="wsl2_100_outline.html">wsl2とは</a>
+                <p class="desc">wsl2とは</p>
+              </li>
+              <li><a href="wsl2_101_install.html">wsl2のインストール</a>
+                <p class="desc">wsl2のインストールとアンインストール方法について説明</p>
+              </li>
+              <li><a href="wsl2_102_fileshare.html">WindowsとWSL2間のファイルのやりとり</a>
+                <p class="desc">Windows側からWSL2のファイルを見たり、WSL2側からWindowsのファイルを見たりする方法</p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ #120 -->
+          <details class="toc-card is-child tocall" id="toc120">
+            <summary>
+              <span class="title">hoge</span>
+              <span class="desc">hoge</span>
+            </summary>
+            <ol class="two-digit">
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- wsl2高度な使い方：400番台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc400main">
+          <summary>
+            <span class="title">hoge</span>
+            <span class="desc">hoge</span>
+          </summary>
+
+          <details class="toc-card is-child tocall" id="toc400">
+            <summary>
+              <span class="title">hoge</span>
+              <span class="desc">hoge</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="#">hoge</a>
+                <p class="desc">hoge</p>
+              </li>
+            </ol>
+          </details>
+
+        </details>
+      </div>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
