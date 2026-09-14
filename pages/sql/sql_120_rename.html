@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="SQLの列名の変更">
+  <meta name="breadcrumb"
+    content="ホーム:/index.html > SQL:/pages/sql/sql_000_index.html > SQL基本:/pages/sql/sql_100_basic.html > 120">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>列名の変更 | HouNeko</title>
+  <!-- ■linkタグ 外部CSS指定。highlightの「vs2015.css」はVisualStudioベースの文字色 -->
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../lib/highlight/styles/vs2015.css">
+  <!-- ■scriptタグ 外部Jsファイルを参照させる。highlightはコード表示用のライブラリ -->
+  <script src="../../lib/highlight/highlight.js"></script>
+  <script src="../../lib/highlight/languages/acl.js"></script>
+  <script src="../../script/my-env.js"></script>
+  <script src="../../script/breadcrumb.js"></script>
+  <script src="../../script/common.js"></script>
+  <!-- ■FontAwesomeライブラリをCDNで組み込む -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="icon" href="/assets/pic/ITG_favicon_white.ico" type="image/x-icon">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/sql_icon.png" alt="sqlicon" class="title-icon">
+        SQLの列名の変更
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">SQLの列名の変更</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">AS句で別名を設定する</h3>
+          <p>AS句で列名を別の名前で定義することができる。「元の列名」AS「新しい列名」で指定する。<span
+              class="marker-red">ただし元のテーブルの列名は変更されない。</span>メモリ上のテーブルで列名を別名で表示させている。<br />書式） 元の列名 AS 新しい別名</p>
+          <pre><code class="sql">
+        select
+          customerCode	as "顧客コード",    -- 元の列名「customerCode」が表示上は「顧客コード」と表示される
+          customerName	as "顧客名"         -- 元の列名「customerName」が表示上は「顧客名」と表示される
+        from                                -- 元のテーブルの列名は変更されないので注意
+          customers
+        ;
+        </code></pre>
+          <h3 id="toc13" class="h3chapter underline">元の列名に演算を行い、その結果をAS句で別名にする</h3>
+          <p>列名priceに演算を行い、その結果を別名として設定するようなケース。AS句の一般的な使い方だと思う。<br />
+            普通のプログラミング言語だとこの演算結果を変数に代入して使うようなケースが考えられるけど、SQLでは変数という概念はないので、演算結果をAS句で別名に定義するのが一般的らしい（SQLによっては変数があるけど、仕様依存が大きいので使わない方が他のSQLでも動作しやすくなる）
+          </p>
+          <pre><code class="sql">
+        select
+          price * 1.08	as "税込み価格"     -- 元の列名を1.08倍して「税込み価格」として別名を設定する
+        from                              
+          customers
+        ;
+        </code></pre>
+          <h3 id="toc14" class="h3chapter underline">別名をつける時の注意事項</h3>
+          <p>注意事項というほどではないが、<span class="marker">SQLの列名の基本形は「英字で始まり英数字とアンダースコアのみ」</span><br />このため<span
+              class="marker">「日本語名」や「％」などの記号を使う列名は、ダブルクォーテーションで囲む必要がある</span></p>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
+  <meta name="description" content="SQLの基本事項">
+  <meta name="breadcrumb"
+    content="ホーム:/index.html > SQL:/pages/sql/sql_000_index.html > SQL基本:/pages/sql/sql_100_basic.html > 110">
+  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
+  <title>SQLの基本事項 | HouNeko</title>
+  <!-- ■linkタグ 外部CSS指定。highlightの「vs2015.css」はVisualStudioベースの文字色 -->
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../lib/highlight/styles/vs2015.css">
+  <!-- ■scriptタグ 外部Jsファイルを参照させる。highlightはコード表示用のライブラリ -->
+  <script src="../../lib/highlight/highlight.js"></script>
+  <script src="../../lib/highlight/languages/acl.js"></script>
+  <script src="../../script/my-env.js"></script>
+  <script src="../../script/breadcrumb.js"></script>
+  <script src="../../script/common.js"></script>
+  <!-- ■FontAwesomeライブラリをCDNで組み込む -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="icon" href="/assets/pic/ITG_favicon_white.ico" type="image/x-icon">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/sql_icon.png" alt="sqlicon" class="title-icon">
+        SQLの基本事項
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">SQLのインストール</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">PostgreSQLのインストール</h3>
+          <p>個人で使うSQLはいくつかあるが、PostgreSQLをインストールするケースをドキュメント化しておく</p>
+          <p>どのプラットフォームで、どのような方法でインストールかでいくつかのやり方に分かれるが、インストーラを使うやり方がWindowsユーザには一般的だと思う。他の方法等はまとめているページを探して参考にすればいい</p>
+          <p><a href="https://qiita.com/tom-sato/items/037b8f8cb4b326710f71"
+              target="_blank">「PostgreSQLをWindowsにインストールするには」</a>などのページを参考</p>
+          <h3 id="toc13" class="h3chapter underline">環境変数の設定</h3>
+          <p>インストールが終われば、環境変数にパスを通しておく</p>
+          <p>環境変数Pathに「C:\Program Files\PostgreSQL\xx\bin」を追加すればいい。※xxはバージョン（例：15）を示すパス</p>
+          <p>パスを通せば、コマンドラインから「psql」コマンドが使えるようになる。例： psql --version</p>
+        </section>
+      </article>
+
+      <article>
+        <h2 id="toc20" class="h2chapter-title">SQLの基本事項</h2>
+        <section>
+          <h3 id="toc21" class="h3chapter underline">SQL（Structure Query Language）</h3>
+          <p>SQLはデータベースを操作するための言語で、Structure Query Language の略。構造化問合せ言語。非手続き型の言語である。</p>
+          <h3 id="toc22" class="h3chapter underline">SQLの特徴</h3>
+          <ul>
+            <li>多くの方言がある
+              <p>
+                SQLは、ANSIの標準仕様があるけど、各SQLでの独自拡張があり1つのSQLコードが別のSQL仕様ではそのままでは動かないことも多いらしい。というか、ANSIの標準化があるんならそれに統一するのが普通では？
+              </p>
+            </li>
+            <li>SQLは大文字、小文字を区別しない</li>
+            <li>変数の概念はない（SQL仕様によってはあるが依存性が高くSQLでは使わない方がいいみたい）</li>
+            <li>RDBMSデータベースの用語
+              <ul>
+                <li>テーブル： 表のこと</li>
+                <li>レコード： 行のこと</li>
+                <li>カラム　： 列のこと</li>
+                <li>ビュー　： テーブルに対してある操作をした結果イメージ（物理的なものではない）</li>
+              </ul>
+            </li>
+            <li>出力順は規程されない
+              <p>あるテーブルから特定のカラムを取り出した時、順序はテーブルに記録されている順と異なる場合があるが、SQLでは順序が規程されていないので、これは正しい。</p>
+            </li>
+            <li>コメント文
+              <ul>
+                <li>行コメントは、「--」で始める</li>
+                <li>ブロックコメントは、「/* ... */」</li>
+              </ul>
+            </li>
+            <li>文の終わりを「;」セミコロンで区切る
+              <p><span class="marker">文の終わりは「どのテーブルから、どのデータを、どういう条件で、〇〇する」という一連が文のかたまりとなるのでこの最後に「；」セミコロンをつける</span></p>
+            </li>
+          </ul>
+          <h3 id="toc14" class="h3chapter underline">SQLの書き方</h3>
+          <p>SQLは、データベースを操作するための言語で、<span class="marker">①〇〇する → ②どのテーブルから？ → ③どのデータを？ → ④どういう条件で？</span>
+            という人間の思考順にSQLを構成する。つまり、この思考順にSQLという言葉で書けばいい。</p>
+          <ol>
+            <li>〇〇する
+              <p>まずは「select」だけ書き、selectの中身がないまま「；」文を終わらせていい</p>
+              <pre><code class="sql">
+              select          -- ① 「select」で、〇〇する。まずは、中身は無いまま「；」セミコロンで終わっていい
+              ;
+            </code></pre>
+            </li>
+            <li>どのテーブルから
+              <p>1で作成した骨子に「fromテーブル名」を追加する</p>
+              <pre><code class="sql">
+              select        
+              from            -- ② fromでどのテーブルから読み込むかを追加する
+                MyDataTable   -- 
+              ;
+            </code></pre>
+            </li>
+            <li>どのデータを
+              <p>1、2の手順で作成した骨子に「どのデータを」を追加する</p>
+              <pre><code class="sql">
+              select        
+                nekoName      -- ③ 「nekoName列のデータを」を追加する
+              from            
+                MyDataTable   
+              ;
+            </code></pre>
+            </li>
+            <li>どういう条件で
+              <p>1、2、3の手順で作成した骨子に「どういう条件で」を追加する</p>
+              <pre><code class="sql">
+              select        
+                nekoName
+              from            
+                MyDataTable   
+              where           -- ④「どういう条件で」を追加する
+                age &gt; 10
+              ;
+            </code></pre>
+            </li>
+          </ol>
+          <h3 id="toc15" class="h3chapter underline">複数データ列を指定する</h3>
+          <p>SQLは、複数の列を取得することができる（当然やろ）。この時、列名Aと列名Bと…を「,」カンマで区切ればいい。カンマ位置は決まっていないが、SQLを書く人は次の列名の先頭にカンマをつける方が多いらしい。</p>
+          <pre><code class="sql">
+          select
+            myName
+            , myAge         -- 「,」カンマは次の列名の先頭に置くように書いている
+            , myAddress     -- この例では、myName、myAge、myAddress の列をselectしている
+            …
+        </code></pre>
+          <p>同じ列を複数回指定することもできる</p>
+          <pre><code class="sql">
+          select
+            myName
+            , myAge         
+            , myName        -- myName例は 2回 selectしている
+            …
+        </code></pre>
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
