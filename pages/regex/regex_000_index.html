@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description"
+    content="正規表現は、いろんな言語で使われていて、それだけ１つのジャンルを築いている概念です。検索や置換したいものをパタンで表現することで個別に指定しなくてもパタンにマッチするものを全部検索、置換できます">
+  <meta name="breadcrumb" content="ホーム:/index.html > ">
+  <title>正規表現 | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <!-- <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon"> -->
+        正規表現のページ
+      </h1>
+      <p>このページは正規表現（Regular
+        Expression）のページです。正規表現は人が使う文字ではなくメタ文字を使ったパタンで文字や位置を表現するものなので難しい（というかイメージしにくい）面がありますが、わかれば普通のやり方では絶対できないような超強力な検索や置換ができます。普通の文字検索しか知らない人は正規表現を知ると飛ぶと思います（笑）
+      </p>
+      <p>正規表現はイメージしにくいので、実際に動かしながら理解していくのがいいと思います。</p>
+      <p><a href="https://regex101.com/" target="_blank">regex101</a></p>
+      <p><a href="https://weblabo.oscasierra.net/tools/regex/" target="_blank">正規表現チェッカー</a></p><br />
+      <div class="toc-header">
+        <span class="toc-label">目次：</span>
+        <button id="details-toggleAll">すべて開く</button>
+      </div>
+
+      <div class="toc-container">
+        <!-- 基本の章 #100台 -->
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">正規表現</span>
+            <span class="desc">正規表現はメタ文字を使ったパタンで文字や位置を表現するものです</span>
+          </summary>
+          <!-- ページ100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">基本的な正規表現</span>
+              <span class="desc">比較的簡単なパタンでの表現</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="regex_100_outline.html">正規表現とは</a>
+                <p class="desc">正規表現とはの導入ページです</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <div class="toc-container">
+        <!-- 高度の章 #200台 -->
+        <details class="toc-card tocall" id="toc200main">
+          <summary>
+            <span class="title">少し複雑な正規表現</span>
+            <span class="desc">現場で使う場合、少し複雑なパタン指定を使う事が多いかも</span>
+          </summary>
+          <!-- ページ200 -->
+          <details class="toc-card is-child tocall" id="toc200">
+            <summary>
+              <span class="title">拡張グループ構文</span>
+              <span class="desc">(?で始まるパタンは拡張グループ構文です。この後に続くパタンにより複数の意味になります</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="regex_203_capturegroup.html">キャプチャグループ</a>
+                <p class="desc">(パタン) で示すもので、パタンをグループ化して扱う方法をキャプチャグループといいます</p>
+              </li>
+              <li>
+                <a href="regex_200_non-capturegroup.html">非キャプチャグループ</a>
+                <p class="desc">(?:パタン) で示すもので、非キャプチャグループといいます</p>
+              </li>
+              <li>
+                <a href="regex_201_lookahead.html">先読み（肯定先読みと否定先読み）</a>
+                <p class="desc">(?=パタン) は肯定先読み、(?!パタン) は否定先読み</p>
+              </li>
+              <li>
+                <a href="regex_202_lookbehind.html">後読み（肯定後読みと否定後読み）</a>
+                <p class="desc">(?&lt;=パタン) は肯定後読み、(?&lt;!パタン) は否定後読み</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
