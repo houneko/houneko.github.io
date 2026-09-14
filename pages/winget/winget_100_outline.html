@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description" content="wingetとは、基本的な概念、歴史などをまとめたページです">
+  <meta name="breadcrumb" content="ホーム:/index.html > winget/基本:/pages/winget/winget_000_index.html#toc100 > ">
+  <title>wingetとは | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        wingetの基本的な概念
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">wingetとは</h2>
+          <h3 id="toc12" class="h3chapter underline">wingetって何</h3>
+          <span class="" id="toc20">wingetは Windows Package Managerのこと</span>
+          <p>wingetは、ソフトウェアの検索やインストール、アンインストール、アップデートをCLIで行うためのソフトウェア。だけと<span
+              style="color:red;">単独のソフトウェアとして存在しているのではなく、App Installerというアプリの一部</span>として存在する</p>
+          <p>Linuxの世界でいうと、Debian/Ubuntu系の「apt」やRedHat/CentOS系の「yum」や「dnf」みたいなもので、CLIのパッケージマネージャ</p>
+
+          <h3 id="toc14" class="h3chapter underline">wingetのインストール</h3>
+          <p>wingetは、Windows10のバージョン21H1以降からはプリインストールされているので、自分でインストールしなくてもいい</p>
+          <p>手動でインストールする場合は、Microsoft Storeからインストールする方法と、GitHubからインストールする方法がある</p>
+          <p class="paragraph--break" style="font-weight: bold;">Microsoft Storeからインストール</p>
+          <ol>
+            <li>Microsoft Storeで「アプリインストーラ」を検索</li>
+            <li>Searchの検索で Winget-CLIを検索 </li>
+            <li>見つかったリンクをクリック</li>
+            <li>右ペインのReleaseの下にある Windwos Package Manager バージョン番号 をクリック</li>
+            <li>一番下のAssetsまでスクロール「Microsoft.DesktopAppInstaller_xxx.msibandle」をクリック</li>
+          </ol>
+          <p style="font-weight: bold;">GitHubからインストール</p>
+          <ol>
+            <li>GitHubのWebページに行く</li>
+            <li>Searchの検索で Winget-CLIを検索 </li>
+            <li>見つかったリンクをクリック</li>
+            <li>右ペインのReleaseの下にある Windwos Package Manager バージョン番号 をクリック</li>
+            <li>一番下のAssetsまでスクロール「Microsoft.DesktopAppInstaller_xxx.msibandle」をクリック</li>
+          </ol>
+          <h3 id="toc16" class="h3chapter underline">自分がはまったわな</h3>
+          <p>
+            まぁ、罠というほどではないのですが、Windows11環境でコマンドラインから「winget」とタイプしてもそんなコマンドは知らんと怒られて、動かなかったことがあります。Windows11ではプリインストールされているはずなのに何で？？と悩んでいました。仕方が無いので上記のインストールを試してみてもインストーラから「もうインストールされてますわ」と言われる始末。インストールされているけど使えない状態になっていました。
+          </p>
+          <pre><code class="powershell">
+        &gt; winget
+        winget: The term 'winget' is not recognized as a name of a cmdlet, function, script file, or executable program.
+        Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+        </code></pre>
+          <p>どうやって解決したか？</p>
+          <p>wingetは、<span style="color:red;">単独のソフトウェアとして存在しているのではなく、App Installerというアプリの一部</span>として存在しています。<br />
+            このため、<span style="color:red;" class="font-large">「C:\Users\自分\AppData\Local\Microsoft\WindowsApps」
+              にパスが通っていること</span>が必要です。これに気づかなかったらインストールはされているけど、実行してもそんなコマンドは知らんと言われ続けてしまいます</p>
+          <p>パスを確認してみる</p>
+          <pre><code class="powershell">
+        &gt; $env:path -split ';' | where {$_ -like "*win*"}
+        C:\WINDOWS\system32
+        C:\WINDOWS
+        ...
+        ...
+        C:\Users\xxx\AppData\Local\Microsoft\WindowsApps  #← このパスが設定されていないとだめ
+        ...
+        </code></pre>
+          <h3 id="toc18" class="h3chapter underline">wingetの書式</h3>
+          <p>wingetの書式は以下のようにサブコマンドとそのオプションを指定する形式となっている</p>
+          <p><span class="underline">サブコマンドは「-」ハイフンなし、サブコマンドオプションは「-」あり</span>となっている</p>
+          <pre><code class="powershell">
+        #wingetの書式は以下のようにサブコマンドとそのオプションを指定する形式となっている
+        winget [サブコマンド][サブコマンドオプション]
+
+        #バージョンを確認する場合は「-v」や「--version」
+        &gt; winget -v  #「-v」でバージョンを表示させる
+        v1.xx.xxx       #バージョンが返ってきている
+        </code></pre>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

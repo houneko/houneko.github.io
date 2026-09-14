@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description" content="wingetの使い方">
+  <meta name="breadcrumb" content="ホーム:/index.html > winget/基本:/pages/winget/winget_000_index.html#toc100 > 101">
+  <title>wingetの使い方 | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon">
+        wingetの使い方
+      </h1>
+      <article>
+        <section>
+
+          <!--  -->
+          <h2 id="toc10" class="h2chapter-title">wingetの使い方</h2>
+          <h3 id="toc11" class="h3chapter underline">どのサブコマンドを使えばいいの？</h3>
+          <p>
+            wingetは、サブコマンドやオプションの指定なしで、コマンド名だけ入力してリターンキーを押すとヘルプが出るようになっている。使い慣れたらどんなサブコマンドがあり、そのオプションは何かなどが頭に浮かぶようになるけど、最初はwingetを引数なしで実行してサブコマンド等を確認してから操作をすればいい
+          </p>
+          <pre><code class="powershell">
+        &gt; winget   #引数なしで実行するとヘルプが表示される
+        v1.xx.xxx の Windows パッケージ マネージャー
+        Copyright (c) Microsoft Corporation. All rights reserved.
+        WinGetコマンドラインユーティリティを使用すると、コマンドラインからアプリケーションやその他のパッケージをインストールできます
+
+        使用法: winget  [&lt;コマンド&gt;] [&lt;オプション&gt;]
+
+        使用できるコマンドは次のとおりです:
+          install    指定されたパッケージをインストール
+          show       パッケージに関する情報を表示します
+          source     パッケージのソースの管理
+          search     アプリの基本情報を見つけて表示
+          list       インストール済みパッケージを表示する
+          upgrade    利用可能なアップグレードの表示と実行
+          uninstall  指定されたパッケージをアンインストール
+          hash       インストーラー ファイルをハッシュするヘルパー
+          validate   マニフェスト ファイルを検証
+          settings   設定を開くか、管理者設定を設定する
+          features   試験的な機能の状態を表示
+          export     インストールされているパッケージのリストをエクスポート
+          import     ファイル中のすべてのパッケージをインストール
+          pin        パッケージ ピンの管理
+          configure  システムを適切な状態に構成します
+          download   指定されたパッケージからインストーラをダウンロードする
+          repair     選択したパッケージを修復します
+          dscv3      DSC v3 リソース コマンド
+          mcp        MCP 情報
+
+        特定のコマンドの詳細については、そのコマンドにヘルプ引数を渡します。 [-?]
+
+        次のオプションを使用できます。
+          -v,--version                ツールのバージョンを表示
+          --info                      ツールの一般情報を表示
+          -?,--help                   選択したコマンドに関するヘルプを表示
+          --wait                      終了する前に任意のキーを押すプロンプトをユーザーに表示します
+          --logs,--open-logs          既定のログの場所を開く
+          --verbose,--verbose-logs    WinGet の詳細ログを有効にする
+          --nowarn,--ignore-warnings  警告出力を非表示にする
+          --disable-interactivity     対話型プロンプトを無効にします
+          --proxy                     この実行に使用するプロキシを設定します
+          --no-proxy                  この実行に対するプロキシの使用を無効にする
+
+        その他のヘルプについては、次を参照してください: https://aka.ms/winget-command-help        
+        </code></pre>
+          <h3 id="toc12" class="h3chapter underline">wingetでインストール（アップデート）</h3>
+          <p>wingetでインストール済のパッケージのアップデートを行う方法</p>
+          <ol>
+            <li>サブコマンド「list」でインストール済のパッケージ一覧を表示する</li>
+            <li>対象のアプリのバージョンと「利用可能」バージョンを確認する</li>
+            <pre><code class="powershell">
+          #インストール済のパッケージを表示するサブコマンドは「list」
+          &gt; winget list  #サブコマンド「list」でインストール済パッケージを一覧表示させる
+          名前                     ID                               バージョン       利用可能      ソース
+          -------------------------------------------------------------------------------------------------
+          7-Zip 24.08 (x64)        7zip.7zip                        24.08            25.01         winget
+          Git                      ARP\Machine\X64\Git_is1          2.49.0 
+          Mozilla Firefox (x64 ja) ARP\Machine\X64\Mozilla Firefox  146.0.1
+          ...
+          ...
+          </code></pre>
+            <li>
+              <span>上記「7-zip」は、現行バージョンが24.08に対して、利用可能バージョンは「25.01」</span>
+            </li>
+            <li>念のため「show --id xxx」でこの7-zipの詳細を見てみる</li>
+            <pre><code class="powershell">
+          &gt; winget show --id 7zip.7zip
+          見つかりました 7-Zip [7zip.7zip]
+          バージョン: 25.01
+          公開元: Igor Pavlov
+          発行元 URL: https://7-zip.org/
+          発行元のサポート URL: https://7-zip.org/support.html
+          ...
+          </code></pre>
+
+            <li>「upgrade --id xxx」でアップデートする
+              <p>注：この時、UAC（ユーザーアカウント制御）で「このアプリがデバイスに変更を加えることを許可しますか？」というようなメッセージが出る場合あります。これを出したくない場合は、Windwos
+                Terminalを予め管理者権限で起動しておけばいいです（Win+R → wt → Ctrl+Shift+Return）</p>
+              <pre><code class="powershell">
+            &gt; winget upgrade --id 7zip.7zip
+            見つかりました 7-Zip [7zip.7zip] バージョン 25.01
+            このアプリケーションは所有者からライセンス供与されます。
+            Microsoft はサードパーティのパッケージに対して責任を負わず、ライセンスも付与しません。
+            ダウンロード中 https://7-zip.org/a/7z2501-x64.exe
+              ██████████████████████████████  1.56 MB / 1.56 MB
+            インストーラーハッシュが正常に検証されました
+            パッケージのインストールを開始しています...
+            インストーラーは管理者として実行するように要求します。プロンプトが表示されます。
+            インストールが完了しました
+            </code></pre>
+            </li>
+            <li>
+              「list --id xxx」でアップデート結果を確認してみる
+              <pre><code class="powershell">
+            &gt; winget list --id 7zip.7zip
+            名前                ID         バージョン ソース
+            ---------------------------------------------------
+            7-Zip 25.01 (x64)   7zip.7zip  25.01       winget     #バージョンが25.01に上がっている
+            </code></pre>
+            </li>
+          </ol>
+
+          <h3 id="toc14" class="h3chapter underline">wingetでインストール（新規）</h3>
+          <p>wingetでパッケージの新規インストールを行う方法</p>
+          <ol>
+            <li>
+              <span>リポジトリに登録されているアプリを探す「show --name **」</span>
+              <p>例として、昔なつかしいWinZipがあったのでこれを試しにインストールしてみる</p>
+              <pre><code class="powershell">
+            &gt;  winget show --name zip
+            複数のパッケージが入力条件に一致しました。入力内容を修正してください。
+            名前                                 ID             ソース
+            -----------------------------------------------------------
+            BreeZip: RAR & ZIP                   9PB13JL37ZV4   msstore
+            Zip Unzip - rar,&7z compression      9MT44RNLPXXT   msstore
+            ...        
+            WinZip 27                            XPDNXDPXBRSVXT msstore  
+            </code></pre>
+            </li>
+            <li>
+              <span>installサブコマンドでインストールを行う「install --id **」</span>
+              <pre><code class="powershell">
+            &gt; winget install --id Corel.WinZip
+            見つかりました WinZip [Corel.WinZip] バージョン 29.0.16416
+            このアプリケーションは所有者からライセンス供与されます。
+            Microsoft はサードパーティのパッケージに対して責任を負わず、ライセンスも付与しません。
+            このパッケージには次の依存関係が必要です:
+            - パッケージ
+            Microsoft.DotNet.Framework.DeveloperPack_4
+            (1/1) 見つかりました .NET Framework [Microsoft.DotNet.Framework.DeveloperPack_4] バージョン 4.8.1
+            このアプリケーションは所有者からライセンス供与されます。
+            Microsoft はサードパーティのパッケージに対して責任を負わず、ライセンスも付与しません。
+            インストーラーハッシュが正常に検証されました
+            パッケージのインストールを開始しています...
+            インストールが完了しました
+            
+            ダウンロード中 https://download.winzip.com/winzip290-64.msi
+            ██████████████████████████████  80.2 MB / 80.2 MB
+            インストーラーハッシュが正常に検証されました
+            パッケージのインストールを開始しています...
+            インストールが完了しました
+            </code></pre>
+            </li>
+            <li>
+              <span>listコマンドでインストール結果を確認する「list --name WinZip」</span>
+              <pre><code class="powershell">
+            &gt; winget list --name winzip
+            名前         ID             バージョン ソース
+            ----------------------------------------------
+            WinZip 29.0  Corel.WinZip                    
+            </code></pre>
+            </li>
+          </ol>
+
+          <h3 id="toc16" class="h3chapter underline">wingetでアンインストール</h3>
+          <p>wingetでパッケージのアンインストールを行う方法</p>
+          <ol>
+            <li>
+              <span>listサブコマンドでアンインストール対象を確認「list --name WinZip」</span>
+              <pre><code class="powershell">
+            &gt; winget list --name winzip
+            名前        ID                       バージョン ソース
+            --------------------------------------------------------
+            WinZip      MSIX\WinZipComputing...  76.9.74.0
+            WinZip 29.0 Corel.WinZip             29.0.16416 winget
+            </code></pre>
+            </li>
+            <li>
+              <span>uninstallサブコマンドでアンインストールを実行「uninstall --id **」</span>
+              <pre><code class="powershell">
+              &gt; winget uninstall --id Corel.Winzip
+              見つかりました WinZip 29.0 [Corel.WinZip]
+              パッケージのアンインストールを開始しています...
+              正常にアンインストールされました              
+            </code></pre>
+            </li>
+            <li>
+              <span>listサブコマンドでアンインストールされたことを確認する「list --name WinZip」</span>
+              <pre><code class="powershell">
+              &gt; winget list --name Winzip
+              入力条件に一致するインストール済みのパッケージが見つかりませんでした。
+            </code></pre>
+            </li>
+            <p>アップデート、インストール、アンインストールは、やり方的にはみんな同じでサブコマンドが違う</p>
+          </ol>
+
+        </section>
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
