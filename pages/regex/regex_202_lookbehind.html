@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description"
+    content="正規表現における後読みとは？。後読みには肯定後読みと否定後読みがあります。両者の意味と違いをまとめたページです">
+  <meta name="breadcrumb" content="ホーム:/index.html > regex/複雑な正規表現:/pages/regex/regex_000_index.html#toc200 > ">
+  <title>肯定後読みと否定後読み | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <!-- <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon"> -->
+        正規表現の後読み
+      </h1>
+      <article>
+        <h2 id="toc20" class="h2chapter-title">正規表現の後読み</h2>
+        <p>正規表現の後読みには、肯定後読みと否定後読みがあります。また後読みも<a href="regex_201_lookahead.html#toc12">位置へのマッチ</a> になります（マッチしても目に見えない）
+        </p>
+        <p><span class="marker emphasis is-bold">後読みとは何か？</span></p>
+        <p>後読みとは、正規表現エンジンが対象を文字列を左から右にチェックしていった時、左側が既に見た文字で右側がこれから見る文字となりますが、後読みはこの左側（つまり過去）を今の位置から見てチェックするという意味。</p>
+        <p>逆に先読みは今の位置から右側（これから読むので未来の文字）だから、先読みと考えられる</p>
+        <p>このように理解したら先読み：右側（未来）、後読み：左側（過去）と覚えられる。後読みという言葉がしっくりこないけど、過去読みとかだったら自分はわかりやすい</p>
+        <p><span class="emphasis">後読みパタンも先読みパタンと同様に確認にだけ使われてマッチした文字には含まれない</span></p>
+        <section>
+          <h3 id="toc21" class="h3chapter underline">肯定後読み（Positive lookbehind）</h3>
+          <p>肯定後読みは、(?&lt;=左側にある文字列) で指定するパタン。(?で始まる拡張グループ構文の1つ。<br />肯定後読みは、今の位置からパタンで示した文字が「左側に」あるかをチェックする</p>
+          <p><span class="marker">肯定先読みと否定先読みパタンの覚え方（自分バージョン）</span></p>
+          <p>肯定先読みと否定先読みはどちらも拡張グループ構文なので「(?」で始まる。この部分は共通。次に肯定先読みは「=」が続くが、否定先読みは「<span
+              class="emphasis">&lt;</span>が来てから=」</p>
+          <p>この時、<span class="emphasis">&lt;</span>は「左側」をイメージしていると考えると覚えやすい（と思いませんか）</p>
+          <ul class="no-marker">
+            <li>
+              肯定先読みのパタン指定：(?=右側の文字列）
+            </li>
+            <li>
+              肯定後読みのパタン指定：(?<span class="emphasis">&lt;</span>=左側の文字列）
+            </li>
+            <li>
+              <span class="is-bold underline">覚え方</span>
+              <p class="emphasis">(?で始まり、「=があれば肯定」、「!があれば否定」</p>
+              <p class="emphasis">(?で始まり、「&lt;があれば後読み」、「&lt;がなければ先読み」</p>
+            </li>
+          </ul>
+          <p>実際に使う時は、位置だけだと使いにくいのでその位置にからめて何かの文字と組み合わせて使う</p>
+          <pre><code class="powershell">
+        #肯定後読み
+        &gt; "houneko" -match 'neko(?&lt;=hou)'  # 左側に「hou」がある neko へのパタンマッチ
+        False   ## ← このパタンマッチは False になっている！！
+        </code></pre>
+          <p>ん？ neko(?&lt;=hou) のマッチング結果はFlaseになっている。なんで？？</p>
+          <p><span class="marker emphasis is-bold">後読みの注意点</span> </p>
+          <p>「neko(?&lt;=hou)」は、人間がそのまま解釈すると、nekoという文字パタン と 肯定後読みで左側に
+            houという文字があるものと理解すると思います。なので論理的にはマッチするはずと考えてしまうと思いますが、<span
+              class="emphasis is-bold">この書き方だと意図したマッチになりません</span> </p>
+          <p>何でか?</p>
+          <div class="text">
+            <img src="/assets/pic/regex_201_positionmatch_05.png" alt="肯定後読みの注意" class="image-float" />
+            <p>
+              <br />正規表現エンジンは対象の文字列を左から右に評価していってます。今、パタンがneko(?&lt;=hou)だと最初にnekoにマッチするものを探していきnekoにマッチした後の位置から左側を見てhouがあるかを評価するとhouが無いのでマッチしないという事です
+            </p>
+          </div>
+          <p><span class="emphasis is-bold"></span>じゃ、どう書くの？</p>
+          <p><span class="emphasis">先に評価されるパタンを先に書く</span>
+            という事だと思います。この例だと先に出る文字はhouなので「(?&lt;hou)」、その後に「neko」と書く。つまり「(?&lt;hou)neko」と書けばいい</p>
+          <p>
+            こう書くと先に「hou」がマッチする。これは肯定後読みとして定義されているので、この文字列が左にあるパタンと解釈されて、その次を見る。その次はnekoなので、houがあってnekoがあればパタンにマッチする。肯定後読みパタン部分はマッチした文字列には含まれないので、結果「neko」がマッチした結果となる
+          </p>
+          <div class="text">
+            <img src="/assets/pic/regex_201_positionmatch_06.png" alt="肯定後読み" class="image-float" />
+            <p><br />文字列：houneko</p>
+            <p>パタン：(?&lt;hou)neko</p>
+            <p>nekoがマッチしている</p>
+          </div>
+        </section>
+
+        <section>
+          <h3 id="toc22" class="h3chapter underline">否定後読み（Negative lookbehind）</h3>
+          <p>否定後読みは、(?&lt;!左側にある文字列) が無い事をチェックするパタン<br />否定後読みは、今の位置からパタンで示した文字が「左側に」<span class="emphasis">ない</span>
+            かをチェックする</p>
+          <pre><code class="powershell">
+        &gt; "nekousagi" -match '(?&lt;!inu)usagi'  # 左に「inu」が無い「usagi」を探すパタン
+        True
+        &gt; $Matches
+        Name      Value
+        -------------------
+        0         usagi          # ← このusagiは後読み位置（左側）にinuが無い usagi にマッチしている
+        </code></pre>
+        </section>
+
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

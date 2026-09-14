@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description" content="正規表現の非キャプチャグループについて。非キャプチャグループとはパタンマッチには使うけどグループとしては保存しないというものです。例を見るとイメージできると思います">
+  <meta name="breadcrumb" content="ホーム:/index.html > regex/複雑な正規表現:/pages/regex/regex_000_index.html#toc200 > ">
+  <title>非キャプチャグループ | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <!-- <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon"> -->
+        <span>正規表現の非キャプチャグループ</span>
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">正規表現の非キャプチャグループ</h2>
+          <h3 id="toc12" class="h3chapter underline">非キャプチャグループとは</h3>
+          <p>非キャプチャグループは、(?:パタン） で示す正規表現です。これはパタンマッチには使うけど、グループとしては保存しないというパタンです。これはメモリには保存しないという事なので若干速度的なパフォーマンスがあります
+          </p>
+          <p><a href="regex_203_capturegroup.html">キャプチャグループ</a>との違いは保存しないというところですね</p>
+
+          <p>サンプル例：非キャプチャグループを使って「yyyy-mm-dd」「yyyy/mm/dd」にマッチさせる</p>
+          <p>非キャプチャグループは、マッチしてもメモリに保存されないだけなので、$Matches[0]では全体マッチとして「2000/12/24」がマッチしている</p>
+          <p>非キャプチャグループは、保存されないので$Matches[]配列には存在していない</p>
+          <pre><code class="powershell">
+        &gt; "2000/12/24" -match '(\d{4})(?:-|/)(\d{2})(?:-|/)(\d{2})'
+        True
+        &gt; $Matches
+
+        Name                           Value
+        ----                           -----
+        3                              24
+        2                              12
+        1                              2000         # 非キャプチャグループは、$Matches[]配列には含まれない
+        0                              2000/12/24   # $Matches[0]の全体には使われている
+        </code></pre>
+        </section>
+
+      </article>
+
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

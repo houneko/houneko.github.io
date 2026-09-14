@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description"
+    content="正規表現におけるキャプチャグループ。キャプチャグループは正規表現をグループで扱う方法です">
+  <meta name="breadcrumb" content="ホーム:/index.html > regex/複雑な正規表現:/pages/regex/regex_000_index.html#toc200 > ">
+  <title>正規表現のキャプチャグループ | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <!-- <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon"> -->
+        正規表現のキャプチャグループ
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">正規表現のキャプチャグループ</h2>
+          <h3 id="toc12" class="h3chapter underline">キャプチャグループとは</h3>
+          <p>正規表現は、グループ毎にマッチさせることができます。パタンを丸かっこ（）で囲って示すとキャプチャグループ指定になります。</p>
+          <p>これで、グループ化した単位でマッチでき、0オリジンの配列でキャプチャ結果が取得されます。<span class="emphasis">()が複数指定した場合、</span></p>
+          <p>例えば、2000-12-24 を年月日でキャプチャグループで表現する場合</p>
+          <pre><code class="powershell">
+        &gt; "2000-12-24" -match '(\d{4})-(\d{2})-(\d{2})'
+        true
+        &gt; $Matches
+        Name    Value
+        ----    -----
+        3       24            # 3番目の()
+        2       12            # 2番目の()
+        1       2000          # 最初の()
+        0       2000-12-24    # グループ0 が 全体
+        </code></pre>
+          <p>キャプチャグループを使うと、グループ単位で操作ができる。例えば上記の例で、年（グループ１。PowerShellの場合「$1」で示す）を2209年に置換したい場合</p>
+          <pre><code class="powershell">
+        &gt; "2000-12-24" -replace '(\d{4})-(\d{2})-(\d{2})', '2209-$2-$3'  # $1だけリプレース、$2、$3はそのまま使う
+        #結果
+        2209-12-24    # 年（$1）だけリプレースされている
+        </code></pre>
+          <p>次の例は、月（$2）だけ取り出してみた場合です</p>
+          <pre><code class="powershell">
+        &gt; "2000-12-24" -match '(\d{4})-(\d{2})-(\d{2})'
+        true
+        &gt; $Matches[2]
+        12
+
+        # 月（$2）の値を変えてみる
+        &gt; $Matches[2] = "03"
+        &gt; $Matches
+        Name    Value
+        ----    -----
+        3       24            # 3番目の()
+        2       03            # 2番目の() 。月だけ 03 に変わっている
+        1       2000          # 最初の()
+        0       2000-12-24    # グループ0 が 全体
+        </code></pre>
+        </section>
+
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>

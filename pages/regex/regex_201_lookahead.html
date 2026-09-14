@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  <meta name="description"
+    content="正規表現における先読みとは？。先読みには肯定先読みと否定先読みがあります。両者の意味と違いをまとめたページです">
+  <meta name="breadcrumb" content="ホーム:/index.html > regex/複雑な正規表現:/pages/regex/regex_000_index.html#toc200 > ">
+  <title>肯定先読みと否定先読み | HouNeko</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <!-- <img src="/assets/pic/pwsh_icon.png" alt="pwshicon" class="title-icon"> -->
+        正規表現の先読み
+      </h1>
+      <article>
+        <section>
+          <h2 id="toc10" class="h2chapter-title">正規表現の位置へのマッチ</h2>
+          <h3 id="toc12" class="h3chapter underline">まずは位置へのマッチについて</h3>
+          <p>正規表現は「文字へのマッチ」が一般的ですが「位置へのマッチ」というパタンを定義することもできます。先読み（後読みも）は位置にマッチするパタンです。<span
+              class="emphasis">位置へのマッチは、文字にはマッチしないので見かけ上何も無いように見えます</span> が、内部的には位置にマッチしています</p>
+          <p>また、^ や $ も「位置へのマッチ」になっており「^」は<span class="emphasis">行頭位置</span> にマッチします。「$」は<span
+              class="emphasis">行末位置</span>にマッチします</p>
+          <pre><code class="powershell">
+        # 文字列 houneko に ^ をパタンマッチさせてみる
+        &gt; "houneko" -match '^'
+        True    # ← Trueが返ってきているのでマッチしている
+        &gt; $Matches
+        Name      Value
+        -------------------
+        0                     # ← 位置へのマッチなので何も見えない（文字にはマッチしていない）
+        </code></pre>
+          <p><a href="https://weblabo.oscasierra.net/tools/regex/"
+              target="_blank">正規表現チェッカー</a>で見てみる（このチェッカーは位置へのマッチも可視化してくれる）</p>
+          <div class="text">
+            <img src="/assets/pic/regex_201_positionmatch.png" alt="行頭への位置マッチ" class="image-float" />
+            <p><br />文字列：houneko</p>
+            <p>パタン：^（行頭位置へのパタン）</p>
+            <p>「^」は行頭への位置マッチなので、通常は見えないがこのチェッカーで見ると行頭にマッチしている事が確認できる（$でやると行末位置にマッチしていることがわかる）</p>
+          </div>
+        </section>
+      </article>
+
+      <article>
+        <h2 id="toc20" class="h2chapter-title">正規表現の先読み</h2>
+        <p>正規表現の先読みには、肯定先読みと否定先読みがあります</p>
+        <section>
+          <h3 id="toc21" class="h3chapter underline">肯定先読み（Positive lookahead）</h3>
+          <p>肯定先読みは、(?=右側にある文字列) で指定するパタン。(?で始まる拡張グループ構文の1つ。<br />肯定先読みは、今の位置からパタンで示した文字が「右側に」あるかをチェックする</p>
+          <p><span class="emphasis">先読みパタンは確認にだけ使われてマッチした文字には含まれない</span></p>
+          <p>実際に使う時は、位置だけだと使いにくいのでその位置にからめて何かの文字と組み合わせて使う</p>
+          <pre><code class="powershell">
+        #肯定先読み
+        &gt; "houneko" -match '(?=neko)'  # 右側に「neko」がある位置へのパタンマッチ
+        True
+        &gt; $Matches
+        Name      Value
+        -------------------
+        0                     # ← マッチしているが位置マッチなので何も見えない
+        </code></pre>
+          <div class="text">
+            <img src="/assets/pic/regex_201_positionmatch_02.png" alt="肯定先読み" class="image-float" />
+            <p><br />(?=neko)は、肯定先読みで「右側に」nekoという文字がある位置へのマッチ。位置マッチなので通常は見えないがチェッカで見ると文字列nekoの前でマッチしていることが確認できる</p>
+          </div>
+          <p>実際に使う場合は、位置だけマッチしていても見えないので何かの文字と組み合わせて使うことが多いです。</p>
+          <p>次の例は、パタンを「hou(?=neko)」に変えて試してみた場合です。</p>
+          <p>この例では、houで始まりその右側に「neko」があるもの</p>
+          <pre><code class="powershell">
+        &gt; "houneko" -match 'hou(?=neko)'  # houで始まり右側に「neko」があるパタンマッチ
+        True
+        &gt; $Matches
+        Name      Value
+        -------------------
+        0         hou          # ← houがマッチしているのがわかる
+        </code></pre>
+          <p>これは、houがまず見つかるので、その右側に（先の方に）「neko」があるかをチェックしている。先読みパタンはチェックに使われるが文字にはマッチしないので、houだけがパタンマッチしている</p>
+          <div class="text">
+            <img src="/assets/pic/regex_201_positionmatch_03.png" alt="肯定先読み" class="image-float" />
+            <p><br /> チェッカーで見ると左記のようにわかりやすい</p>
+          </div>
+        </section>
+
+        <section>
+          <h3 id="toc22" class="h3chapter underline">否定先読み（Negative lookahead）</h3>
+          <p>否定先読みは、(?!右側にある文字列)
+            で指定するパタン（肯定先読みは?=で、?の後が「=」なので肯定っぽいイメージ、否定は「!」なのでNotっぽいイメージと覚えたらいいかな）。(?で始まる拡張グループ構文の1つ。<br />否定先読みは、今の位置からパタンで示した文字が「右側に」<span
+              class="emphasis">ない</span> かをチェックする</p>
+          <p>文字列：houneko、否定先読みパタン(?!neko) だとどの位置がマッチするのか？</p>
+          <p>否定先読みも位置マッチなので、マッチ結果がTrueでも何も見えないけど、チェッカーで見ると以下のようになっていることが分かります。</p>
+          <div class="text">
+            <img src="/assets/pic/regex_201_positionmatch_04.png" alt="否定先読み" class="image-float" />
+            <p><br />否定先読みパタン(?!neko)は、右側に「neko」が無い位置にマッチするので、それぞれの位置がマッチしている</p>
+            <p>hの前の位置は右側に「neko」が無いのでマッチ</p>
+            <p>oの前の位置は右側に「neko」が無いのでマッチ</p>
+            <p>・・・</p>
+          </div>
+          <p>否定先読みも位置にマッチするので、実際に使う場合は文字列と組み合わせて使う</p>
+          <p>例）文字列：houneko、否定先読みパタンhou(?!inu)</p>
+          <p>houが見つかり、その右側（先の方）にinuが無い。∴このhouはマッチする。</p>
+          <p><span class="emphasis">否定先読みもチェックにだけ使われ、マッチした文字には含まれない</span> </p>
+          <pre><code class="powershell">
+        &gt; "houneko" -match 'hou(?!inu)'  # houで始まり右側に「inu」が 無い パタンマッチ
+        True
+        &gt; $Matches
+        Name      Value
+        -------------------
+        0         hou          # ← houがマッチしているのがわかる
+        </code></pre>
+        </section>
+
+      </article>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
