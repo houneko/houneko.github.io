@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>Python | HouNeko | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="Pythonのトップページです">
+<meta name="keywords" content="Python,トップページ">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="Python">
+<meta name="breadcrumb" content="ホーム:/index.html >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/py_icon.png" alt="pyicon" class="title-icon">
+        Pythonのページ
+      </h1>
+      <p>このページはWindows PowerShell、PowerShell Coreについていろいろな事を書いているページです。Windows
+        PowerShellは開発が終了しているので、PowerShellと書いているものは主にPowerShell Coreを意味します。</p>
+      <div class="toc-header">
+        <span class="toc-label">目次：</span>
+        <button id="details-toggleAll">すべて開く</button>
+      </div>
+      <div class="toc-container">
+        <!-- 基本の章 #100台 -->
+        <details class="toc-card tocall" id="toc100main">
+          <summary>
+            <span class="title">PowerShellの基本</span>
+            <span class="desc">PowerShellの基本的な話の章。PowerShellをするなら知っとかなという話を各章でまとめています</span>
+          </summary>
+          <!-- ページ100 -->
+          <details class="toc-card is-child tocall" id="toc100">
+            <summary>
+              <span class="title">PowerShellの基本的な概念</span>
+              <span class="desc">PowerShellのとは何か、変数と定数、演算子などの概念を整理した章です</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_100_outline.html">PowerShellとは</a>
+                <p class="desc">PowerShellの基本概念や歴史などをまとめているページです</p>
+              </li>
+              <li><a href="pwsh_101_variable.html">PowerShellの変数</a>
+                <p class="desc">PowerShellの変数は3つのタイプがある（自動変数、環境設定変数、ユーザ変数）</p>
+              </li>
+              <li><a href="pwsh_102_consttant.html">PowerShellの定数</a>
+                <p class="desc">PowerShellの定数はちょっとめんどくさい</p>
+              </li>
+              <li><a href="pwsh_103_operator.html">PowerShellのいろいろな演算子</a>
+                <p class="desc">PowerShellの演算子（算術演算子、論理演算子、比較演算子、範囲演算子、置換演算子、型演算子、包含演算子）について</p>
+              </li>
+            </ol>
+          </details>
+          <!-- ページ120 -->
+          <details class="toc-card is-child tocall" id="toc120">
+            <summary>
+              <span class="title">Powershellの実行方法</span>
+              <span class="desc">PowerShellの実行方法、引数、複数の値を返す関数などをまとめているページです</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_123_preprun.html">PowerShellの実行前に必要な知識</a>
+                <p class="desc"><span
+                    class="marker">★大事</span><br />Powershellは実行する前にいろいろ理解しておかないといけない事があります。高機能であるがゆえに一定の理解をもった人しか使えない、また簡単に実行できないようにしているのかなと思ったりしています。<br />と言っても特別難しい話ではなく、あぁそういう事ねっていう話です
+                </p>
+              </li>
+              <li><a href="pwsh_124_profile.html">PowerShellの実行前に必要な知識（Profile.ps1）</a>
+                <p class="desc"><span
+                    class="marker">★大事</span><br />Powershellのスクリプトを実行するには「PowerShellの実行前に必要な知識」に書いている通り、実行ポリシーを変える必要があります。<br />
+                  この章は、実行できるようになった後の話で、自作の関数やスクリプトファイルはパスが通った所に置いてもそのままでは呼び出せないです。では、どうやったらバッチファイルのように呼び出せるかを書いています。この時
+                  Pprofileが本領発揮してくれます</p>
+              </li>
+              <li><a href="pwsh_120_run.html">PowerShellの実行方法</a>
+                <p class="desc">Powershellの実行方法。スクリプトを実行する場合、関数を実行する場合</p>
+              </li>
+              <li><a href="pwsh_121_parameter.html">PowerShellの引数（引数とは言え実は奥が深い）</a>
+                <p class="desc">引数の渡し方はいろいろあり、現場で混乱しないように整理したもの</p>
+              </li>
+              <li><a href="pwsh_122_returnValue.html">PowerShellの複数の値を返す関数</a>
+                <p class="desc">Powershell、複数の値を返す関数の作成方法と使い方</p>
+              </li>
+            </ol>
+          </details>
+
+        </details>
+      </div>
+
+      <!-- 高度の章 #200番台 -->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc200main">
+          <summary>
+            <span class="title">PowwerShellの高度な使い方</span>
+            <span class="desc">より高度な使い方は多数あり、調べたりした事をまとめたいとの思いで作った章</span>
+          </summary>
+          <!-- ページ200 -->
+          <details class="toc-card is-child tocall" id="toc200">
+            <summary>
+              <span class="title">[CmdletBinding()]による高度化</span>
+              <span class="desc">[CmdletBinding()]により関数を高度化できる</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="pwsh_200_CmdletBinding.html">[CmdletBinding()]属性とは</a>
+                <p class="desc">[CmdletBinding()]属性をつけると関数が高度化するって話</p>
+              </li>
+              <li><a href="pwsh_201_CmdletBinding.html">[CmdletBinding()]属性とWrite-Debug問題</a>
+                <p class="desc">[CmdletBinding()]属性をつけると、Windows Powershell環境においてWrite-Debug実行時に確認メッセージが出るという問題</p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
