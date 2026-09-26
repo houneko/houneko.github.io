@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!--#include file="/partials/common-head.html" -->
+  <meta name="description" content="リンク集">
+  <meta name="breadcrumb" content="ホーム:/index.html > ">
+  <title>リンク集 | HouNeko</title>
+</head>
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>__BUILD_ONLY__</title>
+  <!--#include file="/partials/common-head.html" -->
+  <!--#page-meta
+title=リンク集
+category=他
+subcategory=リンク集
+keywords=Microsoftの技術ドキュメントページ,.NET APIブラウザ,Can I Use(CSSの対応状況),モクモク,サルワカ,MDN（Mozilla Developer Network）,正規表現チェッカー
+description=いろいろなリンクをまとめた章です
+breadcrumb=ホーム:/index.html > 
+  -->
+</head>
+
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        リンク集
+      </h1>
+      <p>いろいろなリンク集</p>
+      <div class="toc-container">
+
+        <details id="toc10" class="toc-card">
+          <summary>Microsoft関係</summary>
+          <p class="desc">Microsoftの技術ドキュメントページ</p>
+          <ol class="two-digit">
+            <li><a href="https://learn.microsoft.com/ja-jp/docs/" target="_blank">Microsoftの技術ドキュメントページ</a>
+              <p class="desc">Microsoft の開発者向けツールとテクノロジに関する詳細な記事</p>
+            </li>
+            <li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/?view=net-10.0" target="_blank">.NET APIブラウザ</a>
+              <p class="desc">.NETのAPIブラウザのページ。ここでスタティックメソッド（例：GetFileNameWithoutExtension）を検索して調べることができる。<a
+                  href="https://learn.microsoft.com/ja-jp/docs/">技術ドキュメントページ</a>からも行ける（.NETをクリック → .NET
+                APIリファレンスをクリック）が直リンクをはっておく</p>
+            </li>
+          </ol>
+        </details>
+
+        <details id="toc20" class="toc-card">
+          <summary>Web関係</summary>
+          <p class="desc">Web関係のドキュメントページ</p>
+          <ol class="two-digit">
+            <li>
+              <a href="https://caniuse.com/" target="_blank">Can I Use</a>
+              <p class="desc">新しいCSSプロパティの各ブラウザ対応状況を調べることができるページ</p>
+            </li>
+            <li>
+              <a href="https://moku-moku.net/css/" target="_blank">学習サイト「モクモク」</a>
+              <p class="desc">CSSの勉強に使ったページ</p>
+            </li>
+            <li>
+              <a href="https://saruwakakun.com/html-css/basic" target="_blank">学習サイト「サルワカ」</a>
+              <p class="desc">HTML/CSSの勉強に使ったページ、絵が多い</p>
+            </li>
+          </ol>
+        </details>
+
+        <details id="toc40" class="toc-card">
+          <summary>JavaScript関係</summary>
+          <p class="desc">JavaScript関係のドキュメントページ</p>
+          <ol class="two-digit">
+            <li>
+              <a href="https://caniuse.com/" target="_blank">MDN（Mozilla Developer Network）</a>
+              <p class="desc">JavaScriptの公式ドキュメントは、MDN（Mozilla Developer Network）です</p>
+            </li>
+          </ol>
+        </details>
+
+        <details id="toc50" class="toc-card">
+          <summary>正規表現</summary>
+          <p class="desc">正規表現をテストできるページ</p>
+          <ol class="two-digit">
+            <li>
+              <a href="https://weblabo.oscasierra.net/tools/regex/" target="_blank">正規表現チェッカー</a>
+              <p class="desc">優れた人達が正規表現をテストできるページを公開してくれていますが、このページは位置マッチも表現してくれるので良いです</p>
+            </li>
+          </ol>
+        </details>
+      </div>
+
+      <!-- リストに関する実装 -->
+      <div class="toc-container">
+        <details class="toc-card" id="toc100main">
+          <summary>
+            <span class="title">hoge</span>
+            <span class="desc">hogedesu</span>
+          </summary>
+          <ol class="two-digit">
+            <details class="toc-card" id="toc100">
+              <summary>
+                <span class="title">hoge</span>
+                <span class="desc">hogedesu</span>
+              </summary>
+              <ol class="two-digit">
+                <li><a href="#">hoge</a>
+                  <p class="desc">hogedesu</p>
+                </li>
+              </ol>
+            </details>
+          </ol>
+        </details>
+      </div>
+
+    </main>
+    <!--#include file="/partials/common-footer.html" -->
+  </div>
+</body>
+
+</html>
