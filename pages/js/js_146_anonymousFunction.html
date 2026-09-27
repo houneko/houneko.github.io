@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>setTimeout関数 | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="JavaScriptでは、関数名を定義しない関数があります。それが無名関数です（anonymous function）">
+<meta name="keywords" content="無名関数,anonymous">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="js, JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/関数:/pages/js/js_000_index.html#toc140 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        メソッド
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">メソッド</h2>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">メソッドとは</h3>
+          <p>
+            メソッドの実体は関数ですが、オブジェクトの中で定義されている点が関数と違います</p>
+          <pre><code class="js">
+  let obj = {
+    プロパティA: 値,
+    プロパティB: 値,
+    ・・・
+    プロパティX: 関数     ← メソッド：キーに対して値が関数となっているもの
+  }
+            </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">メソッドの定義と呼び出し方法</h3>
+          <p>メソッドの定義は、上述した通りキーに対する値として関数を定義します。メソッドはオブジェクトのメンバでもあるので、プロパティの参照と同様に「.（ドット）」でメソッド名を指定します</p>
+          <p>注意点として、メソッドは引数が無くても()が必要です</p>
+          <pre><code class="js">
+  //myobjオブジェクト内にshowHelloというメソッドを定義
+  //以下の例は、メソッドをfunction()でし定義ています
+  const myobj = {
+    showHello: function() {
+      console.log('Hello, World!');
+    }
+  };
+  //メソッド呼び出し
+  myobj.showHello();    //←メソッドmyobj.showHello()呼び出し。引数が無い場合も()が必要
+
+  //実行結果
+  //Hello, World!
+          </code></pre>
+          <p>メソッドは、function()以外に<span><a href="js_142_arrowFunction.html#toc30">アロー関数</a></span> で定義することもできます</p>
+          <pre><code class="js">
+  //myobjオブジェクト内にshowHelloというメソッドを定義
+  //以下の例は、アロー関数で定義しています
+  const myObj = {
+    showHello2: (myName) =&gt; {          //←アロー関数で定義
+      console.log('Hello, ' + myName);
+    }
+  };
+
+  //const my = new myobj;
+  myObj.showHello2('Neko');   //←メソッドmyObj.showHello2()呼び出し。引数がある例
+
+  //実行結果
+  //Hello, Neko   //←引数が表示に使われている
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 id="toc40" class="h3chapter underline">値を返すメソッド</h3>
+          <p>メソッドの実体は関数なので値を返すこともできます。つまり、値を返すメソッドを定義することも可能です（当たり前やろ。。）</p>
+          <pre><code class="js">
+  //myObj内にメソッドを定義
+  const myObj = {
+    calcPow: (value) =&gt; {
+      return value * value;     // ←引数でもらったvalueを二乗して返している
+    }
+  };
+  //メソッド呼び出し
+  console.log(myObj.calcPow(20));
+  //実行結果
+  //400   //20*20  
+          </code></pre>
+        </section>
+
+        <section>
+          <h3 class="h3chapter underline" id="toc41">メソッドの退縮記法</h3>
+          <p>上の方では、メソッドの定義は「プロパティ：funciton() {...｝」と書いていましたが、プロパティを作らず書くこともできます。この書き方の方が簡潔かと思います</p>
+          <pre><code class="js">
+  //プロパティを使ったメソッドの書き方
+  const myobj = {
+    showHello: function() {           //showHelloというプロパティに値としてfunction(){}を定義している
+      console.log('Hello, World!');
+    }
+  };
+
+  //短縮記法
+  const myobj = {
+    showHello() {                     //プロパティはなく、showHello()を定義している
+      console.log('Hello, World!');
+    }
+  };
+          </code></pre>
+        </section>
+
+
+        <section>
+          <h3 id="toc50" class="h3chapter underline">メソッドチェーン</h3>
+          <p>メソッドチェーンは、メソッドを繋げて書くことで、次々とメソッドを実行する方法です。PowerShellのパイプのようなイメージで、メソッド1を実行した結果を次のメソッド2で実行します。</p>
+          <p>メソッドチェーンは、メソッドを続けて実行する時のための書き方という事だと思います（メソッドチェーンで書けば各メソッドをバラバラで呼び出す書き方よりも簡潔に書けるってこと）</p>
+          <p>
+            注意点としては、各メソッドは「this」を返す必要があります。もしくは次のメソッドが実行できるオブジェクトが返されていないといけないです。つまりmethodAの戻り値のオブジェクトhogeが、methodBメソッドを持っていないといけないです（hoge.methodBが実行できる）
+          </p>
+          <pre><code class="js">
+  //メソッドチェーンの書き方
+  obj.methodA().methodB().methodC();
+          </code></pre>
+          <p>メソッドチェーンを使わずにmethodA～methodCを実行する場合</p>
+          <pre><code class="js">
+  const resultA = obj.methodA();
+  const resultB = resultA.methodB();    //methodBは、Aの結果オブジェクトで実行
+  const resultC = resultB.methodC();    //methodCは、Bの結果オブジェクトで実行
+          </code></pre>
+        </section>
+
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
