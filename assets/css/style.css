@@ -1430,7 +1430,7 @@ pre {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("pwsh_blur_code_01.webp") no-repeat center center / cover;
+  background: url("/assets/pic/pwsh_blur_code_01.webp") no-repeat center center / cover;
   filter: blur(1.25px);
   /* ぼかしの強さ */
   transform: scale(1.1);
