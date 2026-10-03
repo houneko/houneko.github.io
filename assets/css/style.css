@@ -1406,6 +1406,43 @@ pre {
 }
 
 
+
+/* ------------------------------------------------------------------------------------
+  ぼかしタイトル
+   ------------------------------------------------------------------------------------ */
+/* 中央の本文エリア */
+.blur-title {
+  position: relative;
+  max-width: 90%;
+  /* ページ幅の最大80% */
+  margin: 2em auto;
+  padding: 2em;
+  border-radius: 16px;
+  overflow: hidden;
+  /* 擬似要素のはみ出し防止 */
+  z-index: 0;
+  color: #111;
+  /* 中の文字は白にして読みやすく */
+}
+
+/* 背景画像（薄く＋ぼかし付き） */
+.blur-title::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("pwsh_blur_code_01.webp") no-repeat center center / cover;
+  filter: blur(1.25px);
+  /* ぼかしの強さ */
+  transform: scale(1.1);
+  /* 端が透けるのを防ぐ */
+  opacity: 0.15;
+  /* 薄さの調整 */
+  z-index: -1;
+}
+
+
+
+
 /* ------------------------------------------------------------------------------------
   その他
   .paragraph--break 話題が変わった時に通常の行間よりも広く開けるためのクラス
