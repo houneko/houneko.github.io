@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>positionプロパティ | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="positionプロパティとその値の違い。positionは要素の位置を指定する時のプロパティですが、重ねて表示する時にもよく使うと思います">
+<meta name="keywords" content="positionプロパティ">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="CSS,CSS3">
+<meta name="breadcrumb" content="ホーム:/index.html > CSS/プロパティ:/pages/css/css_000_index.html#toc120 >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/css3icon.png" alt="cssicon" class="title-icon">
+        positionプロパティ
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">positionプロパティ</h2>
+
+        <section>
+          <h3 id="toc20" class="h3chapter underline">positionプロパティとは</h3>
+          <p>positionは、要素をどの位置に配置するかを指定するためのプロパティです。値の指定により何に対して位置を指定するかを決めることができます。また、要素を重ねて表示する時にも使えます</p>
+          <p>positionプロパティに設定できる値</p>
+          <table class="custom-table">
+            <tr>
+              <th>名前</th>
+              <th>意味</th>
+            </tr>
+            <tr>
+              <td>static</td>
+              <td>デフォルト値。topやleft等を指定しても位置は<span
+                  class="emphasis">変えられない。</span>このため、positionプロパティで、この値を使うメリットは無いと思います（自分は使わない）</td>
+            </tr>
+            <tr>
+              <td>relative</td>
+              <td>相対位置指定する。<span
+                  class="emphasis">この相対は「本来の位置」から</span>という意味であり、親要素からの相対ではないので注意！また、この要素の下の子要素の参照のベースとするためにも「relative」を使います
+              </td>
+            </tr>
+            <tr>
+              <td>absolute</td>
+              <td><span class="emphasis">positionプロパティがstatic以外で指定されている直近の先祖から</span>の絶対位置指定</td>
+            </tr>
+            <tr>
+              <td>fixed</td>
+              <td>画面の決まった位置を直接指定（自分は使わない）</td>
+            </tr>
+          </table>
+          <p>オフセット位置の指定方法</p>
+          <p>top/right/bottom/leftで指定します。この名前から何pxずらしてという指定になります。例えば「top:
+            16px;」なら、上から下に16pxの位置と指定していることになります。leftなら左から右にずらすという事です</p>
+        </section>
+
+        <section>
+          <h3 id="toc30" class="h3chapter underline">relative値</h3>
+          <p>relativeは、その要素が本来表示される位置を基準として、オフセット位置を指定するものです。以下の例は、p要素（position-test2クラス）を本来の位置から下に24px、右に32pxずらして表示させています</p>
+          <img src="/assets/pic/css_125_relative.webp" alt="relative値を指定" />
+          <pre><code class="html">
+  &lt;p class="position-test1"&gt;これが本来のp要素の位置&lt;/p&gt;
+  &lt;p class="position-test2"&gt;相対位置をずらしたp要素の位置&lt;/p&gt;
+          </code></pre>
+          <pre><code class="css">
+  .position-test1 {
+    background-color: cadetblue;
+  }
+
+  .position-test2 {
+    background-color: rgb(173, 247, 155);
+    position: relative;                     /* relative値を設定 */
+    top: 24px;                              /* 本来の位置に対して、上から24px下に指定 */
+    left: 32px                              /* 本来の位置に対して、左から32px右に指定 */
+  }
+          </code></pre>
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
