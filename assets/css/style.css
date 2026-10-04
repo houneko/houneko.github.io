@@ -223,7 +223,7 @@ li {
   margin: 0;
   /*margin-top: 16px;*/
   padding: 0;
-  background-color: #757373;
+  background-color: #333;
   display: flex;
   /* flexboxコンテナとして定義 */
   justify-content: center;
@@ -841,8 +841,11 @@ list__titleは、boldでブロック要素 list_descは、上マージンが0.25
 
 /* ------------------------------------------------------------------------------------
 pic/img イメージ・画像関係
+img は全部レスポンシブ対応にする
 ------------------------------------------------------------------------------------ */
 img {
+  max-width: 100%;
+  height: auto;
   margin-top: 1em;
 }
 
@@ -1413,11 +1416,11 @@ pre {
 /* 中央の本文エリア */
 .blur-title {
   position: relative;
-  max-width: 90%;
+  max-width: 95%;
   /* ページ幅の最大80% */
   margin: 2em auto;
-  padding: 2em;
-  border-radius: 16px;
+  padding: 0.5em;
+  border-radius: 12px;
   overflow: hidden;
   /* 擬似要素のはみ出し防止 */
   z-index: 0;
