@@ -2,6 +2,8 @@
 <html lang="ja">
 
 <head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>JavaScript | HouNeko</title>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -23,24 +25,31 @@
 
 <!-- Favicon -->
 <link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
-  <!-- ■name="description"のcontent属性。ここにページの説明を180文字位までで書く -->
-  <meta name="description" content="JavaScriptに関するページです。">
-  <!-- ■パンくずリスト -->
-  <meta name="breadcrumb" content="ホーム:/index.html > ">
-  <!-- ■titleタグ ブラウザタブに表示される文字。60文字位で書く -->
-  <title>JavaScriptのindexページ | HouNeko</title>
+  
+<meta name="description" content="JavaScriptのトップページです">
+<meta name="keywords" content="JavaScriptのtop,トップ,index">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="js, JavaScript">
+<meta name="breadcrumb" content="ホーム:/index.html >">
 </head>
 
 <body>
   <div class="wrapper">
     <nav id="breadcrumb"></nav>
     <main>
-      <h1 id="toc00" class="h1chapter main-title">
-        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
-        JavaScriptのページ
-      </h1>
+
+      <div class="blur-title" style="--title-bgimage: url('/assets/pic/pwsh_blur_code_01.webp');">
+        <h1 id="toc00" class="h1chapter main-title">
+          JavaScriptのページ
+        </h1>
+      </div>
+
       <p>このページは自分がJavaScriptを触った時に思った事や悩んだ事などをまとめています。</p>
-      <button id="details-toggleAll">すべて開く</button>
+
+      <div class="toc-header">
+        <span class="toc-label">目次：</span>
+        <button id="details-toggleAll">すべて開く</button>
+      </div>
 
       <!-- 目次ブロック１：基本事項 idは toc100main-->
       <div class="toc-container">
@@ -68,11 +77,14 @@
               <li><a href="js_102_reftype.html">基本型と参照型</a>
                 <p class="desc">JSは、動的型付け言語だけどデータ型として「基本型（プリミティブ型）」と「参照型」がある</p>
               </li>
-              <li><a href="js_102a_object.html">オブジェクト</a>
+              <li><a href="js_102a_object.html">オブジェクト指向</a>
                 <p class="desc">JavaScriptのオブジェクトが持つプロパティやメソッドをどうやって調べるかをまとめた章です</p>
               </li>
               <li><a href="js_103_const.html">JavaScriptの変数と定数</a>
-                <p class="desc">JavaScriptの変数と定数</p>
+                <p class="desc">JavaScriptの変数と定数。JavaScriptのconstは他の言語の定数宣言とは少し違う<span class="marker ml1">★大事</span></p>
+              </li>
+              <li><a href="js_107_scope.html">スコープ</a>
+                <p class="desc">グローバルスコープ、ローカルスコープ（関数スコープ とブロックスコープ）</p>
               </li>
               <li><a href="js_106_letvarconst.html">varとletとconst</a>
                 <p class="desc">varとletとconstでの宣言</p>
@@ -100,7 +112,33 @@
                 <p class="desc">JavaScriptのswitch文</p>
               </li>
               <li><a href="js_122_for.html">JavaScriptのfor文</a>
-              <p class="desc">JavaScriptのfor文は、for in文や、for of文などの種類があります。for in文は、他の言語のForEach文のような動作をしますが、コレクションから取り出すのは「index」です</p>
+                <p class="desc">JavaScriptのfor文は、for in文や、for of文などの種類があります。for
+                  in文は、他の言語のForEach文のような動作をしますが、コレクションから取り出すのは「index」です<span class="marker ml1">★大事</span></p>
+              </li>
+            </ol>
+          </details>
+
+          <!-- ページ #160 -->
+          <details class="toc-card is-child tocall" id="toc160">
+            <summary>
+              <span class="title">JavaScriptの配列</span>
+              <span class="desc">JavaScriptの配列、オブジェクト、Mapの話</span>
+            </summary>
+            <ol class="two-digit">
+              <li><a href="js_160_array.html">配列</a>
+                <p class="desc">JavaScriptにも当然、配列があります。びっくりしたこともあります</p>
+              </li>
+              <li><a href="js_162_arrayloop.html">配列のループ処理</a>
+                <p class="desc">for文やforEachメソッドで繰り返し処理を行いますが、コールバックを使うのがJavaScriptっぽい</p>
+              </li>
+              <li><a href="js_161_arraymethod.html">配列のメソッド</a>
+                <p class="desc">配列はオブジェクトなので様々なメソッドがあります。逆に言うとメソッドを使いこなせば配列操作が楽になります</p>
+              </li>
+              <li><a href="js_163_object_map.html">オブジェクトとMap</a>
+                <p class="desc">JavaScriptにも連想配列や辞書というデータ構造の概念があります。名前は連想配列や辞書とは言いませんが同様な概念のデータ構造としてオブジェクトとMapがあります</p>
+              </li>
+              <li><a href="js_164_constructor.html">constructorによるオブジェクトの生成</a>
+                <p class="desc">オブジェクトを個々に作成することもできますが、constructorを使って作る方が効率的です</p>
               </li>
             </ol>
           </details>
@@ -112,22 +150,61 @@
               <span class="desc">JavaScriptの関数は、複数の書き方があります</span>
             </summary>
             <ol class="two-digit">
-              <li><a href="js_140_function.html">JavaScriptの関数：funnctionキーワードを使った関数宣言</a>
+              <li><a href="js_140_function.html">JSの関数：funnctionキーワードを使った関数宣言</a>
                 <p class="desc">funnctionキーワードを使ったJavaScriptの関数宣言と使い方、ホイスティングの話など</p>
               </li>
-              <li><a href="js_141_function‗expression.html">JavaScriptの関数：関数式、関数リテラル</a>
+              <li><a href="js_141_function‗expression.html">JSの関数：関数式、関数リテラル</a>
                 <p class="desc">JavaScriptでは関数を定数や変数に代入して使うことができますという話です</p>
               </li>
-              <li><a href="js_142_arrowFunction.html">JavaScriptの関数：アロー関数</a>
+              <li><a href="js_146_anonymousFunction.html">JSの関数：無名関数</a>
+                <p class="desc">JavaScriptには、関数名を定義しない無名関数というのがあります</p>
+              </li>
+              <li><a href="js_142_arrowFunction.html">JSの関数：アロー関数</a>
                 <p class="desc">JavaScriptのES6から、アロー関数という書き方ができるようになりました。アロー関数は何がいいのかを考えてみた章です</p>
+              </li>
+              <li>
+                <a href="js_144_callback.html">JSの関数：callback関数</a>
+                <p class="desc">コールバック関数と同期処理・非同期処理</p>
+              </li>
+              <li>
+                <a href="js_143_setTimeout.html">setTimeout関数</a>
+                <p class="desc">setTimeout関数は、タイマー関数でコールバックと指定時間を設定するとすぐリターンします（つまり非同期処理）</p>
+              </li>
+              <li>
+                <a href="js_145_method.html">メソッド</a>
+                <p class="desc">メソッドは関数ですが、オブジェクトの中で定義されています</p>
               </li>
             </ol>
           </details>
-
         </details>
       </div>
 
-      <!-- 目次ブロック２：Webページの操作 idは toc200main-->
+      <!-- 目次ブロック：JavaScript高度 idは toc300main-->
+      <div class="toc-container">
+        <details class="toc-card tocall" id="toc300main">
+          <summary>
+            <span class="title">JavaScriptの高度な処理</span>
+            <span class="desc">自分にとって高度な処理です</span>
+          </summary>
+          <!-- ページ #320 -->
+          <details class="toc-card is-child tocall" id="toc320">
+            <summary>
+              <span class="title">非同期処理</span>
+              <span class="desc">JavaScriptは元々ブラウザ上の言語なのでサーバとのやり取りで非同期で行う処理があります</span>
+            </summary>
+            <ol class="two-digit">
+              <li>
+                <a href="js_300_fetch.html">fetch()関数を使う</a>
+                <p class="desc">
+                  fetch()は非同期処理です。fetch()は、JavaScriptらしいコードだなと思います
+                </p>
+              </li>
+            </ol>
+          </details>
+        </details>
+      </div>
+
+      <!-- 目次ブロック：Webページの操作 idは toc200main-->
       <div class="toc-container">
         <details class="toc-card tocall" id="toc200main">
           <summary>
@@ -138,17 +215,19 @@
           <details class="toc-card is-child tocall" id="toc220">
             <summary>
               <span class="title">Webページに表示する</span>
-              <span
-                class="desc">JavaScriptの処理結果をブラウザに表示してみる</span>
+              <span class="desc">JavaScriptの処理結果をブラウザに表示してみる</span>
             </summary>
             <ol class="two-digit">
               <li>
                 <a href="js_220_write.html">JavaScriptの処理結果をブラウザに表示する</a>
-                <p class="desc">JavaScriptが勉強しにくいのは、その処理結果を表示する先がブラウザであることだと思います。なので、ブラウザにJavaScriptの処理結果を表示させることでJavaScriptの処理を見ることができます</p>
+                <p class="desc">
+                  JavaScriptが勉強しにくいのは、その処理結果を表示する先がブラウザであることだと思います。なので、ブラウザにJavaScriptの処理結果を表示させることでJavaScriptの処理を見ることができます
+                </p>
               </li>
               <li>
                 <a href="js_221_for.html">forループで表を作る</a>
-                <p>Webページで表を作る場合は、tableタグ内にtrやtdで行やセルデータをマークアップして作りますが、大きな表をたくさん作る場合、いちいちtr、tdを書くのは面倒です。そう言う場合はこの方法が便利です</p>
+                <p>Webページで表を作る場合は、tableタグ内にtrやtdで行やセルデータをマークアップして作りますが、大きな表をたくさん作る場合、いちいちtr、tdを書くのは面倒です。そう言う場合はこの方法が便利です
+                </p>
               </li>
               <li>
                 <a href="js_222_if.html">if文で表の値を分岐させる</a>
