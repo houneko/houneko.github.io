@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 注意 : headタグは共通部と個別部のデータで生成・置換する -->
+  <title>fetch | HouNeko</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/lib/highlight/styles/vs2015.css">
+
+<!-- 共通JS -->
+<script src="/assets/script/my-env.js"></script>
+<script src="/assets/script/mylog.js"></script>
+<script src="/assets/lib/highlight/highlight.js"></script>
+<script src="/assets/lib/highlight/languages/acl.js"></script>
+<script src="/assets/script/breadcrumb.js"></script>
+<script src="/assets/script/details-openclose.js"></script>
+<script src="/assets/script/common.js"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/pic/hn.ico" type="image/x-icon">
+  
+<meta name="description" content="fetchは非同期処理でサーバから引数で指定したものをフェッチしてくる関数です。Promiseというオブジェクトを使ってサーバと状況を処理状況をやりとりしています">
+<meta name="keywords" content="非同期処理,fetch,Promise,Fetch API,コールバック">
+<meta name="category" content="プログラム">
+<meta name="subcategory" content="JavaScript,js">
+<meta name="breadcrumb" content="ホーム:/index.html > JS/高度:/pages/js/js_000_index.html#toc300main >">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="breadcrumb"></nav>
+
+    <main>
+      <h1 id="toc00" class="h1chapter main-title">
+        <img src="/assets/pic/js_icon.jpg" alt="jsicon" class="title-icon">
+        fetch関数
+      </h1>
+      <article>
+        <h2 id="toc10" class="h2chapter-title">fetch関数</h2>
+        <section>
+          <h3 id="toc12" class="h3chapter underline">fetch関数って何</h3>
+          <p>fetchはブラウザに実装されている非同期処理を行う関数です。これはFetch
+            APIという仕様（ネットワーク通信に関するAPI仕様）に従ってブラウザ内に実装されています。これだけだと何が言いたいねんとなりますが、平たく言うと指定された物を取ってきてと依頼する関数です。この時、物が取れるまで同期で処理するのではなく、取ってきてと言った後は他の処理を進めて、物が取れたよというのが返ってきたらそこで取れた後の処理を行うという感じです
+          </p>
+          <p>
+            通常ブラウザとサーバの間ではリクエストとそれに対するレスポンスのやり取りを行っており、これは同期処理となっています。しかし、非同期の場合は完了のレスポンスを待たずに次の処理を行い完了時にコールバック関数が実行されるようになっています。fetchだけ覚えておけばいいと思いますが、fetch以前は「XMLHttpRequest()」というメソッドが使われていたそうです（自分は知らん）
+          </p>
+          <p><br /> ちなみに自分はアセンブラがルーツなのですが、アセンブラの世界ではフェッチという言葉を良く使っていてなじみ深い言葉です。また、その後にやったCではコールバックも良く使っていました</p>
+        </section>
+        <section>
+          <h3 class="h3chapter underline" id="toc20">fetchの動作</h3>
+          <p>fetch()を実行するとすぐに<span><a href="#tov30">Promise</a></span>
+            が返ってきます。これは処理の完了ではなく、fetchを受け付けましたよって感じのものです。その後次のコードを実行します（つまり非同期）</p>
+          <p>fetchの動作は以下のようなフローになります</p>
+          <ol class="no-marker">
+            <li>① fetch()で、引数指定したものを取ってきてという依頼をする</li>
+            <li>② すぐにPromiseが返ってくる（これは関数を受け付けた程度の意味）</li>
+            <li>③
+              非同期なので、次の「.thenメソッド１」を実行。<span
+                class="emphasis">thenの引数はアロー関数となっているが、これはこのアロー関数を実行するという意味ではなく、コールバック関数として登録するという意味。</span>
+              なのでここではコールバックを登録するだけとなっている
+            </li>
+            <li>④ 非同期なので、次の「.thenメソッド２」を実行。このthenも同じで引数のアロー関数をコールバックとして登録するだけ</li>
+            <li>⑤ 非同期なので、次の「.catchメソッド」を実行。これもコールバック関数を登録するだけ</li>
+          </ol>
+          <pre><code class="js">
+  //fetchの書式（.then、.catchはメソッドチェーンになっている）
+  fetch(...)            //① 引数で指定したものをフェッチしてという依頼
+    .then(() =&gt; {    //③ Promise の thenメソッド。引数はコールバック関数
+      処理…
+    })
+    .then(() =&gt; {    //④ Promise の thenメソッド。引数はコールバック関数
+      処理…
+    })
+    .catch(() =&gt; {   //⑤ Promise の catchメソッド。引数はコールバック関数
+      エラー処理…
+    });            
+          </code></pre>
+          <!-- <div class="text">
+            <img src="/assets/pic/js_300_01.webp" alt="fetch" class="image-float" />
+          </div> -->
+        </section>
+        <p>以下のシーケンス図は、自分の理解の元で作ったものです。細かくは違うかも知れないので参考としてください（とりあえずこの理解で困ったことは無いので大体あっていると思いますが）</p>
+        <div class="text">
+          <img src="/assets/pic/js_300_fetch_02.webp" alt="fetchシーケンス" class="image-float" />
+        </div>
+        <section>
+          <h3 class="h3chapter underline" id="toc30">Promiseって何</h3>
+          <p>Promiseの詳細は<span><a href="https://developer.mozilla.org/ja/docs/Glossary/Promise"
+                target="_blank">MDN</a></span>を確認していただきたいですが、ざっくり言うと非同期処理の状態を持っているオブジェクトです（と自分は理解しています）。</p>
+        </section>
+        <section>
+          <h3 class="h3chapter underline" id="toc31">Promiseの「.then()」と「.catch()」</h3>
+          <p>
+            Promiseの書式は、.thenメソッド、.catchメソッドでコールバック関数を登録していますが、.thenメソッドは成功系のコールバック関数を登録し、.catchメソッドはエラー系のコールバック関数を登録します
+          </p>
+        </section>
+        <section>
+          <h3 class="h3chapter underline" id="toc32">Promiseの状態遷移</h3>
+          <p>Promiseは、以下のステータスがあり、この状態遷移によりコールバック関数が実行されます</p>
+          <ul>
+            <li>pending（処理中）</li>
+            <li>fulfilled（成功）</li>
+            <li>rejected（失敗）</li>
+          </ul>
+
+        </section>
+
+      </article>
+    </main>
+    <footer>
+  <small>&copy HouNeko</small>
+</footer>
+  </div>
+</body>
+
+</html>
