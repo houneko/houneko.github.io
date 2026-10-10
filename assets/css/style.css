@@ -10,6 +10,7 @@
   --breadcrumb-height: 24px;
   --content-max-width: 2400px;
   --content-padding: 16px;
+  --content-padding-tablet: 24px;
 }
 
 /* paddingはややこしいのでborder-box;にしておく */
@@ -30,9 +31,9 @@ html {
   font-size: 16px;
 }
 
-/*p  {font-size: clamp(1rem, 2vw, 1.25rem);}*/
+/* clamp(最小値, 理想値, 最大値); */
 h1 {
-  font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+  font-size: clamp(2rem, 2.5vw, 2.5rem);
 }
 
 h2 {
@@ -76,15 +77,15 @@ body {
 /* デフォルト＝スマホ */
 main {
   padding-top: var(--breadcrumb-height);
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
 }
 
 /* タブレット以上 */
 @media (min-width: 768px) {
   main {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: var(--content-padding-tablet);
+    padding-right: var(--content-padding-tablet);
   }
 }
 
@@ -92,7 +93,7 @@ main {
 @media (min-width: 1024px) {
   main {
     max-width: var(--content-max-width);
-    /*margin: 0 auto;*/
+    margin: 0 auto;
   }
 }
 
@@ -657,15 +658,15 @@ td {
 .toc-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 1em;
-  margin: 1em auto;
+  margin: 1em 0;
 }
 
 .toc-card {
   box-sizing: border-box;
-  width: 95%;
-  max-width: 2400px;
+  width: 100%;
+  max-width: none;
   padding: 1em 1.5em;
   border: 1px solid #ddd;
   border-radius: 12px;
@@ -1367,9 +1368,13 @@ img {
 
 /* ------------------------------------------------------------------------------------
   コード表示（pre>code.xxx）のマージン等
+  親要素の幅を超えない、超えた分は横スクロール、コードの改行等はそのままで勝手に折り返さない
    ------------------------------------------------------------------------------------ */
 pre {
   margin-top: 0.5em;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
 }
 
 /* ------------------------------------------------------------------------------------
@@ -1416,7 +1421,8 @@ pre {
 /* 中央の本文エリア */
 .blur-title {
   position: relative;
-  max-width: 95%;
+  width: 100%;
+  max-width: 100%;
   /* ページ幅の最大80% */
   margin: 2em auto;
   padding: 0.5em;
@@ -1424,8 +1430,12 @@ pre {
   overflow: hidden;
   /* 擬似要素のはみ出し防止 */
   z-index: 0;
-  color: #111;
   /* 中の文字は白にして読みやすく */
+  color: #ffffff;
+  text-shadow: 2px 2px 12px #80eedd,
+    -2px 2px 12px #80eedd,
+    2px -2px 12px #80eedd,
+    -2px -2px 12px #80eedd;
 }
 
 /* 背景画像（薄く＋ぼかし付き） */
@@ -1433,12 +1443,13 @@ pre {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/assets/pic/pwsh_blur_code_01.webp") no-repeat center center / cover;
+  background: var(--title-bgimage) no-repeat center center / cover;
+
   filter: blur(1.25px);
   /* ぼかしの強さ */
   transform: scale(1.1);
   /* 端が透けるのを防ぐ */
-  opacity: 0.15;
+  opacity: 0.80;
   /* 薄さの調整 */
   z-index: -1;
 }
